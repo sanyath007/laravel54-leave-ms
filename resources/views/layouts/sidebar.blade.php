@@ -10,8 +10,8 @@
 						<p>
 
 							@if (!Auth::guest())
- 								{{ Auth::user()->person_firstname }} {{ Auth::user()->person_lastname }}
- 							@endif
+								{{ Auth::user()->person_firstname }} {{ Auth::user()->person_lastname }}
+							@endif
 
 						</p>
 						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
