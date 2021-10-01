@@ -7,7 +7,7 @@
 	<!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<title>Asset Management System</title>
+	<title>Leave Management System</title>
 
 	<!-- bootstrap -->
 	<link rel="stylesheet" href="{{ asset('/node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="{{ asset('/css/jquery-jvectormap.css') }}">
 	<!-- Theme style -->
 	<link rel="stylesheet" href="{{ asset('/css/AdminLTE.min.css') }}">
- 	<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+	<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
 	<link rel="stylesheet" href="{{ asset('/css/skins/_all-skins.min.css') }}">
 	<!-- Fonts -->
 	<link rel='stylesheet' href='//fonts.googleapis.com/css?family=Roboto:400,300' type='text/css'>
@@ -37,9 +37,9 @@
 	<!-- Inline Style -->
 	<style type="text/css">
 		.has-error .select2-selection {
-		    border-color:#a94442;
-		    -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
-		    box-shadow:inset 0 1px 1px rgba(0,0,0,.075)
+			border-color:#a94442;
+			-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+			box-shadow:inset 0 1px 1px rgba(0,0,0,.075)
 		}
 	</style>
 
@@ -110,7 +110,7 @@
 		@include('layouts.sidebar')
 
 		<!-- Content Wrapper. Contains page content -->
-  		<div class="content-wrapper">
+		<div class="content-wrapper">
 
             @yield('content')
 
@@ -118,7 +118,7 @@
 				
 		</div><!-- /.content-wrapper -->
 
-	  	<!-- Footer -->
+		<!-- Footer -->
 		@include('layouts.footer')
 
 		<!-- Control Sidebar -->

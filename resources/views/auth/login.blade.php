@@ -8,13 +8,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Asset Management System</title>
+    <title>Leave Management System</title>
 
     <link rel="stylesheet" href="{{ asset('/node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('/css/AdminLTE.min.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins 
-         folder instead of downloading all of them to reduce the load. -->
+        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset('/css/skins/_all-skins.min.css') }}">
     <!-- Fonts -->
     <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Roboto:400,300' type='text/css'>

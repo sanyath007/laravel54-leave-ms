@@ -91,7 +91,7 @@
             <!-- right col (We are only adding the ID to make the widgets sortable)-->
             <section class="col-lg-6 connectedSortable">
 
-               <div id="barContainer2" style="width: 100%; height: 400px; margin: 0 auto; margin-top: 20px;"></div>
+                <div id="barContainer2" style="width: 100%; height: 400px; margin: 0 auto; margin-top: 20px;"></div>
 
             </section><!-- right col -->
 
