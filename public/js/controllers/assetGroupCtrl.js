@@ -1,0 +1,116 @@
+app.controller('assetGroupCtrl', function($scope, $http, toaster, CONFIG, ModalService) {
+/** ################################################################################## */
+    $scope.loading = false;
+    $scope.groups = [];
+    $scope.pager = [];
+    
+    $scope.group = {
+        group_id: '',
+        group_no: '',
+        group_name: '',
+    };
+
+    $scope.getData = function(event) {
+        console.log(event);
+        $scope.groups = [];
+        $scope.loading = true;
+        
+        let searchKey = ($("#searchKey").val() == '') ? 0 : $("#searchKey").val();
+        $http.get(CONFIG.baseUrl+ '/asset-group/search/' +searchKey)
+        .then(function(res) {
+            console.log(res);
+            $scope.groups = res.data.groups.data;
+            $scope.pager = res.data.groups;
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    }
+
+    $scope.getDataWithURL = function(URL) {
+        console.log(URL);
+        $scope.groups = [];
+        $scope.loading = true;
+
+    	$http.get(URL)
+    	.then(function(res) {
+    		console.log(res);
+            $scope.groups = res.data.groups.data;
+            $scope.pager = res.data.groups;
+
+            $scope.loading = false;
+    	}, function(err) {
+    		console.log(err);
+            $scope.loading = false;
+    	});
+    }
+
+    $scope.getAssetGroup = function(groupId) {
+        $http.get(CONFIG.baseUrl + '/asset-group/get-ajax-byid/' +groupId)
+        .then(function(res) {
+            console.log(res);
+            $scope.group = res.data.group;
+        }, function(err) {
+            console.log(err);
+        });
+    }
+
+    $scope.add = function(event, form) {
+        event.preventDefault();
+
+        $http.post(CONFIG.baseUrl + '/asset-group/store', $scope.group)
+        .then(function(res) {
+            console.log(res);
+            toaster.pop('success', "", 'บันทึกข้อมูลเรียบร้อยแล้ว !!!');
+        }, function(err) {
+            console.log(err);
+            toaster.pop('error', "", 'พบข้อผิดพลาด !!!');
+        });
+
+        document.getElementById(form).reset();
+    }
+
+    $scope.edit = function(groupId) {
+        console.log(groupId);
+
+        window.location.href = CONFIG.baseUrl + '/asset-group/edit/' + groupId;
+    };
+
+    $scope.update = function(event, form) {
+        event.preventDefault();
+        console.log($scope.group);
+
+        if(confirm("คุณต้องแก้ไขรายการหนี้เลขที่ " + $scope.group.group_id + " ใช่หรือไม่?")) {
+            $http.put(CONFIG.baseUrl + '/asset-group/update', $scope.group)
+            .then(function(res) {
+                console.log(res);
+                toaster.pop('success', "", 'แก้ไขข้อมูลเรียบร้อยแล้ว !!!');
+            }, function(err) {
+                console.log(err);
+                toaster.pop('error', "", 'พบข้อผิดพลาด !!!');
+            });
+        }
+
+        setTimeout(function (){
+            window.location.href = CONFIG.baseUrl + '/asset-group/list';
+        }, 2000);
+    };
+
+    $scope.delete = function(groupId) {
+        console.log(groupId);
+
+        if(confirm("คุณต้องลบรายการหนี้เลขที่ " + groupId + " ใช่หรือไม่?")) {
+            $http.delete(CONFIG.baseUrl + '/asset-group/delete/' +groupId)
+            .then(function(res) {
+                console.log(res);
+                toaster.pop('success', "", 'ลบข้อมูลเรียบร้อยแล้ว !!!');
+                $scope.getData();
+            }, function(err) {
+                console.log(err);
+                toaster.pop('error', "", 'พบข้อผิดพลาด !!!');
+            });
+        }
+    };
+});
