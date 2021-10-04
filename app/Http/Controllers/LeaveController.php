@@ -16,7 +16,7 @@ use App\Models\Supplier;
 use App\Models\Department;
 
 
-class AssetController extends Controller
+class LeaveController extends Controller
 {   
     protected $status = [
         '1' => 'รอเบิก',
@@ -61,11 +61,11 @@ class AssetController extends Controller
 
     public function index()
     {
-    	return view('assets.list', [
+        return view('leaves.list', [
             "types"     => AssetType::orderBy('type_no')->get(),
             "parcels"     => Parcel::orderBy('parcel_no')->get(),
             "statuses"    => $this->status
-    	]);
+        ]);
     }
 
     public function search($parcelId, $status, $searchKey)
@@ -129,7 +129,7 @@ class AssetController extends Controller
 
     public function add()
     {
-    	return view('assets.add', [
+        return view('assets.add', [
             "parcels"     => Parcel::orderBy('parcel_no')->get(),
             "units"     => AssetUnit::all(),
             "budgets"   => BudgetType::all(),
@@ -138,7 +138,7 @@ class AssetController extends Controller
             "suppliers" => Supplier::all(),
             "departs" => Department::all(),
             "statuses"  => $this->status
-    	]);
+        ]);
     }
 
     public function store(Request $req)

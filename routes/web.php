@@ -31,6 +31,7 @@ Route::group(['middleware' => 'web'], function() {
 });
 
 Route::group(['middleware' => ['web','auth']], function () {
+    /** ค่าเสื่อม */
     Route::get('deprec/list', 'DepreciationController@index');
     Route::get('deprec/calc', 'DepreciationController@calc');
     Route::get('deprec/search', 'DepreciationController@search');
@@ -42,21 +43,21 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::put('deprec/update', 'DepreciationController@update');
     Route::delete('deprec/delete/{appId}', 'DepreciationController@delete');
 
-    /** Asset */
-    Route::post('asset/validate', 'AssetController@formValidate');
-    Route::get('asset/list', 'AssetController@index');
-    Route::get('asset/search/{parcelId}/{status}/{searchKey}', 'AssetController@search');
-    Route::get('asset/get-ajax-all', 'AssetController@getAll');
-    Route::get('asset/get-ajax-byid/{assetId}', 'AssetController@getById');
-    Route::get('asset/add', 'AssetController@add');
-    Route::post('asset/store', 'AssetController@store');
-    Route::get('asset/edit/{assetId}', 'AssetController@edit');
-    Route::put('asset/update', 'AssetController@update');
-    Route::delete('asset/delete/{assetId}', 'AssetController@delete');
-    Route::get('asset/discharge', 'AssetController@discharge');
-    Route::post('asset/discharge', 'AssetController@doDischarge');
+    /** Leave */
+    Route::post('leaves/validate', 'LeaveController@formValidate');
+    Route::get('leaves/list', 'LeaveController@index');
+    Route::get('leaves/search/{parcelId}/{status}/{searchKey}', 'LeaveController@search');
+    Route::get('leaves/get-ajax-all', 'LeaveController@getAll');
+    Route::get('leaves/get-ajax-byid/{assetId}', 'LeaveController@getById');
+    Route::get('leaves/add', 'LeaveController@add');
+    Route::post('leaves/store', 'LeaveController@store');
+    Route::get('leaves/edit/{assetId}', 'LeaveController@edit');
+    Route::put('leaves/update', 'LeaveController@update');
+    Route::delete('leaves/delete/{assetId}', 'LeaveController@delete');
+    Route::get('leaves/discharge', 'LeaveController@discharge');
+    Route::post('leaves/discharge', 'LeaveController@doDischarge');
 
-    /** Reparation */
+    /** ซ่อมบำรุง */
     Route::post('reparation/validate', 'ReparationController@formValidate');
     Route::get('reparation/list', 'ReparationController@index');
     Route::get('reparation/search/{parcelId}/{status}/{searchKey}', 'ReparationController@search');

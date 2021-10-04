@@ -40,39 +40,8 @@
 					</li>
 					<li class="treeview">
 						<a href="#">
-							<i class="fa fa-university"></i>
-							<span>ครุภัณฑ์</span>
-							<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-							</span>
-						</a>
-						<ul class="treeview-menu">
-							<li>
-								<a href="{{ url('/asset/list') }}">
-									<i class="fa fa-circle-o"></i> รายการ
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('/asset/add') }}">
-									<i class="fa fa-circle-o"></i> ลงทะเบียน
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('asset/discharge') }}">
-									<i class="fa fa-circle-o"></i> จำหน่าย
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('reparation/list') }}">
-									<i class="fa fa-circle-o"></i> ประวัติการซ่อม
-								</a>
-							</li>
-						</ul>
-					</li>					
-					<li class="treeview">
-						<a href="#">
 							<i class="fa fa-laptop"></i>
-							<span>ทะเบียนทรัพย์สิน</span>
+							<span>ประวัติ</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
@@ -86,6 +55,32 @@
 							<li>
 								<a href="{{ url('/deprec/list') }}">
 									<i class="fa fa-circle-o"></i> ทะเบียนคุมทรัพย์สิน
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-university"></i>
+							<span>การลา</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li>
+								<a href="{{ url('/leaves/list') }}">
+									<i class="fa fa-circle-o"></i> รายการลา
+								</a>
+							</li>
+							<li>
+								<a href="{{ url('/leaves/cancel') }}">
+									<i class="fa fa-circle-o"></i> ยกเลิกวันลา
+								</a>
+							</li>
+							<li>
+								<a href="{{ url('leaves/approve') }}">
+									<i class="fa fa-circle-o"></i> อนุมัติการลา
 								</a>
 							</li>
 						</ul>
