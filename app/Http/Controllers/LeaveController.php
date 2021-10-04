@@ -14,7 +14,8 @@ use App\Models\PurchasedMethod;
 use App\Models\DocumentType;
 use App\Models\Supplier;
 use App\Models\Department;
-// use App\Models\LeaveType;
+use App\Models\LeaveType;
+use App\Models\Position;
 
 
 class LeaveController extends Controller
@@ -24,6 +25,12 @@ class LeaveController extends Controller
         '2' => 'ใช้งานอยู่',
         '3' => 'ถูกยืม',
         '4' => 'จำหน่าย',
+    ];
+
+    protected $periods = [
+        '1'  => 'เต็มวัน',
+        '2'  => 'ช่วงเช้า (08.00-12.00น.)',
+        '3'  => 'ช่วงบ่าย (13.00-16.00น.)',
     ];
 
     public function formValidate (Request $request)
@@ -131,15 +138,10 @@ class LeaveController extends Controller
     public function add()
     {
         return view('leaves.add', [
-            "parcels"       => Parcel::orderBy('parcel_no')->get(),
-            "units"         => AssetUnit::all(),
-            "budgets"       => BudgetType::all(),
-            "docs"          => DocumentType::all(),
-            "methods"       => PurchasedMethod::all(),
-            "suppliers"     => Supplier::all(),
-            // "leave_types"   => LeaveType::all(),
-            "departs"       => Department::all(),
-            "statuses"      => $this->status
+            "leave_types"   => LeaveType::all(),
+            "positions"     => Position::all(),
+            "statuses"      => $this->status,
+            "periods"       => $this->periods,
         ]);
     }
 

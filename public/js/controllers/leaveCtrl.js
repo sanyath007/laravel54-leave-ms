@@ -1,71 +1,47 @@
-app.controller('assetCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, ReportService, PaginateService) {
+app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, ReportService, PaginateService) {
 /** ################################################################################## */
     $scope.loading = false;
-    $scope.cboAssetType = "";
-    $scope.cboParcel = "";
-    $scope.cboAssetStatus = "";
+    $scope.cboLeaveType = "";
+    $scope.cboLeaveStatus = "";
     $scope.searchKeyword = "";
 
-    $scope.parcels = [];
-    $scope.assets = [];
+    $scope.leaves = [];
 
-    $scope.asset = {
-        asset_id: '',
-        asset_no: '',
-        asset_name: '',
-        description: '',
-        parcel_id: '1',
-        parcel_no: '0000-000-0000',
-        amount: 1,
-        unit: '',
-        unit_price: '',
-        method: '',
-        image: '',
-        reg_no: '',
-        budget_type: '',
-        purchased_method: '',
+    $scope.leave = {
+        leave_id: '',
+        leave_no: '',
+        leave_place: '1',
+        leave_topic: '',
+        leave_to: 'ผู้อำนวยการโรงพยาบาลเทพรัตน์นครราชสีมา',
+        leave_person: '',
+        leave_type: '',
+        leave_reason: '',
+        leave_contact: '',
+        leave_delegate: '',
         year: '',
-        doc_type: '',
-        doc_no: '',
-        doc_date: '',
-        date_in: '',
-        date_exp: '',
-        depart: '',
-        supplier: '',
-        remark: '',
         status: '',
     };
     
     $scope.barOptions = {};
-    $scope.lifeYear = 0;
 
     /** Init Form elements */
-    // $('.select2').select2();
-
-    $('#date_in').datepicker({
+    $('#leave_date').datepicker({
         autoclose: true,
         language: 'th',
         format: 'dd/mm/yyyy',
         thaiyear: true
-    }).on('changeDate', function(event){
-        let addDate = moment(event.date).add(parseInt($scope.lifeYear), 'years').format('YYYY-MM-DD');
-        let [ year, month, day ] = addDate.split('-');
-        
-        $scope.asset.date_exp = day+ '/' +month+ '/' +(parseInt(year)+543);
-    });
-
-    $('#date_exp').datepicker({
-        autoclose: true,
-        language: 'th',
-        format: 'dd/mm/yyyy',
-        thaiyear: true
-    });
+    }).datepicker('update', new Date());
 
     $('#start_date').datepicker({
         autoclose: true,
         language: 'th',
         format: 'dd/mm/yyyy',
         thaiyear: true
+    }).on('changeDate', function(event) {
+        let addDate = moment(event.date).add(parseInt($scope.lifeYear), 'years').format('YYYY-MM-DD');
+        let [ year, month, day ] = addDate.split('-');
+        
+        $scope.asset.date_exp = day+ '/' +month+ '/' +(parseInt(year)+543);
     });
 
     $('#end_date').datepicker({
@@ -75,30 +51,19 @@ app.controller('assetCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         thaiyear: true
     });
 
-    $scope.clearAssetObj = function() {
-        $scope.asset = {
-            asset_id: '',
-            asset_no: '',
-            asset_name: '',
-            description: '',
-            parcel_id: '',
-            parcel_no: '0000-000-0000',
-            amount: '',
-            unit: '',
-            unit_price: '',
-            method: '',
-            image: '',
-            reg_no: '',
-            budget_type: '',
-            purchased_method: '',
+    $scope.clearLeaveObj = function() {
+        $scope.leave = {
+            leave_id: '',
+            leave_no: '',
+            leave_place: '1',
+            leave_topic: '',
+            leave_to: 'ผู้อำนวยการโรงพยาบาลเทพรัตน์นครราชสีมา',
+            leave_person: '',
+            leave_type: '',
+            leave_reason: '',
+            leave_contact: '',
+            leave_delegate: '',
             year: '',
-            supplier: '',
-            doc_type: '',
-            doc_no: '',
-            doc_date: '',
-            date_in: '',
-            date_exp: '',
-            remark: '',
             status: '',
         };
     };
@@ -137,21 +102,6 @@ app.controller('assetCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             $scope.debts = res.data.debts.data;
             $scope.debtPager = res.data.debts;
             $scope.debtPages = PaginateService.createPagerNo($scope.debtPager);
-
-            $scope.loading = false;
-        }, function(err) {
-            console.log(err);
-            $scope.loading = false;
-        });
-    }
-
-    $scope.getParcel = function (typeId) {
-        $scope.loading = true;
-
-        $http.get(CONFIG.baseUrl+ '/parcel/get-ajax-bytype/' +typeId)
-        .then(function(res) {
-            console.log(res);
-            $scope.parcels = res.data.parcels;
 
             $scope.loading = false;
         }, function(err) {
