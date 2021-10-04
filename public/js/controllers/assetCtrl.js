@@ -14,7 +14,7 @@ app.controller('assetCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         asset_no: '',
         asset_name: '',
         description: '',
-        parcel_id: '',
+        parcel_id: '1',
         parcel_no: '0000-000-0000',
         amount: 1,
         unit: '',
@@ -61,7 +61,14 @@ app.controller('assetCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         thaiyear: true
     });
 
-    $('#doc_date').datepicker({
+    $('#start_date').datepicker({
+        autoclose: true,
+        language: 'th',
+        format: 'dd/mm/yyyy',
+        thaiyear: true
+    });
+
+    $('#end_date').datepicker({
         autoclose: true,
         language: 'th',
         format: 'dd/mm/yyyy',

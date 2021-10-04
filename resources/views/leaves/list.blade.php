@@ -5,13 +5,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            รายการครุภัณฑ์
+            รายการใบลา
             <!-- <small>preview of simple tables</small> -->
         </h1>
 
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">รายการครุภัณฑ์</li>
+            <li class="breadcrumb-item active">รายการใบลา</li>
         </ol>
     </section>
 
@@ -31,7 +31,7 @@
                             <div class="col-md-6">
                                 
                                 <div class="form-group">
-                                    <label>ชนิดครุภัณฑ์</label>
+                                    <label>ปีงบประมาณ</label>
                                     <select
                                             id="assetType"
                                             name="assetType"
@@ -73,10 +73,10 @@
                                         @endforeach
                                         
                                     </select>
-                                </div><!-- /.form group -->
+                                </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>พัสดุหลัก</label>
                                     <select
@@ -92,7 +92,7 @@
                                             @{{ parcel.parcel_no + '-' +parcel.parcel_name }}
                                         </option>
                                     </select>
-                                </div><!-- /.form group -->                               
+                                </div>                            
                                 
                                 <div class="form-group">
                                     <label>ชื่อครุภัณฑ์</label>
@@ -104,12 +104,13 @@
                                         ng-keyup="getData($event)"
                                         class="form-control">
                                 </div>
-                            </div>                        
+
+                            </div> -->
                         </div><!-- /.box-body -->
-                  
+
                         <div class="box-footer">
-                            <a href="{{ url('/asset/add') }}" class="btn btn-primary">
-                                เพิ่มครุภัณฑ์
+                            <a href="{{ url('/leaves/add') }}" class="btn btn-primary">
+                                สร้างใบลา
                             </a>
                         </div>
                     </form>
@@ -117,7 +118,7 @@
 
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">รายการครุภัณฑ์</h3>
+                        <h3 class="box-title">รายการใบลา</h3>
                     </div><!-- /.box-header -->
 
                     <div class="box-body">
@@ -134,12 +135,10 @@
                             <thead>
                                 <tr>
                                     <th style="width: 3%; text-align: center;">#</th>
-                                    <th style="width: 10%; text-align: center;">เลขครุภัณฑ์</th>
-                                    <th style="text-align: left;">ชื่อครุภัณฑ์</th>
-                                    <th style="width: 8%; text-align: center;">วันที่ได้รับ</th>
-                                    <th style="width: 8%; text-align: center;">ประเภทเงิน</th>
-                                    <th style="width: 15%; text-align: left;">ผู้จัดจำหน่าย</th>
-                                    <th style="width: 15%; text-align: left;">หน่วยงาน</th>
+                                    <th style="width: 10%; text-align: center;">ประเภทการลา</th>
+                                    <!-- <th style="text-align: left;">ชื่อครุภัณฑ์</th> -->
+                                    <th style="width: 8%; text-align: center;">วันที่ลา</th>
+                                    <th style="width: 8%; text-align: center;">วันที่ลงทะเบียน</th>
                                     <th style="width: 6%; text-align: center;">สถานะ</th>
                                     <th style="width: 10%; text-align: center;">Actions</th>
                                 </tr>
@@ -151,8 +150,6 @@
                                     <td style="text-align: left;">@{{ asset.asset_name }}</td>
                                     <td style="text-align: center;">@{{ asset.date_in | thdate }}</td>
                                     <td style="text-align: center;">@{{ asset.budget_type.budget_type_name }}</td>
-                                    <td style="text-align: left;">@{{ asset.supplier.supplier_name }}</td>
-                                    <td style="text-align: left;">@{{ asset.depart.depart_name }}</td>
                                     <td style="text-align: center;">
                                         <span class="label label-info" ng-show="paid.asset_status!=0">
                                             @{{ (asset.status==1) ? 'รอเบิก' : 

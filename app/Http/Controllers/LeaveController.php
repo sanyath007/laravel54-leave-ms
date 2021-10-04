@@ -14,6 +14,7 @@ use App\Models\PurchasedMethod;
 use App\Models\DocumentType;
 use App\Models\Supplier;
 use App\Models\Department;
+// use App\Models\LeaveType;
 
 
 class LeaveController extends Controller
@@ -129,15 +130,16 @@ class LeaveController extends Controller
 
     public function add()
     {
-        return view('assets.add', [
-            "parcels"     => Parcel::orderBy('parcel_no')->get(),
-            "units"     => AssetUnit::all(),
-            "budgets"   => BudgetType::all(),
-            "docs"   => DocumentType::all(),
-            "methods"     => PurchasedMethod::all(),
-            "suppliers" => Supplier::all(),
-            "departs" => Department::all(),
-            "statuses"  => $this->status
+        return view('leaves.add', [
+            "parcels"       => Parcel::orderBy('parcel_no')->get(),
+            "units"         => AssetUnit::all(),
+            "budgets"       => BudgetType::all(),
+            "docs"          => DocumentType::all(),
+            "methods"       => PurchasedMethod::all(),
+            "suppliers"     => Supplier::all(),
+            // "leave_types"   => LeaveType::all(),
+            "departs"       => Department::all(),
+            "statuses"      => $this->status
         ]);
     }
 
