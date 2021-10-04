@@ -25,10 +25,10 @@
     <div class="wrapper">
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
 
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2" style="padding-top: 80px;">
+            <div class="row" style="width: 100vw">
+                <div class="col-md-8 col-md-offset-2">
 
                     <div class="panel panel-default">
                         <div class="panel-heading">Login</div>
