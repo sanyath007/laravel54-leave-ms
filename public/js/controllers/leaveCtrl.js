@@ -6,6 +6,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.searchKeyword = "";
 
     $scope.leaves = [];
+    $scope.persons = [];
 
     $scope.leave = {
         leave_id: '',
@@ -81,6 +82,16 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onSelectedType = function() {
         $scope.leave.leave_topic = $('#leave_type').children("option:selected").text().trim();
+    };
+
+    $scope.onShowPersonLists = function(e) {
+        e.preventDefault();
+        $('#person-list').modal('show');
+    };
+
+    $scope.onSelectedDelegatePerson = function(e, person) {
+        e.preventDefault();
+        console.log(person);
     };
 
     $scope.getAll = function(event) {

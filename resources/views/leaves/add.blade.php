@@ -248,7 +248,7 @@
                                                 name="leave_delegate_detail"
                                                 class="form-control" />
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary">...</button>
+                                            <button type="button" class="btn btn-primary" ng-click="onShowPersonLists($event)">...</button>
                                         </span>
                                     </div>
                                     <input type="hidden"
@@ -257,11 +257,12 @@
                                                 ng-model="leave.leave_delegate" 
                                                 class="form-control"
                                                 tabindex="2" />
-                                    <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="checkValidate(leave, 'depart')"></span>
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาเลือกหหน่วยงาน</span>
                                 </div>
 
                             </div><!-- /.row -->
+
+                            @include('leaves._person-list')
 
                         </div><!-- /.box-body -->
 
