@@ -87,17 +87,23 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onShowPersonLists = function(e) {
         e.preventDefault();
-        let depart = '0';
-        let searchKey = '0';
 
-        // TODO: to get person data for rendering to _person-list view
+        $scope.getPersons('0', '0', togglePersonLists);
+    };
+
+    const togglePersonLists = function() {
+        console.log('callback is invoked!!');
+        $('#person-list').modal('show');
+    };
+
+    $scope.getPersons = function(depart, searchKey, cb) {
         $http.get(`${CONFIG.baseUrl}/persons/search/${depart}/${searchKey}`)
         .then(function(res) {
             let { data, ...pager } = res.data.persons;
             $scope.persons = data;
             $scope.pager = pager;
-            
-            $('#person-list').modal('show');
+
+            if (cb) cb();
 
             $scope.loading = false;
         }, function(err) {
@@ -115,12 +121,22 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $('#person-list').modal('hide');
     };
 
+    $scope.cboDepart = '';
+    $scope.searchKey = '';
+    $scope.onFilterPerson = function() {
+        console.log($scope.cboDepart);
+        let depart = $scope.cboDepart === '' ? '0' : $scope.cboDepart; 
+        let searchKey = $scope.searchKey === '' ? '0' : $scope.searchKey; 
+
+        $scope.getPersons(depart, searchKey, null);
+    };
+
     $scope.getAll = function(event) {
         $scope.assets = [];
         $scope.loading = true;
 
         let parcelId = $scope.cboParcel === '' ? 0 : $scope.cboParcel;
-        let assetStatus = $scope.cboAssetStatus === '' ? 0 : $scope.cboAssetStatus; 
+        let assetStatus = $scope.cboAssetStatus === '' ? 0 : $scope.cboAssetStatus;
         let searchKey = $scope.searchKeyword === '' ? 0 : $scope.searchKeyword;
 
         $http.get(`${CONFIG.baseUrl}/asset/search/${parcelId}/${assetStatus}/${searchKey}`)
@@ -143,7 +159,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $http.get(URL)
         .then(function(res) {
             let { data, ...pager } = res.data.persons;
-            $scope.persons = data;
+            $scope.persons  = data;
             $scope.pager    = pager;
 
             $scope.loading = false;

@@ -4,16 +4,28 @@
             <form action="">
                 <div class="modal-header">
                     <h5 class="modal-title">รายชื่อบุคลากร</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </button> -->
                 </div>
                 <div class="modal-body" style="padding-bottom: 0;">
                     <!-- // TODO: Filtering controls -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            
-                        </div>
+                    <div class="box">
+                        <div class="box-body">
+                            <div style="display: flex; flex-direction: row;">
+                                <select
+                                    style="margin-right: 1rem;"
+                                    class="form-control"
+                                    ng-model="cboDepart"
+                                    ng-change="onFilterPerson()"
+                                >
+                                    <option value="">--เลือกกลุ่มงาน--</option>
+                                    <option value="65">สำนักงานการพยาบาล</option>
+                                </select>
+        
+                                <input type="text" ng-model="searchKey" class="form-control" ng-keyup="onFilterPerson()">
+                            </div>
+                        </div><!-- /.box-body -->
                     </div>
                     <!-- // TODO: Filtering controls -->
 
@@ -61,16 +73,16 @@
                                 </li>
 
                                 <li ng-class="{'disabled': (pager.current_page==1)}">
-                                    <a ng-click="getDataWithURL(pager.first_page_url)" aria-label="Prev">
+                                    <a ng-click="getDataWithURL(pager.prev_page_url)" aria-label="Prev">
                                         <span aria-hidden="true">Prev</span>
                                     </a>
                                 </li>
 
-                                <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
+                                <!-- <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
                                     <a href="@{{ pager.url(pager.current_page + 10) }}">
                                         ...
                                     </a>
-                                </li>
+                                </li> -->
 
                                 <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
                                     <a ng-click="getDataWithURL(pager.next_page_url)" aria-label="Next">
