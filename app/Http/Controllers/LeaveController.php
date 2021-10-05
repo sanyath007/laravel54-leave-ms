@@ -36,22 +36,15 @@ class LeaveController extends Controller
     public function formValidate (Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'asset_no' => 'required',
-            'asset_name' => 'required',
-            'parcel_id' => 'required',
-            'amount' => 'required',
-            'unit_price' => 'required',
-            'unit' => 'required',
-            'purchased_method' => 'required',
-            'budget_type' => 'required',
-            'year' => 'required',
-            'doc_type' => 'required',
-            'doc_no' => 'required',
-            'doc_date' => 'required',
-            'date_in' => 'required',
-            'date_exp' => 'required',
-            'depart' => 'required',
-            'supplier' => 'required',
+            'leave_place'   => 'required',
+            'leave_type'   => 'required',
+            'leave_to'      => 'required',
+            'leave_reason'  => 'required',
+            'start_date'    => 'required',
+            'start_period'  => 'required',
+            'end_date'      => 'required',
+            'end_period'    => 'required',
+            'leave_contact' => 'required',
         ]);
 
         if ($validator->fails()) {

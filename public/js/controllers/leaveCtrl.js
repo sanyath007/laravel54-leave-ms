@@ -18,8 +18,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         leave_reason: '',
         leave_contact: '',
         leave_delegate: '',
-        year: '',
-        status: '',
+        start_date: '',
+        start_period: '',
+        end_date: '',
+        end_period: '',
     };
     
     $scope.barOptions = {};
@@ -38,10 +40,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         format: 'dd/mm/yyyy',
         thaiyear: true
     }).on('changeDate', function(event) {
-        let addDate = moment(event.date).add(parseInt($scope.lifeYear), 'years').format('YYYY-MM-DD');
-        let [ year, month, day ] = addDate.split('-');
-        
-        $scope.asset.date_exp = day+ '/' +month+ '/' +(parseInt(year)+543);
+        console.log(event);
+        let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        let [ year, month, day ] = selectedDate.split('-');
+
+        $scope.leave.start_date = day+ '/' +month+ '/' +(parseInt(year)+543);
     });
 
     $('#end_date').datepicker({
@@ -49,6 +52,12 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         language: 'th',
         format: 'dd/mm/yyyy',
         thaiyear: true
+    }).on('changeDate', function(event) {
+        console.log(event);
+        let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        let [ year, month, day ] = selectedDate.split('-');
+
+        $scope.leave.end_date = day+ '/' +month+ '/' +(parseInt(year)+543);
     });
 
     $scope.clearLeaveObj = function() {
@@ -63,9 +72,15 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             leave_reason: '',
             leave_contact: '',
             leave_delegate: '',
-            year: '',
-            status: '',
+            start_date: '',
+            start_period: '',
+            end_date: '',
+            end_period: '',
         };
+    };
+
+    $scope.onSelectedType = function() {
+        $scope.leave.leave_topic = $('#leave_type').children("option:selected").text().trim();
     };
 
     $scope.getData = function(event) {
@@ -152,15 +167,16 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.store = function(event, form) {
         event.preventDefault();
         /** Convert thai date to db date. */
-        $scope.asset.date_in = StringFormatService.convToDbDate($scope.asset.date_in);
-        $scope.asset.date_exp = StringFormatService.convToDbDate($scope.asset.date_exp);
-        $scope.asset.doc_date = StringFormatService.convToDbDate($scope.asset.doc_date);
+        $scope.leave.leave_date = StringFormatService.convToDbDate($('#leave_date').val());
+        $scope.leave.start_date = StringFormatService.convToDbDate($('#start_date').val());
+        $scope.leave.end_date = StringFormatService.convToDbDate($('#end_date').val());
         /** Get user id */
+        $scope.leave.leave_person = $('#leave_person').val();
         // $scope.asset.created_by = $("#user").val();
         // $scope.asset.updated_by = $("#user").val();
-        console.log($scope.asset);
-
-        $http.post(CONFIG.baseUrl + '/asset/store', $scope.asset)
+        console.log($scope.leave);
+        
+        $http.post(CONFIG.baseUrl + '/leaves/store', $scope.asset)
         .then(function(res) {
             console.log(res);
             toaster.pop('success', "", 'บันทึกข้อมูลเรียบร้อยแล้ว !!!');
@@ -171,7 +187,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         /** Clear control value and model data */
         document.getElementById(form).reset();
-        $scope.clearAssetObj();
+        $scope.clearLeaveObj();
     }
 
     $scope.edit = function(assetId) {
