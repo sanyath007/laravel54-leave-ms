@@ -83,7 +83,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.leave.leave_topic = $('#leave_type').children("option:selected").text().trim();
     };
 
-    $scope.getData = function(event) {
+    $scope.getAll = function(event) {
         $scope.assets = [];
         $scope.loading = true;
 
@@ -103,7 +103,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
-    $scope.getDebtWithURL = function(URL) {
+    $scope.getLeaveWithURL = function(URL) {
         console.log(URL);
         $scope.debts = [];
         $scope.debtPager = [];
@@ -125,21 +125,8 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
-    $scope.setAssetNo = function (parcelId) {
-        $http.get(CONFIG.baseUrl+ '/parcel/get-ajax-byid/' +parcelId)
-        .then(function(res) {
-            console.log(res);
-
-            $scope.asset.parcel_no = res.data.parcel.parcel_no + '/';
-            $scope.asset.asset_name = res.data.parcel.parcel_name;
-            $scope.lifeYear = res.data.parcel.deprec_type.deprec_life_y;
-        }, function(err) {
-            console.log(err);
-        });
-    }
-
-    $scope.getAsset = function(assetId) {
-        $http.get(CONFIG.baseUrl + '/asset/get-ajax-byid/' +assetId)
+    $scope.getById = function(id) {
+        $http.get(CONFIG.baseUrl + '/asset/get-ajax-byid/' +id)
         .then(function(res) {
             $scope.asset = res.data.asset;
             console.log($scope.asset);
