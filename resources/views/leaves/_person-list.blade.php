@@ -9,6 +9,14 @@
                     </button>
                 </div>
                 <div class="modal-body" style="padding-bottom: 0;">
+                    <!-- // TODO: Filtering controls -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                        </div>
+                    </div>
+                    <!-- // TODO: Filtering controls -->
+
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -26,10 +34,10 @@
                                     @{{ person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname }}
                                 </td>
                                 <td style="text-align: center;">
-                                    @{{ person.position.position_name + person.academic.ac_name  }}
+                                    @{{ person.position.position_name + person.academic.ac_name }}
                                 </td>
                                 <td style="text-align: center;">
-                                    @{{ person.member_of.depart.depart_name  }}
+                                    @{{ person.member_of.depart.depart_name }}
                                 </td>
                                 <td style="text-align: center;">
                                     <a href="#" class="btn btn-primary" ng-click="onSelectedDelegatePerson($event, person)">

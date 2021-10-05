@@ -233,8 +233,8 @@
                                 <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
                                     <label>แนบเอกสาร :</label>
                                     <input type="file"
-                                            id="leave_delegate_detail" 
-                                            name="leave_delegate_detail"
+                                            id="attachment" 
+                                            name="attachment"
                                             class="form-control" />
                                     <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="checkValidate(leave, 'depart')"></span>
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาแนบเอกสาร</span>
@@ -257,7 +257,7 @@
                                                 ng-model="leave.leave_delegate" 
                                                 class="form-control"
                                                 tabindex="2" />
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาเลือกหหน่วยงาน</span>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาเลือกผู้รับมอบหมายแทน</span>
                                 </div>
 
                             </div><!-- /.row -->
@@ -268,7 +268,7 @@
 
                         <div class="box-footer clearfix">
                             <button
-                                ng-click="formValidate($event, 'leaves/validate', leave, 'frmNewLeave', store)"
+                                ng-click="formValidate($event, '/leaves/validate', leave, 'frmNewLeave', store)"
                                 class="btn btn-success pull-right"
                             >
                                 บันทึก

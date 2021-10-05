@@ -110,7 +110,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onSelectedDelegatePerson = function(e, person) {
         e.preventDefault();
-        console.log(person);
+
+        $scope.leave.leave_delegate = person.person_id;
+        $('#leave_delegate_detail').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + person.academic.ac_name)
+
+        $('#person-list').modal('hide');
     };
 
     $scope.getAll = function(event) {
@@ -205,6 +209,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         /** Clear control value and model data */
         document.getElementById(form).reset();
         $scope.clearLeaveObj();
+        // TODO: clear date controls to current date
     }
 
     $scope.edit = function(assetId) {
