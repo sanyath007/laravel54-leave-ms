@@ -29,7 +29,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="(index, person) in persons">
-                                <td style="text-align: center;">@{{index+1}}</td>
+                                <td style="text-align: center;">
+                                    @{{ pager.from + index }}
+                                </td>
                                 <td>
                                     @{{ person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname }}
                                 </td>
@@ -49,7 +51,46 @@
                     </table>
                 </div><!-- /.modal-body -->
                 <div class="modal-footer" style="padding-bottom: 8px;">
-                    <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">ปิด</button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="pagination pagination-sm no-margin pull-left">
+                                <li ng-if="pager.current_page !== 1">
+                                    <a ng-click="getDataWithURL(pager.path + '?page=1')" aria-label="Previous">
+                                        <span aria-hidden="true">First</span>
+                                    </a>
+                                </li>
+
+                                <li ng-class="{'disabled': (pager.current_page==1)}">
+                                    <a ng-click="getDataWithURL(pager.first_page_url)" aria-label="Prev">
+                                        <span aria-hidden="true">Prev</span>
+                                    </a>
+                                </li>
+
+                                <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
+                                    <a href="@{{ pager.url(pager.current_page + 10) }}">
+                                        ...
+                                    </a>
+                                </li>
+
+                                <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
+                                    <a ng-click="getDataWithURL(pager.next_page_url)" aria-label="Next">
+                                        <span aria-hidden="true">Next</span>
+                                    </a>
+                                </li>
+
+                                <li ng-if="pager.current_page !== pager.last_page">
+                                    <a ng-click="getDataWithURL(pager.path + '?page=' + pager.last_page)" aria-label="Previous">
+                                        <span aria-hidden="true">Last</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                ปิด
+                            </button>
+                        </div>
+                    </div>
                 </div><!-- /.modal-footer -->
             </form>
         </div>

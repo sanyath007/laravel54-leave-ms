@@ -92,12 +92,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         // TODO: to get person data for rendering to _person-list view
         $http.get(`${CONFIG.baseUrl}/persons/search/${depart}/${searchKey}`)
-        .then(function(res) {    
-            console.log(res);
+        .then(function(res) {
             let { data, ...pager } = res.data.persons;
             $scope.persons = data;
             $scope.pager = pager;
-            console.log($scope.persons);
             
             $('#person-list').modal('show');
 
@@ -137,20 +135,16 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
-    $scope.getLeaveWithURL = function(URL) {
-        console.log(URL);
-        $scope.debts = [];
-        $scope.debtPager = [];
-        $scope.debtPages = [];
-
+    $scope.getDataWithURL = function(URL) {
+        $scope.persons = [];
+        $scope.pager = null;
         $scope.loading = true;
 
         $http.get(URL)
         .then(function(res) {
-            console.log(res);
-            $scope.debts = res.data.debts.data;
-            $scope.debtPager = res.data.debts;
-            $scope.debtPages = PaginateService.createPagerNo($scope.debtPager);
+            let { data, ...pager } = res.data.persons;
+            $scope.persons = data;
+            $scope.pager    = pager;
 
             $scope.loading = false;
         }, function(err) {
