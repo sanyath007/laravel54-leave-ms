@@ -7,6 +7,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.leaves = [];
     $scope.persons = [];
+    $scope.pager = [];
 
     $scope.leave = {
         leave_id: '',
@@ -86,7 +87,25 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onShowPersonLists = function(e) {
         e.preventDefault();
-        $('#person-list').modal('show');
+        let depart = '0';
+        let searchKey = '0';
+
+        // TODO: to get person data for rendering to _person-list view
+        $http.get(`${CONFIG.baseUrl}/persons/search/${depart}/${searchKey}`)
+        .then(function(res) {    
+            console.log(res);
+            let { data, ...pager } = res.data.persons;
+            $scope.persons = data;
+            $scope.pager = pager;
+            console.log($scope.persons);
+            
+            $('#person-list').modal('show');
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
     };
 
     $scope.onSelectedDelegatePerson = function(e, person) {
@@ -103,7 +122,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         let searchKey = $scope.searchKeyword === '' ? 0 : $scope.searchKeyword;
 
         $http.get(`${CONFIG.baseUrl}/asset/search/${parcelId}/${assetStatus}/${searchKey}`)
-        .then(function(res) {            
+        .then(function(res) {
             $scope.assets = res.data.assets.data;
             $scope.pager = res.data.assets;
 

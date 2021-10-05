@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ward extends Model
 {
-    protected $connection = 'person';
-    protected $table = 'ward';
-  
-    public function user()
+    protected $table = "ward";
+
+    public function productivity()
     {
-        return $this->hasMany('App\User', 'ward_id', 'office_id');
+        return $this->hasMany(Productivity::class, 'ward', 'ward');
     }
 }

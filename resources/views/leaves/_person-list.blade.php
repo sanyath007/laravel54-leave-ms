@@ -14,17 +14,23 @@
                             <tr>
                                 <th style="width: 5%; text-align: center;">#</th>
                                 <th style="text-align: center;">ชื่อ-สกุล</th>
-                                <th style="width: 20%; text-align: center;">ตำแหน่ง</th>
-                                <th style="width: 20%; text-align: center;">สังกัด</th>
+                                <th style="width: 25%; text-align: center;">ตำแหน่ง</th>
+                                <th style="width: 30%;">สังกัด</th>
                                 <th style="width: 10%; text-align: center;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="(index, person) in persons">
                                 <td style="text-align: center;">@{{index+1}}</td>
-                                <td></td>
-                                <td style="text-align: center;"></td>
-                                <td style="text-align: center;"></td>
+                                <td>
+                                    @{{ person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname }}
+                                </td>
+                                <td style="text-align: center;">
+                                    @{{ person.position.position_name + person.academic.ac_name  }}
+                                </td>
+                                <td style="text-align: center;">
+                                    @{{ person.member_of.depart.depart_name  }}
+                                </td>
                                 <td style="text-align: center;">
                                     <a href="#" class="btn btn-primary" ng-click="onSelectedDelegatePerson($event, person)">
                                         เลือก
@@ -41,21 +47,3 @@
         </div>
     </div>
 </div>
-
-<!-- <script type="text/javascript">
-	$(function() {
-		$('#leave_date').datepicker({
-			autoclose: true,
-			language: 'th',
-			format: 'dd/mm/yyyy',
-			thaiyear: true
-		}).datepicker('update', new Date());
-
-        $('#leave_doc_date').datepicker({
-			autoclose: true,
-			language: 'th',
-			format: 'dd/mm/yyyy',
-			thaiyear: true
-		}).datepicker('update', new Date());
-	});
-</script> -->

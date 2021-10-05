@@ -31,19 +31,12 @@ Route::group(['middleware' => 'web'], function() {
 });
 
 Route::group(['middleware' => ['web','auth']], function () {
-    /** ค่าเสื่อม */
-    Route::get('deprec/list', 'DepreciationController@index');
-    Route::get('deprec/calc', 'DepreciationController@calc');
-    Route::get('deprec/search', 'DepreciationController@search');
-    Route::get('deprec/get-deprec/{appId}', 'DepreciationController@getById');
-    Route::get('deprec/add', 'DepreciationController@add');
-    Route::post('deprec/store', 'DepreciationController@store');
-    Route::get('deprec/detail/{appId}', 'DepreciationController@detail');
-    Route::get('deprec/edit/{appId}', 'DepreciationController@edit');
-    Route::put('deprec/update', 'DepreciationController@update');
-    Route::delete('deprec/delete/{appId}', 'DepreciationController@delete');
+    /** บุคลากร */
+    Route::get('persons/list', 'PersonController@index');
+    Route::get('persons/search/{depart}/{searchKey}', 'PersonController@search');
+    Route::get('persons/get-person/{id}', 'PersonController@getById');
 
-    /** Leave */
+    /** การลา */
     Route::post('leaves/validate', 'LeaveController@formValidate');
     Route::get('leaves/list', 'LeaveController@index');
     Route::get('leaves/search/{parcelId}/{status}/{searchKey}', 'LeaveController@search');

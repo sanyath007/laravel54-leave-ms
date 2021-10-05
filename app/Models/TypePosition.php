@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Academic extends Model
+class TypePosition extends Model
 {
     protected $connection = "person";
-    protected $table = "academic";
+    protected $table = "typeposition";
 }
