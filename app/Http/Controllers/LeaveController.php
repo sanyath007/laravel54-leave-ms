@@ -140,31 +140,24 @@ class LeaveController extends Controller
 
     public function store(Request $req)
     {
-        $asset = new Asset();
-        // $asset->asset_id = $this->generateAutoId();
-        $asset->asset_no = $req['parcel_no'].$req['asset_no'];
-        $asset->asset_name = $req['asset_name'];
-        $asset->description = $req['description'];
-        $asset->parcel_id = $req['parcel_id'];
-        $asset->amount = $req['amount'];
-        $asset->unit_price = $req['unit_price'];
-        $asset->unit = $req['unit'];
-        $asset->purchased_method = $req['purchased_method'];
-        $asset->budget_type = $req['budget_type'];
-        $asset->reg_no = $req['reg_no'];
-        $asset->year = $req['year'];
-        $asset->doc_type = $req['doc_type'];
-        $asset->doc_no = $req['doc_no'];
-        $asset->doc_date = $req['doc_date'];
-        $asset->date_in = $req['date_in'];
-        $asset->date_exp = $req['date_exp'];
-        $asset->depart = $req['depart'];
-        $asset->supplier = $req['supplier'];
-        $asset->remark = $req['remark'];
-        $asset->status = '1';
+        $leave = new Leave();
+        $leave->leave_no        = $req['leave_no'];
+        $leave->leave_place     = $req['leave_place'];
+        $leave->leave_topic     = $req['leave_topic'];
+        $leave->leave_person    = $req['leave_person'];
+        $leave->leave_type      = $req['leave_type'];
+        $leave->leave_reason    = $req['leave_reason'];
+        $leave->leave_contact   = $req['leave_contact'];
+        $leave->leave_delegate  = $req['leave_delegate'];
+        $leave->start_date      = $req['start_date'];
+        $leave->start_period    = $req['start_period'];
+        $leave->end_date        = $req['end_date'];
+        $leave->end_period      = $req['end_period'];
+        $leave->year            = $req['year'];
+        $leave->status          = '1';
 
         /** Upload image */
-        $asset->image = '';
+        $leave->image = '';
 
         if($asset->save()) {
             return [
@@ -179,49 +172,39 @@ class LeaveController extends Controller
         }
     }
 
-    public function edit($assetId)
+    public function edit($id)
     {
         return view('assets.edit', [
-            "asset"         => Asset::find($assetId),
-            "parcels"     => Parcel::orderBy('parcel_no')->get(),
-            "units"         => AssetUnit::all(),
-            "budgets"       => BudgetType::all(),
-            "docs"          => DocumentType::all(),
-            "methods"       => PurchasedMethod::all(),
-            "suppliers"     => Supplier::all(),
-            "departs"       => Department::all(),
-            "statuses"      => $this->status
+            "leave"         => Leave::find($id),
+            "leave_types"   => LeaveType::all(),
+            "positions"     => Position::all(),
+            "statuses"      => $this->status,
+            "periods"       => $this->periods,
         ]);
     }
 
     public function update(Request $req)
     {
-        $asset = Asset::find($req['asset_id']);
-        $asset->asset_no = $req['parcel_no'].$req['asset_no'];
-        $asset->asset_name = $req['asset_name'];
-        $asset->description = $req['description'];
-        $asset->parcel_id = $req['parcel_id'];
-        $asset->amount = $req['amount'];
-        $asset->unit_price = $req['unit_price'];
-        $asset->unit = $req['unit'];
-        $asset->purchased_method = $req['method'];
-        $asset->budget_type = $req['budget_type'];
-        $asset->reg_no = $req['reg_no'];
-        $asset->year = $req['year'];
-        $asset->doc_type = $req['doc_type'];
-        $asset->doc_no = $req['doc_no'];
-        $asset->doc_date = $req['doc_date'];
-        $asset->date_in = $req['date_in'];
-        $asset->date_exp = $req['date_exp'];
-        $asset->depart = $req['depart'];
-        $asset->supplier = $req['supplier'];
-        $asset->remark = $req['remark'];
-        $asset->status = $req['status'];
+        $leave = Leave::find($req['id']);
+        $leave->leave_no        = $req['leave_no'];
+        $leave->leave_place     = $req['leave_place'];
+        $leave->leave_topic     = $req['leave_topic'];
+        $leave->leave_person    = $req['leave_person'];
+        $leave->leave_type      = $req['leave_type'];
+        $leave->leave_reason    = $req['leave_reason'];
+        $leave->leave_contact   = $req['leave_contact'];
+        $leave->leave_delegate  = $req['leave_delegate'];
+        $leave->start_date      = $req['start_date'];
+        $leave->start_period    = $req['start_period'];
+        $leave->end_date        = $req['end_date'];
+        $leave->end_period      = $req['end_period'];
+        $leave->year            = $req['year'];
+        $leave->status          = '1';
 
         /** Upload image */
-        $asset->image = '';
+        $leave->image = '';
 
-        if($asset->save()) {
+        if($leave->save()) {
             return [
                 "status" => "success",
                 "message" => "Insert success.",
