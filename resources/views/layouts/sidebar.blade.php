@@ -48,13 +48,13 @@
 						</a>
 						<ul class="treeview-menu">
 							<li>
-								<a href="{{ url('/deprec/calc') }}">
-									<i class="fa fa-circle-o"></i> คำนวณค่าเสื่อมครุภัณฑ์
+								<a href="{{ url('/persons') }}/{{ Auth::user()->person_id }}">
+									<i class="fa fa-circle-o"></i> ข้อมูลส่วนตัว
 								</a>
 							</li>
 							<li>
-								<a href="{{ url('/deprec/list') }}">
-									<i class="fa fa-circle-o"></i> ทะเบียนคุมทรัพย์สิน
+								<a href="{{ url('/leaves/summary') }}/{{ Auth::user()->person_id }}">
+									<i class="fa fa-circle-o"></i> ข้อมูลประวัติการลา
 								</a>
 							</li>
 						</ul>
@@ -95,18 +95,13 @@
 						</a>
 						<ul class="treeview-menu">
 							<li>
-								<a href="pages/charts/flot.html">
-									<i class="fa fa-circle-o"></i> Flot
-								</a>
-							</li>
-							<li>
-								<a href="pages/charts/inline.html">
-									<i class="fa fa-circle-o"></i> Inline charts
+								<a href="reports/summary.html">
+									<i class="fa fa-circle-o"></i> สรุปการลา
 								</a>
 							</li>
 						</ul>
 					</li>
-					<li class="treeview">
+					<!-- <li class="treeview">
 						<a href="#">
 							<i class="fa fa-gear"></i> <span>ข้อมูลพื้นฐาน</span>
 							<span class="pull-right-container">
@@ -150,7 +145,7 @@
 								</a>
 							</li>
 						</ul>
-					</li>													
+					</li>													 -->
 				</ul>
 			</section><!-- /.sidebar -->
 
