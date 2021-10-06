@@ -80,12 +80,14 @@ class LeaveController extends Controller
         if($conditions == '0') {
             $leaves = Leave::with('person')
                         ->with('leaveType')
+                        ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
                         ->paginate(20);
         } else {
             $leaves = Leave::where($conditions)
                         ->with('person')
                         ->with('leaveType')
+                        ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
                         ->paginate(20);
         }

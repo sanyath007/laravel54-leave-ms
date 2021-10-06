@@ -140,7 +140,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         e.preventDefault();
 
         $scope.leave.leave_delegate = person.person_id;
-        $('#leave_delegate_detail').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + person.academic.ac_name)
+        $('#leave_delegate').val(person.person_id);
+
+        const academic = person.academic !== null ? person.academic.ac_name : '';
+        $('#leave_delegate_detail').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
 
         $('#person-list').modal('hide');
     };

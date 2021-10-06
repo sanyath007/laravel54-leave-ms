@@ -53,7 +53,7 @@ function calcBudgetYear ($sdate)
     $budgetYear = date('Y') + 543;
     list($day, $month, $year) = explode('/', $sdate);
 
-    if ((int)$month > 10) {
+    if ((int)$month >= 10) {
         $budgetYear = (int)$year + 1;
     } else {
         $budgetYear = (int)$year;
