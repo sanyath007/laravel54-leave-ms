@@ -170,9 +170,11 @@
                                     <th>ประเภทการลา</th>
                                     <!-- <th style="text-align: left;">ชื่อครุภัณฑ์</th> -->
                                     <th style="width: 20%; text-align: center;">วันที่ลา</th>
+                                    <th style="width: 5%; text-align: center;">วัน</th>
                                     <th style="width: 15%; text-align: center;">วันที่ลงทะเบียน</th>
                                     <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
                                     <th style="width: 15%; text-align: center;">สถานะ</th>
+                                    <th style="width: 5%; text-align: center;">ไฟล์แนบ</th>
                                     <th style="width: 10%; text-align: center;">Actions</th>
                                 </tr>
                             </thead>
@@ -184,6 +186,7 @@
                                         <span>@{{ leave.start_date | thdate }} - </span>
                                         <span>@{{ leave.end_date | thdate }}</span>
                                     </td>
+                                    <td style="text-align: center;">@{{ leave.leave_days }}</td>
                                     <td style="text-align: center;">@{{ leave.leave_date | thdate }}</td>
                                     <td style="text-align: center;">@{{ leave.year }}</td>
                                     <td style="text-align: center;">
@@ -194,7 +197,16 @@
                                                 (leave.status==3) ? 'ไม่ผ่านการอนุมัติ' :
                                                 (leave.status==9) ? 'ยกเลิก' : 'อยู่ระหว่างการแก้ไข' }}
                                         </span>
-                                    </td>             
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
+                                            class="btn btn-success btn-xs" 
+                                            title="ไฟล์แนบ"
+                                            target="_blank"
+                                            ng-show="leave.attachment">
+                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
                                     <td style="text-align: center;">
                                         <a  ng-click="detail(leave.leave_id)"
                                             class="btn btn-primary btn-xs" 
