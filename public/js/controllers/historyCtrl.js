@@ -1,4 +1,4 @@
-app.controller('depreciationCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, PaginateService) {
+app.controller('historyCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, PaginateService) {
 /** ################################################################################## */
     $scope.deprecTypes = [];
     $scope.assets = [];

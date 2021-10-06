@@ -4,35 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\DeprecType;
+use App\Models\Person;
+use App\Models\Leave;
 
-class DeprecTypeController extends Controller
+class HistoryController extends Controller
 {
-    public function formValidate (Request $request)
-    {
-        $validator = \Validator::make($request->all(), [
-            'deprec_type_no' => 'required',
-            'deprec_type_name' => 'required',
-            'deprec_life_y' => 'required',
-            'deprec_rate_y' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'success' => 0,
-                'errors' => $validator->getMessageBag()->toArray(),
-            ];
-        } else {
-            return [
-                'success' => 1,
-                'errors' => $validator->getMessageBag()->toArray(),
-            ];
-        }
-    }
-
     public function index()
     {
-    	return view('deprec-types.list');
+        return view('deprec-types.list');
     }
 
     public function search($searchKey)
@@ -73,7 +52,7 @@ class DeprecTypeController extends Controller
 
     public function add()
     {
-    	return view('deprec-types.add');
+        return view('deprec-types.add');
     }
 
     public function store(Request $req)

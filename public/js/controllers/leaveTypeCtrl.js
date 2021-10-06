@@ -1,4 +1,4 @@
-app.controller('assetTypeCtrl', function($scope, $http, toaster, CONFIG, ModalService) {
+app.controller('leaveTypeCtrl', function($scope, $http, toaster, CONFIG, ModalService) {
 /** ################################################################################## */
     $scope.loading = false;
     $scope.cboAssetCate = '';

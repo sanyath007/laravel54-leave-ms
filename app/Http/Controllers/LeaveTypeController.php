@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\AssetType;
 use App\Models\AssetCategory;
 
-class AssetTypeController extends Controller
+class LeaveTypeController extends Controller
 {
     public function formValidate (Request $request)
     {
@@ -32,7 +32,7 @@ class AssetTypeController extends Controller
 
     public function index()
     {
-    	return view('asset-types.list', [
+        return view('asset-types.list', [
             'cates' => AssetCategory::orderBy('cate_no')->get()
         ]);
     }

@@ -5,13 +5,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            รายการครุภัณฑ์
+            ประวัติการลา
             <!-- <small>preview of simple tables</small> -->
         </h1>
 
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">รายการครุภัณฑ์</li>
+            <li class="breadcrumb-item active">ประวัติการลา</li>
         </ol>
     </section>
 
@@ -63,7 +63,7 @@
 
                             </div><!-- /.col-md-6 -->                 
                         </div><!-- /.box-body -->
-                  
+
                         <div class="box-footer">
                             <a ng-click="deprecCalulate()" class="btn btn-primary">
                                 คำนวณค่าเสื่อม
@@ -78,7 +78,7 @@
 
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">รายการครุภัณฑ์</h3>
+                        <h3 class="box-title">ประวัติการลา</h3>
                     </div><!-- /.box-header -->
 
                     <div class="box-body">
@@ -142,13 +142,13 @@
                                     @{{ i }}
                                 </a>
                             </li>
-                           
+
                             <!-- <li ng-if="debtPager.current_page < debtPager.last_page && (debtPager.last_page - debtPager.current_page) > 10">
                                 <a href="#" ng-click="debtPager.path">
                                     ...
                                 </a>
                             </li> -->
-                        
+
                             <li ng-class="{'disabled': (debtPager.current_page==debtPager.last_page)}">
                                 <a href="#" ng-click="getDebtWithURL(debtPager.next_page_url)" aria-label="Next">
                                     <span aria-hidden="true">Next</span>
