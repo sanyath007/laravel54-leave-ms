@@ -53,7 +53,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="{{ url('/leaves/summary') }}/{{ Auth::user()->person_id }}">
+								<a href="{{ url('/histories') }}/{{ Auth::user()->person_id }}">
 									<i class="fa fa-circle-o"></i> ข้อมูลประวัติการลา
 								</a>
 							</li>

@@ -14,18 +14,19 @@ class HistoryController extends Controller
         return view('deprec-types.list');
     }
 
-    public function search($searchKey)
+    public function summary($person)
     {
+        $searchKey = '0';
         if($searchKey == '0') {
-            $types = DeprecType::paginate(20);
+            $histories = Leave::where('leave_person', $person)->get();
         } else {
-            $types = DeprecType::where('deprec_type_name', 'like', '%'.$searchKey.'%')
-                        ->paginate(20);
+            $histories = Leave::where('leave_person', $person)->get();
         }
 
-        return [
-            'types' => $types,
-        ];
+        return view('histories.summary', [
+            'person'    => Person::where('person_id', $person)->first(),
+            'histories' => $histories,
+        ]);
     }
 
     public function getAjexAll($cateId)
@@ -37,94 +38,10 @@ class HistoryController extends Controller
         ];
     }
 
-    private function generateAutoId()
-    {
-        $cate = \DB::table('deprec_types')
-                        ->select('deprec_type_no')
-                        ->orderBy('deprec_type_no', 'DESC')
-                        ->first();
-
-        $tmpLastNo =  ((int)($type->type_no)) + 1;
-        $lastNo = sprintf("%'.05d", $tmpLastNo);
-
-        return $lastId;
-    }
-
-    public function add()
-    {
-        return view('deprec-types.add');
-    }
-
-    public function store(Request $req)
-    {
-        $type = new DeprecType();
-        // $type->type_id = $this->generateAutoId();
-        $type->deprec_type_no = $req['deprec_type_no'];
-        $type->deprec_type_name = $req['deprec_type_name'];
-        $type->deprec_life_y = $req['deprec_life_y'];
-        $type->deprec_rate_y = $req['deprec_rate_y'];
-
-        if($type->save()) {
-            return [
-                "status" => "success",
-                "message" => "Insert success.",
-            ];
-        } else {
-            return [
-                "status" => "error",
-                "message" => "Insert failed.",
-            ];
-        }
-    }
-
     public function getById($typeId)
     {
         return [
             'type' => DeprecType::find($typeId),
         ];
-    }
-
-    public function edit($typeId)
-    {
-        return view('deprec-types.edit', [
-            'type' => DeprecType::find($typeId)
-        ]);
-    }
-
-    public function update(Request $req)
-    {
-        $type = DeprecType::find($req['deprec_type_id']);
-        $type->deprec_type_name = $req['deprec_type_name'];
-        $type->deprec_life_y = $req['deprec_life_y'];
-        $type->deprec_rate_y = $req['deprec_rate_y'];
-
-        if($type->save()) {
-            return [
-                "status" => "success",
-                "message" => "Update success.",
-            ];
-        } else {
-            return [
-                "status" => "error",
-                "message" => "Update failed.",
-            ];
-        }
-    }
-
-    public function delete($typeId)
-    {
-        $type = DeprecType::find($typeId);
-
-        if($type->delete()) {
-            return [
-                "status" => "success",
-                "message" => "Delete success.",
-            ];
-        } else {
-            return [
-                "status" => "error",
-                "message" => "Delete failed.",
-            ];
-        }
     }
 }

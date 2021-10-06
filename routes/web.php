@@ -36,6 +36,9 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('persons/search/{depart}/{searchKey}', 'PersonController@search');
     Route::get('persons/{id}', 'PersonController@getById');
 
+    /** ประวัติการลา */
+    Route::get('/histories/{id}', 'HistoryController@summary');
+
     /** การลา */
     Route::post('leaves/validate', 'LeaveController@formValidate');
     Route::get('leaves/list', 'LeaveController@index');
