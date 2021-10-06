@@ -70,34 +70,28 @@ class LeaveController extends Controller
         ]);
     }
 
-    public function search($parcelId, $status, $searchKey)
+    public function search($year, $month, $status)
     {
         $conditions = [];
-        if($parcelId != 0) array_push($conditions, ['parcel_id', '=', $parcelId]);
-        if($status != 0) array_push($conditions, ['status', '=', $status]);
-        if($searchKey !== '0') array_push($conditions, ['asset_name', 'like', '%'.$searchKey.'%']);
+        // if($parcelId != 0) array_push($conditions, ['parcel_id', '=', $parcelId]);
+        // if($status != 0) array_push($conditions, ['status', '=', $status]);
+        // if($searchKey !== '0') array_push($conditions, ['asset_name', 'like', '%'.$searchKey.'%']);
 
         if($conditions == '0') {
-            $assets = Asset::with('parcel')
-                        ->with('budgetType')
-                        ->with('docType')
-                        ->with('purchasedMethod')
-                        ->with('depart')
-                        ->with('supplier')
+            $leaves = Leave::with('person')
+                        ->with('leaveType')
+                        ->orderBy('leave_date', 'desc')
                         ->paginate(20);
         } else {
-            $assets = Asset::where($conditions)
-                        ->with('parcel')
-                        ->with('budgetType')
-                        ->with('docType')
-                        ->with('purchasedMethod')
-                        ->with('depart')
-                        ->with('supplier')
+            $leaves = Leave::where($conditions)
+                        ->with('person')
+                        ->with('leaveType')
+                        ->orderBy('leave_date', 'desc')
                         ->paginate(20);
         }
 
         return [
-            'assets' => $assets,
+            'leaves' => $leaves,
         ];
     }
 

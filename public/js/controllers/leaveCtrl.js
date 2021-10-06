@@ -1,6 +1,8 @@
 app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, ReportService, PaginateService) {
 /** ################################################################################## */
     $scope.loading = false;
+    $scope.cboYear = "";
+    $scope.cboMonth = "";
     $scope.cboLeaveType = "";
     $scope.cboLeaveStatus = "";
     $scope.searchKeyword = "";
@@ -132,17 +134,18 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     };
 
     $scope.getAll = function(event) {
-        $scope.assets = [];
+        $scope.leaves = [];
         $scope.loading = true;
 
-        let parcelId = $scope.cboParcel === '' ? 0 : $scope.cboParcel;
-        let assetStatus = $scope.cboAssetStatus === '' ? 0 : $scope.cboAssetStatus;
-        let searchKey = $scope.searchKeyword === '' ? 0 : $scope.searchKeyword;
+        let year = $scope.cboYear === '' ? 0 : $scope.cboYear;
+        let month = $scope.cboMonth === '' ? 0 : $scope.cboMonth;
+        let status = $scope.cboLeaveStatus === '' ? 0 : $scope.cboLeaveStatus;
 
-        $http.get(`${CONFIG.baseUrl}/asset/search/${parcelId}/${assetStatus}/${searchKey}`)
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${month}/${status}`)
         .then(function(res) {
-            $scope.assets = res.data.assets.data;
-            $scope.pager = res.data.assets;
+            const { data, ...pager } = res.data.leaves
+            $scope.leaves = data;
+            $scope.pager = pager;
 
             $scope.loading = false;
         }, function(err) {
