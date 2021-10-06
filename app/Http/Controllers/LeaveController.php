@@ -141,6 +141,7 @@ class LeaveController extends Controller
         $leave->leave_date      = convThDateToDbDate($req['leave_date']);
         $leave->leave_place     = $req['leave_place'];
         $leave->leave_topic     = $req['leave_topic'];
+        $leave->leave_to        = $req['leave_to'];
         $leave->leave_person    = $req['leave_person'];
         $leave->leave_type      = $req['leave_type'];
         $leave->leave_reason    = $req['leave_reason'];
@@ -182,6 +183,7 @@ class LeaveController extends Controller
         $leave->leave_date      = convThDateToDbDate($req['leave_date']);
         $leave->leave_place     = $req['leave_place'];
         $leave->leave_topic     = $req['leave_topic'];
+        $leave->leave_to        = $req['leave_to'];
         $leave->leave_person    = $req['leave_person'];
         $leave->leave_type      = $req['leave_type'];
         $leave->leave_reason    = $req['leave_reason'];
@@ -235,7 +237,7 @@ class LeaveController extends Controller
             "suppliers" => Supplier::all(),
             "cates"     => AssetCategory::all(),
             "types"     => AssetType::all(),
-            "statuses"    => $this->status
+            "statuses"  => $this->status
         ]);
     }
 
