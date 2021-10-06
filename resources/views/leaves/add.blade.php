@@ -165,11 +165,10 @@
                                     <select id="start_period"
                                             name="start_period"
                                             ng-model="leave.start_period"
-                                            class="form-control select2" 
-                                            style="width: 100%; font-size: 12px;"
+                                            class="form-control" 
+                                            style="width: 100%;"
                                             tabindex="2">
-                                        <option value="" selected="selected">-- เลือกช่วงเวลา --</option>
-
+                                        <option value="">-- เลือกช่วงเวลา --</option>
                                         @foreach($periods as $key => $period)
 
                                             <option value="{{ $key }}">
@@ -177,7 +176,6 @@
                                             </option>
 
                                         @endforeach
-
                                     </select>
                                     <span class="help-block" ng-show="checkValidate(leave, 'start_period')">เลือกช่วงเวลา</span>
                                 </div>
@@ -201,14 +199,14 @@
 
                                 <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
                                     <label>ช่วงเวลา :</label>
-                                    <select id="end_period" 
+                                    <select id="end_period"
                                             name="end_period"
-                                            ng-model="leave.end_period" 
+                                            ng-model="leave.end_period"
+                                            ng-change="calculateLeaveDays(leave.end_period)"
                                             class="form-control select2" 
                                             style="width: 100%; font-size: 12px;"
                                             tabindex="2">
-                                        <option value="" selected="selected">-- เลือกช่วงเวลา --</option>
-
+                                        <option value="">-- เลือกช่วงเวลา --</option>
                                         @foreach($periods as $key => $period)
 
                                             <option value="{{ $key }}">
@@ -216,12 +214,11 @@
                                             </option>
 
                                         @endforeach
-
                                     </select>
                                     <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
                                 </div>
 
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_contact')}">
                                     <label>ระหว่างลาติดต่อข้าพเจ้าได้ที่ :</label>
                                     <textarea
                                         id="leave_contact" 
@@ -230,6 +227,7 @@
                                         class="form-control"
                                         tabindex="17"
                                     ></textarea>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_contact')">กรุณาแนบเอกสาร</span>
                                 </div>
 
                                 <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
@@ -238,7 +236,6 @@
                                             id="attachment" 
                                             name="attachment"
                                             class="form-control" />
-                                    <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="checkValidate(leave, 'depart')"></span>
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาแนบเอกสาร</span>
                                 </div>
 

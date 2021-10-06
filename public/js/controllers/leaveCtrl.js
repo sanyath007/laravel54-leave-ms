@@ -23,7 +23,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         leave_contact: '',
         leave_delegate: '',
         start_date: '',
-        start_period: '',
+        start_period: '1',
         end_date: '',
         end_period: '',
         leave_days: 0
@@ -31,7 +31,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     
     $scope.barOptions = {};
 
-    /** Init Form elements */
+    /** ============================== Init Form elements ============================== */
+    /** ให้เลือกช่วงได้เฉพาะวันสุดท้าย */
+    // $('#start_period').select2("val", "1"); // Setting default value of .select2
+    $('#start_period').prop("disabled", true);
+
     $('#leave_date').datepicker({
         autoclose: true,
         language: 'th',
@@ -45,24 +49,26 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         format: 'dd/mm/yyyy',
         thaiyear: true
     }).on('changeDate', function(event) {
-        console.log(event);
         let selectedDate = moment(event.date).format('YYYY-MM-DD');
         let [ year, month, day ] = selectedDate.split('-');
 
         $scope.leave.start_date = day+ '/' +month+ '/' +(parseInt(year)+543);
     });
 
+    $scope.speriodSelected = '';
     $('#end_date').datepicker({
         autoclose: true,
         language: 'th',
         format: 'dd/mm/yyyy',
         thaiyear: true
     }).on('changeDate', function(event) {
-        console.log(event);
         let selectedDate = moment(event.date).format('YYYY-MM-DD');
         let [ year, month, day ] = selectedDate.split('-');
 
         $scope.leave.end_date = day+ '/' +month+ '/' +(parseInt(year)+543);
+
+        /** Clear value of .select2 */
+        $('#end_period').val(null).trigger('change');
     });
 
     $scope.clearLeaveObj = function() {
@@ -77,11 +83,25 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             leave_contact: '',
             leave_delegate: '',
             start_date: '',
-            start_period: '',
+            start_period: '1',
             end_date: '',
             end_period: '',
             leave_days: 0
         };
+    };
+
+    $scope.calculateLeaveDays = function(endPeriod) {
+        let sdate = StringFormatService.convToDbDate($('#start_date').val());
+        let edate = StringFormatService.convToDbDate($('#end_date').val());
+        let days = moment(edate).diff(moment(sdate), 'days');
+        
+        if (endPeriod !== '1') {
+            days += 0.5;
+        } else {
+            days += 1;
+        }
+
+        $('#leave_days').val(days);
     };
 
     $scope.onSelectedType = function() {

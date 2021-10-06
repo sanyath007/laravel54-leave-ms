@@ -145,7 +145,7 @@ class LeaveController extends Controller
         $leave->leave_contact   = $req['leave_contact'];
         $leave->leave_delegate  = $req['leave_delegate'];
         $leave->start_date      = convThDateToDbDate($req['start_date']);
-        $leave->start_period    = $req['start_period'];
+        $leave->start_period    = '1';
         $leave->end_date        = convThDateToDbDate($req['end_date']);
         $leave->end_period      = $req['end_period'];
         $leave->leave_days      = $req['leave_days'];
@@ -186,7 +186,7 @@ class LeaveController extends Controller
         $leave->leave_contact   = $req['leave_contact'];
         $leave->leave_delegate  = $req['leave_delegate'];
         $leave->start_date      = convThDateToDbDate($req['start_date']);
-        $leave->start_period    = $req['start_period'];
+        $leave->start_period    = '1';
         $leave->end_date        = convThDateToDbDate($req['end_date']);
         $leave->end_period      = $req['end_period'];
         $leave->leave_days      = $req['leave_days'];
