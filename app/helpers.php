@@ -47,3 +47,17 @@ function convThDateToDbDate ($dbDate)
 
     return ((int)$arrDate[2] - 543). '-' .$arrDate[1]. '-' .$arrDate[0];
 }
+
+function calcBudgetYear ($sdate)
+{
+    $budgetYear = date('Y') + 543;
+    list($day, $month, $year) = explode('/', $sdate);
+
+    if ((int)$month > 10) {
+        $budgetYear = (int)$year + 1;
+    } else {
+        $budgetYear = (int)$year;
+    }
+
+    return $budgetYear;
+}

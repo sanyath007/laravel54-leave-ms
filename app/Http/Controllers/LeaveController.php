@@ -148,7 +148,8 @@ class LeaveController extends Controller
         $leave->start_period    = $req['start_period'];
         $leave->end_date        = convThDateToDbDate($req['end_date']);
         $leave->end_period      = $req['end_period'];
-        $leave->year            = date('Y') + 543;
+        $leave->leave_days      = $req['leave_days'];
+        $leave->year            = calcBudgetYear($req['start_date']);
         $leave->status          = '1';
 
         /** Upload attach file */
@@ -176,7 +177,7 @@ class LeaveController extends Controller
     public function update(Request $req)
     {
         $leave = Leave::find($req['id']);
-        $leave->leave_no        = $req['leave_no'];
+        $leave->leave_date      = convThDateToDbDate($req['leave_date']);
         $leave->leave_place     = $req['leave_place'];
         $leave->leave_topic     = $req['leave_topic'];
         $leave->leave_person    = $req['leave_person'];
@@ -184,11 +185,12 @@ class LeaveController extends Controller
         $leave->leave_reason    = $req['leave_reason'];
         $leave->leave_contact   = $req['leave_contact'];
         $leave->leave_delegate  = $req['leave_delegate'];
-        $leave->start_date      = $req['start_date'];
+        $leave->start_date      = convThDateToDbDate($req['start_date']);
         $leave->start_period    = $req['start_period'];
-        $leave->end_date        = $req['end_date'];
+        $leave->end_date        = convThDateToDbDate($req['end_date']);
         $leave->end_period      = $req['end_period'];
-        $leave->year            = $req['year'];
+        $leave->leave_days      = $req['leave_days'];
+        $leave->year            = calcBudgetYear($req['start_date']);
         $leave->status          = '1';
 
         /** Upload image */
