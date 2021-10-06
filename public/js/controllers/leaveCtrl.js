@@ -26,6 +26,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         start_period: '',
         end_date: '',
         end_period: '',
+        leave_days: 0
     };
     
     $scope.barOptions = {};
@@ -79,6 +80,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             start_period: '',
             end_date: '',
             end_period: '',
+            leave_days: 0
         };
     };
 
