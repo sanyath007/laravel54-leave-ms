@@ -41,10 +41,10 @@
                                             style="width: 100%; font-size: 12px;"
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        @foreach($types as $type)
+                                        @foreach($leave_types as $type)
 
-                                            <option value="{{ $type->type_id }}">
-                                                {{ $type->type_no.'-'.$type->type_name }}
+                                            <option value="{{ $type->id }}">
+                                                {{ $type->name }}
                                             </option>
 
                                         @endforeach
@@ -199,7 +199,7 @@
                                     @{{ i }}
                                 </a>
                             </li>
-                           
+
                             <!-- <li ng-if="debtPager.current_page < debtPager.last_page && (debtPager.last_page - debtPager.current_page) > 10">
                                 <a href="#" ng-click="debtPager.path">
                                     ...

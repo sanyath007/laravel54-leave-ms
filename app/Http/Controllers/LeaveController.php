@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Models\Asset;
 use App\Models\Parcel;
 use App\Models\AssetCategory;
@@ -14,6 +15,7 @@ use App\Models\PurchasedMethod;
 use App\Models\DocumentType;
 use App\Models\Supplier;
 use App\Models\Department;
+use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\Position;
 
@@ -63,9 +65,8 @@ class LeaveController extends Controller
     public function index()
     {
         return view('leaves.list', [
-            "types"     => AssetType::orderBy('type_no')->get(),
-            "parcels"     => Parcel::orderBy('parcel_no')->get(),
-            "statuses"    => $this->status
+            "leave_types"   => LeaveType::all(),
+            "statuses"      => $this->status
         ]);
     }
 
@@ -141,7 +142,7 @@ class LeaveController extends Controller
     public function store(Request $req)
     {
         $leave = new Leave();
-        $leave->leave_no        = $req['leave_no'];
+        $leave->leave_date      = convThDateToDbDate($req['leave_date']);
         $leave->leave_place     = $req['leave_place'];
         $leave->leave_topic     = $req['leave_topic'];
         $leave->leave_person    = $req['leave_person'];
@@ -149,26 +150,21 @@ class LeaveController extends Controller
         $leave->leave_reason    = $req['leave_reason'];
         $leave->leave_contact   = $req['leave_contact'];
         $leave->leave_delegate  = $req['leave_delegate'];
-        $leave->start_date      = $req['start_date'];
+        $leave->start_date      = convThDateToDbDate($req['start_date']);
         $leave->start_period    = $req['start_period'];
-        $leave->end_date        = $req['end_date'];
+        $leave->end_date        = convThDateToDbDate($req['end_date']);
         $leave->end_period      = $req['end_period'];
-        $leave->year            = $req['year'];
+        $leave->year            = date('Y') + 543;
         $leave->status          = '1';
 
-        /** Upload image */
-        $leave->image = '';
+        /** Upload attach file */
+        $attachment = uploadFile($req->file('attachment'), 'uploads/');
+        if (!empty($attachment)) {
+            $leave->attachment = $attachment;
+        }
 
-        if($asset->save()) {
-            return [
-                "status" => "success",
-                "message" => "Insert success.",
-            ];
-        } else {
-            return [
-                "status" => "error",
-                "message" => "Insert failed.",
-            ];
+        if($leave->save()) {
+            return redirect('/leaves/list');
         }
     }
 

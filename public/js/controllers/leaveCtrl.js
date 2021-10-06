@@ -64,7 +64,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.clearLeaveObj = function() {
         $scope.leave = {
-            leave_id: '',
             leave_no: '',
             leave_place: '1',
             leave_topic: '',
@@ -83,6 +82,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onSelectedType = function() {
         $scope.leave.leave_topic = $('#leave_type').children("option:selected").text().trim();
+        $('#leave_topic').val($('#leave_type').children("option:selected").text().trim());
     };
 
     $scope.onShowPersonLists = function(e) {
@@ -197,28 +197,12 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.store = function(event, form) {
         event.preventDefault();
-        /** Convert thai date to db date. */
-        $scope.leave.leave_date = StringFormatService.convToDbDate($('#leave_date').val());
-        $scope.leave.start_date = StringFormatService.convToDbDate($('#start_date').val());
-        $scope.leave.end_date = StringFormatService.convToDbDate($('#end_date').val());
-        /** Get user id */
-        $scope.leave.leave_person = $('#leave_person').val();
-        // $scope.asset.created_by = $("#user").val();
-        // $scope.asset.updated_by = $("#user").val();
-        console.log($scope.leave);
-        
-        $http.post(CONFIG.baseUrl + '/leaves/store', $scope.asset)
-        .then(function(res) {
-            console.log(res);
-            toaster.pop('success', "", 'บันทึกข้อมูลเรียบร้อยแล้ว !!!');
-        }, function(err) {
-            console.log(err);
-            toaster.pop('error', "", 'พบข้อผิดพลาด !!!');
-        });
 
+        $('#frmNewLeave').submit();
         /** Clear control value and model data */
-        document.getElementById(form).reset();
-        $scope.clearLeaveObj();
+        // document.getElementById(form).reset();
+        // $scope.clearLeaveObj();
+
         // TODO: clear date controls to current date
     }
 
