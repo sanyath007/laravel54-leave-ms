@@ -80,15 +80,9 @@
 	<script type="text/javascript" src="{{ asset('/js/controllers/mainCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/homeCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/leaveCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/assetGroupCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/assetCateCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/assetTypeCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/assetUnitCtrl.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/js/controllers/historyCtrl.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/js/controllers/leaveTypeCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/supplierCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/depreciationCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/deprecTypeCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/parcelCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/reparationCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/reportCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/services/report.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/services/stringFormat.js') }}"></script>

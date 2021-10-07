@@ -16,7 +16,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="depreciationCtrl" ng-init="getData()">
+    <section class="content" ng-controller="historyCtrl" ng-init="getData()">
 
         <div class="row">
             <div class="col-md-12">
@@ -29,8 +29,8 @@
                     <form id="frmSearch" name="frmSearch" role="form">
                         <div class="box-body">
                             <div class="col-md-6">
-                                <!-- Date and time range -->
-                                <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(asset, 'year')}">
+
+                                <!-- <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(asset, 'year')}">
                                     <label>ปีงบประมาณ</label>
                                     <input  type="text" 
                                             id="year" 
@@ -41,7 +41,7 @@
                                             tabindex="16" required>
                                     <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="checkValidate(asset, 'year')"></span>
                                     <span class="help-block" ng-show="checkValidate(asset, 'year')">กรุณาระบุปีงบประมาณ</span>
-                                </div><!-- /.form group -->
+                                </div>
 
                                 <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(asset, 'cal_date')}">
                                     <label>ณ วันที่ :</label>
@@ -59,12 +59,12 @@
                                     </div>
                                     <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="checkValidate(asset, 'cal_date')"></span>
                                     <span class="help-block" ng-show="checkValidate(asset, 'cal_date')">กรุณาเลือกวันที่รับเข้าระบบ</span>
-                                </div>
+                                </div> -->
 
                             </div><!-- /.col-md-6 -->                 
                         </div><!-- /.box-body -->
 
-                        <div class="box-footer">
+                        <!-- <div class="box-footer">
                             <a ng-click="deprecCalulate()" class="btn btn-primary">
                                 คำนวณค่าเสื่อม
                             </a>
@@ -72,7 +72,7 @@
                             <a ng-click="store()" class="btn btn-primary">
                                 บันทึกค่าเสื่อม
                             </a>
-                        </div>
+                        </div> -->
                     </form>
                 </div><!-- /.box -->
 
@@ -81,86 +81,127 @@
                         <h3 class="box-title">ประวัติการลา</h3>
                     </div><!-- /.box-header -->
 
-                    <div class="box-body">
-                        <div class="form-group pull-right">
-                            <input  type="text" 
-                                    id="table_search" 
-                                    name="table_search"
-                                    ng-model="searchKeyword"
-                                    class="form-control pull-right" 
-                                    placeholder="ค้นหาเลขที่ใบส่งของ">                                       
-                        </div>
+                    <div class="box-body" style="background-color: #F5F7FA;">
 
-                        <table class="table table-bordered table-striped" style="font-size: 12px;">
-                            <thead>
-                                <tr>
-                                    <th style="width: 3%; text-align: center;">#</th>
-                                    <th style="width: 10%; text-align: center;">เลขครุภัณฑ์</th>
-                                    <th style="text-align: left;">ชื่อครุภัณฑ์</th>
-                                    <th style="width: 8%; text-align: center;">ราคาทุน</th>
-                                    <th style="width: 8%; text-align: center;">วันที่ได้รับ</th>
-                                    <th style="width: 8%; text-align: center;">อายุการใช้งาน (ป)</th>
-                                    <th style="width: 8%; text-align: center;">อายุ (ป)</th>
-                                    <th style="width: 8%; text-align: center;">อายุ (ด)</th>
-                                    <th style="width: 8%; text-align: center;">ค่าเสื่อม/ปี</th>
-                                    <th style="width: 8%; text-align: center;">ค่าเสื่อมสะสม</th>
-                                    <th style="width: 8%; text-align: center;">มูลค่าสุทธิ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="(index, asset) in assets">
-                                    <td style="text-align: center;">@{{ index+pager.from }}</td>
-                                    <td style="text-align: center;">@{{ asset.asset_no }}</td>
-                                    <td style="text-align: left;">@{{ asset.asset_name }}</td>
-                                    <td style="text-align: right;">@{{ asset.unit_price | currency:"":0 }}</td>
-                                    <td style="text-align: center;">@{{ asset.date_in | thdate }}</td>
-                                    <td style="text-align: center;">@{{ asset.deprec_life_y }}</td>
-                                    <td style="text-align: center;">@{{ asset.age_y }}</td>
-                                    <td style="text-align: center;">@{{ asset.age_m }}</td>
-                                    <td style="text-align: right;">@{{ asset.deprec_year | currency:"":0 }}</td>             
-                                    <td style="text-align: right;">@{{ asset.deprec_collect | currency:"":0 }}</td>             
-                                    <td style="text-align: right;">@{{ asset.deprec_net | currency:"":0 }}</td>             
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="box box-success">
+                                    <div class="box-header">
+                                        <h3 class="box-title">สถิติการลา ปีงบประมาณ</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                            <p>ลาป่วย</p>
+                                            <p>จำนวนวันลาสะสม - วัน</p>
+                                            <p>จำนวนวันที่ลา - วัน</p>
+                                        </div>
+                                        <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                            <p>ลากิจส่วนตัว</p>
+                                            <p>จำนวนวันลาสะสม - วัน</p>
+                                            <p>จำนวนวันที่ลา - วัน</p>
+                                        </div>
+                                        <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                            <p>ลาพักผ่อน</p>
+                                            <p>จำนวนวันลาสะสม - วัน</p>
+                                            <p>จำนวนวันที่ลา - วัน</p>
+                                        </div>
+                                        <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                            <p>ลาคลอด</p>
+                                            <p>จำนวนวันลาสะสม - วัน</p>
+                                            <p>จำนวนวันที่ลา - วัน</p>
+                                        </div>
+                                        <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                            <p>ลาอุปสมบท</p>
+                                            <p>จำนวนวันลาสะสม - วัน</p>
+                                            <p>จำนวนวันที่ลา - วัน</p>
+                                        </div>
+                                        <div style="border: 1px solid grey; padding: 0.5em;">
+                                            <p>ลาไปต่างประเทศ</p>
+                                            <p>จำนวนวันลาสะสม - วัน</p>
+                                            <p>จำนวนวันที่ลา - วัน</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-8">
+                                <div class="box box-danger">
+                                    <div class="box-header">
+                                        <h3 class="box-title">รายละเอียดข้อมูลการลา</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <table class="table table-bordered table-striped" style="font-size: 12px; margin-bottom: 1rem;">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 5%; text-align: center;">#</th>
+                                                    <th style="width: 50%; text-align: center;">วันที่ลา</th>
+                                                    <th style="width: 20%; text-align: center;">จน.วัน</th>
+                                                    <th style="text-align: center;">สถานะ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="(index, leave) in leaves">
+                                                    <td style="text-align: center;">@{{ index+pager.from }}</td>
+                                                    <td style="text-align: center;">
+                                                        <span>@{{ leave.start_date | thdate }} - </span>
+                                                        <span>@{{ leave.end_date | thdate }}</span>
+                                                    </td>
+                                                    <td style="text-align: right;">@{{ leave.leave_days | currency:"":0 }}</td>
+                                                    <td style="text-align: left;">
+                                                        <span class="label label-info" ng-show="paid.asset_status!=0">
+                                                            @{{ (leave.status==0) ? 'อยู่ระหว่างการสร้างเอกสาร' :
+                                                                (leave.status==1) ? 'อยู่ระหว่างดำเนินการ' :
+                                                                (leave.status==2) ? 'ผ่านการอนุมัติ' :
+                                                                (leave.status==3) ? 'ไม่ผ่านการอนุมัติ' :
+                                                                (leave.status==9) ? 'ยกเลิก' : 'อยู่ระหว่างการแก้ไข' }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
 
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li ng-if="debtPager.current_page !== 1">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.first_page_url)" aria-label="Previous">
-                                    <span aria-hidden="true">First</span>
-                                </a>
-                            </li>
-                        
-                            <li ng-class="{'disabled': (debtPager.current_page==1)}">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.prev_page_url)" aria-label="Prev">
-                                    <span aria-hidden="true">Prev</span>
-                                </a>
-                            </li>
+                                        <ul class="pagination pagination-sm no-margin pull-right">
+                                            <li ng-if="debtPager.current_page !== 1">
+                                                <a href="#" ng-click="getDebtWithURL(debtPager.first_page_url)" aria-label="Previous">
+                                                    <span aria-hidden="true">First</span>
+                                                </a>
+                                            </li>
+                                        
+                                            <li ng-class="{'disabled': (debtPager.current_page==1)}">
+                                                <a href="#" ng-click="getDebtWithURL(debtPager.prev_page_url)" aria-label="Prev">
+                                                    <span aria-hidden="true">Prev</span>
+                                                </a>
+                                            </li>
 
-                            <li ng-repeat="i in debtPages" ng-class="{'active': debtPager.current_page==i}">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.path + '?page=' +i)">
-                                    @{{ i }}
-                                </a>
-                            </li>
+                                            <li ng-repeat="i in debtPages" ng-class="{'active': debtPager.current_page==i}">
+                                                <a href="#" ng-click="getDebtWithURL(debtPager.path + '?page=' +i)">
+                                                    @{{ i }}
+                                                </a>
+                                            </li>
 
-                            <!-- <li ng-if="debtPager.current_page < debtPager.last_page && (debtPager.last_page - debtPager.current_page) > 10">
-                                <a href="#" ng-click="debtPager.path">
-                                    ...
-                                </a>
-                            </li> -->
+                                            <!-- <li ng-if="debtPager.current_page < debtPager.last_page && (debtPager.last_page - debtPager.current_page) > 10">
+                                                <a href="#" ng-click="debtPager.path">
+                                                    ...
+                                                </a>
+                                            </li> -->
 
-                            <li ng-class="{'disabled': (debtPager.current_page==debtPager.last_page)}">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.next_page_url)" aria-label="Next">
-                                    <span aria-hidden="true">Next</span>
-                                </a>
-                            </li>
+                                            <li ng-class="{'disabled': (debtPager.current_page==debtPager.last_page)}">
+                                                <a href="#" ng-click="getDebtWithURL(debtPager.next_page_url)" aria-label="Next">
+                                                    <span aria-hidden="true">Next</span>
+                                                </a>
+                                            </li>
 
-                            <li ng-if="debtPager.current_page !== debtPager.last_page">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.last_page_url)" aria-label="Previous">
-                                    <span aria-hidden="true">Last</span>
-                                </a>
-                            </li>
-                        </ul>
+                                            <li ng-if="debtPager.current_page !== debtPager.last_page">
+                                                <a href="#" ng-click="getDebtWithURL(debtPager.last_page_url)" aria-label="Previous">
+                                                    <span aria-hidden="true">Last</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.row -->
+
                     </div><!-- /.box-body -->
 
                     <!-- Loading (remove the following to stop the loading)-->
@@ -173,88 +214,6 @@
 
             </div><!-- /.col -->
         </div><!-- /.row -->
-
-        <!-- Modal -->
-        <div class="modal fade" id="dlgEditForm" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="">เพิ่มชนิดครุภัณฑ์</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="">ชื่อสถานที่</label>
-                            <input type="text" id="locationName" name="locationName" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">ที่อยู่</label>
-                            <input type="text" id="locationAddress" name="locationAddress" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">ถนน</label>
-                            <input type="text" id="locationRoad" name="locationRoad" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="ID">จังหวัด</label>
-                            <select 
-                                id="chw_id"
-                                name="chw_id" 
-                                class="form-control" 
-                                ng-model="selectedChangwat" 
-                                ng-change="getAmphur($event, selectedChangwat)">
-                                <option value="">-- กรุณาเลือกจังหวัด --</option>
-                                <option value="@{{ c.chw_id }}" ng-repeat="c in changwats">
-                                    @{{ c.changwat }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="ID">อำเภอ</label>
-                            <select 
-                                id="amp_id"
-                                name="amp_id" 
-                                class="form-control" 
-                                ng-model="selectedAmphur"
-                                ng-change="getTambon($event, selectedAmphur)">
-                                <option value="">-- กรุณาเลือกอำเภอ --</option>
-                                <option value="@{{ a.id }}" ng-repeat="a in amphurs">
-                                    @{{ a.amphur }}
-                                </option>
-                            </select>
-                        </div>                    
-
-                        <div class="form-group">
-                            <label for="ID">ตำบล</label>                    
-                            <select 
-                                id="tam_id"
-                                name="tam_id" 
-                                class="form-control" 
-                                ng-model="selectedTambon">
-                                <option value="">-- กรุณาเลือกตำบล --</option>
-                                <option value="@{{ t.id }}" ng-repeat="t in tambons">
-                                    @{{ t.tambon }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="">รหัสไปรษณี</label>
-                            <input type="text" id="locationPostcode" name="locationPostcode" class="form-control">
-                        </div>              
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-click="addNewLocation($event)">
-                            Save
-                        </button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal -->
 
     </section>
 
