@@ -234,12 +234,12 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         // TODO: clear date controls to current date
     }
 
-    $scope.edit = function(assetId) {
-        console.log(assetId);
+    $scope.edit = function(leaveId) {
+        console.log(leaveId);
 
         /** Show edit form modal dialog */
         // $('#dlgEditForm').modal('show');BASE_URL
-        window.location.href = CONFIG.baseUrl + '/asset/edit/' + assetId;
+        window.location.href = CONFIG.baseUrl + '/leaves/edit/' + leaveId;
     };
 
     $scope.update = function(event, form) {

@@ -208,12 +208,12 @@
                                         </a>
                                     </td>
                                     <td style="text-align: center;">
-                                        <a  ng-click="detail(leave.leave_id)"
+                                        <a  ng-click="detail(leave.id)"
                                             class="btn btn-primary btn-xs" 
                                             title="รายละเอียด">
                                             <i class="fa fa-search"></i>
                                         </a>
-                                        <a  ng-click="edit(leave.leave_id)" 
+                                        <a  ng-click="edit(leave.id)" 
                                             ng-show="(leave.status!==4 || leave.status!==3)" 
                                             class="btn btn-warning btn-xs"
                                             title="แก้ไขรายการ">
