@@ -168,7 +168,7 @@ class LeaveController extends Controller
 
     public function edit($id)
     {
-        return view('assets.edit', [
+        return view('leaves.edit', [
             "leave"         => Leave::find($id),
             "leave_types"   => LeaveType::all(),
             "positions"     => Position::all(),
