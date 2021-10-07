@@ -242,28 +242,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         window.location.href = CONFIG.baseUrl + '/leaves/edit/' + leaveId;
     };
 
-    $scope.update = function(event, form) {
+    $scope.update = function(event) {
         event.preventDefault();
-
-        /** Convert thai date to db date. */
-        $scope.asset.date_in = StringFormatService.convToDbDate($scope.asset.date_in);
-        $scope.asset.date_exp = StringFormatService.convToDbDate($scope.asset.date_exp);
-        $scope.asset.doc_date = StringFormatService.convToDbDate($scope.asset.doc_date);
-        /** Get user id */
-        // $scope.asset.created_by = $("#user").val();
-        // $scope.asset.updated_by = $("#user").val();
-        console.log($scope.asset);
-
+    
         if(confirm("คุณต้องแก้ไขรายการหนี้เลขที่ " + $scope.asset.asset_id + " ใช่หรือไม่?")) {
-            // $http.put(CONFIG.baseUrl + '/asset/update/', $scope.asset)
-            // .then(function(res) {
-            //     console.log(res);
-            // }, function(err) {
-            //     console.log(err);
-            // });
-            
-            /** Redirect to debt list */
-            // window.location.href = CONFIG.baseUrl + '/asset/list';
+            $('#frmEditLeave').submit();
         }
     };
 

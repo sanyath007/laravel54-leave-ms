@@ -5,13 +5,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            สร้างใบลา
+            แก้ไขใบลา
             <!-- <small>preview of simple tables</small> -->
         </h1>
 
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">สร้างใบลา</li>
+            <li class="breadcrumb-item active">แก้ไขใบลา</li>
         </ol>
     </section>
 
@@ -21,15 +21,16 @@
         <div class="row">
             <div class="col-md-12">
 
-                <div class="box box-primary">
+                <div class="box box-warning">
                     <div class="box-header">
-                        <h3 class="box-title">สร้างใบลา</h3>
+                        <h3 class="box-title">แก้ไขใบลา</h3>
                     </div>
 
-                    <form id="frmNewLeave" name="frmNewLeave" method="post" action="{{ url('/leaves/store') }}" role="form" enctype="multipart/form-data">
+                    <form id="frmEditLeave" name="frmEditLeave" method="post" action="{{ url('/leaves/update') }}" role="form" enctype="multipart/form-data">
                         <input type="hidden" id="user" name="user" value="{{ Auth::user()->person_id }}">
-                        <input type="hidden" id="leave_topic" name="leave_topic" ng-model="leave.leave_topic">
-                        <input type="hidden" id="leave_days" name="leave_days" ng-model="leave.leave_days">
+                        <input type="hidden" id="leave_id" name="leave_id" value="{{ $leave->id }}" ng-model="leave.leave_id">
+                        <input type="hidden" id="leave_topic" name="leave_topic" value="{{ $leave->leave_topic }}" ng-model="leave.leave_topic">
+                        <input type="hidden" id="leave_days" name="leave_days" value="{{ $leave->leave_days }}" ng-model="leave.leave_days">
                         {{ csrf_field() }}
 
                         <div class="box-body">
@@ -267,10 +268,10 @@
 
                         <div class="box-footer clearfix">
                             <button
-                                ng-click="formValidate($event, '/leaves/validate', leave, 'frmNewLeave', store)"
-                                class="btn btn-success pull-right"
+                                ng-click="formValidate($event, '/leaves/validate', leave, 'frmEditLeave', update)"
+                                class="btn btn-warning pull-right"
                             >
-                                บันทึก
+                                แก้ไข
                             </button>
                         </div><!-- /.box-footer -->
                     </form>
