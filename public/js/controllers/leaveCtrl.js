@@ -33,7 +33,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     /** ============================== Init Form elements ============================== */
     /** ให้เลือกช่วงได้เฉพาะวันสุดท้าย */
-    // $('#start_period').select2("val", "1"); // Setting default value of .select2
     $('#start_period').prop("disabled", true);
 
     $('#leave_date').datepicker({
@@ -226,10 +225,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.leave.leave_type     = data.leave.leave_type.toString();
         $scope.leave.start_period   = data.leave.start_period.toString();
         $scope.leave.end_period     = data.leave.end_period.toString();
-
-        // $('#leave_type').select2("val", '3');
-        // $('#start_period').select2("val", data.leave.start_period.toString());
-        // $('#end_period').select2("val", data.leave.end_period.toString());
         /** Convert db date to thai date. */            
         $scope.leave.leave_date     = StringFormatService.convFromDbDate(data.leave.leave_date);
         $scope.leave.start_date     = StringFormatService.convFromDbDate(data.leave.start_date);

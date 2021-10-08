@@ -69,11 +69,10 @@
 
                                 <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_type')}">
                                     <label>เรื่อง :</label>
-                                    <select id="leave_type" 
+                                    <select id="leave_type"
                                             name="leave_type"
-                                            ng-model="leave.leave_type" 
-                                            class="form-control select2" 
-                                            style="width: 100%; font-size: 12px;"
+                                            ng-model="leave.leave_type"
+                                            class="form-control"
                                             tabindex="2"
                                             ng-change="onSelectedType()">
                                         <option value="">-- เลือกเรื่อง --</option>
@@ -166,8 +165,7 @@
                                     <select id="start_period"
                                             name="start_period"
                                             ng-model="leave.start_period"
-                                            class="form-control" 
-                                            style="width: 100%;"
+                                            class="form-control"
                                             tabindex="2">
                                         <option value="">-- เลือกช่วงเวลา --</option>
                                         @foreach($periods as $key => $period)
@@ -204,8 +202,8 @@
                                             name="end_period"
                                             ng-model="leave.end_period"
                                             ng-change="calculateLeaveDays(leave.end_period)"
-                                            class="form-control select2" 
-                                            style="width: 100%; font-size: 12px;"
+                                            class="form-control" 
+                                            style="width: 100%;"
                                             tabindex="2">
                                         <option value="">-- เลือกช่วงเวลา --</option>
                                         @foreach($periods as $key => $period)
