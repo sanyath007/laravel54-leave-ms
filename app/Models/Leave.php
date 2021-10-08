@@ -20,4 +20,9 @@ class Leave extends Model
     {
         return $this->belongsTo('App\Models\LeaveType', 'leave_type', 'id');
     }
+
+    public function delegate()
+    {
+        return $this->belongsTo('App\Models\Person', 'leave_delegate', 'person_id');
+    }
 }

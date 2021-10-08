@@ -107,22 +107,8 @@ class LeaveController extends Controller
     public function getById($id)
     {
         return [
-            'leave' => Leave::find($id),
+            'leave' => Leave::where('id', $id)->with('delegate')->first(),
         ];
-    }
-
-    private function generateAutoId()
-    {
-        $debt = \DB::table('nrhosp_acc_debt')
-                    ->select('debt_id')
-                    ->orderBy('debt_id', 'DESC')
-                    ->first();
-
-        $startId = 'DB'.substr((date('Y') + 543), 2);
-        $tmpLastId =  ((int)(substr($debt->debt_id, 4))) + 1;
-        $lastId = $startId.sprintf("%'.07d", $tmpLastId);
-
-        return $lastId;
     }
 
     public function add()
