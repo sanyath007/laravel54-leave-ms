@@ -241,12 +241,11 @@
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาแนบเอกสาร</span>
                                 </div>
 
-                                <div class="col-md-12" style="margin-bottom: 15px;">
+                                <div class="col-md-12" style="margin-bottom: 15px;" ng-show="leave.attachment">
                                     <div style="display: flex; flex-direction: row; justify-content: flex-start;">
                                         <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
                                             title="ไฟล์แนบ"
-                                            target="_blank"
-                                            ng-show="leave.attachment">
+                                            target="_blank">
                                             <i class="fa fa-paperclip" aria-hidden="true"></i>
                                             @{{ leave.attachment }}
                                         </a>

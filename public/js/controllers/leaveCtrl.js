@@ -264,27 +264,23 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         // TODO: clear date controls to current date
     }
 
-    $scope.edit = function(leaveId) {
-        console.log(leaveId);
-
-        /** Show edit form modal dialog */
-        // $('#dlgEditForm').modal('show');BASE_URL
-        window.location.href = CONFIG.baseUrl + '/leaves/edit/' + leaveId;
+    $scope.edit = function(id) {
+        window.location.href = `${CONFIG.baseUrl}/leaves/edit/${id}`;
     };
 
     $scope.update = function(event) {
         event.preventDefault();
     
-        if(confirm("คุณต้องแก้ไขรายการหนี้เลขที่ " + $scope.asset.asset_id + " ใช่หรือไม่?")) {
+        if(confirm("คุณต้องแก้ไขใบลาเลขที่ " + $scope.leave.leave_id + " ใช่หรือไม่?")) {
             $('#frmEditLeave').submit();
         }
     };
 
-    $scope.delete = function(assettId) {
-        console.log(assettId);
+    $scope.delete = function(id) {
+        console.log(id);
 
-        if(confirm("คุณต้องลบรายการหนี้เลขที่ " + assettId + " ใช่หรือไม่?")) {
-            $http.delete(CONFIG.baseUrl + '/asset/delete/' +assettId)
+        if(confirm("คุณต้องลบใบลาเลขที่ " + id + " ใช่หรือไม่?")) {
+            $http.delete(CONFIG.baseUrl + '/leaves/delete/' +id)
             .then(function(res) {
                 console.log(res);
                 toaster.pop('success', "", 'ลบข้อมูลเรียบร้อยแล้ว !!!');
@@ -293,10 +289,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
                 toaster.pop('error', "", 'พบข้อผิดพลาด !!!');
             });
         }
-
-        /** Get debt list and re-render chart */
-        // $scope.getDebtData('/asset/rpt');
-        // $scope.getDebtChart($scope.cboDebtType);
     };
 
     $scope.discharge = function(assetId) {
