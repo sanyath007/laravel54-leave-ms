@@ -228,16 +228,37 @@
                                         class="form-control"
                                         tabindex="17"
                                     ></textarea>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_contact')">กรุณาแนบเอกสาร</span>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_contact')">กรุณาระบุข้อมูลสำหรับติดต่อ</span>
                                 </div>
 
-                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
+                                <div
+                                    style="margin-bottom: 5px;"
+                                    class="form-group col-md-12"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
                                     <label>แนบเอกสาร :</label>
                                     <input type="file"
                                             id="attachment" 
                                             name="attachment"
                                             class="form-control" />
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาแนบเอกสาร</span>
+                                </div>
+
+                                <div class="col-md-12" style="margin-bottom: 15px;">
+                                    <div style="display: flex; flex-direction: row; justify-content: flex-start;">
+                                        <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
+                                            title="ไฟล์แนบ"
+                                            target="_blank"
+                                            ng-show="leave.attachment">
+                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                            @{{ leave.attachment }}
+                                        </a>
+
+                                        <span style="margin-left: 10px;">
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span>
+                                            </a>
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">

@@ -220,6 +220,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.leave.leave_contact  = data.leave.leave_contact;
         $scope.leave.leave_delegate = data.leave.leave_delegate;
         $scope.leave.leave_days     = data.leave.leave_days;
+        $scope.leave.attachment     = data.leave.attachment;
         /** Convert int value to string */
         $scope.leave.leave_place    = data.leave.leave_place.toString();
         $scope.leave.leave_type     = data.leave.leave_type.toString();
