@@ -209,7 +209,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     }
 
     $scope.setEditControls = function(data) {
-        console.log(data);
         $scope.leave.leave_id       = data.leave.id;
         $scope.leave.leave_no       = data.leave.leave_no;
         $scope.leave.leave_topic    = data.leave.leave_topic;
@@ -229,6 +228,13 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.leave.leave_date     = StringFormatService.convFromDbDate(data.leave.leave_date);
         $scope.leave.start_date     = StringFormatService.convFromDbDate(data.leave.start_date);
         $scope.leave.end_date       = StringFormatService.convFromDbDate(data.leave.end_date);
+
+        /** Set delegate detail to input */
+        let academic = data.leave.delegate.academic !== null ? data.leave.delegate.academic.ac_name : '';
+        let delegate = data.leave.delegate.prefix.prefix_name;
+        delegate += data.leave.delegate.person_firstname + ' ' + data.leave.delegate.person_lastname;
+        delegate += '  ตำแหน่ง' + data.leave.delegate.position.position_name + academic;
+        $('#leave_delegate_detail').val(delegate);
 
         $('#leave_date').datepicker({
             autoclose: true,
@@ -250,7 +256,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             format: 'dd/mm/yyyy',
             thaiyear: true
         }).datepicker('update', moment(data.leave.end_date).toDate());
-        console.log($scope.leave);
     };
 
     $scope.store = function(event, form) {

@@ -107,7 +107,10 @@ class LeaveController extends Controller
     public function getById($id)
     {
         return [
-            'leave' => Leave::where('id', $id)->with('delegate')->first(),
+            'leave' => Leave::where('id', $id)
+                        ->with('delegate')
+                        ->with('delegate.prefix','delegate.position','delegate.academic')
+                        ->first(),
         ];
     }
 

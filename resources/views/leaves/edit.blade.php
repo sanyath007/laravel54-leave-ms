@@ -264,7 +264,8 @@
                                         <input type="text"
                                                 id="leave_delegate_detail" 
                                                 name="leave_delegate_detail"
-                                                class="form-control" />
+                                                class="form-control"
+                                                readonly="readonly" />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-primary" ng-click="onShowPersonLists($event)">...</button>
                                         </span>
