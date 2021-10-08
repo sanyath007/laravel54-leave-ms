@@ -44,7 +44,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/list', 'LeaveController@index');
     Route::get('leaves/search/{parcelId}/{status}/{searchKey}', 'LeaveController@search');
     Route::get('leaves/get-ajax-all', 'LeaveController@getAll');
-    Route::get('leaves/get-ajax-byid/{assetId}', 'LeaveController@getById');
+    Route::get('leaves/get-ajax-byid/{id}', 'LeaveController@getById');
     Route::get('leaves/add', 'LeaveController@add');
     Route::post('leaves/store', 'LeaveController@store');
     Route::get('leaves/edit/{assetId}', 'LeaveController@edit');

@@ -100,14 +100,14 @@ class LeaveController extends Controller
     public function getAll()
     {
         return [
-            'assets' => Asset::orderBy('date_in')->get(),
+            'leaves' => Leave::orderBy('leave_date')->get(),
         ];
     }
 
-    public function getById($assetId)
+    public function getById($id)
     {
         return [
-            'asset' => Asset::find($assetId),
+            'leave' => Leave::find($id),
         ];
     }
 

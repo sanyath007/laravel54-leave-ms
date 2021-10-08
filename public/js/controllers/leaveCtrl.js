@@ -197,31 +197,65 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
-    $scope.getById = function(id) {
-        $http.get(CONFIG.baseUrl + '/asset/get-ajax-byid/' +id)
+    $scope.getById = function(id, cb) {
+        console.log(id);
+        $http.get(`${CONFIG.baseUrl}/leaves/get-ajax-byid/${id}`)
         .then(function(res) {
-            $scope.asset = res.data.asset;
-            console.log($scope.asset);
-            /** Separate asset_no and parcel_no */
-            let [tmpParcelNo, tmpAssetNo] = $scope.asset.asset_no.split('/');
-            $scope.asset.parcel_no = tmpParcelNo + '/';
-            $scope.asset.asset_no = tmpAssetNo;
-            /** Convert int value to string */
-            $scope.asset.parcel_id = $scope.asset.parcel_id.toString();
-            $scope.asset.unit = $scope.asset.unit.toString();
-            $scope.asset.budget_type = $scope.asset.budget_type.toString();
-            $scope.asset.purchased_method = $scope.asset.purchased_method.toString();
-            $scope.asset.depart = $scope.asset.depart.toString();
-            $scope.asset.supplier = $scope.asset.supplier.toString();
-            $scope.asset.doc_type = $scope.asset.doc_type.toString();
-            /** Convert db date to thai date. */
-            $scope.asset.date_in = StringFormatService.convFromDbDate($scope.asset.date_in);
-            $scope.asset.date_exp = StringFormatService.convFromDbDate($scope.asset.date_exp);            
-            $scope.asset.doc_date = StringFormatService.convFromDbDate($scope.asset.doc_date);
+            console.log(res);
+
+            cb(res.data);
         }, function(err) {
             console.log(err);
         });
     }
+
+    $scope.setEditControls = function(data) {
+        console.log(data);
+        $scope.leave.leave_id       = data.leave.id;
+        $scope.leave.leave_no       = data.leave.leave_no;
+        $scope.leave.leave_topic    = data.leave.leave_topic;
+        $scope.leave.leave_to       = data.leave.leave_to;
+        $scope.leave.leave_person   = data.leave.leave_person;
+        $scope.leave.leave_reason   = data.leave.leave_reason;
+        $scope.leave.leave_contact  = data.leave.leave_contact;
+        $scope.leave.leave_delegate = data.leave.leave_delegate;
+        $scope.leave.leave_days     = data.leave.leave_days;
+        /** Convert int value to string */
+        $scope.leave.leave_place    = data.leave.leave_place.toString();
+        $scope.leave.leave_type     = data.leave.leave_type.toString();
+        $scope.leave.start_period   = data.leave.start_period.toString();
+        $scope.leave.end_period     = data.leave.end_period.toString();
+
+        // $('#leave_type').select2("val", '3');
+        // $('#start_period').select2("val", data.leave.start_period.toString());
+        // $('#end_period').select2("val", data.leave.end_period.toString());
+        /** Convert db date to thai date. */            
+        $scope.leave.leave_date     = StringFormatService.convFromDbDate(data.leave.leave_date);
+        $scope.leave.start_date     = StringFormatService.convFromDbDate(data.leave.start_date);
+        $scope.leave.end_date       = StringFormatService.convFromDbDate(data.leave.end_date);
+
+        $('#leave_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(data.leave.leave_date).toDate());
+
+        $('#start_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(data.leave.start_date).toDate());
+
+        $('#end_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(data.leave.end_date).toDate());
+        console.log($scope.leave);
+    };
 
     $scope.store = function(event, form) {
         event.preventDefault();

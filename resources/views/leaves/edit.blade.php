@@ -16,7 +16,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="leaveCtrl">
+    <section class="content" ng-controller="leaveCtrl" ng-init="getById({{ $leave->id }}, setEditControls);">
 
         <div class="row">
             <div class="col-md-12">
