@@ -230,7 +230,7 @@
                                 </div>
 
                                 <div
-                                    style="margin-bottom: 5px;"
+                                    ng-style="leave.attachment && { 'margin-bottom': '5px' }"
                                     class="form-group col-md-12"
                                     ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
                                     <label>แนบเอกสาร :</label>
