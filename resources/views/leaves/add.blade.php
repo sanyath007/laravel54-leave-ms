@@ -245,17 +245,18 @@
                                         <input type="text"
                                                 id="leave_delegate_detail" 
                                                 name="leave_delegate_detail"
-                                                class="form-control" />
+                                                class="form-control"
+                                                readonly="readonly" />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-primary" ng-click="onShowPersonLists($event)">...</button>
                                         </span>
                                     </div>
-                                    <input type="hidden"
-                                                id="leave_delegate" 
-                                                name="leave_delegate"
-                                                ng-model="leave.leave_delegate" 
-                                                class="form-control"
-                                                tabindex="2" />
+                                    <input  type="hidden"
+                                            id="leave_delegate" 
+                                            name="leave_delegate"
+                                            ng-model="leave.leave_delegate" 
+                                            class="form-control"
+                                            tabindex="2" />
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาเลือกผู้รับมอบหมายแทน</span>
                                 </div>
 

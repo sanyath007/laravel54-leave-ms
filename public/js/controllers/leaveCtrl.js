@@ -197,7 +197,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     }
 
     $scope.getById = function(id, cb) {
-        console.log(id);
         $http.get(`${CONFIG.baseUrl}/leaves/get-ajax-byid/${id}`)
         .then(function(res) {
             console.log(res);
