@@ -60,12 +60,12 @@ class LeaveController extends Controller
         ]);
     }
 
-    public function search($year, $month, $status)
+    public function search($year, $type, $status)
     {
         $conditions = [];
-        // if($parcelId != 0) array_push($conditions, ['parcel_id', '=', $parcelId]);
-        // if($status != 0) array_push($conditions, ['status', '=', $status]);
-        // if($searchKey !== '0') array_push($conditions, ['asset_name', 'like', '%'.$searchKey.'%']);
+        if($year != '0') array_push($conditions, ['year', '=', $year]);
+        if($type !== '0') array_push($conditions, ['leave_type', $type]);
+        if($status != '0') array_push($conditions, ['status', '=', $status]);
 
         if($conditions == '0') {
             $leaves = Leave::with('person')
