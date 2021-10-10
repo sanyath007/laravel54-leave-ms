@@ -1,11 +1,26 @@
 app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, ReportService, PaginateService) {
 /** ################################################################################## */
     $scope.loading = false;
-    $scope.cboYear = "";
-    $scope.cboMonth = "";
+    $scope.cboYear = (parseInt(moment().format('YYYY'))+543).toString();
+    $scope.cboMonth = moment().format('MM');
     $scope.cboLeaveType = "";
     $scope.cboLeaveStatus = "";
     $scope.searchKeyword = "";
+    $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
+    $scope.monthLists = [
+        { id: '01', name: 'มกราคม' },
+        { id: '02', name: 'กุมภาพันธ์' },
+        { id: '03', name: 'มีนาคม' },
+        { id: '04', name: 'เมษายน' },
+        { id: '05', name: 'พฤษภาคม' },
+        { id: '06', name: 'มิถุนายน' },
+        { id: '07', name: 'กรกฎาคม' },
+        { id: '08', name: 'สิงหาคม' },
+        { id: '09', name: 'กันยายน' },
+        { id: '10', name: 'ตุลาคม' },
+        { id: '11', name: 'พฤศจิกายน' },
+        { id: '12', name: 'ธันวาคม' },
+    ];
 
     $scope.leaves = [];
     $scope.persons = [];

@@ -33,39 +33,31 @@
                                 <div class="form-group col-md-6">
                                     <label>ปีงบประมาณ</label>
                                     <select
-                                            id="cboYear"
-                                            name="cboYear"
-                                            ng-model="cboYear"
-                                            class="form-control select2"
-                                            style="width: 100%; font-size: 12px;"
+                                        id="cboYear"
+                                        name="cboYear"
+                                        ng-model="cboYear"
+                                        class="form-control"
+                                        ng-change="getAll($event)"
                                     >
-                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        @foreach($leave_types as $type)
-
-                                            <option value="{{ $type->id }}">
-                                                {{ $type->name }}
-                                            </option>
-
-                                        @endforeach
+                                        <option value="">-- เลือกปีงบประมาณ --</option>
+                                        <option ng-repeat="y in budgetYearRange" value="@{{ y }}">
+                                            @{{ y }}
+                                        </option>
                                     </select>
                                 </div><!-- /.form group -->
                                 <div class="form-group col-md-6">
                                     <label>เดือน</label>
                                     <select
-                                            id="cboMonth"
-                                            name="cboMonth"
-                                            ng-model="cboMonth"
-                                            class="form-control select2"
-                                            style="width: 100%; font-size: 12px;"
+                                        id="cboMonth"
+                                        name="cboMonth"
+                                        ng-model="cboMonth"
+                                        class="form-control"
+                                        ng-change="getAll($event)"
                                     >
-                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        @foreach($leave_types as $type)
-
-                                            <option value="{{ $type->id }}">
-                                                {{ $type->name }}
-                                            </option>
-
-                                        @endforeach
+                                        <option value="">-- กรุณาเลือก --</option>
+                                        <option ng-repeat="m in monthLists" value="@{{ m.id }}">
+                                            @{{ m.name }}
+                                        </option>
                                     </select>
                                 </div><!-- /.form group -->
                                 <div class="form-group col-md-6" ng-show="false">
@@ -86,7 +78,7 @@
                                             </option>
 
                                         @endforeach
-                                        
+
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6" ng-show="false">
@@ -125,7 +117,7 @@
                                         </option>
                                     </select>
                                 </div>                            
-                                
+
                                 <div class="form-group">
                                     <label>ชื่อครุภัณฑ์</label>
                                     <input
@@ -254,7 +246,7 @@
                                     ...
                                 </a>
                             </li> -->
-                        
+
                             <li ng-class="{'disabled': (debtPager.current_page==debtPager.last_page)}">
                                 <a href="#" ng-click="getDebtWithURL(debtPager.next_page_url)" aria-label="Next">
                                     <span aria-hidden="true">Next</span>
@@ -279,88 +271,6 @@
 
             </div><!-- /.col -->
         </div><!-- /.row -->
-
-        <!-- Modal -->
-        <div class="modal fade" id="dlgEditForm" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="">เพิ่มชนิดครุภัณฑ์</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="">ชื่อสถานที่</label>
-                            <input type="text" id="locationName" name="locationName" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">ที่อยู่</label>
-                            <input type="text" id="locationAddress" name="locationAddress" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">ถนน</label>
-                            <input type="text" id="locationRoad" name="locationRoad" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="ID">จังหวัด</label>
-                            <select 
-                                id="chw_id"
-                                name="chw_id" 
-                                class="form-control" 
-                                ng-model="selectedChangwat" 
-                                ng-change="getAmphur($event, selectedChangwat)">
-                                <option value="">-- กรุณาเลือกจังหวัด --</option>
-                                <option value="@{{ c.chw_id }}" ng-repeat="c in changwats">
-                                    @{{ c.changwat }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="ID">อำเภอ</label>
-                            <select 
-                                id="amp_id"
-                                name="amp_id" 
-                                class="form-control" 
-                                ng-model="selectedAmphur"
-                                ng-change="getTambon($event, selectedAmphur)">
-                                <option value="">-- กรุณาเลือกอำเภอ --</option>
-                                <option value="@{{ a.id }}" ng-repeat="a in amphurs">
-                                    @{{ a.amphur }}
-                                </option>
-                            </select>
-                        </div>                    
-
-                        <div class="form-group">
-                            <label for="ID">ตำบล</label>                    
-                            <select 
-                                id="tam_id"
-                                name="tam_id" 
-                                class="form-control" 
-                                ng-model="selectedTambon">
-                                <option value="">-- กรุณาเลือกตำบล --</option>
-                                <option value="@{{ t.id }}" ng-repeat="t in tambons">
-                                    @{{ t.tambon }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="">รหัสไปรษณี</label>
-                            <input type="text" id="locationPostcode" name="locationPostcode" class="form-control">
-                        </div>              
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-click="addNewLocation($event)">
-                            Save
-                        </button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal -->
 
     </section>
 
