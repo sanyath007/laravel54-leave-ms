@@ -50,7 +50,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/edit/{id}', 'LeaveController@edit');
     Route::put('leaves/update', 'LeaveController@update');
     Route::delete('leaves/delete/{id}', 'LeaveController@delete');
-    Route::get('leaves/approve', 'LeaveController@approve');
+    Route::get('leaves/approve', 'LeaveController@getApprove');
+    Route::get('leaves/cancel', 'LeaveController@getCancel');
     Route::post('leaves/discharge', 'LeaveController@doDischarge');
 
     /** Asset Type */
