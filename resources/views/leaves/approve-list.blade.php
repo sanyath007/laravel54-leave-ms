@@ -74,49 +74,49 @@
                             <thead>
                                 <tr>
                                     <th style="width: 5%; text-align: center;">#</th>
-                                    <th>ประเภทการลา</th>
-                                    <!-- <th style="text-align: left;">ชื่อครุภัณฑ์</th> -->
-                                    <th style="width: 20%; text-align: center;">วันที่ลา</th>
-                                    <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 15%; text-align: center;">วันที่ลงทะเบียน</th>
+                                    <th>รายละเอียด</th>
                                     <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
-                                    <th style="width: 15%; text-align: center;">สถานะ</th>
-                                    <th style="width: 5%; text-align: center;">ไฟล์แนบ</th>
+                                    <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
                                     <th style="width: 10%; text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="(index, leave) in leaves">
                                     <td style="text-align: center;">@{{ index+pager.from }}</td>
-                                    <td>@{{ leave.leave_type.name }}</td>
-                                    <td style="text-align: center;">
-                                        <span>@{{ leave.start_date | thdate }} - </span>
-                                        <span>@{{ leave.end_date | thdate }}</span>
+                                    <td>
+                                        <h4 style="margin: 2px auto;">
+                                            @{{ leave.leave_type.name }}
+                                            @{{ leave.person.prefix.prefix_name + leave.person.person_firstname + ' ' + leave.person.person_lastname }}
+                                        </h4>
+                                        <p style="color: grey; margin: 0px auto;">
+                                            ระหว่างวันที่ <span>@{{ leave.start_date | thdate }} - </span>
+                                            ถึงวันที่ <span>@{{ leave.end_date | thdate }}</span>
+                                            จำนวน <span>@{{ leave.leave_days }}</span> วัน
+                                            <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
+                                                title="ไฟล์แนบ"
+                                                target="_blank"
+                                                ng-show="leave.attachment"
+                                            >
+                                                <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                            </a>
+                                        </p>
                                     </td>
-                                    <td style="text-align: center;">@{{ leave.leave_days }}</td>
-                                    <td style="text-align: center;">@{{ leave.leave_date | thdate }}</td>
                                     <td style="text-align: center;">@{{ leave.year }}</td>
                                     <td style="text-align: center;">
-                                        <span class="label label-info" ng-show="paid.asset_status!=0">
-                                            @{{ (leave.status==0) ? 'อยู่ระหว่างการสร้างเอกสาร' :
-                                                (leave.status==1) ? 'อยู่ระหว่างดำเนินการ' :
-                                                (leave.status==2) ? 'อยู่ระหว่างการแก้ไข' :
-                                                (leave.status==3) ? 'รับเอกสารแล้ว' :
-                                                (leave.status==4) ? 'ผ่านการอนุมัติ' :
-                                                (leave.status==9) ? 'ยกเลิก' : 'ไม่ผ่านการอนุมัติ' }}
-                                        </span>
+                                        <p style="margin: 0px auto;">@{{ leave.leave_date | thdate }}</p>
+                                        <p style="margin: 0px auto;">
+                                            <span class="label label-info" ng-show="paid.asset_status!=0">
+                                                @{{ (leave.status==0) ? 'อยู่ระหว่างการสร้างเอกสาร' :
+                                                    (leave.status==1) ? 'อยู่ระหว่างดำเนินการ' :
+                                                    (leave.status==2) ? 'อยู่ระหว่างการแก้ไข' :
+                                                    (leave.status==3) ? 'รับเอกสารแล้ว' :
+                                                    (leave.status==4) ? 'ผ่านการอนุมัติ' :
+                                                    (leave.status==9) ? 'ยกเลิก' : 'ไม่ผ่านการอนุมัติ' }}
+                                            </span>
+                                        </p>
                                     </td>
                                     <td style="text-align: center;">
-                                        <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
-                                            class="btn btn-success btn-xs" 
-                                            title="ไฟล์แนบ"
-                                            target="_blank"
-                                            ng-show="leave.attachment">
-                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <a  ng-click="edit(leave.id)" 
+                                        <a  ng-click="showApproveForm(leave)" 
                                             ng-show="(leave.status!==4 || leave.status!==3)" 
                                             class="btn btn-warning btn-xs"
                                             title="แก้ไขรายการ">
@@ -126,6 +126,8 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        @include('leaves._approve-form')
 
                         <ul class="pagination pagination-sm no-margin pull-right">
                             <li ng-if="debtPager.current_page !== 1">

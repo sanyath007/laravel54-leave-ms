@@ -179,6 +179,12 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.getAll(e);
     };
 
+    $scope.showApproveForm = function(leave) {
+        $scope.leave = leave;
+
+        $('#approve-form').modal('show');
+    };
+
     $scope.onCancelLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '4';
