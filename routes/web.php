@@ -49,8 +49,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('leaves/store', 'LeaveController@store');
     Route::get('leaves/edit/{id}', 'LeaveController@edit');
     Route::put('leaves/update', 'LeaveController@update');
-    Route::delete('leaves/delete/{assetId}', 'LeaveController@delete');
-    Route::get('leaves/discharge', 'LeaveController@discharge');
+    Route::delete('leaves/delete/{id}', 'LeaveController@delete');
+    Route::get('leaves/approve', 'LeaveController@approve');
     Route::post('leaves/discharge', 'LeaveController@doDischarge');
 
     /** Asset Type */

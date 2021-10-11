@@ -75,12 +75,12 @@
 							</li>
 							<li>
 								<a href="{{ url('/leaves/cancel') }}">
-									<i class="fa fa-circle-o"></i> ยกเลิกวันลา
+									<i class="fa fa-circle-o"></i> ยกเลิกใบลา
 								</a>
 							</li>
 							<li>
 								<a href="{{ url('leaves/approve') }}">
-									<i class="fa fa-circle-o"></i> อนุมัติการลา
+									<i class="fa fa-circle-o"></i> อนุมัติใบลา
 								</a>
 							</li>
 						</ul>
