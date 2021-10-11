@@ -1,7 +1,7 @@
 app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, ReportService, PaginateService) {
 /** ################################################################################## */
     $scope.loading = false;
-    $scope.cboYear = (parseInt(moment().format('YYYY'))+543).toString();
+    $scope.cboYear = (moment().month() >= 10 ? parseInt(moment().format('YYYY'))+543 : parseInt(moment().format('YYYY'))+544).toString();
     $scope.cboMonth = moment().format('MM');
     $scope.cboLeaveType = "";
     $scope.cboLeaveStatus = "";
