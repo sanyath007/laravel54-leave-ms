@@ -186,6 +186,26 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.getAll(e);
     };
 
+    $scope.showCancelForm = function(leave) {
+        $scope.leave = leave;
+
+        $('#start_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(leave.start_date).toDate());
+
+        $('#end_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(leave.end_date).toDate());
+
+        $('#cancel-form').modal('show');
+    };
+
     $scope.getAll = function(event) {
         $scope.leaves = [];
         $scope.loading = true;

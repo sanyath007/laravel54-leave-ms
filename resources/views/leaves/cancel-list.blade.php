@@ -152,8 +152,7 @@
                                         </a>
                                     </td>
                                     <td style="text-align: center;">
-                                        <a  ng-click="delete(leave.leaves_id)" 
-                                            ng-show="(leave.status!==4 || leave.status!==3)" 
+                                        <a  ng-click="showCancelForm(leave)"
                                             class="btn btn-danger btn-xs"
                                             title="ยกเลิกใบลา">
                                             ยกเลิก
@@ -162,6 +161,8 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        @include('leaves._cancel-form')
 
                         <ul class="pagination pagination-sm no-margin pull-right">
                             <li ng-if="debtPager.current_page !== 1">
@@ -218,18 +219,7 @@
     <script>
         $(function () {
             //Initialize Select2 Elements
-            $('.select2').select2()
-
-            //Date range picker with time picker
-            $('#debtDate').daterangepicker({
-                timePickerIncrement: 30,
-                locale: {
-                    format: 'YYYY-MM-DD',
-                    separator: " , ",
-                }
-            }, function(e) {
-                console.log(e);
-            });
+            $('.select2').select2();
         });
     </script>
 
