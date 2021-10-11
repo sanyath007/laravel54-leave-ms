@@ -1,7 +1,10 @@
 <div class="modal fade" id="approve-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="">
+            <form action="{{ url('/leaves/approve') }}" method="POST">
+                <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                {{ csrf_field() }}
+
                 <div class="modal-header">
                     <h5 class="modal-title">อนุมัติใบลา</h5>
                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -20,13 +23,13 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label for="">ความเห็นในการลงนาม</label>
-                            <textarea cols="3" class="form-control"></textarea>
+                            <textarea id="comment" name="comment" cols="3" class="form-control"></textarea>
                         </div>
                     </div>
 
                 </div><!-- /.modal-body -->
                 <div class="modal-footer" style="padding-bottom: 8px;">
-                    <button class="btn btn-primary" data-dismiss="modal" aria-label="Save">
+                    <button type="submit" class="btn btn-primary">
                         บันทึก
                     </button>
                     <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">

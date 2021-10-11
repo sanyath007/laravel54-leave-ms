@@ -1,7 +1,10 @@
 <div class="modal fade" id="cancel-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="">
+            <form action="{{ url('/leaves/cancel') }}" method="POST">
+                <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                {{ csrf_field() }}
+
                 <div class="modal-header">
                     <h5 class="modal-title">ยกเลิกใบลา</h5>
                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -41,7 +44,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="">เนื่องจาก (ระบุเหตุผลการยกเลิก)</label>
-                            <textarea cols="3" class="form-control"></textarea>
+                            <textarea name="reason" cols="3" class="form-control"></textarea>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">จึงขอยกเลิกวันลา</label>
@@ -56,6 +59,8 @@
                             <label for="">จำนวน (วัน)</label>
                             <input
                                 type="text"
+                                id="leave_days"
+                                name="leave_days"
                                 class="form-control"
                                 value="@{{ leave.leave_days }}"
                                 readonly="readonly"
@@ -63,17 +68,17 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">ตั้งแต่วันที่</label>
-                            <input type="text" id="start_date" class="form-control" />
+                            <input type="text" id="start_date" name="start_date" class="form-control" />
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">ถึงวันที่</label>
-                            <input type="text" id="end_date" class="form-control" />
+                            <input type="text" id="end_date" name="end_date" class="form-control" />
                         </div>
                     </div>
 
                 </div><!-- /.modal-body -->
                 <div class="modal-footer" style="padding-bottom: 8px;">
-                    <button class="btn btn-primary" data-dismiss="modal" aria-label="Save">
+                    <button type="submit" class="btn btn-primary">
                         บันทึก
                     </button>
                     <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">
