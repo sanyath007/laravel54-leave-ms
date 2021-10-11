@@ -68,15 +68,15 @@ class LeaveController extends Controller
         if($status != '0') array_push($conditions, ['status', '=', $status]);
 
         if($conditions == '0') {
-            $leaves = Leave::with('person')
-                        ->with('leaveType')
+            $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
+                        ->with('person.memberOf', 'person.memberOf.depart', 'leaveType')
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
                         ->paginate(20);
         } else {
             $leaves = Leave::where($conditions)
-                        ->with('person')
-                        ->with('leaveType')
+                        ->with('person', 'person.prefix', 'person.position', 'person.academic')
+                        ->with('person.memberOf', 'person.memberOf.depart', 'leaveType')
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
                         ->paginate(20);

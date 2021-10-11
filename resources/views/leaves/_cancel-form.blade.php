@@ -13,12 +13,22 @@
                         <div class="box-body">
                             <p>
                                 ช้าพเจ้า 
-                                <span style="font-weight: bold;; margin-right: 5px;">@{{ leave.person.person_firstname + ' ' + leave.person.person_lastname }}</span>
+                                <span style="font-weight: bold;; margin-right: 5px;">
+                                    @{{ leave.person.person_firstname + ' ' + leave.person.person_lastname }}
+                                </span>
                                 ตำแหน่ง 
-                                <span style="font-weight: bold;">@{{ leave.person.position }}</span>
+                                <span style="font-weight: bold;">
+                                    @{{ leave.person.position.position_name }}@{{ leave.person.academic ? leave.person.academic.ac_name : '' }}
+                                </span>
                             </p>
                             <p>
-                                ได้รับอนุญาตไห้ลา
+                                สังกัด 
+                                <span style="font-weight: bold;; margin-right: 5px;">
+                                    @{{ leave.person.member_of.depart.depart_name }}
+                                </span>
+                            </p>
+                            <p>
+                                ได้รับอนุญาตไห้
                                 <span style="font-weight: bold; margin-right: 5px;">@{{ leave.leave_type.name }}</span>
                                 ตั้งแต่วันที่ 
                                 <span style="font-weight: bold;; margin-right: 5px;">@{{ leave.start_date | thdate }}</span>
