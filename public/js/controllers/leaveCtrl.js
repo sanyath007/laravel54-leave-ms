@@ -177,10 +177,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.loading = true;
 
         let year = $scope.cboYear === '' ? 0 : $scope.cboYear;
-        let month = $scope.cboMonth === '' ? 0 : $scope.cboMonth;
+        let type = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
         let status = $scope.cboLeaveStatus === '' ? 0 : $scope.cboLeaveStatus;
 
-        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${month}/${status}`)
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}`)
         .then(function(res) {
             const { data, ...pager } = res.data.leaves
             $scope.leaves = data;

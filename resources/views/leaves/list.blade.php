@@ -39,25 +39,29 @@
                                         class="form-control"
                                         ng-change="getAll($event)"
                                     >
-                                        <option value="">-- เลือกปีงบประมาณ --</option>
+                                        <option value="">-- ทั้งหมด --</option>
                                         <option ng-repeat="y in budgetYearRange" value="@{{ y }}">
                                             @{{ y }}
                                         </option>
                                     </select>
                                 </div><!-- /.form group -->
                                 <div class="form-group col-md-6">
-                                    <label>เดือน</label>
+                                    <label>ประเภทการลา</label>
                                     <select
-                                        id="cboMonth"
-                                        name="cboMonth"
-                                        ng-model="cboMonth"
+                                        id="cboLeaveType"
+                                        name="cboLeaveType"
+                                        ng-model="cboLeaveType"
                                         class="form-control"
                                         ng-change="getAll($event)"
                                     >
-                                        <option value="">-- กรุณาเลือก --</option>
-                                        <option ng-repeat="m in monthLists" value="@{{ m.id }}">
-                                            @{{ m.name }}
-                                        </option>
+                                        <option value="">-- ทั้งหมด --</option>
+                                        @foreach($leave_types as $type)
+
+                                            <option value="{{ $type->id }}">
+                                                {{ $type->name }}
+                                            </option>
+
+                                        @endforeach
                                     </select>
                                 </div><!-- /.form group -->
                                 <div class="form-group col-md-6" ng-show="false">
