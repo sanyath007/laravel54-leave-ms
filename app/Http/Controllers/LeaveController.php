@@ -251,6 +251,18 @@ class LeaveController extends Controller
         ]);
     }
 
+    public function doApprove(Request $req)
+    {
+        $leave = Leave::find($req['leave_id']);
+        $leave->approved_comment    = $req['comment'];
+        $leave->approved_date       = date('Y-m-d');
+        $leave->status              = $req['approve'];
+
+        if ($leave->save()) {
+            return redirect('/leaves/approve');
+        }
+    }
+
     public function getCancel()
     {
         return view('leaves.cancel-list', [
