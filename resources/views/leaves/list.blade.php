@@ -85,26 +85,6 @@
 
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6" ng-show="false">
-                                    <label>ประเภทการลา</label>
-                                    <select
-                                            id="Year"
-                                            name="Year"
-                                            ng-model="cboYear"
-                                            class="form-control select2"
-                                            style="width: 100%; font-size: 12px;"
-                                    >
-                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        @foreach($leave_types as $type)
-
-                                            <option value="{{ $type->id }}">
-                                                {{ $type->name }}
-                                            </option>
-
-                                        @endforeach
-                                        
-                                    </select>
-                                </div><!-- /.form group -->
                                 <!-- <div class="form-group">
                                     <label>พัสดุหลัก</label>
                                     <select
@@ -186,12 +166,26 @@
                                     <td style="text-align: center;">@{{ leave.leave_date | thdate }}</td>
                                     <td style="text-align: center;">@{{ leave.year }}</td>
                                     <td style="text-align: center;">
-                                        <span class="label label-info" ng-show="paid.asset_status!=0">
-                                            @{{ (leave.status==0) ? 'อยู่ระหว่างการสร้างเอกสาร' :
-                                                (leave.status==1) ? 'อยู่ระหว่างดำเนินการ' :
-                                                (leave.status==2) ? 'ผ่านการอนุมัติ' :
-                                                (leave.status==3) ? 'ไม่ผ่านการอนุมัติ' :
-                                                (leave.status==9) ? 'ยกเลิก' : 'อยู่ระหว่างการแก้ไข' }}
+                                        <span class="label label-primary" ng-show="leave.status == 0">
+                                            อยู่ระหว่างการสร้างเอกสาร
+                                        </span>
+                                        <span class="label label-primary" ng-show="leave.status == 1">
+                                            อยู่ระหว่างดำเนินการ
+                                        </span>
+                                        <span class="label label-primary" ng-show="leave.status == 2">
+                                            อยู่ระหว่างการแก้ไข
+                                        </span>
+                                        <span class="label label-info" ng-show="leave.status == 3">
+                                            รับเอกสารแล้ว
+                                        </span>
+                                        <span class="label label-success" ng-show="leave.status == 4">
+                                            ผ่านการอนุมัติ
+                                        </span>
+                                        <span class="label label-warning" ng-show="leave.status == 5">
+                                            ไม่ผ่านการอนุมัติ
+                                        </span>
+                                        <span class="label label-danger" ng-show="leave.status == 9">
+                                            ยกเลิก
                                         </span>
                                     </td>
                                     <td style="text-align: center;">

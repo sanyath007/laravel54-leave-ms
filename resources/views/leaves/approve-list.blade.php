@@ -77,7 +77,7 @@
                                     <th>รายละเอียด</th>
                                     <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
                                     <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
-                                    <th style="width: 10%; text-align: center;">Actions</th>
+                                    <th style="width: 6%; text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -105,13 +105,26 @@
                                     <td style="text-align: center;">
                                         <p style="margin: 0px auto;">@{{ leave.leave_date | thdate }}</p>
                                         <p style="margin: 0px auto;">
-                                            <span class="label label-info" ng-show="paid.asset_status!=0">
-                                                @{{ (leave.status==0) ? 'อยู่ระหว่างการสร้างเอกสาร' :
-                                                    (leave.status==1) ? 'อยู่ระหว่างดำเนินการ' :
-                                                    (leave.status==2) ? 'อยู่ระหว่างการแก้ไข' :
-                                                    (leave.status==3) ? 'รับเอกสารแล้ว' :
-                                                    (leave.status==4) ? 'ผ่านการอนุมัติ' :
-                                                    (leave.status==9) ? 'ยกเลิก' : 'ไม่ผ่านการอนุมัติ' }}
+                                            <span class="label label-primary" ng-show="leave.status == 0">
+                                                อยู่ระหว่างการสร้างเอกสาร
+                                            </span>
+                                            <span class="label label-primary" ng-show="leave.status == 1">
+                                                อยู่ระหว่างดำเนินการ
+                                            </span>
+                                            <span class="label label-primary" ng-show="leave.status == 2">
+                                                อยู่ระหว่างการแก้ไข
+                                            </span>
+                                            <span class="label label-info" ng-show="leave.status == 3">
+                                                รับเอกสารแล้ว
+                                            </span>
+                                            <span class="label label-success" ng-show="leave.status == 4">
+                                                ผ่านการอนุมัติ
+                                            </span>
+                                            <span class="label label-warning" ng-show="leave.status == 5">
+                                                ไม่ผ่านการอนุมัติ
+                                            </span>
+                                            <span class="label label-danger" ng-show="leave.status == 9">
+                                                ยกเลิก
                                             </span>
                                         </p>
                                     </td>
