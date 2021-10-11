@@ -241,9 +241,19 @@ class LeaveController extends Controller
         }   
     }
 
-    public function approve()
+    public function getApprove()
     {
         return view('leaves.approve-list', [
+            // "suppliers" => Supplier::all(),
+            // "cates"     => AssetCategory::all(),
+            "leave_types"     => LeaveType::all(),
+            "statuses"  => $this->status
+        ]);
+    }
+
+    public function getCancel()
+    {
+        return view('leaves.cancel-list', [
             // "suppliers" => Supplier::all(),
             // "cates"     => AssetCategory::all(),
             "leave_types"     => LeaveType::all(),
