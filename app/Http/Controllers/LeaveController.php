@@ -241,12 +241,12 @@ class LeaveController extends Controller
         }   
     }
 
-    public function discharge()
+    public function approve()
     {
-        return view('assets.discharge-list', [
-            "suppliers" => Supplier::all(),
-            "cates"     => AssetCategory::all(),
-            "types"     => AssetType::all(),
+        return view('leaves.approve-list', [
+            // "suppliers" => Supplier::all(),
+            // "cates"     => AssetCategory::all(),
+            "leave_types"     => LeaveType::all(),
             "statuses"  => $this->status
         ]);
     }
