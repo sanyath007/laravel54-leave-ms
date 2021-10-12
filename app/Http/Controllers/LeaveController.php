@@ -63,10 +63,21 @@ class LeaveController extends Controller
 
     public function search($year, $type, $status)
     {
+        $matched = [];
+        $pattern = '/^\<|\>/i';
+
         $conditions = [];
         if($year != '0') array_push($conditions, ['year', '=', $year]);
         if($type !== '0') array_push($conditions, ['leave_type', $type]);
-        if($status != '0') array_push($conditions, ['status', '=', $status]);
+        if($status != '0') {
+            if (preg_match($pattern, $status, $matched) == 1) {
+                $arrStatus = explode($matched[0], $status);
+
+                array_push($conditions, ['status', $matched[0], $arrStatus[1]]);
+            } else {
+                array_push($conditions, ['status', '=', $status]);
+            }
+        }
 
         if($conditions == '0') {
             $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
