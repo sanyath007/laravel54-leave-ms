@@ -273,19 +273,25 @@ class LeaveController extends Controller
         ]);
     }
 
-    public function doDischarge(Request $req)
+    public function doCancel(Request $req)
     {
-        if(Asset::where('asset_id', '=', $req['asset_id'])
-                ->update(['status' => '4']) <> 0) {
-            return [
-                'status' => 'success',
-                'message' => 'Updated id ' .$req['asset_id']. 'is successed.',
-            ];
-        } else {
-            return [
-                'status' => 'error',
-                'message' => 'Updated id ' .$req['asset_id']. 'is failed.',
-            ];
+        // TODO: shouldn't have it own table or not?
+        $cancel = new Cancellation;
+        $cancel->leave_id = $req['leave_id'];
+        $cancel->reason = $req['reason'];
+        $cancel->start_date = $req['start_date'];
+        $cancel->start_period = $req['start_period'];
+        $cancel->end_date = $req['end_date'];
+        $cancel->end_period = $req['end_period'];
+        $cancel->days = $req['leave_days'];
+
+        if ($cancel->save()) {
+            // TODO: update status of leave data
+            $leave = Leave::find($req['leave_id']);
+            $leave->status  = '9';
+            $leave->save();
+
+            return redirect('/leaves/cancel');
         }
     }
 
