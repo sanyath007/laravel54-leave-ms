@@ -249,7 +249,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}`)
         .then(function(res) {
-            const { data, ...pager } = res.data.leaves
+            const { data, ...pager } = res.data.leaves;
             $scope.leaves = data;
             $scope.pager = pager;
 

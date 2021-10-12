@@ -161,8 +161,16 @@
                                     <td style="text-align: center;">
                                         <span>@{{ leave.start_date | thdate }} - </span>
                                         <span>@{{ leave.end_date | thdate }}</span>
+                                        <p ng-show="leave.cancellation.length > 0" style="color: red;">
+                                            ยกเลิกวันลา <span>@{{ leave.cancellation[0].days }} วัน</span>
+                                        </p>
                                     </td>
-                                    <td style="text-align: center;">@{{ leave.leave_days }}</td>
+                                    <td style="text-align: center;">
+                                        @{{ leave.leave_days }}
+                                        <p ng-show="leave.cancellation.length > 0" style="color: red;">
+                                            ( @{{ leave.leave_days - leave.cancellation[0].days }} )
+                                        </p>
+                                    </td>
                                     <td style="text-align: center;">@{{ leave.leave_date | thdate }}</td>
                                     <td style="text-align: center;">@{{ leave.year }}</td>
                                     <td style="text-align: center;">
@@ -183,6 +191,9 @@
                                         </span>
                                         <span class="label label-warning" ng-show="leave.status == 5">
                                             ไม่ผ่านการอนุมัติ
+                                        </span>
+                                        <span class="label label-danger" ng-show="leave.status == 8">
+                                            อยู่ระหว่างการยกเลิก
                                         </span>
                                         <span class="label label-danger" ng-show="leave.status == 9">
                                             ยกเลิก
