@@ -197,6 +197,12 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.getPersons(depart, searchKey, null);
     };
 
+    $scope.onReceiveLoad = function(e) {
+        $scope.cboLeaveStatus = '<3';
+
+        $scope.getAll(e);
+    };
+
     $scope.onApproveLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '3';

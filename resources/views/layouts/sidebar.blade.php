@@ -79,6 +79,11 @@
 								</a>
 							</li>
 							<li>
+								<a href="{{ url('leaves/receive') }}">
+									<i class="fa fa-circle-o"></i> ลงรับใบลา
+								</a>
+							</li>
+							<li>
 								<a href="{{ url('leaves/approve') }}">
 									<i class="fa fa-circle-o"></i> อนุมัติใบลา
 								</a>

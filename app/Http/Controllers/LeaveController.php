@@ -297,6 +297,25 @@ class LeaveController extends Controller
         }
     }
 
+    public function getReceive()
+    {
+        return view('leaves.receive-list', [
+            "leave_types"     => LeaveType::all(),
+            "statuses"  => $this->status
+        ]);
+    }
+
+    public function doReceive(Request $req)
+    {
+        $leave = Leave::find($req['leave_id']);
+        $leave->received_date       = date('Y-m-d');
+        $leave->status              = '3';
+
+        if ($leave->save()) {
+            return redirect('/leaves/receive');
+        }
+    }
+
     private function createForm($id)
     {
         $appointment = Appointment::with(['patient' => function($q) {
