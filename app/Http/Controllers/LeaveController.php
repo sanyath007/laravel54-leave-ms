@@ -71,6 +71,7 @@ class LeaveController extends Controller
         if($conditions == '0') {
             $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
                         ->with('person.memberOf', 'person.memberOf.depart', 'leaveType')
+                        ->with('cancellation')
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
                         ->paginate(20);
@@ -78,6 +79,7 @@ class LeaveController extends Controller
             $leaves = Leave::where($conditions)
                         ->with('person', 'person.prefix', 'person.position', 'person.academic')
                         ->with('person.memberOf', 'person.memberOf.depart', 'leaveType')
+                        ->with('cancellation')
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
                         ->paginate(20);

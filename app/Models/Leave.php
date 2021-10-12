@@ -25,4 +25,9 @@ class Leave extends Model
     {
         return $this->belongsTo('App\Models\Person', 'leave_delegate', 'person_id');
     }
+
+    public function cancellation()
+    {
+        return $this->hasMany('App\Models\Cancellation', 'leave_id', 'id');
+    }
 }
