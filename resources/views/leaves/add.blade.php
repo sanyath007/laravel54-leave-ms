@@ -202,7 +202,7 @@
                                     <select id="end_period"
                                             name="end_period"
                                             ng-model="leave.end_period"
-                                            ng-change="calculateLeaveDays(leave.end_period)"
+                                            ng-change="calculateLeaveDays('start_date', 'end_date', leave.end_period)"
                                             class="form-control select2" 
                                             style="width: 100%; font-size: 12px;"
                                             tabindex="2">
