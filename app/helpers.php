@@ -61,3 +61,30 @@ function calcBudgetYear ($sdate)
 
     return $budgetYear;
 }
+
+
+function generatePdf($stylesheet, $content, $path)
+{
+    $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+    $fontDirs = $defaultConfig['fontDir'];
+
+    $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+    $fontData = $defaultFontConfig['fontdata'];
+
+    $mpdf = new \Mpdf\Mpdf([
+        'fontDir' => array_merge($fontDirs, [
+            APP_ROOT_DIR . '/public/assets/fonts',
+        ]),
+        'fontdata' => $fontData + [
+                'sarabun' => [
+                    'R' => 'THSarabunNew.ttf',
+                    'I' => 'THSarabunNew Italic.ttf',
+                    'B' => 'THSarabunNew Bold.ttf',
+                ]
+            ],
+    ]);
+
+    $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
+    $mpdf->WriteHTML($content, \Mpdf\HTMLParserMode::HTML_BODY);
+    $mpdf->Output($path, 'F');
+}
