@@ -78,16 +78,20 @@
 									<i class="fa fa-circle-o"></i> ยกเลิกใบลา
 								</a>
 							</li>
-							<li>
-								<a href="{{ url('leaves/receive') }}">
-									<i class="fa fa-circle-o"></i> ลงรับใบลา
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('leaves/approve') }}">
-									<i class="fa fa-circle-o"></i> อนุมัติใบลา
-								</a>
-							</li>
+
+							@if (Auth::user()->person_id == '1300200009261' || Auth::user()->person_id == '1309900322504')
+								<li>
+									<a href="{{ url('leaves/receive') }}">
+										<i class="fa fa-circle-o"></i> ลงรับใบลา
+									</a>
+								</li>
+								<li>
+									<a href="{{ url('leaves/approve') }}">
+										<i class="fa fa-circle-o"></i> อนุมัติใบลา
+									</a>
+								</li>
+							@endif
+
 						</ul>
 					</li>
 					<li class="treeview">
