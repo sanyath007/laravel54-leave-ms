@@ -85,6 +85,29 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $('#end_period').val(null).trigger('change');
     });
 
+    $('#from_date').datepicker({
+        autoclose: true,
+        language: 'th',
+        format: 'dd/mm/yyyy',
+        thaiyear: true
+    }).on('changeDate', function(event) {
+        let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        let [ year, month, day ] = selectedDate.split('-');
+    });
+
+    $('#to_date').datepicker({
+        autoclose: true,
+        language: 'th',
+        format: 'dd/mm/yyyy',
+        thaiyear: true
+    }).on('changeDate', function(event) {
+        let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        let [ year, month, day ] = selectedDate.split('-');
+
+        /** Clear value of .select2 */
+        $('#end_period').val(null).trigger('change');
+    });
+
     $scope.clearLeaveObj = function() {
         $scope.leave = {
             leave_no: '',
@@ -104,9 +127,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         };
     };
 
-    $scope.calculateLeaveDays = function(endPeriod) {
-        let sdate = StringFormatService.convToDbDate($('#start_date').val());
-        let edate = StringFormatService.convToDbDate($('#end_date').val());
+    $scope.cboStartPeriod = '';
+    $scope.cboEndPeriod = '';
+    $scope.calculateLeaveDays = function(sDateStr, eDateStr, endPeriod) {
+        let sdate = StringFormatService.convToDbDate($(`#${sDateStr}`).val());
+        let edate = StringFormatService.convToDbDate($(`#${eDateStr}`).val());
         let days = moment(edate).diff(moment(sdate), 'days');
         
         if (endPeriod !== '1') {
@@ -194,15 +219,17 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.showCancelForm = function(leave) {
         $scope.leave = leave;
+        $scope.cboStartPeriod = leave.start_period.toString();
+        $scope.cboEndPeriod = leave.end_period.toString();
 
-        $('#start_date').datepicker({
+        $('#from_date').datepicker({
             autoclose: true,
             language: 'th',
             format: 'dd/mm/yyyy',
             thaiyear: true
         }).datepicker('update', moment(leave.start_date).toDate());
 
-        $('#end_date').datepicker({
+        $('#to_date').datepicker({
             autoclose: true,
             language: 'th',
             format: 'dd/mm/yyyy',

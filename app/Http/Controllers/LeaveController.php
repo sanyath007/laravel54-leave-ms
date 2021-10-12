@@ -8,6 +8,7 @@ use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\Position;
 use App\Models\History;
+use App\Models\Cancellation;
 
 
 class LeaveController extends Controller
@@ -266,10 +267,9 @@ class LeaveController extends Controller
     public function getCancel()
     {
         return view('leaves.cancel-list', [
-            // "suppliers" => Supplier::all(),
-            // "cates"     => AssetCategory::all(),
-            "leave_types"     => LeaveType::all(),
-            "statuses"  => $this->status
+            "leave_types"   => LeaveType::all(),
+            "periods"       => $this->periods,
+            "statuses"      => $this->status
         ]);
     }
 
@@ -277,13 +277,13 @@ class LeaveController extends Controller
     {
         // TODO: shouldn't have it own table or not?
         $cancel = new Cancellation;
-        $cancel->leave_id = $req['leave_id'];
-        $cancel->reason = $req['reason'];
-        $cancel->start_date = $req['start_date'];
-        $cancel->start_period = $req['start_period'];
-        $cancel->end_date = $req['end_date'];
-        $cancel->end_period = $req['end_period'];
-        $cancel->days = $req['leave_days'];
+        $cancel->leave_id       = $req['leave_id'];
+        $cancel->reason         = $req['reason'];
+        $cancel->start_date     = convThDateToDbDate($req['from_date']);
+        $cancel->start_period   = $req['start_period'];
+        $cancel->end_date       = convThDateToDbDate($req['to_date']);
+        $cancel->end_period     = $req['end_period'];
+        $cancel->days           = $req['leave_days'];
 
         if ($cancel->save()) {
             // TODO: update status of leave data
