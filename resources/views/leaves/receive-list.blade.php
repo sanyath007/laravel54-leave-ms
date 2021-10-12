@@ -129,12 +129,12 @@
                                         </p>
                                     </td>
                                     <td style="text-align: center;">
-                                        <a  ng-click="receive(leave)" 
-                                            ng-show="(leave.status!==4 || leave.status!==3)" 
-                                            class="btn btn-primary btn-sm"
-                                            title="รับใบลา">
-                                            รับใบลา
-                                        </a>
+                                        <form action="{{ url('/leaves/receive') }}" method="POST">
+                                            <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                                            {{ csrf_field() }}
+
+                                            <button type="submit" class="btn btn-primary btn-sm">รับใบลา</button>
+                                        </form>
                                     </td>             
                                 </tr>
                             </tbody>
