@@ -5,6 +5,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.cboMonth = moment().format('MM');
     $scope.cboLeaveType = "";
     $scope.cboLeaveStatus = "";
+    $scope.cboMenu = "";
     $scope.searchKeyword = "";
     $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
     $scope.monthLists = [
@@ -199,6 +200,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onReceiveLoad = function(e) {
         $scope.cboLeaveStatus = '<3';
+        $scope.cboMenu = "1";
 
         $scope.getAll(e);
     };
@@ -206,6 +208,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.onApproveLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '3';
+        $scope.cboMenu = "1";
 
         $scope.getAll(e);
     };
@@ -219,6 +222,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.onCancelLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '4';
+        $scope.cboMenu = "";
 
         $scope.getAll(e);
     };
@@ -249,11 +253,12 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.leaves = [];
         $scope.loading = true;
 
-        let year = $scope.cboYear === '' ? 0 : $scope.cboYear;
-        let type = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
-        let status = $scope.cboLeaveStatus === '' ? 0 : $scope.cboLeaveStatus;
+        let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
+        let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
+        let status  = $scope.cboLeaveStatus === '' ? 0 : $scope.cboLeaveStatus;
+        let menu    = $scope.cboMenu === '' ? 0 : $scope.cboMenu;
 
-        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}`)
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}`)
         .then(function(res) {
             const { data, ...pager } = res.data.leaves;
             $scope.leaves = data;

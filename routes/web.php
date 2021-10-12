@@ -42,7 +42,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     /** การลา */
     Route::post('leaves/validate', 'LeaveController@formValidate');
     Route::get('leaves/list', 'LeaveController@index');
-    Route::get('leaves/search/{year}/{type}/{status}', 'LeaveController@search');
+    Route::get('leaves/search/{year}/{type}/{status}/{menu}', 'LeaveController@search');
     Route::get('leaves/get-ajax-all', 'LeaveController@getAll');
     Route::get('leaves/get-ajax-byid/{id}', 'LeaveController@getById');
     Route::get('leaves/add', 'LeaveController@add');

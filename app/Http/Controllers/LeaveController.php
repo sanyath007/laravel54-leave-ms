@@ -61,25 +61,26 @@ class LeaveController extends Controller
         ]);
     }
 
-    public function search($year, $type, $status)
+    public function search($year, $type, $status, $menu)
     {
         $matched = [];
         $pattern = '/^\<|\>/i';
 
         $conditions = [];
         if($year != '0') array_push($conditions, ['year', '=', $year]);
-        if($type !== '0') array_push($conditions, ['leave_type', $type]);
+        if($type != '0') array_push($conditions, ['leave_type', $type]);
         if($status != '0') {
             if (preg_match($pattern, $status, $matched) == 1) {
                 $arrStatus = explode($matched[0], $status);
-
+                
                 array_push($conditions, ['status', $matched[0], $arrStatus[1]]);
             } else {
                 array_push($conditions, ['status', '=', $status]);
             }
         }
+        if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
 
-        if($conditions == '0') {
+        if(count($conditions) == 0) {
             $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
                         ->with('person.memberOf', 'person.memberOf.depart', 'leaveType')
                         ->with('cancellation')
