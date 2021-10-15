@@ -9,6 +9,7 @@ use App\Models\LeaveType;
 use App\Models\Position;
 use App\Models\History;
 use App\Models\Cancellation;
+use PDF;
 
 
 class LeaveController extends Controller
@@ -82,7 +83,7 @@ class LeaveController extends Controller
 
         if(count($conditions) == 0) {
             $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
-                        ->with('person.memberOf', 'person.memberOf.depart', 'leaveType')
+                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
                         ->with('cancellation')
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
@@ -90,7 +91,7 @@ class LeaveController extends Controller
         } else {
             $leaves = Leave::where($conditions)
                         ->with('person', 'person.prefix', 'person.position', 'person.academic')
-                        ->with('person.memberOf', 'person.memberOf.depart', 'leaveType')
+                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
                         ->with('cancellation')
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
@@ -328,154 +329,43 @@ class LeaveController extends Controller
         }
     }
 
-    private function createForm($id)
+    
+    public function printPdf($id)
     {
-        $appointment = Appointment::with(['patient' => function($q) {
-                            $q->select('id','hn','pname','fname','lname','cid','tel1','sex','birthdate');
-                        }])
-                        ->with(['clinic' => function($q) {
-                            $q->select('id', 'clinic_name');
-                        }])
-                        ->with(['clinic.room' => function($q) {
-                            $q->select('id', 'room_name', 'room_tel1');
-                        }])
-                        ->with(['doctor' => function($q) {
-                            $q->select('emp_id', 'title', 'license_no');
-                        }])
-                        ->with(['doctor.employee' => function($q) {
-                            $q->select('id', 'prefix', 'fname', 'lname');
-                        }])
-                        ->with(['diag' => function($q) {
-                            $q->select('id', 'name');
-                        }])
-                        ->with(['right' => function($q) {
-                            $q->select('id', 'right_name');
-                        }])
-                        ->with(['referCause' => function($q) {
-                            $q->select('id', 'name');
-                        }])
-                        ->with(['hosp' => function($q) {
-                            $q->select('hospcode', 'name', 'hospital_phone');
-                        }])
-                        ->where('id', $id)
+        $leave      = Leave::where('id', $id)
+                        ->with('person', 'person.prefix', 'person.position', 'person.academic')
+                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
+                        ->with('delegate', 'delegate.prefix', 'delegate.position', 'delegate.academic')
+                        ->with('cancellation')
                         ->first();
 
-        $building = $appointment['relations']['clinic']->id == '9' ? 'อาคาร M Park' : 'อาคารผู้ป่วยนอก';
-        $appointTime = $appointment->appoint_date == '1' ? '08.00 - 12.00 น.' : '12.00 - 16.00 น.';
-        $doctor = $appointment['relations']['clinic']->id == 9 ? '' : '
-                    <p>นัดพบ <span>' .$appointment['relations']['doctor']->title.$appointment['relations']['doctor']['relations']['employee']->fname. ' ' .$appointment['relations']['doctor']['relations']['employee']->lname. '</span></p>
-                ';
-        $before = '';
+        $last       = Leave::whereIn('leave_type', [1,2,4])
+                        ->where('leave_type', $leave->leave_type)
+                        ->where('start_date', '<', $leave->start_date)
+                        ->with('type','cancellation')
+                        ->orderBy('start_date', 'desc')
+                        ->first();
 
-        if ($appointment['relations']['clinic']->id == 9) {
-            $before = '<p><span>-</span></p>';
+        $places     = ['1' => 'โรงพยาบาลเทพรัตน์นครราชสีมา'];
+        $histories  = History::where([
+                            'person_id' => $leave->leave_person,
+                            'year'      => $leave->year
+                        ])->first();
+
+        $data = [
+            'leave'     => $leave,
+            'last'      => $last,
+            'places'    => $places,
+            'histories' => $histories
+        ];
+
+        if (in_array($leave->leave_type, [1,2,4])) {
+            $pdf = PDF::loadView('leaves.form01', $data);
         } else {
-            $before = '
-                <div class="checkbox-container">
-                <div class="checkmark">
-                    <img src="assets/img/checkmark.png" width="20" height="20" />
-                </div>
-                <div class="checkbox-label">
-                    <span>EKG (ตรวจคลื่นไฟฟ้าหัวใจ)</span>
-                </div>
-            </div>
-            <div class="checkbox-container">
-                <div class="checkmark">
-                    <img src="assets/img/checkmark.png" width="20" height="20" />
-                </div>
-                <div class="checkbox-label">
-                    <span>Chest X-Ray (ทำ X-Ray หน้าอก)</span>
-                </div>
-            </div>
-            <div class="checkbox-container">
-                <div class="checkmark">
-                    <img src="assets/img/checkmark.png" width="20" height="20" />
-                </div>
-                <div class="checkbox-label">
-                    <span>ไม่ต้องงดน้ำงดอาหารก่อนมาตรวจ</span>
-                </div>
-            </div>
-            ';
+            $pdf = PDF::loadView('leaves.form02', $data);
         }
 
-        $stylesheet = file_get_contents('assets/css/styles.css');
-        $content = '
-            <div class="container">
-                <div class="header">
-                    <div class="header-img">
-                        <img src="assets/img/logo_mnrh_512x512.jpg" width="100%" height="100" />
-                    </div>
-                    <div class="header-text">
-                        <h1>ใบนัดตรวจ' .$appointment['relations']['clinic']->clinic_name. '</h1>
-                        <h2>โรงพยาบาลมหาราชนครราชสีมา</h2>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="left__content-container">
-                        <div class="left__content-patient">
-                            <p>เลขที่ใบส่งตัว <span>' .$appointment->refer_no. '</span></p>
-                            <p>เลขที่บัตรประชาชน <span>' .$appointment['relations']['patient']->cid. '</span></p>
-                            <p>ชื่อ-สกุล <span>
-                                ' .$appointment['relations']['patient']->pname.$appointment['relations']['patient']->fname. ' '.$appointment['relations']['patient']->lname. '
-                            </span></p>
-                            <p>โทรศัพท์ <span>' .$appointment['relations']['patient']->tel1. '</span></p>
-                            <p>สิทธิการรักษา <span>' .$appointment['relations']['right']->right_name. '</span></p>
-                            <p>ผลการวินิจฉัย <span>' .$appointment['relations']['diag']->name. '</span></p>
-                        </div>
-                        <div class="left__content-before">
-                            <p>การปฎิบัติก่อนมา</p>
-                            ' .$before. '
-                        </div>
-                    </div>
-                    <div class="right__content-container">
-                        <div class="right__content-appoint">
-                            ' .$doctor. '
-                            <p>วันนัด <span>' .$appointment->appoint_date. '</span></p>
-                            <p>เวลา <span>' .$appointTime. '</span></p>
-                            </div>
-                        <div class="right__content-clinic">
-                            <p>ยื่นใบนัดที่ <span>' .$appointment['relations']['clinic']['relations']['room']->room_name. '</span></p>
-                            <p><span>' .$building. '</span></p>
-                            <p>หมายเลขโทรศัพท์ <span>' .$appointment['relations']['clinic']['relations']['room']->room_tel1. '</span></p>
-                        </div>
-                        <div class="right__content-remark">
-                            <p>หมายเหตุ : <span>กรณีไม่สามารถมาตามนัดได้ หรือต้องการเลื่อนนัด ให้ติดต่อที่โรงพยาบาลที่ทำการออกใบนัด</span></p>
-                        </div>
-                    </div>
-                    <div class="bottom-content">
-                        <p>ขั้นตอนการรับบริการ</p>
-                        <ul>
-                            <li>1. ยื่นใบนัด / ใบส่งตัว (ออกจากระบบ R9Refer เท่านั้น) <span class="text-underline">ที่' .$appointment['relations']['clinic']['relations']['room']->room_name. '</span></li>
-                            <li>2. ชั่งน้ำหนัก วัดความดันโลหิต</li>
-                            <li>3. รอพยาบาลเรียกซักประวัติ</li>
-                            <li>4. พบแพทย์</li>
-                            <li>5. พบพยาบาลหลังตรวจ รับใบสั่งยา และ / หรือ ใบนัดครั้งต่อไป</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer">
-                    <div class="footer-header">
-                        <p>หมายเหตุ : <span>กรณีไม่สามารถมาตามนัดได้ หรือต้องการเลื่อนนัด ให้ติดต่อที่โรงพยาบาลที่ออกใบนัด</span></p>
-                    </div>
-                    <div class="footer-content">
-                        <div class="left-footer">
-                            <p>ผู้ลงเวลานัด <span>-</span></p>
-                            <p>ผู้พิมพ์ใบนัด <span>-</span></p>
-                            <p>วัน/เวลา ที่ลงนัด <span>' .$appointment->created_at. '</span></p>
-                        </div>
-                        <div class="right-footer">
-                            <p>สถานพยาบาลออกใบส่งตัว</p>
-                            <p><span>' .$appointment['relations']['hosp']->name. '</span></p>
-                            <p>โทรศัพท์ <span>044395000 ต่อ 2510</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        ';
-
-        // TODO: should create pdf file with generated unduplicate name for avoid browser caching
-        $filename = APP_ROOT_DIR . '/public/downloads/' .$appointment->id. '.pdf';
-
-        generatePdf($stylesheet, $content, $filename);
+        return @$pdf->stream(); //แบบนี้จะ stream มา preview
+        // return $pdf->download('test.pdf'); //แบบนี้จะดาวโหลดเลย
     }
 }

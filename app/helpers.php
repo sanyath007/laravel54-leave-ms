@@ -62,29 +62,26 @@ function calcBudgetYear ($sdate)
     return $budgetYear;
 }
 
-
-function generatePdf($stylesheet, $content, $path)
+function convDbDateToLongThDate ($dbDate)
 {
-    $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
-    $fontDirs = $defaultConfig['fontDir'];
+    $monthNames = [
+        '01' => 'มกราคม',
+        '02' => 'กุมภาพันธ์',
+        '03' => 'มีนาคม',
+        '04' => 'เมษายน',
+        '05' => 'พฤษภาคม',
+        '06' => 'มิถุนายน',
+        '07' => 'กรกฎาคม',
+        '08' => 'สิงหาคม',
+        '09' => 'กันยายน',
+        '10' => 'ตุลาคม',
+        '11' => 'พฤศจิกายน',
+        '12' => 'ธันวาคม',
+    ];
 
-    $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
-    $fontData = $defaultFontConfig['fontdata'];
+    if(empty($dbDate)) return '';
 
-    $mpdf = new \Mpdf\Mpdf([
-        'fontDir' => array_merge($fontDirs, [
-            APP_ROOT_DIR . '/public/assets/fonts',
-        ]),
-        'fontdata' => $fontData + [
-                'sarabun' => [
-                    'R' => 'THSarabunNew.ttf',
-                    'I' => 'THSarabunNew Italic.ttf',
-                    'B' => 'THSarabunNew Bold.ttf',
-                ]
-            ],
-    ]);
+    $arrDate = explode('-', $dbDate);
 
-    $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
-    $mpdf->WriteHTML($content, \Mpdf\HTMLParserMode::HTML_BODY);
-    $mpdf->Output($path, 'F');
+    return $arrDate[2]. ' ' .$monthNames[$arrDate[1]]. ' ' .((int)$arrDate[0] + 543);
 }

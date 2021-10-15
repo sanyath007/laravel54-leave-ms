@@ -16,7 +16,7 @@ class Leave extends Model
         return $this->belongsTo('App\Models\Person', 'leave_person', 'person_id');
     }
     
-    public function leaveType()
+    public function type()
     {
         return $this->belongsTo('App\Models\LeaveType', 'leave_type', 'id');
     }
