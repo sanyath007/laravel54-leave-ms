@@ -347,6 +347,7 @@ class LeaveController extends Controller
                         ->first();
 
         $places     = ['1' => 'โรงพยาบาลเทพรัตน์นครราชสีมา'];
+
         $histories  = History::where([
                             'person_id' => $leave->leave_person,
                             'year'      => $leave->year

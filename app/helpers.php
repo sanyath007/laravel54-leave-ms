@@ -83,5 +83,5 @@ function convDbDateToLongThDate ($dbDate)
 
     $arrDate = explode('-', $dbDate);
 
-    return $arrDate[2]. ' ' .$monthNames[$arrDate[1]]. ' ' .((int)$arrDate[0] + 543);
+    return (int)$arrDate[2]. ' ' .$monthNames[$arrDate[1]]. ' ' .((int)$arrDate[0] + 543);
 }
