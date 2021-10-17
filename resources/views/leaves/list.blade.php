@@ -209,7 +209,7 @@
                                         </a>
                                     </td>
                                     <td style="text-align: center;">
-                                        <a  ng-click="detail(leave.id)"
+                                        <a  href="{{ url('/leaves/detail') }}/@{{ leave.id }}"
                                             class="btn btn-primary btn-xs" 
                                             title="รายละเอียด">
                                             <i class="fa fa-search"></i>

@@ -21,37 +21,33 @@
         <div class="row">
             <div class="col-md-12">
 
-                <div class="box box-warning">
+                <div class="box box-info">
                     <div class="box-header">
                         <h3 class="box-title">รายละเอียดใบลา</h3>
                     </div>
 
-                    <form id="frmEditLeave" name="frmEditLeave" method="post" action="{{ url('/leaves/update') }}" role="form" enctype="multipart/form-data">
-                        <input type="hidden" id="user" name="user" value="{{ Auth::user()->person_id }}">
-                        <input type="hidden" id="leave_id" name="leave_id" value="{{ $leave->id }}" ng-model="leave.leave_id">
-                        <input type="hidden" id="leave_topic" name="leave_topic" value="{{ $leave->leave_topic }}" ng-model="leave.leave_topic">
-                        <input type="hidden" id="leave_days" name="leave_days" value="{{ $leave->leave_days }}" ng-model="leave.leave_days">
-                        {{ csrf_field() }}
-
-                        <div class="box-body">
-                            <div class="row">
-
-                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_place')}">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div style="border: 1px dotted grey; display: flex; min-height: 240px; padding: 10px;">
+                                    <img src="{{ asset('img/user2-160x160.jpg') }}" alt="user_image" />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group col-md-6">
                                     <label>เขียนที่ :</label>
                                     <select id="leave_place" 
                                             name="leave_place"
                                             ng-model="leave.leave_place"
-                                            class="form-control select2" 
-                                            style="width: 100%; font-size: 12px;"
+                                            class="form-control"
                                             tabindex="2">
                                         <option value="">-- กรุณาเลือก --</option>
                                         <option value="1">โรงพยาบาลเทพรัตน์นครราชสีมา</option>
                                         <option value="2">บ้าน</option>
                                     </select>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_place')">กรุณาเลือกชนิดครุภัณฑ์</span>
                                 </div>
 
-                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_date')}">
+                                <div class="form-group col-md-6">
                                     <label>วันที่ลงทะเบียน :</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -64,10 +60,9 @@
                                             class="form-control pull-right"
                                             tabindex="1">
                                     </div>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_date')">กรุณาระบุชื่อครุภัณฑ์</span>
                                 </div>
 
-                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_type')}">
+                                <div class="form-group col-md-6">
                                     <label>เรื่อง :</label>
                                     <select id="leave_type"
                                             name="leave_type"
@@ -86,10 +81,9 @@
                                         @endforeach
 
                                     </select>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_type')">กรุณาเลือกเรื่อง</span>
                                 </div>
 
-                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_to')}">
+                                <div class="form-group col-md-6">
                                     <label>เรียน :</label>
                                     <input  type="text"
                                             id="leave_to"
@@ -97,7 +91,6 @@
                                             ng-model="leave.leave_to"
                                             class="form-control"
                                             tabindex="6">
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_to')">กรุณาระบุข้อมูลในช่องเรียน</span>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -132,7 +125,7 @@
                                             readonly="readonly" />
                                 </div>
 
-                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_reason')}">
+                                <div class="form-group col-md-12">
                                     <label>เนื่องจาก :</label>
                                     <input  type="text" 
                                             id="leave_reason" 
@@ -140,11 +133,10 @@
                                             ng-model="leave.leave_reason" 
                                             class="form-control pull-right"
                                             tabindex="5">
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_reason')">กรุณาระบุเหตุผลการลา</span>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(leave, 'start_date')}">
+                                    <div class="form-group">
                                         <label>จากวันที่ :</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">
@@ -153,14 +145,14 @@
                                             <input  type="text"
                                                     id="start_date"
                                                     name="start_date"
+                                                    value="@{{ leave.start_date }}"
                                                     class="form-control pull-right"
                                                     tabindex="5">
                                         </div>
-                                        <span class="help-block" ng-show="checkValidate(leave, 'start_date')">กรุณาเลือกจากวันที่</span>
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'start_period')}">
+                                <div class="form-group col-md-6">
                                     <label>ช่วงเวลา :</label>
                                     <select id="start_period"
                                             name="start_period"
@@ -176,11 +168,10 @@
 
                                         @endforeach
                                     </select>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'start_period')">เลือกช่วงเวลา</span>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_date')}">
+                                    <div class="form-group">
                                         <label>ถึงวันที่ :</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">
@@ -189,14 +180,14 @@
                                             <input  type="text" 
                                                     id="end_date"
                                                     name="end_date"
+                                                    value="@{{ leave.end_date }}"
                                                     class="form-control pull-right"
                                                     tabindex="5">
                                         </div>
-                                        <span class="help-block" ng-show="checkValidate(leave, 'end_date')">กรุณาเลือกถึงวันที่</span>
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
+                                <div class="form-group col-md-6">
                                     <label>ช่วงเวลา :</label>
                                     <select id="end_period"
                                             name="end_period"
@@ -214,7 +205,6 @@
 
                                         @endforeach
                                     </select>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
                                 </div>
 
                                 <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_contact')}">
@@ -226,22 +216,11 @@
                                         class="form-control"
                                         tabindex="17"
                                     ></textarea>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_contact')">กรุณาระบุข้อมูลสำหรับติดต่อ</span>
                                 </div>
-
-                                <div
-                                    ng-style="leave.attachment && { 'margin-bottom': '5px' }"
-                                    class="form-group col-md-12"
-                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
-                                    <label>แนบเอกสาร :</label>
-                                    <input type="file"
-                                            id="attachment" 
-                                            name="attachment"
-                                            class="form-control" />
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาแนบเอกสาร</span>
-                                </div>
-
+                                
+                                
                                 <div class="col-md-12" style="margin-bottom: 15px;" ng-show="leave.attachment">
+                                    <label>เอกสารแนบ :</label>
                                     <div style="display: flex; flex-direction: row; justify-content: flex-start;">
                                         <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
                                             title="ไฟล์แนบ"
@@ -260,55 +239,42 @@
 
                                 <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
                                     <label>ผู้รับมอบหมายแทน :</label>
-                                    <div class="input-group">
-                                        <input type="text"
-                                                id="leave_delegate_detail" 
-                                                name="leave_delegate_detail"
-                                                class="form-control"
-                                                readonly="readonly" />
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary" ng-click="onShowPersonLists($event)">...</button>
-                                        </span>
-                                    </div>
-                                    <input type="hidden"
-                                                id="leave_delegate" 
-                                                name="leave_delegate"
-                                                ng-model="leave.leave_delegate" 
-                                                class="form-control"
-                                                tabindex="2" />
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาเลือกผู้รับมอบหมายแทน</span>
+                                    <input type="text"
+                                            id="leave_delegate_detail" 
+                                            name="leave_delegate_detail"
+                                            class="form-control"
+                                            readonly="readonly" />
                                 </div>
+                            </div>
+                        </div><!-- /.row -->
 
-                            </div><!-- /.row -->
+                        @include('leaves._person-list')
 
-                            @include('leaves._person-list')
+                    </div><!-- /.box-body -->
 
-                        </div><!-- /.box-body -->
-
-                        <div class="box-footer clearfix" style="text-align: center;">
-                            <a
-                                href="{{ url('/leaves/print') }}/{{ $leave->id }}"
-                                class="btn btn-success"
-                                target="_blank"
-                            >
-                                พิมพ์
-                            </a>
-                            <a
-                                ng-show="(leave.status!==4 || leave.status!==3)"
-                                ng-click="edit(leave.id)"
-                                class="btn btn-warning"
-                            >
-                                แก้ไข
-                            </a>
-                            <a
-                                href="#"
-                                ng-click="edit(leave.id)"
-                                class="btn btn-danger"
-                            >
-                                ลบ
-                            </a>
-                        </div><!-- /.box-footer -->
-                    </form>
+                    <div class="box-footer clearfix" style="text-align: center;">
+                        <a
+                            href="{{ url('/leaves/print') }}/{{ $leave->id }}"
+                            class="btn btn-success"
+                            target="_blank"
+                        >
+                            <i class="fa fa-print"></i> พิมพ์
+                        </a>
+                        <a
+                            ng-show="(leave.status!==4 || leave.status!==3)"
+                            ng-click="edit(leave.id)"
+                            class="btn btn-warning"
+                        >
+                            <i class="fa fa-edit"></i> แก้ไข
+                        </a>
+                        <a
+                            href="#"
+                            ng-click="edit(leave.id)"
+                            class="btn btn-danger"
+                        >
+                            <i class="fa fa-trash"></i> ลบ
+                        </a>
+                    </div><!-- /.box-footer -->
 
                 </div><!-- /.box -->
 
@@ -316,11 +282,5 @@
         </div><!-- /.row -->
 
     </section>
-
-    <script>
-        $(function () {
-            $('.select2').select2();
-        });
-    </script>
 
 @endsection
