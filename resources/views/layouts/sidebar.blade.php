@@ -33,12 +33,12 @@
 				<ul class="sidebar-menu" data-widget="tree">
 					<li class="header">MAIN NAVIGATION</li>
 
-					<li class="active">
+					<li ng-class="{ 'active': menu == 'home' }">
 						<a href="{{ url('/home') }}">
 							<i class="fa fa-dashboard"></i> <span>Dashboard</span>
 						</a>
 					</li>
-					<li class="treeview">
+					<li class="treeview" ng-class="{ 'menu-open active': menu == 'histories' }">
 						<a href="#">
 							<i class="fa fa-laptop"></i>
 							<span>ประวัติ</span>
@@ -47,19 +47,19 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li>
-								<a href="{{ url('/persons') }}/{{ Auth::user()->person_id }}">
+							<li ng-class="{ 'active': submenu == 'profile' }">
+								<a href="#" ng-click="redirectTo($event, 'histories/profile/' + {{ Auth::user()->person_id }})">
 									<i class="fa fa-circle-o"></i> ข้อมูลส่วนตัว
 								</a>
 							</li>
-							<li>
-								<a href="{{ url('/histories') }}/{{ Auth::user()->person_id }}">
+							<li ng-class="{ 'active': submenu == 'stat' }">
+								<a href="#" ng-click="redirectTo($event, 'histories/stat/' + {{ Auth::user()->person_id }})">
 									<i class="fa fa-circle-o"></i> ข้อมูลประวัติการลา
 								</a>
 							</li>
 						</ul>
 					</li>
-					<li class="treeview">
+					<li class="treeview" ng-class="{ 'menu-open active': menu == 'leaves' }">
 						<a href="#">
 							<i class="fa fa-university"></i>
 							<span>การลา</span>
@@ -67,25 +67,25 @@
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
-						<ul class="treeview-menu">
-							<li>
+						<ul class="treeview-menu" ng-style="{ 'display': (menu == 'leaves') ? 'block' : 'none' }">
+							<li ng-class="{ 'active': ['list','add','edit','detail'].includes(submenu)}">
 								<a href="{{ url('/leaves/list') }}">
 									<i class="fa fa-circle-o"></i> รายการลา
 								</a>
 							</li>
-							<li>
+							<li ng-class="{ 'active': submenu == 'cancel' }">
 								<a href="{{ url('/leaves/cancel') }}">
 									<i class="fa fa-circle-o"></i> ยกเลิกใบลา
 								</a>
 							</li>
 
 							@if (Auth::user()->person_id == '1300200009261' || Auth::user()->person_id == '1309900322504')
-								<li>
+								<li ng-class="{ 'active': submenu == 'receive' }">
 									<a href="{{ url('leaves/receive') }}">
 										<i class="fa fa-circle-o"></i> ลงรับใบลา
 									</a>
 								</li>
-								<li>
+								<li ng-class="{ 'active': submenu == 'approve' }">
 									<a href="{{ url('leaves/approve') }}">
 										<i class="fa fa-circle-o"></i> อนุมัติใบลา
 									</a>
@@ -94,7 +94,7 @@
 
 						</ul>
 					</li>
-					<li class="treeview">
+					<li class="treeview" ng-class="{ 'menu-open active': menu == 'reports' }">
 						<a href="#">
 							<i class="fa fa-pie-chart"></i>
 							<span>รายงาน</span>
@@ -104,7 +104,7 @@
 						</a>
 						<ul class="treeview-menu">
 							<li>
-								<a href="reports/summary.html">
+								<a href="{{ url('reports/summary') }}">
 									<i class="fa fa-circle-o"></i> สรุปการลา
 								</a>
 							</li>

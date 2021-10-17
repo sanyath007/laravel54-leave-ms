@@ -48,12 +48,13 @@
 	<script type="text/javascript" src="{{ asset('/node_modules/jquery/dist/jquery.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/angular/angular.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/node_modules/moment/moment.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/node_modules/underscore/underscore-min.js') }}"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular-route.js"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/angular-animate/angular-animate.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/angularjs-toaster/toaster.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/angular-modal-service/dst/angular-modal-service.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/angular-xeditable/dist/js/xeditable.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/node_modules/moment/moment.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/node_modules/underscore/underscore-min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/fullcalendar/dist/fullcalendar.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/fullcalendar/dist/locale/th.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
@@ -95,7 +96,7 @@
 	<!--<script type="text/javascript" src="{{ asset('/js/services/demo.js') }}"></script>-->
 </head>
 <!-- To set sidebar mini style on init use .sidebar-collapse to body tag -->
-<body class="skin-blue hold-transition sidebar-mini" ng-app="app" ng-controller="mainCtrl"> 
+<body class="skin-blue hold-transition sidebar-mini" ng-app="app" ng-controller="mainCtrl" ng-init="setActivedMenu()"> 
 	<div class="wrapper">
 		<!-- header -->		
 		@include('layouts.header')		

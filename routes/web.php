@@ -34,10 +34,10 @@ Route::group(['middleware' => ['web','auth']], function () {
     /** บุคลากร */
     Route::get('persons/list', 'PersonController@index');
     Route::get('persons/search/{depart}/{searchKey}', 'PersonController@search');
-    Route::get('persons/{id}', 'PersonController@getById');
+    Route::get('histories/profile/{id}', 'PersonController@getById');
 
     /** ประวัติการลา */
-    Route::get('/histories/{id}', 'HistoryController@summary');
+    Route::get('histories/stat/{id}', 'HistoryController@summary');
 
     /** การลา */
     Route::post('leaves/validate', 'LeaveController@formValidate');
@@ -60,7 +60,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/print/{id}', 'LeaveController@printPdf');
 
     /** Asset Type */
-    Route::post('/asset-type/validate', 'AssetTypeController@formValidate');
+    Route::post('asset-type/validate', 'AssetTypeController@formValidate');
     Route::get('asset-type/list', 'AssetTypeController@index');
 	Route::get('asset-type/search/{cateId}/{searchKey}', 'AssetTypeController@search');
     Route::get('asset-type/get-ajax-all', 'AssetTypeController@getAll');

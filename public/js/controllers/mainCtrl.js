@@ -1,4 +1,4 @@
-app.controller('mainCtrl', function($scope, $http, toaster, ModalService, CONFIG) {
+app.controller('mainCtrl', function($scope, $http, $location, $routeParams, CONFIG) {
 /** ################################################################################## */
     console.log(CONFIG);
 /** ################################################################################## */
@@ -204,4 +204,21 @@ app.controller('mainCtrl', function($scope, $http, toaster, ModalService, CONFIG
         });
     }
 /** ################################################################################## */
+    /** MENU */
+    $scope.menu = 'leaves';
+    $scope.submenu = 'list';
+    $scope.setActivedMenu = function() {
+        let routePath = $location.$$absUrl.replace('http://localhost/public_html/laravel54-leave-ms/public/', '');
+        let [mnu, submnu, ...params] = routePath.split('/');
+
+        $scope.menu = mnu; 
+        $scope.submenu = submnu;
+    }
+
+    $scope.redirectTo = function(e, path) {
+        e.preventDefault();
+        window.location.href = `${CONFIG.baseUrl}/${path}`;
+    };
+/** ################################################################################## */
+
 });

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Asset;
 use App\Models\Reparation;
 
-class ReparationController extends Controller
+class ReportController extends Controller
 {   
     protected $status = [
         '1' => 'อยู่ระหว่างการซ่อม',
@@ -47,9 +47,16 @@ class ReparationController extends Controller
 
     public function index()
     {
-    	return view('reparations.list', [
+        return view('reparations.list', [
             "statuses"    => $this->status
-    	]);
+        ]);
+    }
+
+    public function summary()
+    {
+        return view('reports.summary', [
+            "statuses"    => $this->status
+        ]);
     }
 
     public function search($parcelId, $status, $searchKey)
@@ -103,11 +110,11 @@ class ReparationController extends Controller
 
     public function add()
     {
-    	return view('reparations.add', [
+        return view('reparations.add', [
             "assets"        => Asset::all(),
             "types"         => $this->types,
             "statuses"      => $this->status
-    	]);
+        ]);
     }
 
     public function store(Request $req)
