@@ -16,12 +16,9 @@
 
     <!-- Main content -->
     <section class="content" ng-controller="homeCtrl">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
 
-            @include('dashboard._stat-cards')
+        @include('dashboard._stat-cards')
 
-        </div><!-- /.row -->
 
         <!-- Main row -->
         <div class="row">

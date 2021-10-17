@@ -41,4 +41,18 @@ class DashboardController extends Controller
             'persons'   => $persons,
         ];
     }
+
+    public function getStatYear($year)
+    {
+        $sql = "SELECT l.leave_type, lt.name, COUNT(l.id) AS num
+                FROM leaves l LEFT JOIN leave_types lt ON (l.leave_type=lt.id)
+                WHERE (year='" .$year. "') 
+                GROUP BY l.leave_type, lt.name ";
+
+        $stats = \DB::select($sql);
+
+        return [
+            'stats' => $stats
+        ];
+    }
 }

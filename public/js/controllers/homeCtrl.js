@@ -43,7 +43,25 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) 
         });
     };
 
-    $scope.getSumMonthData = function () {       
+    $scope.statCards = [];
+    $scope.getStatYear = function () {
+        $scope.loading = true;
+
+        let year = '2565';
+
+        $http.get(`${CONFIG.baseUrl}/dashboard/stat/${year}`)
+        .then(function(res) {
+            $scope.statCards = res.data.stats;
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+
+            $scope.loading = false;
+        });
+    };
+
+    $scope.getSumMonthData = function () {
         var month = '2018';
         console.log(month);
 
