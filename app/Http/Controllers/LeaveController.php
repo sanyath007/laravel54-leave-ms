@@ -157,37 +157,6 @@ class LeaveController extends Controller
         }
 
         if($leave->save()) {
-            $count = History::where('person_id', $req['leave_person'])
-                        ->where('year', $leave->year)
-                        ->count();
-
-            if ($count > 0) {
-                $history = History::where('person_id', $req['leave_person'])->first();
-            } else {
-                $history = new History;
-            }
-
-            if (empty($history->person_id)) {
-                $history->person_id = $req['leave_person'];
-                $history->year      = $leave->year;
-            }
-
-            if ($req['leave_type'] == '1') {
-                $history->ill_days += (double)$req['leave_days'];
-            } else if ($req['leave_type'] == '2') {
-                $history->per_days += (double)$req['leave_days'];
-            } else if ($req['leave_type'] == '3') {
-                $history->vac_days += (double)$req['leave_days'];
-            } else if ($req['leave_type'] == '4') {
-                $history->abr_days += (double)$req['leave_days'];
-            } else if ($req['leave_type'] == '5') {
-                $history->lab_days += (double)$req['leave_days'];
-            } else if ($req['leave_type'] == '6') {
-                $history->ord_days += (double)$req['leave_days'];
-            }
-
-            $history->save();
-
             return redirect('/leaves/list');
         }
     }
@@ -275,6 +244,38 @@ class LeaveController extends Controller
         $leave->status              = $req['approve'];
 
         if ($leave->save()) {
+            /** Save leaves stat histories data */
+            $count = History::where('person_id', $leave['leave_person'])
+                        ->where('year', $leave->year)
+                        ->count();
+
+            if ($count > 0) {
+                $history = History::where('person_id', $leave['leave_person'])->first();
+            } else {
+                $history = new History;
+            }
+
+            if (empty($history->person_id)) {
+                $history->person_id = $leave['leave_person'];
+                $history->year      = $leave->year;
+            }
+
+            if ($leave['leave_type'] == '1') {
+                $history->ill_days += (double)$leave['leave_days'];
+            } else if ($leave['leave_type'] == '2') {
+                $history->per_days += (double)$leave['leave_days'];
+            } else if ($leave['leave_type'] == '3') {
+                $history->vac_days += (double)$leave['leave_days'];
+            } else if ($leave['leave_type'] == '4') {
+                $history->abr_days += (double)$leave['leave_days'];
+            } else if ($leave['leave_type'] == '5') {
+                $history->lab_days += (double)$leave['leave_days'];
+            } else if ($leave['leave_type'] == '6') {
+                $history->ord_days += (double)$leave['leave_days'];
+            }
+
+            $history->save();
+
             return redirect('/leaves/approve');
         }
     }
