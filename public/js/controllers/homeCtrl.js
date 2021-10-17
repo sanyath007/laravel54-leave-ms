@@ -1,7 +1,10 @@
-app.controller('homeCtrl', function(CONFIG, $scope, limitToFilter, ReportService) {
+app.controller('homeCtrl', function(CONFIG, $scope, $http, limitToFilter, ReportService) {
 /** ################################################################################## */
+    $scope.loading = false;
     $scope.pieOptions = {};
     $scope.barOptions = {};
+    $scope.headLeaves = [];
+    $scope.pager = null;
 
     $('#cboNow').datepicker({
         autoclose: true,
@@ -16,6 +19,22 @@ app.controller('homeCtrl', function(CONFIG, $scope, limitToFilter, ReportService
         let selectedDate = moment(event.date).format('YYYY-MM-DD');
         let [ year, month, day ] = selectedDate.split('-');
     });
+
+    $scope.getHeadLeaves = function(depart, searchKey) {
+        $scope.loading = true;
+
+        $http.get(`${CONFIG.baseUrl}/persons/search/${depart}/${searchKey}`)
+        .then(function(res) {
+            let { data, ...pager } = res.data;
+            $scope.headLeaves = data;
+            $scope.pager = pager;
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
 
     $scope.getSumMonthData = function () {       
         var month = '2018';

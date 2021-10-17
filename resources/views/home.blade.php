@@ -6,7 +6,7 @@
     <section class="content-header">
         <h1>
             Dashboard
-            <small>Control panel</small>
+            <!-- <small>Control panel</small> -->
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -98,37 +98,8 @@
 
             <section class="col-lg-8 connectedSortable">
                 <!-- // หัวหน้า -->
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">หัวหน้า</h3>
-                        <div class="pull-right box-tools">
-                            <div class="row">
-                                <div class="form-group col-md-12" style="margin-bottom: 0px;">
-                                    <input
-                                        type="text"
-                                        id="cboNow"
-                                        name="cboNow"
-                                        class="form-control"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <table class="table table-triped">
-                            <tr>
-                                <th style="width: 5%; text-align: center;">#</th>
-                                <th style="text-align: center;">ชื่อ-สกุล</th>
-                                <th style="width: 30%; text-align: center;">ประเภท</th>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+                @include('dashboard._head')
+
             </section>
 
             <section class="col-lg-4 connectedSortable">
