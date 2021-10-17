@@ -1,4 +1,4 @@
-app.controller('homeCtrl', function(CONFIG, $scope, $http, limitToFilter, ReportService) {
+app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) {
 /** ################################################################################## */
     $scope.loading = false;
     $scope.pieOptions = {};
@@ -15,17 +15,24 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, limitToFilter, Report
     })
     .datepicker('update', moment().toDate())
     .on('changeDate', function(event) {
-        console.log(event.date);
-        let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        let [ year, month, day ] = selectedDate.split('-');
+        $scope.getHeadLeaves();
     });
 
-    $scope.getHeadLeaves = function(depart, searchKey) {
+    $scope.getHeadLeaves = function() {
         $scope.loading = true;
 
-        $http.get(`${CONFIG.baseUrl}/persons/search/${depart}/${searchKey}`)
+        let date = $('#cboNow').val() !== ''
+                    ? StringFormatService.convToDbDate($('#cboNow').val())
+                    : moment().format('YYYY-MM-DD');
+
+        $http.get(`${CONFIG.baseUrl}/dashboard/head/${date}`)
         .then(function(res) {
-            let { data, ...pager } = res.data;
+            let { data, ...pager } = res.data.leaves;
+
+            data.forEach(leave => {
+                leave.person = res.data.persons.find(person => person.person_id === leave.leave_person);
+            });
+
             $scope.headLeaves = data;
             $scope.pager = pager;
 

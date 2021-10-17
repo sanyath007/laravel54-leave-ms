@@ -18,13 +18,15 @@
         <table class="table table-triped">
             <tr>
                 <th style="width: 5%; text-align: center;">#</th>
-                <th style="text-align: center;">ชื่อ-สกุล</th>
+                <th>ชื่อ-สกุล</th>
                 <th style="width: 30%; text-align: center;">ประเภท</th>
+                <th style="width: 30%; text-align: center;">จำนวน (วัน)</th>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr ng-repeat="(index, leave) in headLeaves">
+                <td style="text-align: center;">@{{ index+1 }}</td>
+                <td>@{{ leave.person.person_firstname + ' ' + leave.person.person_lastname }}</td>
+                <td style="text-align: center;">@{{ leave.type.name }}</td>
+                <td style="text-align: center;">@{{ leave.leave_days }}</td>
             </tr>
         </table>
     </div>

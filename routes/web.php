@@ -31,6 +31,9 @@ Route::group(['middleware' => 'web'], function() {
 });
 
 Route::group(['middleware' => ['web','auth']], function () {
+    /** Dashboard */
+    Route::get('dashboard/head/{date}', 'DashboardController@getHeadData');
+
     /** บุคลากร */
     Route::get('persons/list', 'PersonController@index');
     Route::get('persons/search/{depart}/{searchKey}', 'PersonController@search');

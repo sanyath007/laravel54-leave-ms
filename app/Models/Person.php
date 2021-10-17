@@ -42,4 +42,9 @@ class Person extends Model
     {
         return $this->belongsTo(MemberOf::class, 'person_id', 'person_id');
     }
+
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class, 'leave_person', 'person_id');
+    }
 }
