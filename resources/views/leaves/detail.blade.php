@@ -1,0 +1,326 @@
+@extends('layouts.main')
+
+@section('content')
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            รายละเอียดใบลา : ID ({{ $leave->id }})
+            <!-- <small>preview of simple tables</small> -->
+        </h1>
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active">รายละเอียดใบลา</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content" ng-controller="leaveCtrl" ng-init="getById({{ $leave->id }}, setEditControls);">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">รายละเอียดใบลา</h3>
+                    </div>
+
+                    <form id="frmEditLeave" name="frmEditLeave" method="post" action="{{ url('/leaves/update') }}" role="form" enctype="multipart/form-data">
+                        <input type="hidden" id="user" name="user" value="{{ Auth::user()->person_id }}">
+                        <input type="hidden" id="leave_id" name="leave_id" value="{{ $leave->id }}" ng-model="leave.leave_id">
+                        <input type="hidden" id="leave_topic" name="leave_topic" value="{{ $leave->leave_topic }}" ng-model="leave.leave_topic">
+                        <input type="hidden" id="leave_days" name="leave_days" value="{{ $leave->leave_days }}" ng-model="leave.leave_days">
+                        {{ csrf_field() }}
+
+                        <div class="box-body">
+                            <div class="row">
+
+                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_place')}">
+                                    <label>เขียนที่ :</label>
+                                    <select id="leave_place" 
+                                            name="leave_place"
+                                            ng-model="leave.leave_place"
+                                            class="form-control select2" 
+                                            style="width: 100%; font-size: 12px;"
+                                            tabindex="2">
+                                        <option value="">-- กรุณาเลือก --</option>
+                                        <option value="1">โรงพยาบาลเทพรัตน์นครราชสีมา</option>
+                                        <option value="2">บ้าน</option>
+                                    </select>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_place')">กรุณาเลือกชนิดครุภัณฑ์</span>
+                                </div>
+
+                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_date')}">
+                                    <label>วันที่ลงทะเบียน :</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            id="leave_date"
+                                            name="leave_date"
+                                            class="form-control pull-right"
+                                            tabindex="1">
+                                    </div>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_date')">กรุณาระบุชื่อครุภัณฑ์</span>
+                                </div>
+
+                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_type')}">
+                                    <label>เรื่อง :</label>
+                                    <select id="leave_type"
+                                            name="leave_type"
+                                            ng-model="leave.leave_type"
+                                            class="form-control"
+                                            tabindex="2"
+                                            ng-change="onSelectedType()">
+                                        <option value="">-- เลือกเรื่อง --</option>
+
+                                        @foreach($leave_types as $type)
+
+                                            <option value="{{ $type->id }}">
+                                                ขอ{{ $type->name }}
+                                            </option>
+
+                                        @endforeach
+
+                                    </select>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_type')">กรุณาเลือกเรื่อง</span>
+                                </div>
+
+                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_to')}">
+                                    <label>เรียน :</label>
+                                    <input  type="text"
+                                            id="leave_to"
+                                            name="leave_to"
+                                            ng-model="leave.leave_to"
+                                            class="form-control"
+                                            tabindex="6">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_to')">กรุณาระบุข้อมูลในช่องเรียน</span>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>ผู้ลา :</label>
+                                    <input  type="text"
+                                            id="leave_person_name"
+                                            name="leave_person_name"
+                                            value="{{ Auth::user()->person_firstname }} {{ Auth::user()->person_lastname }}"
+                                            class="form-control"
+                                            readonly="readonly"
+                                            tabindex="6">
+                                    <input type="hidden"
+                                            id="leave_person"
+                                            name="leave_person"
+                                            value="{{ Auth::user()->person_id }}">
+                                </div>
+
+                                <?php $user_position = ''; ?>
+                                @foreach ($positions as $position)
+                                    @if ($position->position_id == Auth::user()->position_id)
+                                        <?php $user_position = $position->position_name; ?>
+                                    @endif
+                                @endforeach
+
+                                <div class="form-group col-md-6">
+                                    <label>ตำแหน่ง :</label>
+                                    <input  type="text"
+                                            id="leave_person_position"
+                                            name="leave_person_position"
+                                            value="{{ $user_position }}"
+                                            class="form-control"
+                                            readonly="readonly" />
+                                </div>
+
+                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_reason')}">
+                                    <label>เนื่องจาก :</label>
+                                    <input  type="text" 
+                                            id="leave_reason" 
+                                            name="leave_reason" 
+                                            ng-model="leave.leave_reason" 
+                                            class="form-control pull-right"
+                                            tabindex="5">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_reason')">กรุณาระบุเหตุผลการลา</span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(leave, 'start_date')}">
+                                        <label>จากวันที่ :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input  type="text"
+                                                    id="start_date"
+                                                    name="start_date"
+                                                    class="form-control pull-right"
+                                                    tabindex="5">
+                                        </div>
+                                        <span class="help-block" ng-show="checkValidate(leave, 'start_date')">กรุณาเลือกจากวันที่</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'start_period')}">
+                                    <label>ช่วงเวลา :</label>
+                                    <select id="start_period"
+                                            name="start_period"
+                                            ng-model="leave.start_period"
+                                            class="form-control"
+                                            tabindex="2">
+                                        <option value="">-- เลือกช่วงเวลา --</option>
+                                        @foreach($periods as $key => $period)
+
+                                            <option value="{{ $key }}">
+                                                {{ $period }}
+                                            </option>
+
+                                        @endforeach
+                                    </select>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'start_period')">เลือกช่วงเวลา</span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_date')}">
+                                        <label>ถึงวันที่ :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input  type="text" 
+                                                    id="end_date"
+                                                    name="end_date"
+                                                    class="form-control pull-right"
+                                                    tabindex="5">
+                                        </div>
+                                        <span class="help-block" ng-show="checkValidate(leave, 'end_date')">กรุณาเลือกถึงวันที่</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
+                                    <label>ช่วงเวลา :</label>
+                                    <select id="end_period"
+                                            name="end_period"
+                                            ng-model="leave.end_period"
+                                            ng-change="calculateLeaveDays('start_date', 'end_date', leave.end_period)"
+                                            class="form-control" 
+                                            style="width: 100%;"
+                                            tabindex="2">
+                                        <option value="">-- เลือกช่วงเวลา --</option>
+                                        @foreach($periods as $key => $period)
+
+                                            <option value="{{ $key }}">
+                                                {{ $period }}
+                                            </option>
+
+                                        @endforeach
+                                    </select>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
+                                </div>
+
+                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_contact')}">
+                                    <label>ระหว่างลาติดต่อข้าพเจ้าได้ที่ :</label>
+                                    <textarea
+                                        id="leave_contact" 
+                                        name="leave_contact" 
+                                        ng-model="leave.leave_contact" 
+                                        class="form-control"
+                                        tabindex="17"
+                                    ></textarea>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_contact')">กรุณาระบุข้อมูลสำหรับติดต่อ</span>
+                                </div>
+
+                                <div
+                                    ng-style="leave.attachment && { 'margin-bottom': '5px' }"
+                                    class="form-group col-md-12"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
+                                    <label>แนบเอกสาร :</label>
+                                    <input type="file"
+                                            id="attachment" 
+                                            name="attachment"
+                                            class="form-control" />
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาแนบเอกสาร</span>
+                                </div>
+
+                                <div class="col-md-12" style="margin-bottom: 15px;" ng-show="leave.attachment">
+                                    <div style="display: flex; flex-direction: row; justify-content: flex-start;">
+                                        <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
+                                            title="ไฟล์แนบ"
+                                            target="_blank">
+                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                            @{{ leave.attachment }}
+                                        </a>
+
+                                        <span style="margin-left: 10px;">
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
+                                    <label>ผู้รับมอบหมายแทน :</label>
+                                    <div class="input-group">
+                                        <input type="text"
+                                                id="leave_delegate_detail" 
+                                                name="leave_delegate_detail"
+                                                class="form-control"
+                                                readonly="readonly" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" ng-click="onShowPersonLists($event)">...</button>
+                                        </span>
+                                    </div>
+                                    <input type="hidden"
+                                                id="leave_delegate" 
+                                                name="leave_delegate"
+                                                ng-model="leave.leave_delegate" 
+                                                class="form-control"
+                                                tabindex="2" />
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาเลือกผู้รับมอบหมายแทน</span>
+                                </div>
+
+                            </div><!-- /.row -->
+
+                            @include('leaves._person-list')
+
+                        </div><!-- /.box-body -->
+
+                        <div class="box-footer clearfix" style="text-align: center;">
+                            <a
+                                href="{{ url('/leaves/print') }}/{{ $leave->id }}"
+                                class="btn btn-success"
+                                target="_blank"
+                            >
+                                พิมพ์
+                            </a>
+                            <a
+                                ng-show="(leave.status!==4 || leave.status!==3)"
+                                ng-click="edit(leave.id)"
+                                class="btn btn-warning"
+                            >
+                                แก้ไข
+                            </a>
+                            <a
+                                href="#"
+                                ng-click="edit(leave.id)"
+                                class="btn btn-danger"
+                            >
+                                ลบ
+                            </a>
+                        </div><!-- /.box-footer -->
+                    </form>
+
+                </div><!-- /.box -->
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+
+    </section>
+
+    <script>
+        $(function () {
+            $('.select2').select2();
+        });
+    </script>
+
+@endsection

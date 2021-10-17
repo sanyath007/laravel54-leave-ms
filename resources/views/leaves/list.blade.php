@@ -157,7 +157,7 @@
                             <tbody>
                                 <tr ng-repeat="(index, leave) in leaves">
                                     <td style="text-align: center;">@{{ index+pager.from }}</td>
-                                    <td>@{{ leave.leave_type.name }}</td>
+                                    <td>@{{ leave.type.name }}</td>
                                     <td style="text-align: center;">
                                         <span>@{{ leave.start_date | thdate }} - </span>
                                         <span>@{{ leave.end_date | thdate }}</span>
@@ -214,14 +214,14 @@
                                             title="รายละเอียด">
                                             <i class="fa fa-search"></i>
                                         </a>
-                                        <a  ng-click="edit(leave.id)" 
-                                            ng-show="(leave.status!==4 || leave.status!==3)" 
+                                        <a  ng-click="edit(leave.id)"
+                                            ng-show="(leave.status!==4 || leave.status!==3)"
                                             class="btn btn-warning btn-xs"
                                             title="แก้ไขรายการ">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a  ng-click="delete(leave.leaves_id)" 
-                                            ng-show="(leave.status!==4 || leave.status!==3)" 
+                                        <a  ng-click="delete(leave.leaves_id)"
+                                            ng-show="(leave.status!==4 || leave.status!==3)"
                                             class="btn btn-danger btn-xs"
                                             title="ลบรายการ">
                                             <i class="fa fa-trash"></i>

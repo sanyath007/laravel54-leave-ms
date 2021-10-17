@@ -120,6 +120,17 @@ class LeaveController extends Controller
         ];
     }
 
+    public function detail($id)
+    {
+        return view('leaves.detail', [
+            "leave"         => Leave::find($id),
+            "leave_types"   => LeaveType::all(),
+            "positions"     => Position::all(),
+            "statuses"      => $this->status,
+            "periods"       => $this->periods,
+        ]);
+    }
+
     public function add()
     {
         return view('leaves.add', [
