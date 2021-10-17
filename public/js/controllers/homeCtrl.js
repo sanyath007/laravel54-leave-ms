@@ -1,10 +1,21 @@
 app.controller('homeCtrl', function(CONFIG, $scope, limitToFilter, ReportService) {
 /** ################################################################################## */
-    console.log(CONFIG.BASE_URL);
-    let baseUrl = CONFIG.BASE_URL;
-    
     $scope.pieOptions = {};
     $scope.barOptions = {};
+
+    $('#cboNow').datepicker({
+        autoclose: true,
+        language: 'th',
+        format: 'dd/mm/yyyy',
+        orientation: 'bottom',
+        thaiyear: true
+    })
+    .datepicker('update', moment().toDate())
+    .on('changeDate', function(event) {
+        console.log(event.date);
+        let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        let [ year, month, day ] = selectedDate.split('-');
+    });
 
     $scope.getSumMonthData = function () {       
         var month = '2018';
