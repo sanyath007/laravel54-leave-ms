@@ -133,25 +133,19 @@
                                     <td style="text-align: center;">@{{ leave.leave_date | thdate }}</td>
                                     <td style="text-align: center;">@{{ leave.year }}</td>
                                     <td style="text-align: center;">
-                                        <span class="label label-primary" ng-show="leave.status == 0">
-                                            อยู่ระหว่างการสร้างเอกสาร
-                                        </span>
                                         <span class="label label-primary" ng-show="leave.status == 1">
                                             อยู่ระหว่างดำเนินการ
                                         </span>
-                                        <span class="label label-primary" ng-show="leave.status == 2">
-                                            อยู่ระหว่างการแก้ไข
-                                        </span>
-                                        <span class="label label-info" ng-show="leave.status == 3">
+                                        <span class="label label-info" ng-show="leave.status == 2">
                                             รับเอกสารแล้ว
                                         </span>
-                                        <span class="label label-success" ng-show="leave.status == 4">
+                                        <span class="label label-success" ng-show="leave.status == 3">
                                             ผ่านการอนุมัติ
                                         </span>
-                                        <span class="label label-warning" ng-show="leave.status == 5">
+                                        <span class="label label-default" ng-show="leave.status == 4">
                                             ไม่ผ่านการอนุมัติ
                                         </span>
-                                        <span class="label label-danger" ng-show="leave.status == 8">
+                                        <span class="label label-warning" ng-show="leave.status == 5">
                                             อยู่ระหว่างการยกเลิก
                                         </span>
                                         <span class="label label-danger" ng-show="leave.status == 9">

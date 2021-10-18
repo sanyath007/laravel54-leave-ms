@@ -317,7 +317,7 @@ class LeaveController extends Controller
         if ($cancel->save()) {
             /** Update status of leave data */
             $leave = Leave::find($req['leave_id']);
-            $leave->status  = '8';
+            $leave->status  = '5';
             $leave->save();
 
             // TODO: update histories by decrease coordinated leave days
@@ -356,7 +356,7 @@ class LeaveController extends Controller
     {
         $leave = Leave::find($req['leave_id']);
         $leave->received_date       = date('Y-m-d');
-        $leave->status              = '3';
+        $leave->status              = '2';
 
         if ($leave->save()) {
             return redirect('/leaves/receive');
