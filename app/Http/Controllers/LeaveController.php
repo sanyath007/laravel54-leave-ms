@@ -352,6 +352,7 @@ class LeaveController extends Controller
                         ->first();
 
         $last       = Leave::whereIn('leave_type', [1,2,4])
+                        ->where('leave_person', $leave->leave_person)
                         ->where('leave_type', $leave->leave_type)
                         ->where('start_date', '<', $leave->start_date)
                         ->with('type','cancellation')

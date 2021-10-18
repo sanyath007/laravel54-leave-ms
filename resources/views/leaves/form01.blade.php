@@ -96,19 +96,36 @@
                     <tr>
                         <td colspan="4">
                             ข้าพเจ้าได้
-                            <span class="text-val" style="margin-right: 10px;">
-                                {{ $last->type->name }}
-                            </span>
+                            @if(!empty($last))
+                                <span class="text-val" style="margin-right: 10px;">
+                                    {{ $last->type->name }}
+                                </span>
+                            @else
+                                <span class="dot">...................</span>
+                            @endif
                             ครั้งสุดท้ายตั้งแต่วันที่
-                            <span class="text-val" style="margin-right: 10px;">
-                                {{ convDbDateToLongThDate($last->start_date) }}
-                            </span>
+                            @if(!empty($last))
+                                <span class="text-val" style="margin-right: 10px;">
+                                    {{ convDbDateToLongThDate($last->start_date) }}
+                                </span>
+                            @else
+                                <span class="dot">.................................</span>
+                            @endif
                             ถึงวันที่
-                            <span class="text-val" style="margin-right: 10px;">
-                                {{ convDbDateToLongThDate($last->end_date) }}
-                            </span>
+                            @if(!empty($last))
+                                <span class="text-val" style="margin-right: 10px;">
+                                    {{ convDbDateToLongThDate($last->end_date) }}
+                                </span>
+                            @else
+                                <span class="dot">.................................</span>
+                            @endif
                             มีกำหนด
-                            <span class="text-val"> {{ $last->leave_days }} </span> วัน
+                            @if(!empty($last))
+                                <span class="text-val"> {{ $last->leave_days }} </span>
+                            @else
+                                <span class="dot">.........</span>
+                            @endif
+                            วัน
                         </td>
                     </tr>
                     <tr>
@@ -123,14 +140,14 @@
                                 @if (empty($leave->delegate))
                                     โดยมอบหมายงานให้<span class="dot">......................................................</span>
                                 @else
-                                    โดยมอบหมายงานให้<span class="text-val">{{ $leave->delegate->prefix->prefix_name.$leave->delegate->person_firstname. ' ' .$leave->delegate->person_lastname }}</span>
+                                    โดยมอบหมายงานให้ <span class="text-val">{{ $leave->delegate->prefix->prefix_name.$leave->delegate->person_firstname. ' ' .$leave->delegate->person_lastname }}</span>
                                 @endif
                             </p>
                             <p>
                                 @if (empty($leave->delegate))
                                     ตำแหน่ง<span class="dot">.........................................................................</span>
                                 @else
-                                    ตำแหน่ง<span class="text-val">{{ $leave->delegate->position->position_name }}{{ $leave->delegate->academic ? $leave->delegate->academic->ac_name : '' }}</span>
+                                    ตำแหน่ง <span class="text-val">{{ $leave->delegate->position->position_name }}{{ $leave->delegate->academic ? $leave->delegate->academic->ac_name : '' }}</span>
                                 @endif
                             </p>
                             <p>
@@ -163,37 +180,55 @@
                                     <tr>
                                         <td>ป่วย</td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '1') ? (float)$histories->ill_days - (float)$leave->leave_days : $histories->ill_days }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '1') ? (float)$histories->ill_days - (float)$leave->leave_days : $histories->ill_days }}
+                                            @endif
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '1') ? (float)$leave->leave_days : '' }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '1') ? (float)$leave->leave_days : '' }}
+                                            @endif
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '1') ? (float)$histories->ill_days : (float)$histories->ill_days - (float)$leave->leave_days }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '1') ? (float)$histories->ill_days : (float)$histories->ill_days - (float)$leave->leave_days }}
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>กิจส่วนตัว</td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '2') ? (float)$histories->per_days - (float)$leave->leave_days : $histories->per_days }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '2') ? (float)$histories->per_days - (float)$leave->leave_days : $histories->per_days }}
+                                            @endif
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '2') ? (float)$leave->leave_days : '' }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '2') ? (float)$leave->leave_days : '' }}
+                                            @endif
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '2') ? (float)$histories->per_days - (float)$leave->leave_days : $histories->per_days }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '2') ? (float)$histories->per_days - (float)$leave->leave_days : $histories->per_days }}
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>คลอดบุตร</td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '3') ? (float)$histories->lab_days - (float)$leave->leave_days : $histories->lab_days }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '3') ? (float)$histories->lab_days - (float)$leave->leave_days : $histories->lab_days }}
+                                            @endif
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '3') ? (float)$leave->leave_days : '' }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '3') ? (float)$leave->leave_days : '' }}
+                                            @endif
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ ($leave->leave_type == '3') ? (float)$histories->lab_days - (float)$leave->leave_days : $histories->lab_days }}
+                                            @if(!empty($histories))
+                                                {{ ($leave->leave_type == '3') ? (float)$histories->lab_days - (float)$leave->leave_days : $histories->lab_days }}
+                                            @endif
                                         </td>
                                     </tr>
                                 </table>
