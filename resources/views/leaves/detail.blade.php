@@ -258,7 +258,15 @@
                             class="btn btn-success"
                             target="_blank"
                         >
-                            <i class="fa fa-print"></i> พิมพ์
+                            <i class="fa fa-print"></i> พิมพ์ใบลา
+                        </a>
+                        <a
+                            href="{{ url('/leaves/print-cancel') }}/{{ $leave->id }}"
+                            class="btn btn-primary"
+                            target="_blank"
+                            ng-show="{{ $leave->status }}=='8'"
+                        >
+                            <i class="fa fa-print"></i> พิมพ์ยกเลิกใบลา
                         </a>
                         <a
                             ng-show="(leave.status!==4 || leave.status!==3)"

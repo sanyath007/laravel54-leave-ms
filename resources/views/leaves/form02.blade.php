@@ -31,14 +31,14 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            เรียน <span style="margin-left: 10px;">{{ $leave->leave_to }}</span>
+                            เรื่อง <span style="margin-left: 10px;">{{ $leave->leave_topic }}</span>
                         </td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            เรื่อง <span style="margin-left: 10px;">{{ $leave->leave_topic }}</span>
+                            เรียน <span style="margin-left: 10px;">{{ $leave->leave_to }}</span>
                         </td>
                         <td></td>
                         <td></td>
@@ -210,7 +210,7 @@
                                     คำสั่ง
                                 </p>
                                 <p style="margin-left: 50px;">
-                                    <span>[&nbsp;&nbsp;] อนุญาต</span>
+                                    <span style="margin-left: 20px;">[&nbsp;&nbsp;] อนุญาต</span>
                                     <span>[&nbsp;&nbsp;] ไม่อนุญาต</span>
                                 </p>
                                 <p style="margin-left: 50px;">

@@ -217,7 +217,6 @@ class LeaveController extends Controller
                 "message" => "Insert failed.",
             ];
         }
-
     }
 
     public function delete($assetId)
@@ -341,8 +340,7 @@ class LeaveController extends Controller
         }
     }
 
-    
-    public function printPdf($id)
+    public function printLeaveForm($id)
     {
         $leave      = Leave::where('id', $id)
                         ->with('person', 'person.prefix', 'person.position', 'person.academic')
@@ -378,6 +376,36 @@ class LeaveController extends Controller
         } else {
             $pdf = PDF::loadView('leaves.form02', $data);
         }
+
+        return @$pdf->stream(); //แบบนี้จะ stream มา preview
+        // return $pdf->download('test.pdf'); //แบบนี้จะดาวโหลดเลย
+    }
+
+    public function printCancelForm($id)
+    {
+        $leave      = Leave::where('id', $id)
+                        ->with('person', 'person.prefix', 'person.position', 'person.academic')
+                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
+                        ->with('delegate', 'delegate.prefix', 'delegate.position', 'delegate.academic')
+                        ->first();
+
+        $cancel     = Cancellation::where('leave_id', $leave->id)->first();
+
+        $places     = ['1' => 'โรงพยาบาลเทพรัตน์นครราชสีมา'];
+
+        $histories  = History::where([
+                            'person_id' => $leave->leave_person,
+                            'year'      => $leave->year
+                        ])->first();
+
+        $data = [
+            'leave'     => $leave,
+            'cancel'    => $cancel,
+            'places'    => $places,
+            'histories' => $histories
+        ];
+
+        $pdf = PDF::loadView('leaves.form03', $data);
 
         return @$pdf->stream(); //แบบนี้จะ stream มา preview
         // return $pdf->download('test.pdf'); //แบบนี้จะดาวโหลดเลย
