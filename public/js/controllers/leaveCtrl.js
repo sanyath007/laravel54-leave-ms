@@ -260,10 +260,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}`)
         .then(function(res) {
-            const { data, ...pager } = res.data.leaves;
-            $scope.leaves = data;
-            $scope.pager = pager;
-            console.log(pager);
+            $scope.setLeaves(res);
 
             $scope.loading = false;
         }, function(err) {

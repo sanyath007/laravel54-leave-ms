@@ -141,38 +141,38 @@
                         </table>
 
                         <ul class="pagination pagination-sm no-margin pull-right">
-                            <li ng-if="debtPager.current_page !== 1">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.first_page_url)" aria-label="Previous">
+                            <li ng-if="pager.current_page !== 1">
+                                <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1', setLeaves)" aria-label="Previous">
                                     <span aria-hidden="true">First</span>
                                 </a>
                             </li>
                         
-                            <li ng-class="{'disabled': (debtPager.current_page==1)}">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.prev_page_url)" aria-label="Prev">
+                            <li ng-class="{'disabled': (pager.current_page==1)}">
+                                <a href="#" ng-click="getDataWithURL(pager.prev_page_url, setLeaves)" aria-label="Prev">
                                     <span aria-hidden="true">Prev</span>
                                 </a>
                             </li>
 
-                            <li ng-repeat="i in debtPages" ng-class="{'active': debtPager.current_page==i}">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.path + '?page=' +i)">
+                            <!-- <li ng-repeat="i in debtPages" ng-class="{'active': pager.current_page==i}">
+                                <a href="#" ng-click="getDebtWithURL(pager.path + '?page=' +i)">
                                     @{{ i }}
                                 </a>
-                            </li>
+                            </li> -->
 
-                            <!-- <li ng-if="debtPager.current_page < debtPager.last_page && (debtPager.last_page - debtPager.current_page) > 10">
-                                <a href="#" ng-click="debtPager.path">
+                            <!-- <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
+                                <a href="#" ng-click="pager.path">
                                     ...
                                 </a>
                             </li> -->
 
-                            <li ng-class="{'disabled': (debtPager.current_page==debtPager.last_page)}">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.next_page_url)" aria-label="Next">
+                            <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
+                                <a href="#" ng-click="getDataWithURL(pager.next_page_url, setLeaves)" aria-label="Next">
                                     <span aria-hidden="true">Next</span>
                                 </a>
                             </li>
 
-                            <li ng-if="debtPager.current_page !== debtPager.last_page">
-                                <a href="#" ng-click="getDebtWithURL(debtPager.last_page_url)" aria-label="Previous">
+                            <li ng-if="pager.current_page !== pager.last_page">
+                                <a href="#" ng-click="getDataWithURL(.path+ '?page=1' +pager.last_page, setLeaves)" aria-label="Previous">
                                     <span aria-hidden="true">Last</span>
                                 </a>
                             </li>
