@@ -304,6 +304,7 @@ class LeaveController extends Controller
         // TODO: shouldn't have it own table or not?
         $cancel = new Cancellation;
         $cancel->leave_id       = $req['leave_id'];
+        $cancel->cancel_date    = date('Y-m-d');
         $cancel->reason         = $req['reason'];
         $cancel->start_date     = convThDateToDbDate($req['from_date']);
         $cancel->start_period   = $req['start_period'];
@@ -314,7 +315,7 @@ class LeaveController extends Controller
         if ($cancel->save()) {
             // TODO: update status of leave data
             $leave = Leave::find($req['leave_id']);
-            $leave->status  = '9';
+            $leave->status  = '8';
             $leave->save();
 
             return redirect('/leaves/cancel');

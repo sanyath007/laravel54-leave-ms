@@ -328,10 +328,13 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.leave.end_date       = StringFormatService.convFromDbDate(data.leave.end_date);
 
         /** Set delegate detail to input */
-        let academic = data.leave.delegate.academic !== null ? data.leave.delegate.academic.ac_name : '';
-        let delegate = data.leave.delegate.prefix.prefix_name;
-        delegate += data.leave.delegate.person_firstname + ' ' + data.leave.delegate.person_lastname;
-        delegate += '  ตำแหน่ง' + data.leave.delegate.position.position_name + academic;
+        let delegate = '';
+        if (data.leave.delegate !== null) {
+            let academic = data.leave.delegate.academic !== null ? data.leave.delegate.academic.ac_name : '';
+            delegate = data.leave.delegate.prefix.prefix_name;
+            delegate += data.leave.delegate.person_firstname + ' ' + data.leave.delegate.person_lastname;
+            delegate += '  ตำแหน่ง' + data.leave.delegate.position.position_name + academic;
+        }
         $('#leave_delegate_detail').val(delegate);
 
         $('#leave_date').datepicker({
