@@ -157,7 +157,7 @@
                                     <tr>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ (float)$histories->vac_days - (float)$leave->leave_days }}
+                                                {{ (float)$histories->vac_days }}
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
@@ -165,12 +165,12 @@
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ (float)$histories->vac_days }}
+                                                {{ (float)$histories->vac_days + (float)$leave->leave_days }}
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ 10 - (float)$histories->vac_days }}
+                                                {{ $vacations->all_days - ((float)$histories->vac_days + (float)$leave->leave_days) }}
                                             @endif
                                         </td>
                                     </tr>

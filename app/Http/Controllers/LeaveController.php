@@ -9,6 +9,7 @@ use App\Models\LeaveType;
 use App\Models\Position;
 use App\Models\History;
 use App\Models\Cancellation;
+use App\Models\Vacation;
 use PDF;
 
 
@@ -365,11 +366,17 @@ class LeaveController extends Controller
                             'year'      => $leave->year
                         ])->first();
 
+        $vacation   = Vacation::where([
+                            'person_id' => $leave->leave_person,
+                            'year'      => $leave->year
+                        ])->first();
+
         $data = [
             'leave'     => $leave,
             'last'      => $last,
             'places'    => $places,
-            'histories' => $histories
+            'histories' => $histories,
+            'vacations' => $vacation
         ];
 
         if (in_array($leave->leave_type, [1,2,4])) {
