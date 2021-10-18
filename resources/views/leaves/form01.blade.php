@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Laravel PDF</title>
+        <title>ใบลาป่วย ลาคลอด ลากิจส่วนตัว</title>
         <link rel="stylesheet" href="{{ asset('/css/pdf.css') }}">
     </head>
     <body>
