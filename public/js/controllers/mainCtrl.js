@@ -208,7 +208,7 @@ app.controller('mainCtrl', function($scope, $http, $location, $routeParams, CONF
     $scope.menu = 'leaves';
     $scope.submenu = 'list';
     $scope.setActivedMenu = function() {
-        let routePath = $location.$$absUrl.replace('http://localhost/public_html/laravel54-leave-ms/public/', '');
+        let routePath = $location.$$absUrl.replace(`${CONFIG.baseUrl}/`, '');
         let [mnu, submnu, ...params] = routePath.split('/');
 
         $scope.menu = mnu; 
