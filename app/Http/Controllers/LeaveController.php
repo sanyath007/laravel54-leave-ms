@@ -252,7 +252,7 @@ class LeaveController extends Controller
         $leave = Leave::find($req['leave_id']);
         $leave->approved_comment    = $req['comment'];
         $leave->approved_date       = date('Y-m-d');
-        $leave->status              = $req['approve'];
+        $leave->status              = $req['approved'];
 
         if ($leave->save()) {
             /** Save leaves histories data */
