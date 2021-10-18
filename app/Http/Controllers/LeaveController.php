@@ -255,34 +255,36 @@ class LeaveController extends Controller
         $leave->status              = $req['approve'];
 
         if ($leave->save()) {
-            /** Save leaves stat histories data */
-            $count = History::where('person_id', $leave['leave_person'])
+            /** Save leaves histories data */
+            $count = History::where('person_id', $leave->leave_person)
                         ->where('year', $leave->year)
                         ->count();
 
             if ($count > 0) {
-                $history = History::where('person_id', $leave['leave_person'])->first();
+                $history = History::where('person_id', $leave->leave_person)->first();
             } else {
                 $history = new History;
             }
 
+            /** On insert new data */
             if (empty($history->person_id)) {
-                $history->person_id = $leave['leave_person'];
+                $history->person_id = $leave->leave_person;
                 $history->year      = $leave->year;
             }
 
-            if ($leave['leave_type'] == '1') {
-                $history->ill_days += (double)$leave['leave_days'];
-            } else if ($leave['leave_type'] == '2') {
-                $history->per_days += (double)$leave['leave_days'];
-            } else if ($leave['leave_type'] == '3') {
-                $history->vac_days += (double)$leave['leave_days'];
-            } else if ($leave['leave_type'] == '4') {
-                $history->abr_days += (double)$leave['leave_days'];
-            } else if ($leave['leave_type'] == '5') {
-                $history->lab_days += (double)$leave['leave_days'];
-            } else if ($leave['leave_type'] == '6') {
-                $history->ord_days += (double)$leave['leave_days'];
+            /** Increase coordinetd leave type */
+            if ($leave->leave_type == '1') {
+                $history->ill_days += (float)$leave->leave_days; // ลาป่วย
+            } else if ($leave->leave_type == '2') {
+                $history->per_days += (float)$leave->leave_days; // ลากิจส่วนตัว
+            } else if ($leave->leave_type == '3') {
+                $history->vac_days += (float)$leave->leave_days; // ลาพักผ่อน
+            } else if ($leave->leave_type == '4') {
+                $history->abr_days += (float)$leave->leave_days; // ลาไปต่างประเทศ
+            } else if ($leave->leave_type == '5') {
+                $history->lab_days += (float)$leave->leave_days; // ลาคลอด
+            } else if ($leave->leave_type == '6') {
+                $history->ord_days += (float)$leave->leave_days; // ลาอุปสมบท
             }
 
             $history->save();
@@ -302,7 +304,6 @@ class LeaveController extends Controller
 
     public function doCancel(Request $req)
     {
-        // TODO: shouldn't have it own table or not?
         $cancel = new Cancellation;
         $cancel->leave_id       = $req['leave_id'];
         $cancel->cancel_date    = date('Y-m-d');
@@ -314,10 +315,30 @@ class LeaveController extends Controller
         $cancel->days           = $req['leave_days'];
 
         if ($cancel->save()) {
-            // TODO: update status of leave data
+            /** Update status of leave data */
             $leave = Leave::find($req['leave_id']);
             $leave->status  = '8';
             $leave->save();
+
+            // TODO: update histories by decrease coordinated leave days
+            $history = History::where(['person_id' => $leave->leave_person,'year' => $leave->year])->first();
+            
+            /** Decrease coordinetd leave type */
+            if ($leave->leave_type == '1') {
+                $history->ill_days -= (float)$leave->leave_days; // ลาป่วย
+            } else if ($leave->leave_type == '2') {
+                $history->per_days -= (float)$leave->leave_days; // ลากิจส่วนตัว
+            } else if ($leave->leave_type == '3') {
+                $history->vac_days -= (float)$leave->leave_days; // ลาพักผ่อน
+            } else if ($leave->leave_type == '4') {
+                $history->abr_days -= (float)$leave->leave_days; // ลาไปต่างประเทศ
+            } else if ($leave->leave_type == '5') {
+                $history->lab_days -= (float)$leave->leave_days; // ลาคลอด
+            } else if ($leave->leave_type == '6') {
+                $history->ord_days -= (float)$leave->leave_days; // ลาอุปสมบท
+            }
+
+            $history->save();
 
             return redirect('/leaves/cancel');
         }
