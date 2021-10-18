@@ -67,13 +67,13 @@
                         <div class="col-md-6">
                             <ul class="pagination pagination-sm no-margin pull-left">
                                 <li ng-if="pager.current_page !== 1">
-                                    <a ng-click="getDataWithURL(pager.path + '?page=1')" aria-label="Previous">
+                                    <a ng-click="getDataWithURL(pager.path+ '?page=1', setPersons)" aria-label="Previous">
                                         <span aria-hidden="true">First</span>
                                     </a>
                                 </li>
 
                                 <li ng-class="{'disabled': (pager.current_page==1)}">
-                                    <a ng-click="getDataWithURL(pager.prev_page_url)" aria-label="Prev">
+                                    <a ng-click="getDataWithURL(pager.prev_page_url, setPersons)" aria-label="Prev">
                                         <span aria-hidden="true">Prev</span>
                                     </a>
                                 </li>
@@ -85,13 +85,13 @@
                                 </li> -->
 
                                 <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
-                                    <a ng-click="getDataWithURL(pager.next_page_url)" aria-label="Next">
+                                    <a ng-click="getDataWithURL(pager.next_page_url, setPersons)" aria-label="Next">
                                         <span aria-hidden="true">Next</span>
                                     </a>
                                 </li>
 
                                 <li ng-if="pager.current_page !== pager.last_page">
-                                    <a ng-click="getDataWithURL(pager.path + '?page=' + pager.last_page)" aria-label="Previous">
+                                    <a ng-click="getDataWithURL(pager.path+ '?page=' +pager.last_page, setPersons)" aria-label="Previous">
                                         <span aria-hidden="true">Last</span>
                                     </a>
                                 </li>

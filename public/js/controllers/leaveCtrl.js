@@ -263,6 +263,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             const { data, ...pager } = res.data.leaves;
             $scope.leaves = data;
             $scope.pager = pager;
+            console.log(pager);
 
             $scope.loading = false;
         }, function(err) {
@@ -271,16 +272,24 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
-    $scope.getDataWithURL = function(URL) {
-        $scope.persons = [];
-        $scope.pager = null;
+    $scope.setLeaves = function(res) {
+        const { data, ...pager } = res.data.leaves;
+        $scope.leaves = data;
+        $scope.pager = pager;
+    };
+
+    $scope.setPersons = function(res) {
+        let { data, ...pager } = res.data.persons;
+        $scope.persons  = data;
+        $scope.pager    = pager;
+    };
+
+    $scope.getDataWithURL = function(URL, cb) {
         $scope.loading = true;
 
         $http.get(URL)
         .then(function(res) {
-            let { data, ...pager } = res.data.persons;
-            $scope.persons  = data;
-            $scope.pager    = pager;
+            cb(res);
 
             $scope.loading = false;
         }, function(err) {

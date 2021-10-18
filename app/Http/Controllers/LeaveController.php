@@ -95,7 +95,7 @@ class LeaveController extends Controller
                         ->with('cancellation')
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
-                        ->paginate(20);
+                        ->paginate(10);
         }
 
         return [
