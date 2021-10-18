@@ -124,7 +124,7 @@
                             <tbody>
                                 <tr ng-repeat="(index, leave) in leaves">
                                     <td style="text-align: center;">@{{ index+pager.from }}</td>
-                                    <td>@{{ leave.leave_type.name }}</td>
+                                    <td>@{{ leave.type.name }}</td>
                                     <td style="text-align: center;">
                                         <span>@{{ leave.start_date | thdate }} - </span>
                                         <span>@{{ leave.end_date | thdate }}</span>
@@ -150,6 +150,9 @@
                                         </span>
                                         <span class="label label-warning" ng-show="leave.status == 5">
                                             ไม่ผ่านการอนุมัติ
+                                        </span>
+                                        <span class="label label-danger" ng-show="leave.status == 8">
+                                            อยู่ระหว่างการยกเลิก
                                         </span>
                                         <span class="label label-danger" ng-show="leave.status == 9">
                                             ยกเลิก

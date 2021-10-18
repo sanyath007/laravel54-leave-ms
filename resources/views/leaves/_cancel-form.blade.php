@@ -32,7 +32,7 @@
                             </p>
                             <p>
                                 ได้รับอนุญาตไห้
-                                <span style="font-weight: bold; margin-right: 5px;">@{{ leave.leave_type.name }}</span>
+                                <span style="font-weight: bold; margin-right: 5px;">@{{ leave.type.name }}</span>
                                 ตั้งแต่วันที่ 
                                 <span style="font-weight: bold;; margin-right: 5px;">@{{ leave.start_date | thdate }}</span>
                                 ถึงวันที่
@@ -51,7 +51,7 @@
                             <input
                                 type="text"
                                 class="form-control"
-                                value="@{{ leave.leave_type.name }}"
+                                value="@{{ leave.type.name }}"
                                 readonly="readonly"
                             />
                         </div>
