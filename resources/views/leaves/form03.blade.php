@@ -25,7 +25,7 @@
                         <td style="width: 30%;"></td>
                         <td style="width: 30%;" colspan="2">
                             <p style="margin: 0 0 0 20px;">
-                                วันที่ <span style="margin-left: 10px;">{{ convDbDateToLongThDate($leave->leave_date) }}</span>
+                                วันที่ <span style="margin-left: 10px;">{{ convDbDateToLongThDate($cancel->cancel_date) }}</span>
                             </p>
                         </td>
                     </tr>
