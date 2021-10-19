@@ -199,7 +199,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     };
 
     $scope.onReceiveLoad = function(e) {
-        $scope.cboLeaveStatus = '<3';
+        $scope.cboLeaveStatus = '1';
         $scope.cboMenu = "1";
 
         $scope.getAll(e);
@@ -207,7 +207,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onApproveLoad = function(e) {
         $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '3';
+        $scope.cboLeaveStatus = '2';
         $scope.cboMenu = "1";
 
         $scope.getAll(e);
@@ -221,7 +221,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onCancelLoad = function(e) {
         $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '4';
+        $scope.cboLeaveStatus = '3';
         $scope.cboMenu = "";
 
         $scope.getAll(e);
