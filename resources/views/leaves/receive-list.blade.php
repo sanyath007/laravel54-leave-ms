@@ -96,6 +96,7 @@
                                                 title="ไฟล์แนบ"
                                                 target="_blank"
                                                 ng-show="leave.attachment"
+                                                class="btn btn-default btn-xs"
                                             >
                                                 <i class="fa fa-paperclip" aria-hidden="true"></i>
                                             </a>
@@ -130,7 +131,7 @@
                                             <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                                             {{ csrf_field() }}
 
-                                            <button type="submit" class="btn btn-primary btn-sm">รับใบลา</button>
+                                            <button type="submit" class="btn btn-success btn-xs">รับใบลา</button>
                                         </form>
                                     </td>             
                                 </tr>

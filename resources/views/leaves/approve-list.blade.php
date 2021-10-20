@@ -96,6 +96,7 @@
                                                 title="ไฟล์แนบ"
                                                 target="_blank"
                                                 ng-show="leave.attachment"
+                                                class="btn btn-default btn-xs"
                                             >
                                                 <i class="fa fa-paperclip" aria-hidden="true"></i>
                                             </a>

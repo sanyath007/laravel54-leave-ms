@@ -154,7 +154,7 @@
                                     </td>
                                     <td style="text-align: center;">
                                         <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
-                                            class="btn btn-success btn-xs" 
+                                            class="btn btn-default btn-xs"
                                             title="ไฟล์แนบ"
                                             target="_blank"
                                             ng-show="leave.attachment">
