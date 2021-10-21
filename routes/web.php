@@ -38,7 +38,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     /** บุคลากร */
     Route::get('persons/list', 'PersonController@index');
     Route::get('persons/search/{depart}/{searchKey}', 'PersonController@search');
-    Route::get('histories/profile/{id}', 'PersonController@getById');
+    Route::get('persons/profile/{id}', 'PersonController@getProfile');
 
     /** ประวัติการลา */
     Route::get('histories/stat/{id}', 'HistoryController@summary');

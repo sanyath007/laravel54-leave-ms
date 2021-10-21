@@ -50,4 +50,11 @@ class PersonController extends Controller
             'persons' => $persons
         ];
     }
+
+    public function getProfile()
+    {
+        return view('histories.profile', [
+
+        ]);
+    }
 }
