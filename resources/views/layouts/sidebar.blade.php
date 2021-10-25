@@ -53,7 +53,7 @@
 								</a>
 							</li>
 							<li ng-class="{ 'active': submenu == 'stat' }">
-								<a href="#" ng-click="redirectTo($event, 'histories/stat/' + {{ Auth::user()->person_id }})">
+								<a href="#" ng-click="redirectTo($event, 'histories/stat/' + {{ Auth::user()->person_id }} + '/2565')">
 									<i class="fa fa-circle-o"></i> ข้อมูลประวัติการลา
 								</a>
 							</li>
