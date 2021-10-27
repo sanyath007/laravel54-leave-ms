@@ -48,7 +48,7 @@
 						</a>
 						<ul class="treeview-menu">
 							<li ng-class="{ 'active': submenu == 'profile' }">
-								<a href="#" ng-click="redirectTo($event, 'persons/profile/' + {{ Auth::user()->person_id }})">
+								<a href="#" ng-click="redirectTo($event, 'histories/profile/' + {{ Auth::user()->person_id }})">
 									<i class="fa fa-circle-o"></i> ข้อมูลส่วนตัว
 								</a>
 							</li>
