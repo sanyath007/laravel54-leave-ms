@@ -199,6 +199,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     };
 
     $scope.onReceiveLoad = function(e) {
+        $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '1';
         $scope.cboMenu = "1";
 
