@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Asset;
-use App\Models\Reparation;
+use App\Models\Faction;
+use App\Models\Depart;
+use App\Models\Leave;
+use App\Models\Person;
 
 class ReportController extends Controller
 {   
@@ -45,38 +47,70 @@ class ReportController extends Controller
         }
     }
 
-    public function index()
-    {
-        return view('reparations.list', [
-            "statuses"    => $this->status
-        ]);
-    }
-
     public function summary()
     {
         return view('reports.summary', [
-            "statuses"    => $this->status
+            "factions"   => Faction::all(),
+            "departs"    => Depart::all(),
         ]);
     }
 
-    public function search($parcelId, $status, $searchKey)
+    public function getSummaryData(Request $req)
     {
-        $conditions = [];
-        if($parcelId != 0) array_push($conditions, ['parcel_id', '=', $parcelId]);
-        if($status != 0) array_push($conditions, ['status', '=', $status]);
-        if($searchKey !== '0') array_push($conditions, ['asset_name', 'like', '%'.$searchKey.'%']);
+        $year = $req->input('year');
 
-        // if($conditions == '0') {
-            $reparations = Reparation::with('asset')
-                        ->paginate(20);
-        // } else {
-        //     $reparations = Reparation::where($conditions)
-        //                 ->with('asset')
-        //                 ->paginate(20);
-        // }
+        $conditions = [];
+        if(!empty($year)) array_push($conditions, ['year', '=', $year]);
+
+        if(count($conditions) == 0) {
+            $leaves = \DB::table('leaves')
+                        ->select(
+                            'leave_person',
+                            \DB::raw("count(case when (leave_type='1') then id end) as ill_times"),
+                            \DB::raw("sum(case when (leave_type='1') then leave_days end) as ill_days"),
+                            \DB::raw("count(case when (leave_type='2') then id end) as per_times"),
+                            \DB::raw("sum(case when (leave_type='2') then leave_days end) as per_days"),
+                            \DB::raw("count(case when (leave_type='3') then id end) as vac_times"),
+                            \DB::raw("sum(case when (leave_type='3') then leave_days end) as vac_days"),
+                            \DB::raw("count(case when (leave_type='6') then id end) as abr_times"),
+                            \DB::raw("sum(case when (leave_type='6') then leave_days end) as abr_days"),
+                            \DB::raw("count(case when (leave_type='4') then id end) as lab_times"),
+                            \DB::raw("sum(case when (leave_type='4') then leave_days end) as lab_days"),
+                            \DB::raw("count(case when (leave_type='5') then id end) as ord_times"),
+                            \DB::raw("sum(case when (leave_type='5') then leave_days end) as ord_days")
+                        )
+                        ->groupBy('leave_person')->get();
+        } else {
+            $leaves = \DB::table('leaves')
+                        ->select(
+                            'leave_person',
+                            \DB::raw("count(case when (leave_type='1') then id end) as ill_times"),
+                            \DB::raw("sum(case when (leave_type='1') then leave_days end) as ill_days"),
+                            \DB::raw("count(case when (leave_type='2') then id end) as per_times"),
+                            \DB::raw("sum(case when (leave_type='2') then leave_days end) as per_days"),
+                            \DB::raw("count(case when (leave_type='3') then id end) as vac_times"),
+                            \DB::raw("sum(case when (leave_type='3') then leave_days end) as vac_days"),
+                            \DB::raw("count(case when (leave_type='6') then id end) as abr_times"),
+                            \DB::raw("sum(case when (leave_type='6') then leave_days end) as abr_days"),
+                            \DB::raw("count(case when (leave_type='4') then id end) as lab_times"),
+                            \DB::raw("sum(case when (leave_type='4') then leave_days end) as lab_days"),
+                            \DB::raw("count(case when (leave_type='5') then id end) as ord_times"),
+                            \DB::raw("sum(case when (leave_type='5') then leave_days end) as ord_days")
+                        )
+                        ->where($conditions)
+                        ->groupBy('leave_person')
+                        ->get();
+        }
 
         return [
-            'reparations' => $reparations,
+            'leaves'    => $leaves,
+            'persons'   => Person::where('person_state', '1')
+                            ->join('level', 'personal.person_id', '=', 'level.person_id')
+                            ->where('level.faction_id', '5')
+                            ->where('level.depart_id', '65')
+                            ->with('prefix','position','academic')
+                            ->with('memberOf', 'memberOf.depart')
+                            ->paginate(10)
         ];
     }
 
