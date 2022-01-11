@@ -5,39 +5,33 @@ app.controller(
         $scope.leaves = [];
         $scope.data = [];
         $scope.pager = [];
+        $scope.initFormValues = null;
+        $scope.filteredDeparts = [];
         $scope.loading = false;
 
-        $scope.onSelectedFaction = function () {
-            $http
-                .get(`${CONFIG.baseUrl}/reports/summary-data?year=${year}`)
-                .then(function (res) {
-                        const { data, ...pager } = res.data.persons;
-                        $scope.data = data;
-                        $scope.pager = pager;
+        $scope.cboFaction = '';
+        $scope.cboDepart = '';
+        $scope.dtpYear = '2564';
 
-                        $scope.data = data.map((person) => {
-                            const leave = res.data.leaves.find((leave) =>
-                                person.person_id === leave.leave_person
-                            );
-                            return {
-                                ...person,
-                                leave: leave,
-                            };
-                        });
+        $scope.initForm = function (initValues) {
+            $scope.initFormValues = initValues;
 
-                        $scope.loading = false;
-                    }, function (err) {
-                        console.log(err);
-                        $scope.loading = false;
-                    }
-                );
+            $scope.filteredDeparts = initValues.departs;
+        };
+
+        $scope.onSelectedFaction = function (faction) {
+            console.log(faction);
+            $scope.filteredDeparts = $scope.initFormValues.departs.filter(depart => {
+                return depart.faction_id === parseInt(faction);
+            });
         };
 
         $scope.getSummary = function () {
+            let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
             let year = 2565;
 
             $http
-                .get(`${CONFIG.baseUrl}/reports/summary-data?year=${year}`)
+                .get(`${CONFIG.baseUrl}/reports/summary-data?depart=${depart}&year=${year}`)
                 .then(function (res) {
                         const { data, ...pager } = res.data.persons;
                         $scope.data = data;

@@ -51,13 +51,14 @@ class ReportController extends Controller
     {
         return view('reports.summary', [
             "factions"   => Faction::all(),
-            "departs"    => Depart::all(),
+            "departs"    => Depart::orderBy('depart_name', 'ASC')->get(),
         ]);
     }
 
     public function getSummaryData(Request $req)
     {
-        $year = $req->input('year');
+        $year   = $req->input('year');
+        $depart = $req->input('depart');
 
         $conditions = [];
         if(!empty($year)) array_push($conditions, ['year', '=', $year]);
@@ -107,7 +108,12 @@ class ReportController extends Controller
             'persons'   => Person::where('person_state', '1')
                             ->join('level', 'personal.person_id', '=', 'level.person_id')
                             ->where('level.faction_id', '5')
-                            ->where('level.depart_id', '65')
+                            ->when(empty($depart), function($q) {
+                                $q->where('level.depart_id', '65');
+                            })
+                            ->when(!empty($depart), function($q) use ($depart) {
+                                $q->where('level.depart_id', $depart);
+                            })
                             ->with('prefix','position','academic')
                             ->with('memberOf', 'memberOf.depart')
                             ->paginate(10)

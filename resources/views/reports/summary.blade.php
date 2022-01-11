@@ -16,7 +16,11 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="reportCtrl" ng-init="getSummary()">
+    <section
+        class="content"
+        ng-controller="reportCtrl"
+        ng-init="getSummary(); initForm({ factions: {{ $factions }}, departs: {{ $departs }} })"
+    >
 
         <div class="row">
             <div class="col-md-12">
@@ -36,17 +40,16 @@
                                         name="faction"
                                         ng-model="cboFaction"
                                         class="form-control select2"
-                                        style="width: 100%; font-size: 12px;">
-
+                                        style="width: 100%; font-size: 12px;"
+                                        ng-change="onSelectedFaction(cboFaction)"
+                                    >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
-
-                                        @foreach($factions as $faction)
-
-                                            <option value="{{ $faction->faction_id }}">
-                                                {{ $faction->faction_name }}
-                                            </option>
-
-                                        @endforeach
+                                        <option
+                                            ng-repeat="faction in initFormValues.factions"
+                                            value="@{{ faction.faction_id }}"
+                                        >
+                                            @{{ faction.faction_name }}
+                                        </option>
                                         
                                     </select>
                                 </div><!-- /.form group -->
@@ -60,18 +63,16 @@
                                         name="depart"
                                         ng-model="cboDepart"
                                         class="form-control select2"
-                                        style="width: 100%; font-size: 12px;">
-
+                                        style="width: 100%; font-size: 12px;"
+                                        ng-change="getSummary()"
+                                    >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
-
-                                        @foreach($departs as $depart)
-
-                                            <option value="{{ $depart->depart_id }}">
-                                                {{ $depart->depart_name }}
-                                            </option>
-
-                                        @endforeach
-                                        
+                                        <option
+                                            ng-repeat="depart in filteredDeparts"
+                                            value="@{{ depart.depart_id }}"
+                                        >
+                                            @{{ depart.depart_name }}
+                                        </option>
                                     </select>
                                 </div><!-- /.form group -->
                             </div><!-- /.col -->
@@ -81,9 +82,9 @@
                                     <label>ปีงบประมาณ</label>
                                     <input
                                         type="text"
-                                        id="year"
-                                        name="year"
-                                        ng-model="year"
+                                        id="dtpYear"
+                                        name="dtpYear"
+                                        ng-model="dtpYear"
                                         ng-keyup="getSummary($event)"
                                         class="form-control">
                                 </div><!-- /.form group -->
