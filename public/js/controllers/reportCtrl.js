@@ -11,7 +11,9 @@ app.controller(
 
         $scope.cboFaction = '';
         $scope.cboDepart = '';
-        $scope.dtpYear = '2564';
+        $scope.dtpYear = parseInt(moment().format('MM')) > 9
+                            ? moment().year() + 544
+                            : moment().year() + 543;
 
         $scope.initForm = function (initValues) {
             $scope.initFormValues = initValues;
@@ -20,7 +22,6 @@ app.controller(
         };
 
         $scope.onSelectedFaction = function (faction) {
-            console.log(faction);
             $scope.filteredDeparts = $scope.initFormValues.departs.filter(depart => {
                 return depart.faction_id === parseInt(faction);
             });
@@ -28,7 +29,11 @@ app.controller(
 
         $scope.getSummary = function () {
             let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
-            let year = 2565;
+            let year = $scope.dtpYear === ''
+                        ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
+                            ? moment().year() + 544
+                            : moment().year() + 543 
+                        : $scope.dtpYear;
 
             $http
                 .get(`${CONFIG.baseUrl}/reports/summary-data?depart=${depart}&year=${year}`)
@@ -88,20 +93,34 @@ app.controller(
         };
 
         $scope.getDataWithURL = function (URL) {
-            console.log(URL);
-            $scope.debts = [];
+            $scope.data = [];
             $scope.pager = [];
             $scope.loading = true;
 
-            $http.get(URL).then(
+            let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
+            let year = $scope.dtpYear === ''
+                        ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
+                            ? moment().year() + 544
+                            : moment().year() + 543 
+                        : $scope.dtpYear;
+
+            $http.get(`${URL}&depart=${depart}&year=${year}`).then(
                 function (res) {
                     console.log(res);
-                    $scope.debts = res.data.pager.data;
-                    $scope.pager = res.data.pager;
+                    const { data, ...pager } = res.data.persons;
+                    $scope.data = data;
+                    $scope.pager = pager;
 
-                    $scope.pages = PaginateService.createPagerNo($scope.pager);
+                    $scope.data = data.map((person) => {
+                        const leave = res.data.leaves.find((leave) =>
+                            person.person_id === leave.leave_person
+                        );
+                        return {
+                            ...person,
+                            leave: leave,
+                        };
+                    });
 
-                    console.log($scope.pages);
                     $scope.loading = false;
                 },
                 function (err) {

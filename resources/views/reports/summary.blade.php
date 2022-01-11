@@ -85,7 +85,7 @@
                                         id="dtpYear"
                                         name="dtpYear"
                                         ng-model="dtpYear"
-                                        ng-keyup="getSummary($event)"
+                                        ng-keyup="getSummary()"
                                         class="form-control">
                                 </div><!-- /.form group -->
                             </div>
@@ -98,7 +98,7 @@
                                         id="searchKeyword"
                                         name="searchKeyword"
                                         ng-model="searchKeyword"
-                                        ng-keyup="getSummary($event)"
+                                        ng-keyup="getSummary()"
                                         class="form-control">
                                 </div><!-- /.form group -->
                             </div>
@@ -144,7 +144,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="(index, person) in data">
-                                    <td style="text-align: center;">@{{ index+1 }}</td>
+                                    <td style="text-align: center;">@{{ pager.from + index }}</td>
                                     <td>
                                         @{{ person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname }}
                                     </td>
@@ -172,7 +172,7 @@
                         <ul class="pagination pagination-sm no-margin pull-right">
 
                             <li ng-if="pager.current_page !== 1">
-                                <a ng-click="getDataWithURL(pager.first_page_url)" aria-label="Previous">
+                                <a ng-click="getDataWithURL(pager.path+ '?page=1')" aria-label="Previous">
                                     <span aria-hidden="true">First</span>
                                 </a>
                             </li>
@@ -196,7 +196,7 @@
                             </li>
 
                             <li ng-if="pager.current_page !== pager.last_page">
-                                <a ng-click="getDataWithURL(pager.last_page_url)" aria-label="Previous">
+                                <a ng-click="getDataWithURL(pager.path+ '?page=' +pager.last_page)" aria-label="Previous">
                                     <span aria-hidden="true">Last</span>
                                 </a>
                             </li>
