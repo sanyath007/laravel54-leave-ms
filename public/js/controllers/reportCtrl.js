@@ -7,21 +7,17 @@ app.controller(
         $scope.pager = [];
         $scope.loading = false;
 
-        $scope.getSummary = function () {
-            let year = 2565;
-
+        $scope.onSelectedFaction = function () {
             $http
                 .get(`${CONFIG.baseUrl}/reports/summary-data?year=${year}`)
-                .then(
-                    function (res) {
+                .then(function (res) {
                         const { data, ...pager } = res.data.persons;
                         $scope.data = data;
                         $scope.pager = pager;
 
                         $scope.data = data.map((person) => {
-                            const leave = res.data.leaves.find(
-                                (leave) =>
-                                    person.person_id === leave.leave_person
+                            const leave = res.data.leaves.find((leave) =>
+                                person.person_id === leave.leave_person
                             );
                             return {
                                 ...person,
@@ -30,8 +26,35 @@ app.controller(
                         });
 
                         $scope.loading = false;
-                    },
-                    function (err) {
+                    }, function (err) {
+                        console.log(err);
+                        $scope.loading = false;
+                    }
+                );
+        };
+
+        $scope.getSummary = function () {
+            let year = 2565;
+
+            $http
+                .get(`${CONFIG.baseUrl}/reports/summary-data?year=${year}`)
+                .then(function (res) {
+                        const { data, ...pager } = res.data.persons;
+                        $scope.data = data;
+                        $scope.pager = pager;
+
+                        $scope.data = data.map((person) => {
+                            const leave = res.data.leaves.find((leave) =>
+                                person.person_id === leave.leave_person
+                            );
+                            return {
+                                ...person,
+                                leave: leave,
+                            };
+                        });
+
+                        $scope.loading = false;
+                    }, function (err) {
                         console.log(err);
                         $scope.loading = false;
                     }
@@ -51,20 +74,8 @@ app.controller(
             var showAll = $("#showall:checked").val() == "on" ? 1 : 0;
 
             $http
-                .get(
-                    CONFIG.BASE_URL +
-                        URL +
-                        "/" +
-                        debtType +
-                        "/" +
-                        sDate +
-                        "/" +
-                        eDate +
-                        "/" +
-                        showAll
-                )
-                .then(
-                    function (res) {
+                .get(`${CONFIG.baseUrl}${URL}/${debtType}/${sDate}/${eDate}/${showAll}`)
+                .then(function (res) {
                         console.log(res);
                         $scope.debts = res.data.pager.data;
                         $scope.pager = res.data.pager;
@@ -75,8 +86,7 @@ app.controller(
 
                         console.log($scope.pages);
                         $scope.loading = false;
-                    },
-                    function (err) {
+                    }, function (err) {
                         console.log(err);
                         $scope.loading = false;
                     }
@@ -120,17 +130,7 @@ app.controller(
                     $("#debtType").val() == "" ? "0" : $("#debtType").val();
                 var showAll = $("#showall:checked").val() == "on" ? 1 : 0;
 
-                window.location.href =
-                    CONFIG.BASE_URL +
-                    URL +
-                    "/" +
-                    creditor +
-                    "/" +
-                    sDate +
-                    "/" +
-                    eDate +
-                    "/" +
-                    showAll;
+                window.location.href = `${CONFIG.baseUrl}${URL}/${creditor}/${sDate}/${eDate}/${showAll}`;
             }
         };
 
@@ -147,17 +147,7 @@ app.controller(
                     $("#debtType").val() == "" ? "0" : $("#debtType").val();
                 var showAll = $("#showall:checked").val() == "on" ? 1 : 0;
 
-                window.location.href =
-                    CONFIG.BASE_URL +
-                    URL +
-                    "/" +
-                    debtType +
-                    "/" +
-                    sDate +
-                    "/" +
-                    eDate +
-                    "/" +
-                    showAll;
+                window.location.href = `${CONFIG.baseUrl}${URL}/${debtType}/${sDate}/${eDate}/${showAll}`;
             }
         };
     }
