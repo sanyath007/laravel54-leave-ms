@@ -29,6 +29,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.persons = [];
     $scope.pager = [];
 
+    $scope.cancellations = [];
+    $scope.cancelPager = [];
+
     $scope.leave = {
         leave_id: '',
         leave_no: '',
@@ -214,7 +217,35 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.cboMenu = "1";
 
         $scope.getAll(e);
+
+        loadCancellation();
     };
+
+    const loadCancellation = function() {
+        $scope.cancellations = [];
+        $scope.cancelPager = [];
+
+        $scope.loading = true;
+
+        let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
+        let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
+        let status  = '5';
+        let menu    = "1";
+
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}`)
+        .then(function(res) {
+            console.log(res);
+            const { data, ...pager } = res.data.leaves;
+
+            $scope.cancellations = data;
+            $scope.cancelPager = pager;
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    }
 
     $scope.showApproveForm = function(leave) {
         $scope.leave = leave;

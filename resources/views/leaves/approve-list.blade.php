@@ -174,61 +174,54 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 5%; text-align: center;">#</th>
-                                            <th>รายละเอียด</th>
+                                            <th>รายละเอียดการลา</th>
+                                            <th style="width: 35%;">ขอยกเลิกวันลา</th>
                                             <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
                                             <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
                                             <th style="width: 6%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="(index, leave) in leaves">
-                                            <td style="text-align: center;">@{{ index+pager.from }}</td>
+                                        <tr ng-repeat="(index, cancel) in cancellations">
+                                            <td style="text-align: center;">@{{ index+cancelPager.from }}</td>
                                             <td>
                                                 <h4 style="margin: 2px auto;">
-                                                    ขอยกเลิกวัน@{{ leave.type.name }}
-                                                    @{{ leave.person.prefix.prefix_name + leave.person.person_firstname + ' ' + leave.person.person_lastname }}
+                                                    ขอยกเลิกวัน@{{ cancel.type.name }}
+                                                    @{{ cancel.person.prefix.prefix_name + cancel.person.person_firstname + ' ' + cancel.person.person_lastname }}
                                                 </h4>
                                                 <p style="color: grey; margin: 0px auto;">
-                                                    ระหว่างวันที่ <span>@{{ leave.start_date | thdate }} - </span>
-                                                    ถึงวันที่ <span>@{{ leave.end_date | thdate }}</span>
-                                                    จำนวน <span>@{{ leave.leave_days }}</span> วัน
-                                                    <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
+                                                    ระหว่างวันที่ <span>@{{ cancel.start_date | thdate }} - </span>
+                                                    ถึงวันที่ <span>@{{ cancel.end_date | thdate }}</span>
+                                                    จำนวน <span>@{{ cancel.leave_days }}</span> วัน
+                                                    <a  href="{{ url('/'). '/uploads/' }}@{{ cancel.attachment }}"
                                                         title="ไฟล์แนบ"
                                                         target="_blank"
-                                                        ng-show="leave.attachment"
+                                                        ng-show="cancel.attachment"
                                                         class="btn btn-default btn-xs"
                                                     >
                                                         <i class="fa fa-paperclip" aria-hidden="true"></i>
                                                     </a>
                                                 </p>
                                             </td>
-                                            <td style="text-align: center;">@{{ leave.year }}</td>
+                                            <td>
+                                                <span style="font-weight: bold;">วันที่</span> @{{ cancel.cancellation[0].cancel_date | thdate }}
+                                                <span style="font-weight: bold;">จำนวน</span> @{{ cancel.cancellation[0].days }} วัน
+                                                <p style="color: grey; margin: 0px auto;">
+                                                    <span style="font-weight: bold;">เนื่องจาก</span> @{{ cancel.cancellation[0].reason }}
+                                                </p>
+                                            </td>
+                                            <td style="text-align: center;">@{{ cancel.year }}</td>
                                             <td style="text-align: center;">
-                                                <p style="margin: 0px auto;">@{{ leave.leave_date | thdate }}</p>
+                                                <p style="margin: 0px auto;">@{{ cancel.leave_date | thdate }}</p>
                                                 <p style="margin: 0px auto;">
-                                                    <span class="label label-primary" ng-show="leave.status == 1">
-                                                        อยู่ระหว่างดำเนินการ
-                                                    </span>
-                                                    <span class="label label-info" ng-show="leave.status == 2">
-                                                        รับเอกสารแล้ว
-                                                    </span>
-                                                    <span class="label label-success" ng-show="leave.status == 3">
-                                                        ผ่านการอนุมัติ
-                                                    </span>
-                                                    <span class="label label-default" ng-show="leave.status == 4">
-                                                        ไม่ผ่านการอนุมัติ
-                                                    </span>
-                                                    <span class="label label-warning" ng-show="leave.status == 5">
+                                                    <span class="label label-warning" ng-show="cancel.status == 5">
                                                         อยู่ระหว่างการยกเลิก
-                                                    </span>
-                                                    <span class="label label-danger" ng-show="leave.status == 9">
-                                                        ยกเลิก
                                                     </span>
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
                                                 <a  ng-click="showApproveForm(leave)" 
-                                                    ng-show="(leave.status!==4 || leave.status!==3)" 
+                                                    ng-show="(cancel.status!==4 || cancel.status!==3)" 
                                                     class="btn btn-warning btn-xs"
                                                     title="แก้ไขรายการ">
                                                     ลงนาม
@@ -239,38 +232,38 @@
                                 </table>
 
                                 <ul class="pagination pagination-sm no-margin pull-right">
-                                    <li ng-if="pager.current_page !== 1">
-                                        <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1', setLeaves)" aria-label="Previous">
+                                    <li ng-if="cancelPager.current_page !== 1">
+                                        <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=1', setLeaves)" aria-label="Previous">
                                             <span aria-hidden="true">First</span>
                                         </a>
                                     </li>
                                 
-                                    <li ng-class="{'disabled': (pager.current_page==1)}">
-                                        <a href="#" ng-click="getDataWithURL(pager.prev_page_url, setLeaves)" aria-label="Prev">
+                                    <li ng-class="{'disabled': (cancelPager.current_page==1)}">
+                                        <a href="#" ng-click="getDataWithURL(cancelPager.prev_page_url, setLeaves)" aria-label="Prev">
                                             <span aria-hidden="true">Prev</span>
                                         </a>
                                     </li>
 
-                                    <!-- <li ng-repeat="i in debtPages" ng-class="{'active': pager.current_page==i}">
-                                        <a href="#" ng-click="getDataWithURL(pager.path + '?page=' +i, setLeaves)">
+                                    <!-- <li ng-repeat="i in debtPages" ng-class="{'active': cancelPager.current_page==i}">
+                                        <a href="#" ng-click="getDataWithURL(cancelPager.path + '?page=' +i, setLeaves)">
                                             @{{ i }}
                                         </a>
                                     </li> -->
 
-                                    <!-- <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
-                                        <a href="#" ng-click="pager.path">
+                                    <!-- <li ng-if="cancelPager.current_page < cancelPager.last_page && (cancelPager.last_page - cancelPager.current_page) > 10">
+                                        <a href="#" ng-click="cancelPager.path">
                                             ...
                                         </a>
                                     </li> -->
 
-                                    <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
-                                        <a href="#" ng-click="getDataWithURL(pager.next_page_url, setLeaves)" aria-label="Next">
+                                    <li ng-class="{'disabled': (cancelPager.current_page==cancelPager.last_page)}">
+                                        <a href="#" ng-click="getDataWithURL(cancelPager.next_page_url, setLeaves)" aria-label="Next">
                                             <span aria-hidden="true">Next</span>
                                         </a>
                                     </li>
 
-                                    <li ng-if="pager.current_page !== pager.last_page">
-                                        <a href="#" ng-click="getDataWithURL(pager.path+ '?page=' +pager.last_page, setLeaves)" aria-label="Previous">
+                                    <li ng-if="cancelPager.current_page !== cancelPager.last_page">
+                                        <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=' +cancelPager.last_page, setLeaves)" aria-label="Previous">
                                             <span aria-hidden="true">Last</span>
                                         </a>
                                     </li>
