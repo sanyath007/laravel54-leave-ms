@@ -122,8 +122,8 @@
                                             <td style="text-align: center;">
                                                 <a  ng-click="showApproveForm(leave)" 
                                                     ng-show="(leave.status!==4 || leave.status!==3)" 
-                                                    class="btn btn-warning btn-xs"
-                                                    title="แก้ไขรายการ">
+                                                    class="btn btn-warning btn-sm"
+                                                    title="ลงนามอนุมัติการลา">
                                                     ลงนาม
                                                 </a>
                                             </td>             
@@ -222,8 +222,8 @@
                                             <td style="text-align: center;">
                                                 <a  ng-click="showApproveForm(leave)" 
                                                     ng-show="(cancel.status!==4 || cancel.status!==3)" 
-                                                    class="btn btn-warning btn-xs"
-                                                    title="แก้ไขรายการ">
+                                                    class="btn btn-success btn-sm"
+                                                    title="ลงนามอนุมัติยกเลิกการลา">
                                                     ลงนาม
                                                 </a>
                                             </td>             

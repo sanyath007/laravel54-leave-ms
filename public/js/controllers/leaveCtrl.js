@@ -234,7 +234,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}`)
         .then(function(res) {
-            console.log(res);
             const { data, ...pager } = res.data.leaves;
 
             $scope.cancellations = data;
