@@ -120,7 +120,7 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <a  ng-click="showApproveForm(leave)" 
+                                                <a  ng-click="showApproveForm(leave, 1)" 
                                                     ng-show="(leave.status!==4 || leave.status!==3)" 
                                                     class="btn btn-warning btn-sm"
                                                     title="ลงนามอนุมัติการลา">
@@ -220,7 +220,7 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <a  ng-click="showApproveForm(leave)" 
+                                                <a  ng-click="showApproveForm(cancel, 2)" 
                                                     ng-show="(cancel.status!==4 || cancel.status!==3)" 
                                                     class="btn btn-success btn-sm"
                                                     title="ลงนามอนุมัติยกเลิกการลา">
@@ -273,6 +273,7 @@
                         </div><!-- /.tab-content -->
 
                         @include('leaves._approve-form')
+                        @include('leaves._cancel-approval-form')
 
                     </div><!-- /.box-body -->
 

@@ -246,10 +246,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
-    $scope.showApproveForm = function(leave) {
+    $scope.showApproveForm = function(leave, type) {
         $scope.leave = leave;
 
-        $('#approve-form').modal('show');
+        if (type === 1) {
+            $('#approve-form').modal('show');
+        } else {
+            $('#cancel-approval-form').modal('show');
+        }
     };
 
     $scope.onCancelLoad = function(e) {

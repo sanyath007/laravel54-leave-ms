@@ -64,6 +64,10 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/print/{id}', 'LeaveController@printLeaveForm');
     Route::get('leaves/print-cancel/{id}', 'LeaveController@printCancelForm');
 
+    
+    /** ยกเลิกการลา */
+    Route::post('cancellations/approve', 'CancellationController@doApprove');
+
     /** Asset Type */
     Route::post('asset-type/validate', 'AssetTypeController@formValidate');
     Route::get('asset-type/list', 'AssetTypeController@index');
