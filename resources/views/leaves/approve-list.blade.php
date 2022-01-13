@@ -58,8 +58,16 @@
                 <div class="box">
                     <div class="box-body">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#approve" data-toggle="tab">รายการขออนุมัติใบลา</a></li>
-                            <li><a href="#cancel" data-toggle="tab">รายการขอยกเลิกวันลา</a></li>
+                            <li class="active"><a href="#approve" data-toggle="tab">
+                                <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                รายการขออนุมัติใบลา
+                                <span class="badge badge-light">@{{ leaves.length }}</span>
+                            </a></li>
+                            <li><a href="#cancel" data-toggle="tab">
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                รายการขอยกเลิกวันลา
+                                <span class="badge badge-light">@{{ cancellations.length }}</span>
+                            </a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="approve">
@@ -124,6 +132,7 @@
                                                     ng-show="(leave.status!==4 || leave.status!==3)" 
                                                     class="btn btn-warning btn-sm"
                                                     title="ลงนามอนุมัติการลา">
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
                                                     ลงนาม
                                                 </a>
                                             </td>             
@@ -222,8 +231,9 @@
                                             <td style="text-align: center;">
                                                 <a  ng-click="showApproveForm(cancel, 2)" 
                                                     ng-show="(cancel.status!==4 || cancel.status!==3)" 
-                                                    class="btn btn-success btn-sm"
+                                                    class="btn btn-danger btn-sm"
                                                     title="ลงนามอนุมัติยกเลิกการลา">
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
                                                     ลงนาม
                                                 </a>
                                             </td>             
