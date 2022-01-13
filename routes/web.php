@@ -91,6 +91,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     /** Report */
     Route::get('reports/summary', 'ReportController@summary');
     Route::get('reports/summary-data', 'ReportController@getSummaryData');
+    Route::get('reports/remain', 'ReportController@remain');
+    Route::get('reports/remain-data', 'ReportController@getRemainData');
     Route::get('reports/debt-creditor/rpt/{creditor}/{sdate}/{edate}/{showall}', 'ReportController@debtCreditorRpt');
     Route::get('reports/debt-creditor-excel/{creditor}/{sdate}/{edate}/{showall}', 'ReportController@debtCreditorExcel');     
     Route::get('reports/debt-debttype/list', 'ReportController@debtDebttype');    

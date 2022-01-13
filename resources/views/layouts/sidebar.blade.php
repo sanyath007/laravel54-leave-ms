@@ -108,6 +108,11 @@
 									<i class="fa fa-circle-o"></i> สรุปการลา
 								</a>
 							</li>
+							<li>
+								<a href="{{ url('reports/remain') }}">
+									<i class="fa fa-circle-o"></i> สรุปวันลาคงเหลือ
+								</a>
+							</li>
 						</ul>
 					</li>
 					<!-- <li class="treeview">
@@ -154,7 +159,7 @@
 								</a>
 							</li>
 						</ul>
-					</li>													 -->
+					</li> -->
 				</ul>
 			</section><!-- /.sidebar -->
 
