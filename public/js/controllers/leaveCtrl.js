@@ -210,7 +210,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         $scope.getAll(e);
 
-        loadCancellation();
+        getCancellation();
     };
 
     $scope.onApproveLoad = function(e) {
@@ -220,10 +220,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         $scope.getAll(e);
 
-        loadCancellation();
+        getCancellation(true);
     };
 
-    const loadCancellation = function() {
+    const getCancellation = function(isApproval=false) {
         $scope.cancellations = [];
         $scope.cancelPager = [];
 
@@ -238,7 +238,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         .then(function(res) {
             const { data, ...pager } = res.data.leaves;
 
-            $scope.cancellations = data;
+            if (isApproval) {
+                $scope.cancellations = data;
+            } else {
+                $scope.cancellations = data.filter(cancel => {
+                    return cancel.cancellation.every(c => c.received_date === null);
+                });
+            }
+
             $scope.cancelPager = pager;
 
             $scope.loading = false;
