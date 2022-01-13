@@ -122,24 +122,31 @@
                                     <th style="width: 20%; text-align: center;" rowspan="2">ตำแหน่ง</th>
                                     <th style="text-align: center;" colspan="2">ลาป่วย</th>
                                     <th style="text-align: center;" colspan="2">ลากิจ</th>
-                                    <th style="text-align: center;" colspan="2">ลาพักผ่อน</th>
                                     <th style="text-align: center;" colspan="2">ลาคลอด</th>
-                                    <th style="text-align: center;" colspan="2">ลาบวช</th>
+                                    <th style="text-align: center;" colspan="2">ลาพักผ่อน</th>
+                                    <th style="text-align: center;" colspan="2">
+                                        ลาเพื่อดูแลบุตร<br>และภริยาที่คลอดบุตร
+                                    </th>
+                                    <th style="text-align: center;" colspan="2">
+                                        ลาอุปสมบท/<br>ประกอบพิธีฮัจย์
+                                    </th>
                                     <th style="text-align: center;" colspan="2">ลาไปต่างประเทศ</th>
                                 </tr>
                                 <tr>
+                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
+                                    <th style="width: 4%; text-align: center;">วัน</th>
+                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
+                                    <th style="width: 4%; text-align: center;">วัน</th>
+                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
+                                    <th style="width: 4%; text-align: center;">วัน</th>
+                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
+                                    <th style="width: 4%; text-align: center;">วัน</th>
                                     <th style="width: 5%; text-align: center;">ครั้ง</th>
                                     <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 5%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 5%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 5%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 5%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 5%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 5%; text-align: center;">วัน</th>
+                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
+                                    <th style="width: 4%; text-align: center;">วัน</th>
+                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
+                                    <th style="width: 4%; text-align: center;">วัน</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -155,10 +162,12 @@
                                     <td style="text-align: center;">@{{ person.leave.ill_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.per_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.per_days }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.vac_times }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.vac_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.lab_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.lab_days }}</td>
+                                    <td style="text-align: center;">@{{ person.leave.vac_times }}</td>
+                                    <td style="text-align: center;">@{{ person.leave.vac_days }}</td>
+                                    <td style="text-align: center;"></td>
+                                    <td style="text-align: center;"></td>
                                     <td style="text-align: center;">@{{ person.leave.ord_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.ord_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.abr_times }}</td>
