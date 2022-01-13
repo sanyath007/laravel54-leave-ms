@@ -209,6 +209,8 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.cboMenu = "1";
 
         $scope.getAll(e);
+
+        loadCancellation();
     };
 
     $scope.onApproveLoad = function(e) {

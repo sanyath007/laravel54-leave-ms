@@ -82,7 +82,7 @@
 							@if (Auth::user()->person_id == '1300200009261' || Auth::user()->person_id == '1309900322504')
 								<li ng-class="{ 'active': submenu == 'receive' }">
 									<a href="{{ url('leaves/receive') }}">
-										<i class="fa fa-circle-o"></i> ลงรับใบลา
+										<i class="fa fa-circle-o"></i> รับเอกสาร
 									</a>
 								</li>
 								<li ng-class="{ 'active': submenu == 'approve' }">
