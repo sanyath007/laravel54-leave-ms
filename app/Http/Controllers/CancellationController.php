@@ -49,4 +49,19 @@ class CancellationController extends Controller
             //throw $th;
         }
     }
+
+    public function doReceive(Request $req)
+    {
+        try {
+            $cancel = Cancellation::find($req['_id']);
+            $cancel->received_date  = date('Y-m-d H:i:s');
+            $cancel->received_by    = '';
+
+            if ($cancel->save()) {
+                return redirect('/leaves/receive');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
 }

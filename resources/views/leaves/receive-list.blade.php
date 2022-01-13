@@ -231,7 +231,8 @@
                                             </td>
                                             <td style="text-align: center;">
                                                 <form action="{{ url('/cancellations/receive') }}" method="POST">
-                                                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                                                    <input type="hidden" id="_id" name="_id" value="@{{ cancel.cancellation[0].id }}" />
+                                                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ cancel.id }}" />
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn-success btn-sm">
                                                         <i class="fa fa-check" aria-hidden="true"></i>
