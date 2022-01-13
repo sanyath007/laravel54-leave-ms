@@ -162,12 +162,12 @@
                                     <td style="text-align: center;">@{{ person.leave.ill_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.per_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.per_days }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.lab_times }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.lab_days }}</td>
+                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : person.leave.lab_times }}</td>
+                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : person.leave.lab_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.vac_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.vac_days }}</td>
-                                    <td style="text-align: center;"></td>
-                                    <td style="text-align: center;"></td>
+                                    <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : '0' }}</td>
+                                    <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : '0' }}</td>
                                     <td style="text-align: center;">@{{ person.leave.ord_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.ord_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.abr_times }}</td>
