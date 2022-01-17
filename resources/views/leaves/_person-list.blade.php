@@ -54,7 +54,7 @@
                                     @{{ person.member_of.depart.depart_name }}
                                 </td>
                                 <td style="text-align: center;">
-                                    <a href="#" class="btn btn-primary" ng-click="onSelectedDelegatePerson($event, person)">
+                                    <a href="#" class="btn btn-primary" ng-click="onSelectedPerson($event, person, personListsCallback)">
                                         เลือก
                                     </a>
                                 </td>

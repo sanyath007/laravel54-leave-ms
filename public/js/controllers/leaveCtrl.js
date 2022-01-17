@@ -47,7 +47,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         start_period: '1',
         end_date: '',
         end_period: '',
-        leave_days: 0
+        leave_days: 0,
+        wife_id: '',
+        wife_name: '',
+        have_ordain: 0,
+        ordain_temple: '',
+        temple_location: '',
+        ordain_date: '',
+        hibernate_temple: ''
     };
     
     $scope.barOptions = {};
@@ -57,6 +64,20 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $('#start_period').prop("disabled", true);
 
     $('#leave_date').datepicker({
+        autoclose: true,
+        language: 'th',
+        format: 'dd/mm/yyyy',
+        thaiyear: true
+    }).datepicker('update', new Date());
+
+    $('#deliver_date').datepicker({
+        autoclose: true,
+        language: 'th',
+        format: 'dd/mm/yyyy',
+        thaiyear: true
+    }).datepicker('update', new Date());
+
+    $('#ordain_date').datepicker({
         autoclose: true,
         language: 'th',
         format: 'dd/mm/yyyy',
@@ -129,7 +150,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             start_period: '1',
             end_date: '',
             end_period: '',
-            leave_days: 0
+            leave_days: 0,
+            wife_id: '',
+            wife_name: '',
+            have_ordain: 0,
+            ordain_temple: '',
+            temple_location: '',
+            ordain_date: '',
+            hibernate_temple: ''
         };
     };
 
@@ -154,15 +182,30 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $('#leave_topic').val($('#leave_type').children("option:selected").text().trim());
     };
 
+    $scope.personListsCallback = '';
+    $scope.onWifeIsOfficer = function(value) {
+        if (value) {
+            $scope.personListsCallback = 'onSelectedWifeInPersons';
+            $scope.getPersons('0', '0', togglePersonLists);
+        }
+    };
+
     $scope.onShowPersonLists = function(e) {
         e.preventDefault();
 
+        $scope.personListsCallback = 'onSelectedDelegatePerson';
         $scope.getPersons('0', '0', togglePersonLists);
     };
 
     const togglePersonLists = function() {
         console.log('callback is invoked!!');
         $('#person-list').modal('show');
+    };
+
+    $scope.onSelectedPerson = function(e, person, cbName) {
+        const cb = $scope[cbName];
+
+        cb(person);
     };
 
     $scope.getPersons = function(depart, searchKey, cb) {
@@ -181,14 +224,22 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     };
 
-    $scope.onSelectedDelegatePerson = function(e, person) {
-        e.preventDefault();
-
+    $scope.onSelectedDelegatePerson = function(person) {
         $scope.leave.leave_delegate = person.person_id;
         $('#leave_delegate').val(person.person_id);
 
         const academic = person.academic !== null ? person.academic.ac_name : '';
         $('#leave_delegate_detail').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
+
+        $('#person-list').modal('hide');
+    };
+
+    $scope.onSelectedWifeInPersons = function(person) {
+        $scope.leave.wife_id = person.person_id;
+        $('#wife_id').val(person.person_id);
+
+        const academic = person.academic !== null ? person.academic.ac_name : '';
+        $('#wife_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
 
         $('#person-list').modal('hide');
     };

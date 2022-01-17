@@ -132,7 +132,11 @@
                                             readonly="readonly" />
                                 </div>
 
-                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_reason')}">
+                                <div
+                                    class="form-group col-md-12"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_reason')}"
+                                    ng-show="leave.leave_type == '1' || leave.leave_type == '2' || leave.leave_type == '4'"
+                                >
                                     <label>เนื่องจาก :</label>
                                     <input  type="text" 
                                             id="leave_reason" 
@@ -141,6 +145,149 @@
                                             class="form-control pull-right"
                                             tabindex="5">
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_reason')">กรุณาระบุเหตุผลการลา</span>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-6" 
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'wife_name')}"
+                                    ng-show="leave.leave_type == '5'"
+                                >
+                                    <label>ภรรยาชื่อ :</label>
+                                    <div style="display: flex;">
+                                        <input 
+                                            type="text" 
+                                            id="wife_name" 
+                                            name="wife_name" 
+                                            ng-model="leave.wife_name" 
+                                            class="form-control pull-right"
+                                            style="margin-right: 10px; width: 75%;"
+                                            tabindex="5"
+                                        />
+                                        <input
+                                            type="checkbox"
+                                            id="wife_is_officer"
+                                            name="wife_is_officer"
+                                            ng-model="wife_is_officer"
+                                            ng-change="onWifeIsOfficer(wife_is_officer)"
+                                            style="margin: 10px 5px 0px 0px;"
+                                            tabindex="5"
+                                        />
+                                        <input type="hidden" id="wife_id" name="wife_id" ng-model="leave.wife_id" />
+                                        <span style="margin-top: 5px;">เป็นบุคลากรของ รพ.</span>
+                                    </div>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'wife_name')">กรุณาระบุเหตุผลการลา</span>
+                                </div>
+
+                                <div class="col-md-6" ng-show="leave.leave_type == '5'">
+                                    <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(leave, 'deliver_date')}">
+                                        <label>คลอดบุตรเมื่อวันที่ :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input  type="text"
+                                                    id="deliver_date"
+                                                    name="deliver_date"
+                                                    class="form-control pull-right"
+                                                    tabindex="5">
+                                        </div>
+                                        <span class="help-block" ng-show="checkValidate(leave, 'deliver_date')">กรุณาเลือกวันที่คลอดบุตร</span>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-6"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'have_ordain')}"
+                                    ng-show="leave.leave_type == '6'"
+                                >
+                                    <label>เคยอุปสมบท :</label>
+                                    <div style="display: flex; margin-top: 5px; padding: 5px;">
+                                        <input
+                                            type="radio"
+                                            id="have_ordain"
+                                            name="have_ordain"
+                                            ng-value="0"
+                                            ng-model="leave.have_ordain"
+                                            style="margin-right: 10px;"
+                                            tabindex="5"
+                                        > ยังไม่เคย
+                                        <input
+                                            type="radio"
+                                            id="have_ordain"
+                                            name="have_ordain"
+                                            ng-value="1"
+                                            ng-model="leave.have_ordain"
+                                            style="margin: auto 10px auto 20px;"
+                                            tabindex="5"
+                                        > เคย
+                                    </div>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'have_ordain')">
+                                        กรุณาระบุการเคยอุปสมบท
+                                    </span>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-6"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'ordain_temple')}"
+                                    ng-show="leave.leave_type == '6'"
+                                >
+                                    <label>จะอุปสมบท ณ วัด :</label>
+                                    <input  type="text" 
+                                            id="ordain_temple" 
+                                            name="ordain_temple" 
+                                            ng-model="leave.ordain_temple" 
+                                            class="form-control pull-right"
+                                            tabindex="5">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'ordain_temple')">กรุณาจะอุปสมบท ณ วัด</span>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-12"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'temple_location')}"
+                                    ng-show="leave.leave_type == '6'"
+                                >
+                                    <label>ตั้งอยู่ ณ :</label>
+                                    <input  type="text" 
+                                            id="temple_location" 
+                                            name="temple_location" 
+                                            ng-model="leave.temple_location" 
+                                            class="form-control pull-right"
+                                            tabindex="5">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'temple_location')">กรุณาระบุตั้งอยู่ ณ</span>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-6"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'ordain_date')}"
+                                    ng-show="leave.leave_type == '6'"
+                                >
+                                    <label>อุปสมบทวันที่ :</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                        <input  type="text"
+                                                id="ordain_date"
+                                                name="ordain_date"
+                                                class="form-control pull-right"
+                                                tabindex="5">
+                                    </div>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'ordain_date')">กรุณาระบุอุปสมบทวันที่</span>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-6"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'hibernate_temple')}"
+                                    ng-show="leave.leave_type == '6'"
+                                >
+                                    <label>จำพรรษา ณ วัด :</label>
+                                    <input  type="text" 
+                                            id="hibernate_temple" 
+                                            name="hibernate_temple" 
+                                            ng-model="leave.hibernate_temple" 
+                                            class="form-control pull-right"
+                                            tabindex="5">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'hibernate_temple')">กรุณาระบุจำพรรษา ณ วัด</span>
                                 </div>
 
                                 <div class="col-md-6">
