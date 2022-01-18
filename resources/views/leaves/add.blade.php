@@ -322,13 +322,13 @@
                                 ]; ?>
                                 <div
                                     class="form-group col-md-6"
-                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'contry')}"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'country')}"
                                     ng-show="leave.leave_type == '7'"
                                 >
                                     <label>ณ ประเทศ :</label>
-                                    <select id="contry"
-                                            name="contry"
-                                            ng-model="leave.contry"
+                                    <select id="country"
+                                            name="country"
+                                            ng-model="leave.country"
                                             class="form-control" 
                                             style="width: 100%;"
                                             tabindex="2">
@@ -341,7 +341,7 @@
 
                                         @endforeach
                                     </select>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'contry')">กรุณาเลือกประเทศ</span>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'country')">กรุณาเลือกประเทศ</span>
                                 </div>
 
                                 <div
@@ -434,7 +434,11 @@
                                     <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
                                 </div>
 
-                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_contact')}">
+                                <div
+                                    class="form-group col-md-12"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_contact')}"
+                                    ng-show="leave.leave_type != '6' && leave.leave_type != '7'"
+                                >
                                     <label>ระหว่างลาติดต่อข้าพเจ้าได้ที่ :</label>
                                     <textarea
                                         id="leave_contact" 
@@ -455,7 +459,11 @@
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาแนบเอกสาร</span>
                                 </div>
 
-                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
+                                <div
+                                    class="form-group col-md-12"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_delegate')}"
+                                    ng-show="leave.leave_type == '1' || leave.leave_type == '2' || leave.leave_type == '3' || leave.leave_type == '4'"
+                                >
                                     <label>ผู้รับมอบหมายแทน :</label>
                                     <div class="input-group">
                                         <input type="text"
