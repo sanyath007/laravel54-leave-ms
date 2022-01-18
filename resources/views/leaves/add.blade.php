@@ -311,8 +311,10 @@
                                             type="checkbox"
                                             id="same_ordain_temple"
                                             name="same_ordain_temple"
+                                            ng-model="same_ordain_temple"
+                                            ng-change="onSameOrdainTempleChecked(same_ordain_temple)"
                                             style="margin: 5px;"
-                                        /> วัดที่จะอุปสมบท )
+                                        /> เป็นวัดเดียวกับวัดที่จะอุปสมบท )
                                     </div>
                                     <input  type="text" 
                                             id="hibernate_temple" 
@@ -326,22 +328,7 @@
 
                             <div class="row">
                                 <div
-                                    class="form-group col-md-6"
-                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'hibernate_location')}"
-                                    ng-show="leave.leave_type == '6'"
-                                >
-                                    <label>ที่อยู่วัดที่จะจำพรรษา :</label>
-                                    <input  type="text" 
-                                            id="hibernate_location" 
-                                            name="hibernate_location" 
-                                            ng-model="leave.hibernate_location" 
-                                            class="form-control pull-right"
-                                            tabindex="5">
-                                    <span class="help-block" ng-show="checkValidate(leave, 'hibernate_location')">กรุณาระบุที่อยู่วัดที่จะจำพรรษา</span>
-                                </div>
-
-                                <div
-                                    class="form-group col-md-6"
+                                    class="form-group col-md-12"
                                     ng-class="{'has-error has-feedback': checkValidate(leave, 'hibernate_location')}"
                                     ng-show="leave.leave_type == '6'"
                                 >

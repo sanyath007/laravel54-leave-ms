@@ -191,6 +191,20 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $('#leave_days').val(days);
     };
 
+    $scope.same_ordain_temple = false;
+    $scope.onSameOrdainTempleChecked = function(value) {
+        if (value) {
+            if ($scope.leave.ordain_temple === '' || $scope.leave.ordain_location === '') {
+                toaster.pop('error', "", 'คุณยังไม่ได้ระบุวัดและที่อยู่วัดที่จะอุปสมบท !!!');
+                $scope.same_ordain_temple = false;
+                return;
+            }
+    
+            $scope.leave.hibernate_temple = $scope.leave.ordain_temple;
+            $scope.leave.hibernate_location = $scope.leave.ordain_location;
+        }
+    };
+
     $scope.onSelectedType = function() {
         $scope.leave.leave_topic = $('#leave_type').children("option:selected").text().trim();
         $('#leave_topic').val($('#leave_type').children("option:selected").text().trim());
