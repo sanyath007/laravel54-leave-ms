@@ -222,7 +222,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         } else {
             $('#wife_name').val('');
             $('#wife_id').val('');
+
             $scope.leave.wife_id = '';
+            $scope.leave.wife_name = '';
         }
     };
 
@@ -271,6 +273,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
             const academic = person.academic !== null ? person.academic.ac_name : '';
             $('#leave_delegate_detail').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
+        } else {
+            $scope.leave.leave_delegate = '';
+
+            $('#leave_delegate').val('');
+            $('#leave_delegate_detail').val('');
         }
 
         $scope.personListsCallback = '';
@@ -280,10 +287,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.onSelectedWifeInPersons = function(person) {
         if (person) {
             $scope.leave.wife_id = person.person_id;
+            $scope.leave.wife_name = person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname;
+
             $('#wife_id').val(person.person_id);
-    
-            const academic = person.academic !== null ? person.academic.ac_name : '';
-            $('#wife_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
+            $('#wife_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname)
         } else {
             $scope.wife_is_officer = false;
         }

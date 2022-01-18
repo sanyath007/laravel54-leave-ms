@@ -25,7 +25,7 @@ app.run(function ($rootScope, $window, $http, toaster) {
 
 	$rootScope.formValidate = function (event, URL, validData, form, callback) {
 		event.preventDefault();
-		
+		console.log({ ...validData });
 		$http.post(env.baseUrl + URL, { ...validData })
 			.then(function (res) {
 				$rootScope.formError = res.data;
