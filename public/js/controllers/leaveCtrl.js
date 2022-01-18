@@ -188,7 +188,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             days += 1;
         }
 
-        $('#leave_days').val(days);
+        $scope.leave.leave_days = days;
     };
 
     $scope.same_ordain_temple = false;

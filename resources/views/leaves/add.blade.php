@@ -29,7 +29,6 @@
                     <form id="frmNewLeave" name="frmNewLeave" method="post" action="{{ url('/leaves/store') }}" role="form" enctype="multipart/form-data">
                         <input type="hidden" id="user" name="user" value="{{ Auth::user()->person_id }}">
                         <input type="hidden" id="leave_topic" name="leave_topic" ng-model="leave.leave_topic">
-                        <input type="hidden" id="leave_days" name="leave_days" ng-model="leave.leave_days">
                         {{ csrf_field() }}
 
                         <div class="box-body">
@@ -358,7 +357,7 @@
                             ]; ?>
                             <div class="row">
                                 <div
-                                    class="form-group col-md-6"
+                                    class="form-group col-md-12"
                                     ng-class="{'has-error has-feedback': checkValidate(leave, 'country')}"
                                     ng-show="leave.leave_type == '7'"
                                 >
@@ -379,21 +378,6 @@
                                         @endforeach
                                     </select>
                                     <span class="help-block" ng-show="checkValidate(leave, 'country')">กรุณาเลือกประเทศ</span>
-                                </div>
-
-                                <div
-                                    class="form-group col-md-6"
-                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'hibernate_location')}"
-                                    ng-show="leave.leave_type == '7'"
-                                >
-                                    <label>มีกำหนด (วัน) :</label>
-                                    <input  type="text" 
-                                            id="hibernate_location" 
-                                            name="hibernate_location" 
-                                            ng-model="leave.hibernate_location" 
-                                            class="form-control pull-right"
-                                            tabindex="5">
-                                    <span class="help-block" ng-show="checkValidate(leave, 'hibernate_location')">กรุณาระบุจำนวนวันลา</span>
                                 </div>
                             </div>
 
@@ -483,6 +467,22 @@
                                         @endforeach
                                     </select>
                                     <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div
+                                    class="form-group col-md-12"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'hibernate_location')}"
+                                >
+                                    <label>มีกำหนด (วัน) :</label>
+                                    <input  type="text" 
+                                            id="leave_days" 
+                                            name="leave_days" 
+                                            ng-model="leave.leave_days" 
+                                            class="form-control pull-right"
+                                            tabindex="5">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'hibernate_location')">กรุณาระบุจำนวนวันลา</span>
                                 </div>
                             </div>
 
