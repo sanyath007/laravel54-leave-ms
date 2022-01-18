@@ -10,6 +10,10 @@ use App\Models\Position;
 use App\Models\History;
 use App\Models\Cancellation;
 use App\Models\Vacation;
+use App\Models\HelpedWife;
+use App\Models\Ordinate;
+use App\Models\Oversea;
+use App\Models\Country;
 use PDF;
 
 
@@ -32,7 +36,7 @@ class LeaveController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'leave_place'   => 'required',
-            'leave_type'   => 'required',
+            'leave_type'    => 'required',
             'leave_to'      => 'required',
             'leave_reason'  => 'required',
             'start_date'    => 'required',
@@ -151,9 +155,30 @@ class LeaveController extends Controller
         $leave->leave_to        = $req['leave_to'];
         $leave->leave_person    = $req['leave_person'];
         $leave->leave_type      = $req['leave_type'];
-        $leave->leave_reason    = $req['leave_reason'];
-        $leave->leave_contact   = $req['leave_contact'];
-        $leave->leave_delegate  = $req['leave_delegate'];
+        
+        /** leave_type detail
+         *  1 = ลาป่วย
+         *  2 = ลากิจ
+         *  3 = ลาพักผ่อน
+         *  4 = ลาคลอด
+         *  5 = ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
+         *  6 = ลาอุปสมบท/ไปประกอบพิธีฮัจย์
+         *  7 = ไปต่างประเทศ
+         */
+        if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
+            $req['leave_type'] == '3' || $req['leave_type'] == '4') {
+            $leave->leave_contact   = $req['leave_contact'];
+            $leave->leave_delegate  = $req['leave_delegate'];
+        }
+
+        if ($req['leave_type'] == '5') {
+            $leave->leave_contact   = $req['leave_contact'];
+        }
+
+        if ($req['leave_type'] == '7') {
+            $leave->leave_reason    = $req['leave_reason'];
+        }
+
         $leave->start_date      = convThDateToDbDate($req['start_date']);
         $leave->start_period    = '1';
         $leave->end_date        = convThDateToDbDate($req['end_date']);
@@ -169,6 +194,37 @@ class LeaveController extends Controller
         }
 
         if($leave->save()) {
+            /** Insert detail data of some leave type */
+            if ($req['leave_type'] == '5') {
+                $hw = new HelpedWife();
+                $hw->leave_id       = $leave->id;
+                $hw->wife_name      = $req['wife_name'];
+                $hw->deliver_date   = $req['deliver_date'];
+                $hw->is_officer     = $req['is_officer'];
+                $hw->wife_id        = $req['wife_id'];
+                $hw->save();
+            }
+
+            if ($req['leave_type'] == '6') {
+                $ord = new Ordinate();
+                $ord->leave_id              = $leave->id;
+                $ord->have_ordain           = $req['have_ordain'];
+                $ord->ordain_date           = $req['ordain_date'];
+                $ord->ordain_temple         = $req['ordain_temple'];
+                $ord->ordain_location       = $req['ordain_location'];
+                $ord->hibernate_temple      = $req['hibernate_temple'];
+                $ord->hibernate_location    = $req['hibernate_location'];
+                $ord->save();
+            }
+
+            if ($req['leave_type'] == '7') {
+                $over = new Oversea();
+                $over->leave_id = $leave->id;
+                $over->country  = $req['country'];
+                $over->days     = $req['days'];
+                $over->save();
+            }
+
             return redirect('/leaves/list');
         }
     }
