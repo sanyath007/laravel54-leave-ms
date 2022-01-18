@@ -202,6 +202,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     
             $scope.leave.hibernate_temple = $scope.leave.ordain_temple;
             $scope.leave.hibernate_location = $scope.leave.ordain_location;
+        } else {
+            $scope.leave.hibernate_temple = '';
+            $scope.leave.hibernate_location = '';
         }
     };
 
@@ -215,6 +218,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         if (value) {
             $scope.personListsCallback = 'onSelectedWifeInPersons';
             $scope.getPersons('0', '0', togglePersonLists);
+        } else {
+            $('#wife_name').val('');
+            $('#wife_id').val('');
+            $scope.leave.wife_id = '';
         }
     };
 
