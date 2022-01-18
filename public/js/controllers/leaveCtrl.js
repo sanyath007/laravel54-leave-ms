@@ -273,6 +273,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             $('#leave_delegate_detail').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
         }
 
+        $scope.personListsCallback = '';
         $('#person-list').modal('hide');
     };
 
@@ -287,6 +288,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             $scope.wife_is_officer = false;
         }
 
+        $scope.personListsCallback = '';
         $('#person-list').modal('hide');
     };
 
