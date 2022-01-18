@@ -34,17 +34,45 @@ class LeaveController extends Controller
 
     public function formValidate (Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $rules = [
             'leave_place'   => 'required',
             'leave_type'    => 'required',
             'leave_to'      => 'required',
-            'leave_reason'  => 'required',
             'start_date'    => 'required',
             'start_period'  => 'required',
             'end_date'      => 'required',
             'end_period'    => 'required',
-            'leave_contact' => 'required',
-        ]);
+        ];
+
+        if ($request['leave_type'] == '1' || $request['leave_type'] == '2' || 
+            $request['leave_type'] == '3' || $request['leave_type'] == '4' ||
+            $request['leave_type'] == '5') {
+            $rules['leave_contact'] = 'required';
+        }
+        
+        if ($request['leave_type'] == '1' || $request['leave_type'] == '2' || 
+            $request['leave_type'] == '4' || $request['leave_type'] == '7') {
+            $rules['leave_reason'] = 'required';
+        }
+
+        if ($request['leave_type'] == '5') {
+            $rules['wife_name'] = 'required';
+            $rules['deliver_date'] = 'required';
+        }
+
+        if ($request['leave_type'] == '6') {
+            $rules['ordain_date'] = 'required';
+            $rules['ordain_temple'] = 'required';
+            $rules['ordain_location'] = 'required';
+            $rules['hibernate_temple'] = 'required';
+            $rules['hibernate_location'] = 'required';
+        }
+
+        if ($request['leave_type'] == '7') {
+            $rules['country'] = 'required';
+        }
+
+        $validator = \Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return [
@@ -175,7 +203,8 @@ class LeaveController extends Controller
             $leave->leave_contact   = $req['leave_contact'];
         }
 
-        if ($req['leave_type'] == '7') {
+        if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
+            $req['leave_type'] == '4' || $req['leave_type'] == '7') {
             $leave->leave_reason    = $req['leave_reason'];
         }
 
