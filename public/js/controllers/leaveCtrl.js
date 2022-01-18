@@ -50,6 +50,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         leave_days: 0,
         wife_id: '',
         wife_name: '',
+        deliver_date: '',
         have_ordain: 0,
         ordain_date: '',
         ordain_temple: '',
@@ -76,14 +77,24 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         language: 'th',
         format: 'dd/mm/yyyy',
         thaiyear: true
-    }).datepicker('update', new Date());
+    }).on('changeDate', function(event) {
+        let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        let [ year, month, day ] = selectedDate.split('-');
+
+        $scope.leave.deliver_date = day+ '/' +month+ '/' +(parseInt(year)+543);
+    });
 
     $('#ordain_date').datepicker({
         autoclose: true,
         language: 'th',
         format: 'dd/mm/yyyy',
         thaiyear: true
-    }).datepicker('update', new Date());
+    }).on('changeDate', function(event) {
+        let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        let [ year, month, day ] = selectedDate.split('-');
+
+        $scope.leave.ordain_date = day+ '/' +month+ '/' +(parseInt(year)+543);
+    });
 
     $('#start_date').datepicker({
         autoclose: true,
@@ -154,6 +165,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             leave_days: 0,
             wife_id: '',
             wife_name: '',
+            deliver_date: '',
             have_ordain: 0,
             ordain_date: '',
             ordain_temple: '',
