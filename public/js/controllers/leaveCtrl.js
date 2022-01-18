@@ -213,11 +213,12 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $('#leave_topic').val($('#leave_type').children("option:selected").text().trim());
     };
 
+    $scope.wife_is_officer = false;
     $scope.personListsCallback = '';
     $scope.onWifeIsOfficer = function(value) {
         if (value) {
             $scope.personListsCallback = 'onSelectedWifeInPersons';
-            $scope.getPersons('0', '0', togglePersonLists);
+            $scope.getPersons('0', '0', 'togglePersonLists');
         } else {
             $('#wife_name').val('');
             $('#wife_id').val('');
@@ -225,31 +226,35 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         }
     };
 
-    $scope.onShowPersonLists = function(e) {
+    $scope.onShowDelegatorLists = function(e) {
         e.preventDefault();
 
-        $scope.personListsCallback = 'onSelectedDelegatePerson';
-        $scope.getPersons('0', '0', togglePersonLists);
+        $scope.personListsCallback = 'onSelectedDelegator';
+        $scope.getPersons('0', '0', 'togglePersonLists');
     };
 
-    const togglePersonLists = function() {
-        console.log('callback is invoked!!');
-        $('#person-list').modal('show');
+    $scope.togglePersonLists = function(isOpen=true) {
+        if (isOpen) {
+            $('#person-list').modal('show');
+        } else {
+            $('#person-list').modal('hide');
+        }
     };
 
     $scope.onSelectedPerson = function(e, person, cbName) {
         const cb = $scope[cbName];
 
-        cb(person);
+        if (cb) cb(person);
     };
 
-    $scope.getPersons = function(depart, searchKey, cb) {
+    $scope.getPersons = function(depart, searchKey, cbName) {
         $http.get(`${CONFIG.baseUrl}/persons/search/${depart}/${searchKey}`)
         .then(function(res) {
             let { data, ...pager } = res.data.persons;
             $scope.persons = data;
             $scope.pager = pager;
 
+            const cb = $scope[cbName];
             if (cb) cb();
 
             $scope.loading = false;
@@ -259,22 +264,28 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     };
 
-    $scope.onSelectedDelegatePerson = function(person) {
-        $scope.leave.leave_delegate = person.person_id;
-        $('#leave_delegate').val(person.person_id);
+    $scope.onSelectedDelegator = function(person) {
+        if (person) {
+            $scope.leave.leave_delegate = person.person_id;
+            $('#leave_delegate').val(person.person_id);
 
-        const academic = person.academic !== null ? person.academic.ac_name : '';
-        $('#leave_delegate_detail').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
+            const academic = person.academic !== null ? person.academic.ac_name : '';
+            $('#leave_delegate_detail').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
+        }
 
         $('#person-list').modal('hide');
     };
 
     $scope.onSelectedWifeInPersons = function(person) {
-        $scope.leave.wife_id = person.person_id;
-        $('#wife_id').val(person.person_id);
-
-        const academic = person.academic !== null ? person.academic.ac_name : '';
-        $('#wife_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
+        if (person) {
+            $scope.leave.wife_id = person.person_id;
+            $('#wife_id').val(person.person_id);
+    
+            const academic = person.academic !== null ? person.academic.ac_name : '';
+            $('#wife_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname + ' ตำแหน่ง' + person.position.position_name + academic)
+        } else {
+            $scope.wife_is_officer = false;
+        }
 
         $('#person-list').modal('hide');
     };

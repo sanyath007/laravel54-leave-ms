@@ -98,7 +98,7 @@
                             </ul>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="btn btn-danger" ng-click="onSelectedPerson($event, null, personListsCallback)">
                                 ปิด
                             </button>
                         </div>

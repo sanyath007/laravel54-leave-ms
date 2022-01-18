@@ -529,7 +529,7 @@
                                                 class="form-control"
                                                 readonly="readonly" />
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary" ng-click="onShowPersonLists($event)">...</button>
+                                            <button type="button" class="btn btn-primary" ng-click="onShowDelegatorLists($event)">...</button>
                                         </span>
                                     </div>
                                     <input  type="hidden"
