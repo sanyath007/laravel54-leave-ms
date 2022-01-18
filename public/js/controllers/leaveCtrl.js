@@ -514,8 +514,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.store = function(event, form) {
         event.preventDefault();
 
-        console.log($scope.leave);
-        // $('#frmNewLeave').submit();
+        $('#frmNewLeave').submit();
         /** Clear control value and model data */
         // document.getElementById(form).reset();
         // $scope.clearLeaveObj();

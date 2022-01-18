@@ -228,7 +228,7 @@ class LeaveController extends Controller
                 $hw = new HelpedWife();
                 $hw->leave_id       = $leave->id;
                 $hw->wife_name      = $req['wife_name'];
-                $hw->deliver_date   = $req['deliver_date'];
+                $hw->deliver_date   = convThDateToDbDate($req['deliver_date']);
                 $hw->is_officer     = $req['is_officer'];
                 $hw->wife_id        = $req['wife_id'];
                 $hw->save();
@@ -238,7 +238,7 @@ class LeaveController extends Controller
                 $ord = new Ordinate();
                 $ord->leave_id              = $leave->id;
                 $ord->have_ordain           = $req['have_ordain'];
-                $ord->ordain_date           = $req['ordain_date'];
+                $ord->ordain_date           = convThDateToDbDate($req['ordain_date']);
                 $ord->ordain_temple         = $req['ordain_temple'];
                 $ord->ordain_location       = $req['ordain_location'];
                 $ord->hibernate_temple      = $req['hibernate_temple'];
