@@ -51,10 +51,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         wife_id: '',
         wife_name: '',
         have_ordain: 0,
-        ordain_temple: '',
-        temple_location: '',
         ordain_date: '',
-        hibernate_temple: ''
+        ordain_temple: '',
+        ordain_location: '',
+        hibernate_temple: '',
+        hibernate_location: '',
     };
     
     $scope.barOptions = {};
@@ -154,10 +155,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             wife_id: '',
             wife_name: '',
             have_ordain: 0,
-            ordain_temple: '',
-            temple_location: '',
             ordain_date: '',
-            hibernate_temple: ''
+            ordain_temple: '',
+            ordain_location: '',
+            hibernate_temple: '',
+            hibernate_location: '',
         };
     };
 
@@ -459,7 +461,8 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.store = function(event, form) {
         event.preventDefault();
 
-        $('#frmNewLeave').submit();
+        console.log($scope.leave);
+        // $('#frmNewLeave').submit();
         /** Clear control value and model data */
         // document.getElementById(form).reset();
         // $scope.clearLeaveObj();

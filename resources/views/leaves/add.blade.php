@@ -135,9 +135,11 @@
                                 <div
                                     class="form-group col-md-12"
                                     ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_reason')}"
-                                    ng-show="leave.leave_type == '1' || leave.leave_type == '2' || leave.leave_type == '4'"
+                                    ng-show="leave.leave_type == '1' || leave.leave_type == '2' || leave.leave_type == '4' || leave.leave_type == '7'"
                                 >
-                                    <label>เนื่องจาก :</label>
+                                    <label>
+                                        @{{ leave.leave_type == '7' ? 'เพื่อ' : 'เนื่องจาก' }}
+                                    </label>
                                     <input  type="text" 
                                             id="leave_reason" 
                                             name="leave_reason" 
@@ -243,17 +245,17 @@
 
                                 <div
                                     class="form-group col-md-12"
-                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'temple_location')}"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'ordain_location')}"
                                     ng-show="leave.leave_type == '6'"
                                 >
                                     <label>ตั้งอยู่ ณ :</label>
-                                    <input  type="text" 
-                                            id="temple_location" 
-                                            name="temple_location" 
-                                            ng-model="leave.temple_location" 
+                                    <input  type="text"
+                                            id="ordain_location"
+                                            name="ordain_location"
+                                            ng-model="leave.ordain_location"
                                             class="form-control pull-right"
                                             tabindex="5">
-                                    <span class="help-block" ng-show="checkValidate(leave, 'temple_location')">กรุณาระบุตั้งอยู่ ณ</span>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'ordain_location')">กรุณาระบุตั้งอยู่ ณ</span>
                                 </div>
 
                                 <div
@@ -288,6 +290,73 @@
                                             class="form-control pull-right"
                                             tabindex="5">
                                     <span class="help-block" ng-show="checkValidate(leave, 'hibernate_temple')">กรุณาระบุจำพรรษา ณ วัด</span>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-12"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'hibernate_location')}"
+                                    ng-show="leave.leave_type == '6'"
+                                >
+                                    <label>ตั้งอยู่ ณ :</label>
+                                    <input  type="text" 
+                                            id="hibernate_location" 
+                                            name="hibernate_location" 
+                                            ng-model="leave.hibernate_location" 
+                                            class="form-control pull-right"
+                                            tabindex="5">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'hibernate_location')">กรุณาระบุตั้งอยู่ ณ</span>
+                                </div>
+
+                                <?php $contries = [
+                                    '1' => 'เกาหลีใต้',
+                                    '2' => 'ญี่ปุ่น',
+                                    '3' => 'จีน',
+                                    '4' => 'ไต้หวัน',
+                                    '5' => 'ฮ่องกง',
+                                    '6' => 'เวียดนาม',
+                                    '7' => 'ลาว',
+                                    '8' => 'พม่า',
+                                    '9' => 'กัมพูชา',
+                                    '10' => 'มาเลเซีย',
+                                    '11' => 'สิงคโปร์',
+                                ]; ?>
+                                <div
+                                    class="form-group col-md-6"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'contry')}"
+                                    ng-show="leave.leave_type == '7'"
+                                >
+                                    <label>ณ ประเทศ :</label>
+                                    <select id="contry"
+                                            name="contry"
+                                            ng-model="leave.contry"
+                                            class="form-control" 
+                                            style="width: 100%;"
+                                            tabindex="2">
+                                        <option value="">-- เลือกประเทศ --</option>
+                                        @foreach($contries as $key => $contry)
+
+                                            <option value="{{ $key }}">
+                                                {{ $contry }}
+                                            </option>
+
+                                        @endforeach
+                                    </select>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'contry')">กรุณาเลือกประเทศ</span>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-6"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'hibernate_location')}"
+                                    ng-show="leave.leave_type == '7'"
+                                >
+                                    <label>มีกำหนด (วัน) :</label>
+                                    <input  type="text" 
+                                            id="hibernate_location" 
+                                            name="hibernate_location" 
+                                            ng-model="leave.hibernate_location" 
+                                            class="form-control pull-right"
+                                            tabindex="5">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'hibernate_location')">กรุณาระบุตั้งอยู่ ณ</span>
                                 </div>
 
                                 <div class="col-md-6">
