@@ -515,6 +515,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         event.preventDefault();
 
         $('#frmNewLeave').submit();
+
         /** Clear control value and model data */
         // document.getElementById(form).reset();
         // $scope.clearLeaveObj();
@@ -582,7 +583,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
                 let debt = (value.debt) ? parseFloat(value.debt.toFixed(2)) : 0;
                 let paid = (value.paid) ? parseFloat(value.paid.toFixed(2)) : 0;
                 let setzero = (value.setzero) ? parseFloat(value.setzero.toFixed(2)) : 0;
-                
+
                 debtSeries.push(debt);
                 paidSeries.push(paid);
                 setzeroSeries.push(setzero);
