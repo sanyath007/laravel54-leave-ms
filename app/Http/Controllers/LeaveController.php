@@ -149,6 +149,7 @@ class LeaveController extends Controller
             'leave' => Leave::where('id', $id)
                         ->with('delegate')
                         ->with('delegate.prefix','delegate.position','delegate.academic')
+                        ->with('helpedWife','ordinate','oversea','oversea.country')
                         ->first(),
         ];
     }
@@ -226,11 +227,11 @@ class LeaveController extends Controller
             /** Insert detail data of some leave type */
             if ($req['leave_type'] == '5') {
                 $hw = new HelpedWife();
-                $hw->leave_id       = $leave->id;
-                $hw->wife_name      = $req['wife_name'];
-                $hw->deliver_date   = convThDateToDbDate($req['deliver_date']);
-                $hw->is_officer     = $req['is_officer'];
-                $hw->wife_id        = $req['wife_id'];
+                $hw->leave_id           = $leave->id;
+                $hw->wife_name          = $req['wife_name'];
+                $hw->deliver_date       = convThDateToDbDate($req['deliver_date']);
+                $hw->wife_is_officer    = $req['wife_is_officer'] == true ? 1 : 0;
+                $hw->wife_id            = $req['wife_id'];
                 $hw->save();
             }
 
@@ -250,7 +251,6 @@ class LeaveController extends Controller
                 $over = new Oversea();
                 $over->leave_id = $leave->id;
                 $over->country  = $req['country'];
-                $over->days     = $req['days'];
                 $over->save();
             }
 

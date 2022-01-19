@@ -8,7 +8,6 @@
             รายละเอียดใบลา : ID ({{ $leave->id }})
             <!-- <small>preview of simple tables</small> -->
         </h1>
-
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
             <li class="breadcrumb-item active">รายละเอียดใบลา</li>
@@ -55,8 +54,7 @@
                                         </div>
                                         <input
                                             type="text"
-                                            id="leave_date"
-                                            name="leave_date"
+                                            ng-model="leave.leave_date"
                                             class="form-control pull-right"
                                             tabindex="1">
                                     </div>
@@ -149,8 +147,7 @@
                                             type="checkbox"
                                             id="wife_is_officer"
                                             name="wife_is_officer"
-                                            ng-model="wife_is_officer"
-                                            ng-change="onWifeIsOfficer(wife_is_officer)"
+                                            ng-model="leave.wife_is_officer"
                                             style="margin: 5px;"
                                         /> เป็นบุคลากรของ รพ. )
                                     </div>
@@ -158,7 +155,7 @@
                                         type="text" 
                                         id="wife_name" 
                                         name="wife_name" 
-                                        ng-model="leave.wife_name" 
+                                        ng-model="leave.wife_name"
                                         class="form-control pull-right"
                                         tabindex="5"
                                     />
@@ -173,8 +170,7 @@
                                         </div>
                                         <input
                                             type="text"
-                                            id="deliver_date"
-                                            name="deliver_date"
+                                            ng-model="leave.deliver_date" 
                                             class="form-control pull-right"
                                             tabindex="5"
                                         />
@@ -237,8 +233,7 @@
                                         </div>
                                         <input
                                             type="text"
-                                            id="ordain_date"
-                                            name="ordain_date"
+                                            ng-model="leave.ordain_date"
                                             class="form-control pull-right"
                                             tabindex="5"
                                         />
@@ -279,22 +274,10 @@
                                     />
                                 </div>
 
-                                <?php $contries = [
-                                    '1' => 'เกาหลีใต้',
-                                    '2' => 'ญี่ปุ่น',
-                                    '3' => 'จีน',
-                                    '4' => 'ไต้หวัน',
-                                    '5' => 'ฮ่องกง',
-                                    '6' => 'เวียดนาม',
-                                    '7' => 'ลาว',
-                                    '8' => 'พม่า',
-                                    '9' => 'กัมพูชา',
-                                    '10' => 'มาเลเซีย',
-                                    '11' => 'สิงคโปร์',
-                                ]; ?>
                                 <div class="form-group col-md-12" ng-show="leave.leave_type == '7'">
                                     <label>ณ ประเทศ :</label>
-                                    <select
+                                    <input
+                                        type="text"
                                         id="country"
                                         name="country"
                                         ng-model="leave.country"
@@ -302,15 +285,6 @@
                                         style="width: 100%;"
                                         tabindex="2"
                                     >
-                                        <option value="">-- เลือกประเทศ --</option>
-                                        @foreach($contries as $key => $contry)
-
-                                            <option value="{{ $key }}">
-                                                {{ $contry }}
-                                            </option>
-
-                                        @endforeach
-                                    </select>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -320,8 +294,6 @@
                                             <i class="fa fa-clock-o"></i>
                                         </div>
                                         <input  type="text"
-                                                id="start_date"
-                                                name="start_date"
                                                 value="@{{ leave.start_date }}"
                                                 class="form-control pull-right"
                                                 tabindex="5">
@@ -330,8 +302,8 @@
 
                                 <div class="form-group col-md-6">
                                     <label>ช่วงเวลา :</label>
-                                    <select id="start_period"
-                                            name="start_period"
+                                    <select id="cbo_start_period"
+                                            name="cbo_start_period"
                                             ng-model="leave.start_period"
                                             class="form-control"
                                             tabindex="2">
@@ -353,9 +325,7 @@
                                             <i class="fa fa-clock-o"></i>
                                         </div>
                                         <input
-                                            type="text" 
-                                            id="end_date"
-                                            name="end_date"
+                                            type="text"
                                             value="@{{ leave.end_date }}"
                                             class="form-control pull-right"
                                             tabindex="5"
@@ -366,8 +336,8 @@
                                 <div class="form-group col-md-6">
                                     <label>ช่วงเวลา :</label>
                                     <select
-                                        id="end_period"
-                                        name="end_period"
+                                        id="cbo_end_period"
+                                        name="cbo_end_period"
                                         ng-model="leave.end_period"
                                         ng-change="calculateLeaveDays('start_date', 'end_date', leave.end_period)"
                                         class="form-control" 

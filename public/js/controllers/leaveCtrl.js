@@ -50,6 +50,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         leave_days: 0,
         wife_id: '',
         wife_name: '',
+        wife_is_officer: false,
         deliver_date: '',
         have_ordain: 0,
         ordain_date: '',
@@ -64,6 +65,8 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     /** ============================== Init Form elements ============================== */
     /** ให้เลือกช่วงได้เฉพาะวันสุดท้าย */
     $('#start_period').prop("disabled", true);
+    $('#cbo_start_period').prop("disabled", true);
+    $('#cbo_end_period').prop("disabled", true);
 
     $('#leave_date').datepicker({
         autoclose: true,
@@ -165,6 +168,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             leave_days: 0,
             wife_id: '',
             wife_name: '',
+            wife_is_officer: false,
             deliver_date: '',
             have_ordain: 0,
             ordain_date: '',
@@ -213,7 +217,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $('#leave_topic').val($('#leave_type').children("option:selected").text().trim());
     };
 
-    $scope.wife_is_officer = false;
     $scope.personListsCallback = '';
     $scope.onWifeIsOfficer = function(value) {
         if (value) {
@@ -292,7 +295,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             $('#wife_id').val(person.person_id);
             $('#wife_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname)
         } else {
-            $scope.wife_is_officer = false;
+            $scope.leave.wife_is_officer = false;
         }
 
         $scope.personListsCallback = '';
@@ -459,25 +462,45 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     }
 
     $scope.setEditControls = function(data) {
-        $scope.leave.leave_id       = data.leave.id;
-        $scope.leave.leave_no       = data.leave.leave_no;
-        $scope.leave.leave_topic    = data.leave.leave_topic;
-        $scope.leave.leave_to       = data.leave.leave_to;
-        $scope.leave.leave_person   = data.leave.leave_person;
-        $scope.leave.leave_reason   = data.leave.leave_reason;
-        $scope.leave.leave_contact  = data.leave.leave_contact;
-        $scope.leave.leave_delegate = data.leave.leave_delegate;
-        $scope.leave.leave_days     = data.leave.leave_days;
-        $scope.leave.attachment     = data.leave.attachment;
+        $scope.leave.leave_id           = data.leave.id;
+        $scope.leave.leave_no           = data.leave.leave_no;
+        $scope.leave.leave_topic        = data.leave.leave_topic;
+        $scope.leave.leave_to           = data.leave.leave_to;
+        $scope.leave.leave_person       = data.leave.leave_person;
+        $scope.leave.leave_reason       = data.leave.leave_reason;
+        $scope.leave.leave_contact      = data.leave.leave_contact;
+        $scope.leave.leave_delegate     = data.leave.leave_delegate;
+        $scope.leave.leave_days         = data.leave.leave_days;
+        $scope.leave.attachment         = data.leave.attachment;
+
+        if (data.leave.leave_type == '5') {
+            $scope.leave.wife_name          = data.leave.helped_wife.wife_name;
+            $scope.leave.wife_id            = data.leave.helped_wife.wife_id;
+            $scope.leave.wife_is_officer    = data.leave.helped_wife.wife_is_officer == 1 ? true : false;
+            $scope.leave.deliver_date       = StringFormatService.convFromDbDate(data.leave.helped_wife.deliver_date);
+        }
+
+        if (data.leave.leave_type == '6') {
+            $scope.leave.ordain_temple      = data.leave.ordinate.ordain_temple;
+            $scope.leave.ordain_location    = data.leave.ordinate.ordain_location;
+            $scope.leave.hibernate_temple   = data.leave.ordinate.hibernate_temple;
+            $scope.leave.hibernate_location = data.leave.ordinate.hibernate_location;
+            $scope.leave.ordain_date        = StringFormatService.convFromDbDate(data.leave.ordinate.ordain_date);
+        }
+
+        if (data.leave.leave_type == '7') {
+            $scope.leave.country          = data.leave.oversea.country.name;
+        }
+
         /** Convert int value to string */
-        $scope.leave.leave_place    = data.leave.leave_place.toString();
-        $scope.leave.leave_type     = data.leave.leave_type.toString();
-        $scope.leave.start_period   = data.leave.start_period.toString();
-        $scope.leave.end_period     = data.leave.end_period.toString();
+        $scope.leave.leave_place        = data.leave.leave_place.toString();
+        $scope.leave.leave_type         = data.leave.leave_type.toString();
+        $scope.leave.start_period       = data.leave.start_period.toString();
+        $scope.leave.end_period         = data.leave.end_period.toString();
         /** Convert db date to thai date. */            
-        $scope.leave.leave_date     = StringFormatService.convFromDbDate(data.leave.leave_date);
-        $scope.leave.start_date     = StringFormatService.convFromDbDate(data.leave.start_date);
-        $scope.leave.end_date       = StringFormatService.convFromDbDate(data.leave.end_date);
+        $scope.leave.leave_date         = StringFormatService.convFromDbDate(data.leave.leave_date);
+        $scope.leave.start_date         = StringFormatService.convFromDbDate(data.leave.start_date);
+        $scope.leave.end_date           = StringFormatService.convFromDbDate(data.leave.end_date);
 
         /** Set delegate detail to input */
         let delegate = '';

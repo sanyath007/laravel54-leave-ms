@@ -30,4 +30,19 @@ class Leave extends Model
     {
         return $this->hasMany('App\Models\Cancellation', 'leave_id', 'id');
     }
+
+    public function helpedWife()
+    {
+        return $this->belongsTo(HelpedWife::class, 'id', 'leave_id');
+    }
+
+    public function ordinate()
+    {
+        return $this->belongsTo(Ordinate::class, 'id', 'leave_id');
+    }
+
+    public function oversea()
+    {
+        return $this->belongsTo(Oversea::class, 'id', 'leave_id');
+    }
 }

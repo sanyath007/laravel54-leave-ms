@@ -8,8 +8,8 @@ class Ordinate extends Model
 {
     protected $table = "ordinates";
 
-    public function leave()
-    {
-        return $this->hasOne(Leave::class, 'leave_id', 'id');
-    }
+    // public function leave()
+    // {
+    //     return $this->hasOne(Leave::class, 'leave_id', 'id');
+    // }
 }

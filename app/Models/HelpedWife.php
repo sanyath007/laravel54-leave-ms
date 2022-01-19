@@ -8,8 +8,8 @@ class HelpedWife extends Model
 {
     protected $table = "helped_wifes";
 
-    public function leave()
-    {
-        return $this->hasOne(Leave::class, 'leave_id', 'id');
-    }    
+    // public function leave()
+    // {
+    //     return $this->hasOne(Leave::class, 'leave_id', 'id');
+    // }
 }
