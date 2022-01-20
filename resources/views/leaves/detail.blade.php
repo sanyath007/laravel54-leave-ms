@@ -28,7 +28,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <div style="border: 1px dotted grey; display: flex; min-height: 240px; padding: 10px;">
+                                <div style="border: 1px dotted grey; display: flex; justify-content: center; min-height: 240px; padding: 10px;">
                                     <img src="{{ asset('img/user2-160x160.jpg') }}" alt="user_image" />
                                 </div>
                             </div>

@@ -485,9 +485,15 @@ class LeaveController extends Controller
             'vacations' => $vacation
         ];
 
-        if (in_array($leave->leave_type, [1,2,4])) {
+        if (in_array($leave->leave_type, [1,2,4])) { // ลาป่วย กิจ คลอด
             $pdf = PDF::loadView('leaves.form01', $data);
-        } else {
+        } else if ($leave->leave_type == 5) { // ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
+            $pdf = PDF::loadView('leaves.form05', $data);
+        } else if ($leave->leave_type == 6) { // ลาอุปสมบท/ไปประกอบพิธีฮัจย์
+            $pdf = PDF::loadView('leaves.form06', $data);
+        } else if ($leave->leave_type == 7) { // ลาไปต่างประเทศ
+            $pdf = PDF::loadView('leaves.form07', $data);
+        } else { // ลาพักผ่อน
             $pdf = PDF::loadView('leaves.form02', $data);
         }
 
