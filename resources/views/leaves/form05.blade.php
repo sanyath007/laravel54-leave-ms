@@ -68,94 +68,49 @@
                     </tr>
                     <tr>
                         <td colspan="4">
-                            <span>
-                                {{ $leave->leave_topic }}
+                            ภรรยาชื่อ
+                            <span class="text-val" style="margin-right: 20px;">
+                                {{ $leave->helpedWife->wife_name }}
                             </span>
-
-                            @if ($leave->leave_type <> '4')
-                                เนื่องจาก
-                                <span class="text-val" style="margin-right: 10px;">
-                                    {{ $leave->leave_reason }}
-                                </span>
-                            @endif
+                            คลอดบุตรเมื่อวันที่
+                            <span class="text-val">
+                                {{ convDbDateToLongThDate($leave->helpedWife->deliver_date) }}
+                            </span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4">
+                            มีความประสงค์จะ
+                            <span class="text-val" style="margin-right: 5px;">
+                                {{ $leave->leave_topic }}
+                            </span>
                             ตั้งแต่วันที่
-                            <span class="text-val" style="margin-right: 50px;">
+                            <span class="text-val" style="margin-right: 5px;">
                                 {{ convDbDateToLongThDate($leave->start_date) }}
                             </span>
                             ถึงวันที่ 
-                            <span class="text-val" style="margin-right: 50px;">
+                            <span class="text-val">
                                 {{ convDbDateToLongThDate($leave->end_date) }}
                             </span>
-                            มีกำหนด <span class="text-val"> {{ $leave->leave_days }} </span> วัน
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4">
-                            ข้าพเจ้าได้
-                            @if(!empty($last))
-                                <span class="text-val" style="margin-right: 10px;">
-                                    {{ $last->type->name }}
-                                </span>
-                            @else
-                                <span class="dot">...................</span>
-                            @endif
-                            ครั้งสุดท้ายตั้งแต่วันที่
-                            @if(!empty($last))
-                                <span class="text-val" style="margin-right: 10px;">
-                                    {{ convDbDateToLongThDate($last->start_date) }}
-                                </span>
-                            @else
-                                <span class="dot">.................................</span>
-                            @endif
-                            ถึงวันที่
-                            @if(!empty($last))
-                                <span class="text-val" style="margin-right: 10px;">
-                                    {{ convDbDateToLongThDate($last->end_date) }}
-                                </span>
-                            @else
-                                <span class="dot">.................................</span>
-                            @endif
-                            มีกำหนด
-                            @if(!empty($last))
-                                <span class="text-val"> {{ $last->leave_days }} </span>
-                            @else
-                                <span class="dot">.........</span>
-                            @endif
-                            วัน
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
+                        <td colspan="4" style="padding-right: 10px;">
+                            มีกำหนด <span class="text-val"> {{ $leave->leave_days }} </span>
+                            <span style="margin-right: 10px;">วัน</span>
                             ในระหว่างลาจะติดต่อกับข้าพเจ้าได้ที่
-                            <span class="text-val">{{ $leave->leave_contact }}</span>
+                            <span class="text-val">
+                                {{ $leave->leave_contact }}
+                            </span>
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="2"></td>
                         <td colspan="2">
-                            <p style="margin-top: 10px;">
-                                @if (empty($leave->delegate))
-                                    โดยมอบหมายงานให้<span class="dot">......................................................</span>
-                                @else
-                                    โดยมอบหมายงานให้ <span class="text-val">{{ $leave->delegate->prefix->prefix_name.$leave->delegate->person_firstname. ' ' .$leave->delegate->person_lastname }}</span>
-                                @endif
+                            <p style="margin-top: 10px; margin-left: 100px;">
+                                ขอแสดงความนับถือ
                             </p>
-                            <p>
-                                @if (empty($leave->delegate))
-                                    ตำแหน่ง<span class="dot">.........................................................................</span>
-                                @else
-                                    ตำแหน่ง <span class="text-val">{{ $leave->delegate->position->position_name }}{{ $leave->delegate->academic ? $leave->delegate->academic->ac_name : '' }}</span>
-                                @endif
-                            </p>
-                            <p>
-                                (ลงชื่อ)<span class="dot">......................................................</span>ผู้รับมอบงาน
-                            </p>
-                        </td>
-                        <td colspan="2">
-                            <p style="margin-left: 50px;">
+                            <p style="margin-top: 5px; margin-left: 50px;">
                                 (ลงชื่อ)<span class="dot">......................................................</span>
                             </p>
                             <p style="margin-left: 100px;">
@@ -169,65 +124,27 @@
                     <tr>
                         <td colspan="2">
                             <div class="leave-stat">
-                                สถิติการลาในปีงบประมาณนี้ (วันทำการ)
+                                สถิติการลาในปีงบประมาณนี้
                                 <table style="width: 90%;" class="table" border="1">
                                     <tr>
-                                        <th style="text-align: center;">ประเภทการลา</th>
-                                        <th style="text-align: center;">ลามาแล้ว</th>
-                                        <th style="text-align: center;">ลาครั้งนี้</th>
-                                        <th style="text-align: center;">รวมเป็น</th>
+                                        <th style="width: 30%; text-align: center;">ลามาแล้ว</th>
+                                        <th style="width: 30%; text-align: center;">ลาครั้งนี้</th>
+                                        <th style="width: 30%; text-align: center;">รวมเป็น</th>
                                     </tr>
                                     <tr>
-                                        <td>ป่วย</td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ $histories->ill_days }}
+                                                {{ $histories->hel_days }}
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ ($leave->leave_type == '1') ? (float)$leave->leave_days : '-' }}
+                                                {{ (float)$leave->leave_days }}
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ ($leave->leave_type == '1') ? (float)$histories->ill_days + (float)$leave->leave_days : $histories->ill_days }}
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>กิจส่วนตัว</td>
-                                        <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                {{ $histories->per_days }}
-                                            @endif
-                                        </td>
-                                        <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                {{ ($leave->leave_type == '2') ? (float)$leave->leave_days : '-' }}
-                                            @endif
-                                        </td>
-                                        <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                {{ ($leave->leave_type == '2') ? (float)$histories->per_days + (float)$leave->leave_days : $histories->per_days }}
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>คลอดบุตร</td>
-                                        <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                {{ $histories->lab_days }}
-                                            @endif
-                                        </td>
-                                        <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                {{ ($leave->leave_type == '3') ? (float)$leave->leave_days : '-' }}
-                                            @endif
-                                        </td>
-                                        <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                {{ ($leave->leave_type == '3') ? (float)$histories->lab_days + (float)$leave->leave_days : $histories->lab_days }}
+                                                {{ (float)$histories->hel_days + (float)$leave->leave_days }}
                                             @endif
                                         </td>
                                     </tr>
@@ -235,7 +152,7 @@
                             </div>
                         </td>
                         <td colspan="2">
-                            <div style="margin-top: 20px;">
+                            <div style="margin-top: 10px;">
                                 <p style="margin-left: 50px;">
                                     ความเห็นของผู้บังคับบัญชา
                                 </p>
@@ -270,10 +187,8 @@
                             <div style="margin-top: 10px;">
                                 <p style="margin-left: 50px;">
                                     คำสั่ง
-                                </p>
-                                <p style="margin-left: 50px;">
                                     <span style="margin-left: 20px;">[&nbsp;&nbsp;] อนุญาต</span>
-                                    <span>[&nbsp;&nbsp;] ไม่อนุญาต</span>
+                                    <span style="margin-left: 20px;">[&nbsp;&nbsp;] ไม่อนุญาต</span>
                                 </p>
                                 <p style="margin-left: 50px;">
                                     (ลงชื่อ)<span class="dot">......................................................</span>
