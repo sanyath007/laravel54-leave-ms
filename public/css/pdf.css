@@ -23,13 +23,17 @@
   src: url("{{ asset('fonts/THSarabunNew BoldItalic.ttf') }}")
     format("truetype");
 }
+html {
+  margin: 0px;
+}
 body {
   font-family: "THSarabunNew";
   font-size: 14pt;
+  margin: 0px 60px;
 }
-table {
-  /* border: 1px dashed black; */
-}
+/* table {
+  border: 1px dashed black;
+} */
 th,
 td {
   padding: 0;
