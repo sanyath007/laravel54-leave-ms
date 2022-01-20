@@ -455,6 +455,7 @@ class LeaveController extends Controller
                         ->with('person.memberOf', 'person.memberOf.depart', 'type')
                         ->with('delegate', 'delegate.prefix', 'delegate.position', 'delegate.academic')
                         ->with('cancellation')
+                        ->with('helpedWife','ordinate','oversea','oversea.country')
                         ->first();
 
         $last       = Leave::whereIn('leave_type', [1,2,4])
