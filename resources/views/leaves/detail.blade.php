@@ -28,8 +28,13 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <div style="border: 1px dotted grey; display: flex; justify-content: center; min-height: 240px; padding: 10px;">
-                                    <img src="{{ asset('img/user2-160x160.jpg') }}" alt="user_image" />
+                                <!-- TODO: to use css class instead of inline code -->
+                                <div style="border: 1px dotted grey; display: flex; justify-content: center; min-height: 240px; padding: 5px;">
+                                    <img
+                                        src="{{ asset('img/user2-160x160.jpg') }}"
+                                        alt="user_image"
+                                        style="width: 98%;"
+                                    />
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -241,17 +246,7 @@
                                 </div>
 
                                 <div class="form-group col-md-6" ng-show="leave.leave_type == '6'">
-                                    <div style="display: flex;">
-                                        <label style="margin-right: 5px;">จำพรรษา ณ วัด :</label>
-                                        (<input
-                                            type="checkbox"
-                                            id="same_ordain_temple"
-                                            name="same_ordain_temple"
-                                            ng-model="same_ordain_temple"
-                                            ng-change="onSameOrdainTempleChecked(same_ordain_temple)"
-                                            style="margin: 5px;"
-                                        /> เป็นวัดเดียวกับวัดที่จะอุปสมบท )
-                                    </div>
+                                    <label style="margin-right: 5px;">จำพรรษา ณ วัด :</label>
                                     <input
                                         type="text" 
                                         id="hibernate_temple" 
@@ -397,7 +392,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-12" ng-show="leave.leave_type == '1' || leave.leave_type == '2' || leave.leave_type == '3' || leave.leave_type == '4'">
                                     <label>ผู้รับมอบหมายแทน :</label>
                                     <input type="text"
                                             id="leave_delegate_detail" 
