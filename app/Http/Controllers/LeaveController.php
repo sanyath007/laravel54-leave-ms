@@ -249,8 +249,8 @@ class LeaveController extends Controller
 
             if ($req['leave_type'] == '7') {
                 $over = new Oversea();
-                $over->leave_id = $leave->id;
-                $over->country  = $req['country'];
+                $over->leave_id     = $leave->id;
+                $over->country_id   = $req['country'];
                 $over->save();
             }
 
@@ -458,11 +458,12 @@ class LeaveController extends Controller
                         ->with('helpedWife','ordinate','oversea','oversea.country')
                         ->first();
 
-        $last       = Leave::whereIn('leave_type', [1,2,4])
+        $last       = Leave::whereIn('leave_type', [1,2,4,7])
                         ->where('leave_person', $leave->leave_person)
                         ->where('leave_type', $leave->leave_type)
                         ->where('start_date', '<', $leave->start_date)
                         ->with('type','cancellation')
+                        ->with('oversea','oversea.country')
                         ->orderBy('start_date', 'desc')
                         ->first();
 

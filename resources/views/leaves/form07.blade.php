@@ -127,8 +127,12 @@
                             <p style="margin: 5px 0 0 80px;">
                                 ครั้งสุดท้ายข้าพเจ้าได้
                                 @if(!empty($last))
-                                    <span class="text-val" style="margin-right: 10px;">
+                                    <span class="text-val" style="margin-right: 5px;">
                                         {{ $last->type->name }}
+                                    </span>
+                                    เพื่อ
+                                    <span class="text-val">
+                                        {{ $last->leave_reason }}
                                     </span>
                                 @else
                                     <span class="dot">.....................................................................................................................................</span>
@@ -137,8 +141,8 @@
                             <p style="margin: 0px;">
                                 ไปประเทศ
                                 @if(!empty($last))
-                                    <span class="text-val" style="margin-right: 10px;">
-                                        {{ $last->type->name }}
+                                    <span class="text-val" style="margin-right: 5px;">
+                                        {{ $last->oversea->country->name }}
                                     </span>
                                 @else
                                     <span class="dot">...................</span>
@@ -149,10 +153,10 @@
                                 @else
                                     <span class="dot">......................................</span>
                                 @endif
-                                วัน
+                                <span style="margin-right: 5px;">วัน</span>
                                 เมื่อวันที่
                                 @if(!empty($last))
-                                    <span class="text-val" style="margin-right: 10px;">
+                                    <span class="text-val" style="margin-right: 5px;">
                                         {{ convDbDateToLongThDate($last->start_date) }}
                                     </span>
                                 @else
@@ -189,7 +193,7 @@
                     <tr>
                         <td colspan="4">
                             <div style="margin-top: 5px;">
-                                <p style="margin-left: 50px;">
+                                <p style="margin-left: 50px; text-decoration: underline;">
                                     ความเห็นของผู้บังคับบัญชา
                                 </p>
                                 <p style="margin-left: 100px;">
@@ -211,7 +215,7 @@
                         <td colspan="4">
                             <div style="margin-top: 5px;">
                                 <p style="margin-left: 50px;">
-                                    คำสั่ง
+                                    <span style="text-decoration: underline;">คำสั่ง</span>
                                     <span style="margin-left: 20px;">[&nbsp;&nbsp;] อนุญาต</span>
                                     <span style="margin-left: 20px;">[&nbsp;&nbsp;] ไม่อนุญาต</span>
                                 </p>
