@@ -118,7 +118,7 @@
                     </tr>
                     <tr>
                         <td colspan="4">
-                            จึงจะขออนุญาตลาอุปสมบทมีกำหนด <span class="text-val"> {{ $leave->leave_days }} </span>
+                            จึงขออนุญาตลาอุปสมบทมีกำหนด <span class="text-val"> {{ $leave->leave_days }} </span>
                             <span style="margin-right: 10px;">วัน</span>
                             ตั้งแต่วันที่
                             <span class="text-val" style="margin-right: 10px;">

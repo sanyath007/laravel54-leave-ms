@@ -153,7 +153,7 @@
                         </td>
                         <td colspan="2">
                             <div style="margin-top: 10px;">
-                                <p style="margin-left: 50px;">
+                                <p style="margin-left: 50px; text-decoration: underline;">
                                     ความเห็นของผู้บังคับบัญชา
                                 </p>
                                 <p style="margin-left: 50px;">
@@ -186,7 +186,7 @@
                         <td colspan="2">
                             <div style="margin-top: 10px;">
                                 <p style="margin-left: 50px;">
-                                    คำสั่ง
+                                    <span style="text-decoration: underline;">คำสั่ง</span>
                                     <span style="margin-left: 20px;">[&nbsp;&nbsp;] อนุญาต</span>
                                     <span style="margin-left: 20px;">[&nbsp;&nbsp;] ไม่อนุญาต</span>
                                 </p>
