@@ -39,35 +39,36 @@
                             </div>
                             <div class="box-body">
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาป่วย</h4>
-                                    <p>จำนวนวันลาสะสม - วัน</p>
+                                    <h4>ลาป่วย (ุ60 วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม {{ 60 - $histories->ill_days }} วัน</p>
                                     <p>จำนวนวันที่ลา {{ $histories->ill_days }} วัน</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลากิจส่วนตัว</h4>
-                                    <p>จำนวนวันลาสะสม - วัน</p>
+                                    <h4>ลากิจส่วนตัว (45 วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม {{ 45 - $histories->per_days }} วัน</p>
                                     <p>จำนวนวันที่ลา {{ $histories->per_days }} วัน</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาพักผ่อน</h4>
+                                    <h4>ลาพักผ่อน (10 วันทำการ)</h4>
                                     <p>จำนวนวันลาสะสม {{ $vacation->all_days }} วัน</p>
                                     <p>จำนวนวันที่ลา {{ $histories->vac_days }} วัน</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาคลอด</h4>
-                                    <p>จำนวนวันลาสะสม - วัน</p>
+                                    <h4>ลาคลอด (90 วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม {{ 90 - $histories->lab_days }} วัน</p>
                                     <p>จำนวนวันที่ลา {{ $histories->lab_days }} วัน</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาอุปสมบท</h4>
+                                    <h4>ลาอุปสมบท (120 วันทำการ)</h4>
                                     <p>จำนวนวันลาสะสม - วัน</p>
                                     <p>จำนวนวันที่ลา - วัน</p>
                                 </div>
-                                <div style="border: 1px solid grey; padding: 0.5em;">
+                                <!-- TODO: ใช้การลากิจ/พักผ่อน + บันทึกข้อความไปต่างประเทศ -->
+                                <!-- <div style="border: 1px solid grey; padding: 0.5em;">
                                     <h4>ลาไปต่างประเทศ</h4>
                                     <p>จำนวนวันลาสะสม - วัน</p>
                                     <p>จำนวนวันที่ลา - วัน</p>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
