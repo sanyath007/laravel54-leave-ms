@@ -21,61 +21,6 @@
         <div class="row">
             <div class="col-md-12">
 
-                <div class="box box-primary">
-                    <div class="box-header">
-                        <h3 class="box-title">ค้นหาข้อมูล</h3>
-                    </div>
-
-                    <form id="frmSearch" name="frmSearch" role="form">
-                        <div class="box-body">
-                            <div class="col-md-6">
-
-                                <!-- <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(asset, 'year')}">
-                                    <label>ปีงบประมาณ</label>
-                                    <input  type="text" 
-                                            id="year" 
-                                            name="year" 
-                                            ng-model="asset.year"
-                                            class="form-control"
-                                            pattern="[0-9]{4}"
-                                            tabindex="16" required>
-                                    <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="checkValidate(asset, 'year')"></span>
-                                    <span class="help-block" ng-show="checkValidate(asset, 'year')">กรุณาระบุปีงบประมาณ</span>
-                                </div>
-
-                                <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(asset, 'cal_date')}">
-                                    <label>ณ วันที่ :</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
-                                        <input  type="text" 
-                                                id="cal_date" 
-                                                name="cal_date" 
-                                                ng-model="asset.cal_date" 
-                                                class="form-control pull-right"
-                                                tabindex="1" required>
-                                    </div>
-                                    <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="checkValidate(asset, 'cal_date')"></span>
-                                    <span class="help-block" ng-show="checkValidate(asset, 'cal_date')">กรุณาเลือกวันที่รับเข้าระบบ</span>
-                                </div> -->
-
-                            </div><!-- /.col-md-6 -->                 
-                        </div><!-- /.box-body -->
-
-                        <!-- <div class="box-footer">
-                            <a ng-click="deprecCalulate()" class="btn btn-primary">
-                                คำนวณค่าเสื่อม
-                            </a>
-                            
-                            <a ng-click="store()" class="btn btn-primary">
-                                บันทึกค่าเสื่อม
-                            </a>
-                        </div> -->
-                    </form>
-                </div><!-- /.box -->
-
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title">ประวัติการลา</h3>
@@ -123,30 +68,59 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-8">
                                 <div class="box box-danger">
                                     <div class="box-header">
                                         <h3 class="box-title">รายละเอียดข้อมูลการลา</h3>
                                     </div>
                                     <div class="box-body">
-                                        <table class="table table-bordered table-striped" style="font-size: 12px; margin-bottom: 1rem;">
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label> ประเภทการลา :</label>
+                                                <select
+                                                    id="cboLeaveType"
+                                                    name="cboLeaveType"
+                                                    ng-model="cboLeaveType"
+                                                    class="form-control"
+                                                >
+                                                    <option value="">-- ทั้งหมด --</option>
+                                                    @foreach($leave_types as $type)
+
+                                                        <option value="{{ $type->id }}">
+                                                            {{ $type->name }}
+                                                        </option>
+
+                                                    @endforeach
+                                                </select>
+                                            </div><!-- /.form group -->
+                                        </div><!-- /.row -->
+
+                                        <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 1rem;">
                                             <thead>
                                                 <tr>
                                                     <th style="width: 5%; text-align: center;">#</th>
-                                                    <th style="width: 50%; text-align: center;">วันที่ลา</th>
-                                                    <th style="width: 20%; text-align: center;">จน.วัน</th>
-                                                    <th style="text-align: center;">สถานะ</th>
+                                                    <th>ประเภทการลา</th>
+                                                    <th style="width: 30%; text-align: center;">วันที่ลา</th>
+                                                    <th style="width: 10%; text-align: center;">จน.วัน</th>
+                                                    <th style="width: 10%; text-align: center;">สถานะ</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="(index, leave) in leaves">
-                                                    <td style="text-align: center;">@{{ index+pager.from }}</td>
+                                                    <td style="text-align: center;">
+                                                        @{{ index+pager.from }}
+                                                    </td>
+                                                    <td style="text-align: left;">
+                                                        @{{ leave.type.name }}
+                                                    </td>
                                                     <td style="text-align: center;">
                                                         <span>@{{ leave.start_date | thdate }} - </span>
                                                         <span>@{{ leave.end_date | thdate }}</span>
                                                     </td>
-                                                    <td style="text-align: right;">@{{ leave.leave_days | currency:"":0 }}</td>
+                                                    <td style="text-align: center;">
+                                                        @{{ leave.leave_days | currency:"":0 }}
+                                                    </td>
                                                     <td style="text-align: left;">
                                                         <span class="label label-info" ng-show="paid.asset_status!=0">
                                                             @{{ (leave.status==0) ? 'อยู่ระหว่างการสร้างเอกสาร' :

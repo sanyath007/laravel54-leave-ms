@@ -42,6 +42,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     /** ประวัติ */
     Route::get('histories/profile/{id}', 'PersonController@getProfile');
     Route::get('histories/stat/{id}/{year}', 'HistoryController@summary');
+    Route::get('histories/{id}/{year}/person', 'HistoryController@getHistoriesByPerson');
 
     /** การลา */
     Route::post('leaves/validate', 'LeaveController@formValidate');
