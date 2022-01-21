@@ -4,11 +4,16 @@ app.controller('historyCtrl', function(CONFIG, $scope, $http, toaster, ModalServ
     $scope.pager = [];
     $scope.loading = false;
 
+    $scope.cboLeaveType = '';
+
     $scope.getData = function() {
         $scope.loading = true;
 
-        $http.get(CONFIG.baseUrl+ '/histories/1300200009261/2565/person')
+        const type = $scope.cboLeaveType === '' ? '' : $scope.cboLeaveType;
+
+        $http.get(`${CONFIG.baseUrl}/histories/1300200009261/2565/person?type=${type}`)
         .then(function(res) {
+            console.log(res.data.leaves);
             const { data, ...pager } = res.data.leaves;
 
             $scope.leaves = data;
@@ -21,21 +26,22 @@ app.controller('historyCtrl', function(CONFIG, $scope, $http, toaster, ModalServ
         });
     }
 
-    $scope.getArrearWithURL = function(URL) {
-        $scope.debts = [];
+    $scope.getDataWithURL = function(URL) {
+        $scope.leaves = [];
         $scope.pager = [];
         $scope.loading = true;
-            
-        $http.get(URL)
+        
+        const type = $scope.cboLeaveType === '' ? '' : $scope.cboLeaveType;
+        console.log(`${URL}&type=${type}`);
+
+        $http.get(`${URL}&type=${type}`)
         .then(function(res) {
             console.log(res);
-            $scope.debts = res.data.debts.data;
-            $scope.pager = res.data.debts;
-            $scope.totalDebt = res.data.totalDebt;
+            const { data, ...pager } = res.data.leaves;
 
-            $scope.pages = PaginateService.createPagerNo($scope.pager);
+            $scope.leaves = data;
+            $scope.pager = pager;
 
-            console.log($scope.pages);
             $scope.loading = false;
         }, function(err) {
             console.log(err);

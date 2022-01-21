@@ -26,28 +26,21 @@ class HistoryController extends Controller
         ]);
     }
 
-    public function getHistoriesByPerson($person, $year)
+    public function getHistoriesByPerson(Request $req, $person, $year)
     {
-        $searchKey = '0';
-        if($searchKey == '0') {
-            $leaves = Leave::where('leave_person', $person)
-                        ->where('year', $year)
-                        ->with('person', 'person.prefix', 'person.position', 'person.academic')
-                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
-                        ->with('cancellation')
-                        ->orderBy('year', 'desc')
-                        ->orderBy('leave_date', 'desc')
-                        ->paginate(20);
-        } else {
-            $leaves = Leave::where('leave_person', $person)
-                        ->where('year', $year)
-                        ->with('person', 'person.prefix', 'person.position', 'person.academic')
-                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
-                        ->with('cancellation')
-                        ->orderBy('year', 'desc')
-                        ->orderBy('leave_date', 'desc')
-                        ->paginate(20);
-        }
+        $type = $req->input('type');
+
+        $leaves = Leave::where('leave_person', $person)
+                    ->where('year', $year)
+                    ->when(!empty($type), function($q) use ($type) {
+                        $q->where('leave_type', $type);
+                    })
+                    ->with('person', 'person.prefix', 'person.position', 'person.academic')
+                    ->with('person.memberOf', 'person.memberOf.depart', 'type')
+                    ->with('cancellation')
+                    ->orderBy('year', 'desc')
+                    ->orderBy('leave_date', 'desc')
+                    ->paginate(20);
 
         return [
             "leaves" => $leaves,
