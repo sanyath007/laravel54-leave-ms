@@ -189,13 +189,13 @@
                         </td>
                         <td colspan="2">
                             <div style="margin-top: 0px;">
-                                <p style="margin-left: 50px;">
+                                <p style="margin-left: 50px; text-decoration: underline;">
                                     ความเห็นของผู้บังคับบัญชา
                                 </p>
                                 <p style="margin-left: 50px;">
                                     <span class="dot">......................................................................</span>
                                 </p>
-                                <p style="margin-left: 50px;">
+                                <p style="margin-top: 10px; margin-left: 50px;">
                                     (ลงชื่อ)<span class="dot">......................................................</span>
                                 </p>
                                 <p style="margin-left: 80px;">
@@ -203,17 +203,18 @@
                                 </p>
                                 <p style="margin-left: 50px;">
                                     ตำแหน่ง<span class="dot">......................................................</span>
+                                </p>
+                                <p style="margin-left: 70px;">
+                                    วันที่<span class="dot">......................................................</span>
                                 </p>
                             </div>
                             <div style="margin-top: 10px;">
                                 <p style="margin-left: 50px;">
-                                    คำสั่ง
-                                </p>
-                                <p style="margin-left: 50px;">
+                                    <span style="text-decoration: underline;">คำสั่ง</span>
                                     <span style="margin-left: 20px;">[&nbsp;&nbsp;] อนุญาต</span>
-                                    <span>[&nbsp;&nbsp;] ไม่อนุญาต</span>
+                                    <span style="margin-left: 20px;">[&nbsp;&nbsp;] ไม่อนุญาต</span>
                                 </p>
-                                <p style="margin-left: 50px;">
+                                <p style="margin-top: 10px; margin-left: 50px;">
                                     (ลงชื่อ)<span class="dot">......................................................</span>
                                 </p>
                                 <p style="margin-left: 80px;">
@@ -221,6 +222,9 @@
                                 </p>
                                 <p style="margin-left: 50px;">
                                     ตำแหน่ง<span class="dot">......................................................</span>
+                                </p>
+                                <p style="margin-left: 70px;">
+                                    วันที่<span class="dot">......................................................</span>
                                 </p>
                             </div>
                         </td>
