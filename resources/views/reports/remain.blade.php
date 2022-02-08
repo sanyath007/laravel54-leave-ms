@@ -126,7 +126,6 @@
                                     <th style="width: 8%; text-align: center;">ลาพักผ่อน</th>
                                     <th style="width: 10%; text-align: center;">ลาเพื่อดูแลบุตร<br>และภริยาที่คลอดบุตร</th>
                                     <th style="width: 8%; text-align: center;">ลาอุปสมบท/<br>ประกอบพิธีฮัจย์</th>
-                                    <th style="width: 8%; text-align: center;">ลาไปต่างประเทศ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -145,7 +144,6 @@
                                     <td style="text-align: center;">@{{ 10 - person.leave.vac_days }}</td>
                                     <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : 15 - person.leave.lab_days }}</td>
                                     <td style="text-align: center;">@{{ 120 - person.leave.ord_days }}</td>
-                                    <td style="text-align: center;">@{{ 20 - person.leave.abr_days }}</td>
                                 </tr>
                             </tbody>
                         </table>

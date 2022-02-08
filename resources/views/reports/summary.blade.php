@@ -130,7 +130,6 @@
                                     <th style="text-align: center;" colspan="2">
                                         ลาอุปสมบท/<br>ประกอบพิธีฮัจย์
                                     </th>
-                                    <th style="text-align: center;" colspan="2">ลาไปต่างประเทศ</th>
                                 </tr>
                                 <tr>
                                     <th style="width: 4%; text-align: center;">ครั้ง</th>
@@ -143,8 +142,6 @@
                                     <th style="width: 4%; text-align: center;">วัน</th>
                                     <th style="width: 5%; text-align: center;">ครั้ง</th>
                                     <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 4%; text-align: center;">วัน</th>
                                     <th style="width: 4%; text-align: center;">ครั้ง</th>
                                     <th style="width: 4%; text-align: center;">วัน</th>
                                 </tr>
@@ -170,8 +167,6 @@
                                     <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : '0' }}</td>
                                     <td style="text-align: center;">@{{ person.leave.ord_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.ord_days }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.abr_times }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.abr_days }}</td>
                                 </tr>
                             </tbody>
                         </table>
