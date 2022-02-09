@@ -229,8 +229,12 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
+                                                <span ng-show="cancel.cancellation[0].received_date == null" style="color: red; font-size: 12px;">
+                                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                                    ยังไม่ได้ลงรับ
+                                                </span>
                                                 <a  ng-click="showApproveForm(cancel, 2)" 
-                                                    ng-show="(cancel.status!==4 || cancel.status!==3)" 
+                                                    ng-show="(cancel.status!==4 || cancel.status!==3) && !cancel.cancellation[0].received_date == null"
                                                     class="btn btn-danger btn-sm"
                                                     title="ลงนามอนุมัติยกเลิกการลา">
                                                     <i class="fa fa-check" aria-hidden="true"></i>

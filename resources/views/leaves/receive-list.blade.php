@@ -86,7 +86,7 @@
                                             <td style="text-align: center;">@{{ index+pager.from }}</td>
                                             <td>
                                                 <h4 style="margin: 2px auto;">
-                                                    @{{ leave.leave_type.name }}
+                                                    @{{ leave.type.name }}
                                                     @{{ leave.person.prefix.prefix_name + leave.person.person_firstname + ' ' + leave.person.person_lastname }}
                                                 </h4>
                                                 <p style="color: grey; margin: 0px auto;">
