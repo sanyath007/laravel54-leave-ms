@@ -95,8 +95,8 @@
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#settings" data-toggle="tab">แก้ไขข้อมูล</a></li>
-                        <li><a href="#activity" data-toggle="tab">Activity</a></li>
-                        <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
+                        <!-- <li><a href="#activity" data-toggle="tab">Activity</a></li>
+                        <li><a href="#timeline" data-toggle="tab">Timeline</a></li> -->
                     </ul>
                     <div class="tab-content">
                         <div class="active tab-pane" id="settings">
@@ -162,7 +162,7 @@
                                             class="form-control"
                                             id="inputSkills"
                                             value="{{ Auth::user()->person_singin }}"
-                                            placeholder="Skills"
+                                            placeholder="วันที่บรรจุ"
                                         />
                                     </div>
                                 </div>
@@ -170,7 +170,11 @@
                                     <label for="inputExperience" class="col-sm-2 control-label">หมายเหตุ</label>
 
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="inputExperience"
+                                            placeholder="หมายเหตุ"
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <!-- <div class="form-group">
@@ -182,11 +186,11 @@
                                         </div>
                                     </div>
                                 </div> -->
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button type="submit" class="btn btn-danger">Submit</button>
                                     </div>
-                                </div>
+                                </div> -->
                             </form>
                         </div><!-- /.tab-pane -->
                         <div class="tab-pane" id="activity">
