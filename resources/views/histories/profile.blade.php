@@ -22,8 +22,8 @@
                 <?php $userPosition = Auth::user()->academic ? Auth::user()->position->position_name.Auth::user()->academic->ac_name : Auth::user()->position->position_name ?>
                 <div class="box">
                     <div class="box-body box-profile">
-                        <?php $userAvatar = (Auth::user()->person_photo != '') ? "http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}" : asset('img/user2-160x160.jpg'); ?>
-                        <img class="profile-user-img img-responsive img-circle" src="{{ $userAvatar }}" alt="User profile picture">
+                        <?php $userAvatarUrl = (Auth::user()->person_photo != '') ? "http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}" : asset('img/user2-160x160.jpg'); ?>
+                        <img class="profile-user-img img-responsive img-circle" src="{{ $userAvatarUrl }}" alt="User profile picture">
 
                         <h3 class="profile-username text-center">
                             {{ Auth::user()->person_firstname. ' ' .Auth::user()->person_lastname }}

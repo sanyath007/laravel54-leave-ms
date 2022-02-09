@@ -4,8 +4,9 @@
 				<!-- Sidebar user panel -->
 				<div class="user-panel">
 					<div class="pull-left image">
+						<?php $userAvatarUrl = (Auth::user()->person_photo != '') ? "http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}" : asset('img/user2-160x160.jpg'); ?>
 						<img
-							src="http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}"
+							src="{{ $userAvatarUrl }}"
 							class="img-circle"
 							alt="User Image"
 						/>
