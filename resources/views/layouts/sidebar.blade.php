@@ -4,7 +4,11 @@
 				<!-- Sidebar user panel -->
 				<div class="user-panel">
 					<div class="pull-left image">
-						<img src="{{ asset('/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+						<img
+							src="http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}"
+							class="img-circle"
+							alt="User Image"
+						/>
 					</div>
 					<div class="pull-left info">
 						<p>

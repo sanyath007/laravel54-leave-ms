@@ -219,7 +219,11 @@
 							@else
 
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<img src="{{ asset('/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+									<img
+										src="http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}"
+										class="user-image"
+										alt="User Image"
+									/>
 									<span class="hidden-xs">{{ Auth::user()->person_firstname }} {{ Auth::user()->person_lastname }}</span>
 								</a>
 								<ul class="dropdown-menu">
