@@ -23,11 +23,15 @@
                 <!-- Profile Image -->
                 <div class="box">
                 <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle" src="{{ asset('/img/user4-128x128.jpg') }}" alt="User profile picture">
+                    <img class="profile-user-img img-responsive img-circle" src="http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}" alt="User profile picture">
 
-                    <h3 class="profile-username text-center">Nina Mcintire</h3>
+                    <h3 class="profile-username text-center">
+                        {{ Auth::user()->person_firstname. ' ' .Auth::user()->person_lastname }}
+                    </h3>
 
-                    <p class="text-muted text-center">Software Engineer</p>
+                    <p class="text-muted text-center">
+                        {{ Auth::user()->position->position_name.Auth::user()->academic->ac_name }}
+                    </p>
 
                     <!-- <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
@@ -98,41 +102,78 @@
                         <div class="active tab-pane" id="settings">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                    <label for="inputName" class="col-sm-2 control-label">ชื่อ-สกุล</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            id="inputName"
+                                            value="{{ Auth::user()->person_firstname. ' ' .Auth::user()->person_lastname }}"
+                                            placeholder="Name"
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                    <label for="inputEmail" class="col-sm-2 control-label">อีเมล</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            id="inputEmail"
+                                            value="{{ Auth::user()->person_email }}"
+                                            placeholder="Email"
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                    <label for="inputName" class="col-sm-2 control-label">โทรศัพท์</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName" placeholder="Name">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="inputName"
+                                            value="{{ Auth::user()->person_tel }}"
+                                            placeholder="Name"
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+                                    <label for="inputSkills" class="col-sm-2 control-label">ตำแหน่ง</label>
+
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="inputSkills"
+                                            value="{{ Auth::user()->position->position_name.Auth::user()->academic->ac_name }}"
+                                            placeholder="Skills"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputSkills" class="col-sm-2 control-label">วันที่บรรจุ</label>
+
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="inputSkills"
+                                            value="{{ Auth::user()->person_singin }}"
+                                            placeholder="Skills"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputExperience" class="col-sm-2 control-label">หมายเหตุ</label>
 
                                     <div class="col-sm-10">
                                         <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                    </div>
-                                </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <div class="checkbox">
                                             <label>
@@ -140,7 +181,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button type="submit" class="btn btn-danger">Submit</button>
