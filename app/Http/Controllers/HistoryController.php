@@ -35,8 +35,8 @@ class HistoryController extends Controller
                     ->when(!empty($type), function($q) use ($type) {
                         $q->where('leave_type', $type);
                     })
-                    ->with('person', 'person.prefix', 'person.position', 'person.academic')
-                    ->with('person.memberOf', 'person.memberOf.depart', 'type')
+                    ->with('person','person.prefix','person.position','person.academic')
+                    ->with('person.memberOf','person.memberOf.depart','type')
                     ->with('cancellation')
                     ->orderBy('year', 'desc')
                     ->orderBy('leave_date', 'desc')

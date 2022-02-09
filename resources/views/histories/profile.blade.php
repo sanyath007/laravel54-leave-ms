@@ -19,55 +19,55 @@
     <section class="content" ng-controller="depreciationCtrl" ng-init="getData()">
         <div class="row">
             <div class="col-md-3">
-
-                <!-- Profile Image -->
+                <?php $userPosition = Auth::user()->academic ? Auth::user()->position->position_name.Auth::user()->academic->ac_name : Auth::user()->position->position_name ?>
                 <div class="box">
-                <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle" src="http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}" alt="User profile picture">
+                    <div class="box-body box-profile">
+                        <?php $userAvatar = (Auth::user()->person_photo != '') ? "http://192.168.20.4:3839/ps/PhotoPersonal/{{ Auth::user()->person_photo }}" : asset('img/user2-160x160.jpg'); ?>
+                        <img class="profile-user-img img-responsive img-circle" src="{{ $userAvatar }}" alt="User profile picture">
 
-                    <h3 class="profile-username text-center">
-                        {{ Auth::user()->person_firstname. ' ' .Auth::user()->person_lastname }}
-                    </h3>
+                        <h3 class="profile-username text-center">
+                            {{ Auth::user()->person_firstname. ' ' .Auth::user()->person_lastname }}
+                        </h3>
 
-                    <p class="text-muted text-center">
-                        {{ Auth::user()->position->position_name.Auth::user()->academic->ac_name }}
-                    </p>
+                        <p class="text-muted text-center">
+                            {{ $userPosition }}
+                        </p>
 
-                    <!-- <ul class="list-group list-group-unbordered">
-                        <li class="list-group-item">
-                            <b>Followers</b> <a class="pull-right">1,322</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Following</b> <a class="pull-right">543</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Friends</b> <a class="pull-right">13,287</a>
-                        </li>
-                    </ul> -->
+                        <!-- <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b>Followers</b> <a class="pull-right">1,322</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Following</b> <a class="pull-right">543</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Friends</b> <a class="pull-right">13,287</a>
+                            </li>
+                        </ul> -->
 
-                    <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
-                </div>
-                <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
+                        <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
 
                 <!-- About Me Box -->
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title">เกี่ยวกับตัวฉัน</h3>
-                    </div>
-                    <!-- /.box-header -->
+                    </div><!-- /.box-header -->
                     <div class="box-body">
                         <strong><i class="fa fa-book margin-r-5"></i> การศึกษา</strong>
-                        <p class="text-muted" style="text-indent: 20px; border: 1px dotted grey;">
-                            B.S. in Computer Science from the University of Tennessee at Knoxville
+                        <p class="text-muted" style="text-indent: 20px; border: 1px dotted grey; padding: 5px;">
+                            ระดับ {{ $educationLevels[$educations->edu_level] }}
+                            สาขา {{ $educations->edu_course }}
+                            จาก {{ $educations->edu_house }}
+                            เมื่อปี {{ $educations->edu_year }}
                         </p>
 
                         <hr>
 
                         <strong><i class="fa fa-map-marker margin-r-5"></i> ที่อยู่</strong>
                         <p class="text-muted" style="text-indent: 20px; border: 1px dotted grey;">
-                            Malibu, California
+                            -
                         </p>
 
                         <!-- <hr> -->
@@ -85,7 +85,7 @@
 
                         <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
                         <p style="text-indent: 20px; border: 1px dotted grey;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.
+                            -
                         </p>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -148,8 +148,8 @@
                                             type="text"
                                             class="form-control"
                                             id="inputSkills"
-                                            value="{{ Auth::user()->position->position_name.Auth::user()->academic->ac_name }}"
-                                            placeholder="Skills"
+                                            value="{{ $userPosition }}"
+                                            placeholder="ตำแหน่ง"
                                         />
                                     </div>
                                 </div>

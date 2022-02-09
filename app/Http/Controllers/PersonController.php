@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Person;
+use App\Models\Education;
 
 class PersonController extends Controller
 {
@@ -51,10 +52,23 @@ class PersonController extends Controller
         ];
     }
 
-    public function getProfile()
+    public function getProfile($id)
     {
-        return view('histories.profile', [
+        $educationLevels = [
+            '1' => "ประถมศึกษา", 
+            '2' => "มัธยมศึกษาตอนต้น",
+            '3' => "มัธยมศึกษาตอนปลาย - ปวช.",
+            '4' => "ปวท. / อนุปริญญา - ปวส.",
+            '5' => "ปริญญาตรี",
+            '6' => "ปริญญาโท",
+            '7' => "ปริญญาเอก",
+        ];
 
+        $educations = Education::where('person_id', $id)->orderBy('edu_year', 'DESC')->first();
+
+        return view('histories.profile', [
+            'educations' => $educations,
+            'educationLevels' => $educationLevels,
         ]);
     }
 }
