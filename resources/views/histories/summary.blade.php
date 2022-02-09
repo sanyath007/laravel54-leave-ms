@@ -118,6 +118,9 @@
                                             </td>
                                             <td style="text-align: left;">
                                                 @{{ leave.type.name }}
+                                                <p ng-show="leave.cancellation.length > 0" style="color: red;">
+                                                    ยกเลิกวันลา <span>@{{ leave.cancellation[0].days }} วัน</span>
+                                                </p>
                                             </td>
                                             <td style="text-align: center;">
                                                 <span>@{{ leave.start_date | thdate }} - </span>
@@ -125,14 +128,31 @@
                                             </td>
                                             <td style="text-align: center;">
                                                 @{{ leave.leave_days | currency:"":0 }}
+                                                <p ng-show="leave.cancellation.length > 0" style="color: red;">
+                                                    (ลา @{{ leave.leave_days - leave.cancellation[0].days }})
+                                                </p>
                                             </td>
                                             <td style="text-align: left;">
-                                                <span class="label label-info" ng-show="paid.asset_status!=0">
-                                                    @{{ (leave.status==0) ? 'อยู่ระหว่างการสร้างเอกสาร' :
-                                                        (leave.status==1) ? 'อยู่ระหว่างดำเนินการ' :
-                                                        (leave.status==2) ? 'ผ่านการอนุมัติ' :
-                                                        (leave.status==3) ? 'ไม่ผ่านการอนุมัติ' :
-                                                        (leave.status==9) ? 'ยกเลิก' : 'อยู่ระหว่างการแก้ไข' }}
+                                                <span class="label label-primary" ng-show="leave.status == 1">
+                                                    อยู่ระหว่างดำเนินการ
+                                                </span>
+                                                <span class="label label-info" ng-show="leave.status == 2">
+                                                    รับเอกสารแล้ว
+                                                </span>
+                                                <span class="label label-success" ng-show="leave.status == 3">
+                                                    ผ่านการอนุมัติ
+                                                </span>
+                                                <span class="label label-default" ng-show="leave.status == 4">
+                                                    ไม่ผ่านการอนุมัติ
+                                                </span>
+                                                <span class="label label-warning" ng-show="leave.status == 5">
+                                                    อยู่ระหว่างการยกเลิก
+                                                </span>
+                                                <span class="label label-danger" ng-show="leave.status == 9 && leave.leave_days - leave.cancellation[0].days == 0">
+                                                    ยกเลิก
+                                                </span>
+                                                <span class="label label-success" ng-show="leave.status == 9 && leave.leave_days - leave.cancellation[0].days > 0">
+                                                    ผ่านการอนุมัติ
                                                 </span>
                                             </td>
                                         </tr>

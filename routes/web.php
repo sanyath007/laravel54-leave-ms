@@ -65,7 +65,6 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/print/{id}', 'LeaveController@printLeaveForm');
     Route::get('leaves/print-cancel/{id}', 'LeaveController@printCancelForm');
 
-    
     /** ยกเลิกการลา */
     Route::post('cancellations/approve', 'CancellationController@doApprove');
     Route::post('cancellations/receive', 'CancellationController@doReceive');
