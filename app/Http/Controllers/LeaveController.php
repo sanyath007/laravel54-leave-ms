@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\Models\Leave;
 use App\Models\LeaveType;
@@ -337,6 +338,7 @@ class LeaveController extends Controller
         $leave = Leave::find($req['leave_id']);
         $leave->approved_comment    = $req['comment'];
         $leave->approved_date       = date('Y-m-d');
+        $leave->approved_by         = Auth::user()->person_id;
         $leave->status              = $req['approved'];
 
         if ($leave->save()) {
@@ -421,6 +423,7 @@ class LeaveController extends Controller
     {
         $leave = Leave::find($req['leave_id']);
         $leave->received_date       = date('Y-m-d');
+        $leave->received_by         = Auth::user()->person_id;
         $leave->status              = '2';
 
         if ($leave->save()) {
