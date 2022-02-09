@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Person;
 use App\Models\Leave;
 use App\Models\History;
@@ -15,8 +15,9 @@ class CancellationController extends Controller
     {
         try {
             $cancel = Cancellation::find($req['_id']);
-            $cancel->approved_comment    = $req['comment'];
-            $cancel->approved_date       = date('Y-m-d');
+            $cancel->approved_comment   = $req['comment'];
+            $cancel->approved_date      = date('Y-m-d');
+            $cancel->approved_by        = Auth::user()->person_id;
 
             if ($cancel->save()) {
                 /** Update status of cancelled leave data */
@@ -56,7 +57,7 @@ class CancellationController extends Controller
         try {
             $cancel = Cancellation::find($req['_id']);
             $cancel->received_date  = date('Y-m-d H:i:s');
-            $cancel->received_by    = '';
+            $cancel->received_by    = Auth::user()->person_id;
 
             if ($cancel->save()) {
                 return redirect('/leaves/receive');
