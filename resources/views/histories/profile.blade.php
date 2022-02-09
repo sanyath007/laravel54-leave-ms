@@ -54,32 +54,32 @@
                 <!-- About Me Box -->
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">About Me</h3>
+                        <h3 class="box-title">เกี่ยวกับตัวฉัน</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+                        <strong><i class="fa fa-book margin-r-5"></i> การศึกษา</strong>
                         <p class="text-muted" style="text-indent: 20px; border: 1px dotted grey;">
                             B.S. in Computer Science from the University of Tennessee at Knoxville
                         </p>
 
                         <hr>
 
-                        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                        <strong><i class="fa fa-map-marker margin-r-5"></i> ที่อยู่</strong>
                         <p class="text-muted" style="text-indent: 20px; border: 1px dotted grey;">
                             Malibu, California
                         </p>
 
-                        <hr>
+                        <!-- <hr> -->
 
-                        <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+                        <!-- <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
                         <p style="text-indent: 20px; border: 1px dotted grey;">
                             <span class="label label-danger">UI Design</span>
                             <span class="label label-success">Coding</span>
                             <span class="label label-info">Javascript</span>
                             <span class="label label-warning">PHP</span>
                             <span class="label label-primary">Node.js</span>
-                        </p>
+                        </p> -->
 
                         <hr>
 
