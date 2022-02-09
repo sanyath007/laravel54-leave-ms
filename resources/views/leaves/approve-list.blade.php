@@ -234,7 +234,7 @@
                                                     ยังไม่ได้ลงรับ
                                                 </span>
                                                 <a  ng-click="showApproveForm(cancel, 2)" 
-                                                    ng-show="(cancel.status!==4 || cancel.status!==3) && !cancel.cancellation[0].received_date == null"
+                                                    ng-show="(cancel.status!==4 || cancel.status!==3) && cancel.cancellation[0].received_date != null"
                                                     class="btn btn-danger btn-sm"
                                                     title="ลงนามอนุมัติยกเลิกการลา">
                                                     <i class="fa fa-check" aria-hidden="true"></i>
