@@ -154,8 +154,19 @@
                                     </div>
                                 </div>
                                 <?php
-                                    $userDepart = $personInfo->memberOf && $personInfo->memberOf->depart ? $personInfo->memberOf->depart->depart_name : '';
-                                    $userDuty = ' (' .($personInfo->memberOf && $personInfo->memberOf->duty ? $personInfo->memberOf->duty->duty_name : ''). ')';
+                                    $userDuty = $personInfo->memberOf && $personInfo->memberOf->duty
+                                                ? $personInfo->memberOf->duty->duty_name
+                                                : '';
+                                    if (
+                                        $personInfo->memberOf && $personInfo->memberOf->duty 
+                                        && ($personInfo->memberOf->duty->duty_id <> '1' && $personInfo->memberOf->duty->duty_id <> '6')
+                                    ) {
+                                        $userDepart = $personInfo->memberOf && $personInfo->memberOf->depart
+                                                        ? $personInfo->memberOf->depart->depart_name. ' (' .$userDuty. ')'
+                                                        : '';
+                                    } else {
+                                        $userDepart = $userDuty;
+                                    }
                                 ?>
                                 <div class="form-group">
                                     <label for="inputSkills" class="col-sm-2 control-label">สังกัด</label>
@@ -164,7 +175,7 @@
                                             type="text"
                                             class="form-control"
                                             id="inputSkills"
-                                            value="{{ $userDepart.$userDuty }}"
+                                            value="{{ $userDepart }}"
                                             placeholder="ตำแหน่ง"
                                         />
                                     </div>
