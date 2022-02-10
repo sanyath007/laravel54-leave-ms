@@ -6,14 +6,13 @@ app.controller('historyCtrl', function(CONFIG, $scope, $http, toaster, ModalServ
 
     $scope.cboLeaveType = '';
 
-    $scope.getData = function() {
+    $scope.getPersonHistories = function(personId) {
         $scope.loading = true;
 
         const type = $scope.cboLeaveType === '' ? '' : $scope.cboLeaveType;
 
-        $http.get(`${CONFIG.baseUrl}/histories/1300200009261/2565/person?type=${type}`)
+        $http.get(`${CONFIG.baseUrl}/histories/${personId}/2565/person?type=${type}`)
         .then(function(res) {
-            console.log(res.data.leaves);
             const { data, ...pager } = res.data.leaves;
 
             $scope.leaves = data;

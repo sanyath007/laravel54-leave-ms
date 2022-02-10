@@ -16,7 +16,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="historyCtrl" ng-init="getData()">
+    <section class="content" ng-controller="historyCtrl" ng-init="getPersonHistories({{ Auth::user()->person_id }})">
 
         <div class="row">
             <div class="col-md-12">
@@ -38,7 +38,40 @@
                                 <h3 class="box-title">สถิติการลา ปีงบประมาณ</h3>
                             </div>
                             <div class="box-body">
-                                
+                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                    <h4>ลาป่วย (ุ60 วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม {{ empty($histories) ? 60 : 60 - $histories->ill_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 60 : $histories->ill_days }} วัน</p>
+                                </div>
+                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                    <h4>ลากิจส่วนตัว (45 วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม {{ empty($histories) ? 60 : 45 - $histories->per_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 60 : $histories->per_days }} วัน</p>
+                                </div>
+                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                    <h4>ลาพักผ่อน (10 วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม {{ empty($vacation) ? 10 : $vacation->all_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 10 : $histories->vac_days }} วัน</p>
+                                </div>
+                                <div
+                                    style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;"
+                                    ng-show="{{ Auth::user()->person_sex }} == 2"
+                                >
+                                    <h4>ลาคลอด (90 วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม {{ empty($histories) ? 90 : 90 - $histories->lab_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 90 : $histories->lab_days }} วัน</p>
+                                </div>
+                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
+                                    <h4>ลาอุปสมบท (120 วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม {{ empty($histories) ? 120 : 120 - $histories->ord_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 120 : $histories->ord_days }} วัน</p>
+                                </div>
+                                <!-- TODO: ใช้การลากิจ/พักผ่อน + บันทึกข้อความไปต่างประเทศ -->
+                                <!-- <div style="border: 1px solid grey; padding: 0.5em;">
+                                    <h4>ลาไปต่างประเทศ</h4>
+                                    <p>จำนวนวันลาสะสม - วัน</p>
+                                    <p>จำนวนวันที่ลา - วัน</p>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -56,7 +89,7 @@
                                             id="cboLeaveType"
                                             name="cboLeaveType"
                                             ng-model="cboLeaveType"
-                                            ng-change="getData();"
+                                            ng-change="getPersonHistories({{ Auth::user()->person_id }});"
                                             class="form-control"
                                         >
                                             <option value="">-- ทั้งหมด --</option>
@@ -82,7 +115,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="(index, leave) in leaves" ng-show="leaves.length > 0">
+                                        
+                                    <tr ng-repeat="(index, leave) in leaves" ng-show="leaves.length > 0">
                                             <td style="text-align: center;">
                                                 @{{ index+pager.from }}
                                             </td>
