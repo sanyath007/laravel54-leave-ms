@@ -70,6 +70,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     /** ยกเลิกการลา */
     Route::post('cancellations/approve', 'CancellationController@doApprove');
+    Route::post('cancellations/comment', 'CancellationController@doComment');
     Route::post('cancellations/receive', 'CancellationController@doReceive');
 
     /** Asset Type */

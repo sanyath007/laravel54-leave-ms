@@ -52,6 +52,22 @@ class CancellationController extends Controller
         }
     }
 
+    public function doComment(Request $req)
+    {
+        try {
+            $cancel = Cancellation::find($req['_id']);
+            $cancel->comment_text   = $req['comment'];
+            $cancel->comment_date   = date('Y-m-d');
+            $cancel->comment_by     = Auth::user()->person_id;
+
+            if ($cancel->save()) {
+                return redirect('/leaves/comment');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
     public function doReceive(Request $req)
     {
         try {
