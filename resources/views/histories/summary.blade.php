@@ -100,12 +100,11 @@
                     <div class="col-md-8">
                         <div class="box box-danger">
                             <div class="box-header">
-                                <h3 class="box-title">รายละเอียดข้อมูลการลา</h3>
-                            </div>
-                            <div class="box-body">
                                 <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label> ประเภทการลา :</label>
+                                    <div class="col-md-8" style="margin-top: 8px;">
+                                        <h3 class="box-title">รายละเอียดข้อมูลการลา</h3>
+                                    </div>
+                                    <div class="form-group col-sm-4" style="margin-bottom: 0px;">
                                         <select
                                             id="cboLeaveType"
                                             name="cboLeaveType"
@@ -124,7 +123,8 @@
                                         </select>
                                     </div><!-- /.form group -->
                                 </div><!-- /.row -->
-
+                            </div>
+                            <div class="box-body">
                                 <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 1rem;">
                                     <thead>
                                         <tr>
