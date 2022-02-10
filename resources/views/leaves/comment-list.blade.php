@@ -231,8 +231,12 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
+                                                <span ng-show="cancel.cancellation[0].commented_date != null" style="color: green; font-size: 12px;">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                    ลงความเห็นแล้ว
+                                                </span>
                                                 <a  ng-click="showCommentForm(cancel, 2)" 
-                                                    ng-show="(cancel.status!==4 || cancel.status!==3) && cancel.cancellation[0].received_date != null"
+                                                    ng-show="(cancel.status!==4 || cancel.status!==3) && cancel.cancellation[0].commented_date == null"
                                                     class="btn btn-danger btn-sm"
                                                     title="ลงความเห็นยกเลิกการลา">
                                                     <i class="fa fa-check" aria-hidden="true"></i>

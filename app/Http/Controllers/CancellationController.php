@@ -56,11 +56,16 @@ class CancellationController extends Controller
     {
         try {
             $cancel = Cancellation::find($req['_id']);
-            $cancel->comment_text   = $req['comment'];
-            $cancel->comment_date   = date('Y-m-d');
-            $cancel->comment_by     = Auth::user()->person_id;
+            $cancel->commented_text   = $req['comment'];
+            $cancel->commented_date   = date('Y-m-d');
+            $cancel->commented_by     = Auth::user()->person_id;
 
             if ($cancel->save()) {
+                /** Update status of cancelled leave data */
+                $leave = Leave::find($req['leave_id']);
+                $leave->status = $req['approved'];
+                $leave->save();
+
                 return redirect('/leaves/comment');
             }
         } catch (\Throwable $th) {
