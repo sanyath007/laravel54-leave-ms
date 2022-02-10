@@ -105,7 +105,7 @@ class LeaveController extends Controller
         $conditions = [];
         if($year != '0') array_push($conditions, ['year', '=', $year]);
         if($type != '0') array_push($conditions, ['leave_type', $type]);
-        if($status != '') {
+        if($status != '-') {
             if (preg_match($pattern, $status, $matched) == 1) {
                 $arrStatus = explode($matched[0], $status);
                 
@@ -460,10 +460,10 @@ class LeaveController extends Controller
     public function doComment(Request $req)
     {
         $leave = Leave::find($req['leave_id']);
-        $leave->commented_text       = $req['comment'];
-        $leave->commented_date       = date('Y-m-d');
-        $leave->commented_by         = Auth::user()->person_id;
-        $leave->status              = '1';
+        $leave->commented_text  = $req['comment'];
+        $leave->commented_date  = date('Y-m-d');
+        $leave->commented_by    = Auth::user()->person_id;
+        $leave->status          = $req['approved'];
 
         if ($leave->save()) {
             return redirect('/leaves/comment');

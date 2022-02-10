@@ -434,11 +434,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
         let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
-        let status  = $scope.cboLeaveStatus === '' ? '' : $scope.cboLeaveStatus;
+        let status  = $scope.cboLeaveStatus === '' ? '-' : $scope.cboLeaveStatus;
         let menu    = $scope.cboMenu === '' ? 0 : $scope.cboMenu;
-        let query   = $scope.cboQuery === '' ? '' : $scope.cboQuery;
+        let query   = $scope.cboQuery === '' ? '' : `?${$scope.cboQuery}`;
 
-        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}?${query}`)
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}${query}`)
         .then(function(res) {
             $scope.setLeaves(res);
 
