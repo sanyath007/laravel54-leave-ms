@@ -107,8 +107,11 @@
                                             <td style="text-align: center;">
                                                 <p style="margin: 0px auto;">@{{ leave.leave_date | thdate }}</p>
                                                 <p style="margin: 0px auto;">
-                                                    <span class="label label-primary" ng-show="leave.status == 1">
+                                                    <span class="label label-primary" ng-show="leave.status == 0">
                                                         อยู่ระหว่างดำเนินการ
+                                                    </span>
+                                                    <span class="label label-info" ng-show="leave.status == 1">
+                                                        หัวหน้าลงความเห็นแล้ว
                                                     </span>
                                                     <span class="label label-info" ng-show="leave.status == 2">
                                                         รับเอกสารแล้ว
@@ -118,6 +121,9 @@
                                                     </span>
                                                     <span class="label label-default" ng-show="leave.status == 4">
                                                         ไม่ผ่านการอนุมัติ
+                                                    </span>
+                                                    <span class="label label-default" ng-show="leave.status == 7">
+                                                        หัวหน้าไม่อนุญาต
                                                     </span>
                                                     <span class="label label-warning" ng-show="leave.status == 5">
                                                         อยู่ระหว่างการยกเลิก
