@@ -38,37 +38,7 @@
                                 <h3 class="box-title">สถิติการลา ปีงบประมาณ</h3>
                             </div>
                             <div class="box-body">
-                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาป่วย (ุ60 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ 60 - $histories->ill_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ $histories->ill_days }} วัน</p>
-                                </div>
-                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลากิจส่วนตัว (45 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ 45 - $histories->per_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ $histories->per_days }} วัน</p>
-                                </div>
-                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาพักผ่อน (10 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ $vacation->all_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ $histories->vac_days }} วัน</p>
-                                </div>
-                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาคลอด (90 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ 90 - $histories->lab_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ $histories->lab_days }} วัน</p>
-                                </div>
-                                <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาอุปสมบท (120 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม - วัน</p>
-                                    <p>จำนวนวันที่ลา - วัน</p>
-                                </div>
-                                <!-- TODO: ใช้การลากิจ/พักผ่อน + บันทึกข้อความไปต่างประเทศ -->
-                                <!-- <div style="border: 1px solid grey; padding: 0.5em;">
-                                    <h4>ลาไปต่างประเทศ</h4>
-                                    <p>จำนวนวันลาสะสม - วัน</p>
-                                    <p>จำนวนวันที่ลา - วัน</p>
-                                </div> -->
+                                
                             </div>
                         </div>
                     </div>
@@ -112,7 +82,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="(index, leave) in leaves">
+                                        <tr ng-repeat="(index, leave) in leaves" ng-show="leaves.length > 0">
                                             <td style="text-align: center;">
                                                 @{{ index+pager.from }}
                                             </td>
@@ -154,6 +124,11 @@
                                                 <span class="label label-success" ng-show="leave.status == 9 && leave.leave_days - leave.cancellation[0].days > 0">
                                                     ผ่านการอนุมัติ
                                                 </span>
+                                            </td>
+                                        </tr>
+                                        <tr ng-show="leaves.length == 0">
+                                            <td style="text-align: center;" colspan="5">
+                                                -- ไม่มีข้อมูลการลา --
                                             </td>
                                         </tr>
                                     </tbody>
