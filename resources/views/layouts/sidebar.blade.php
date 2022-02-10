@@ -66,7 +66,7 @@
 					</li>
 					<li class="treeview" ng-class="{ 'menu-open active': menu == 'leaves' }">
 						<a href="#">
-							<i class="fa fa-university"></i>
+							<i class="fa fa-calendar"></i>
 							<span>การลา</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
@@ -83,43 +83,96 @@
 									<i class="fa fa-circle-o"></i> ยกเลิกใบลา
 								</a>
 							</li>
-
-							@if (Auth::user()->person_id == '1300200009261' || Auth::user()->person_id == '1309900322504')
-								<li ng-class="{ 'active': submenu == 'receive' }">
-									<a href="{{ url('leaves/receive') }}">
-										<i class="fa fa-circle-o"></i> รับเอกสาร
-									</a>
-								</li>
-								<li ng-class="{ 'active': submenu == 'approve' }">
-									<a href="{{ url('leaves/approve') }}">
-										<i class="fa fa-circle-o"></i> อนุมัติใบลา
-									</a>
-								</li>
-							@endif
-
 						</ul>
 					</li>
-					<li class="treeview" ng-class="{ 'menu-open active': menu == 'reports' }">
-						<a href="#">
-							<i class="fa fa-pie-chart"></i>
-							<span>รายงาน</span>
-							<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-							</span>
-						</a>
-						<ul class="treeview-menu">
-							<li>
-								<a href="{{ url('reports/summary') }}">
-									<i class="fa fa-circle-o"></i> สรุปการลา
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('reports/remain') }}">
-									<i class="fa fa-circle-o"></i> สรุปวันลาคงเหลือ
-								</a>
-							</li>
-						</ul>
-					</li>
+
+					<!-- // Authorize เฉพาะหัวหน้ากลุ่มภารกิจ/ธุรการหรือเลขาฯกลุ่มภารกิจ/หัวหน้ากลุ่มงาน -->
+					@if (
+						Auth::user()->person_id == '1300200009261' ||
+						Auth::user()->person_id == '1309900322504' ||
+						Auth::user()->memberOf->duty_id == 1 ||
+						Auth::user()->memberOf->duty_id == 2
+					)
+						<li class="treeview" ng-class="{ 'menu-open active': menu == 'leaves' }">
+							<a href="#">
+								<i class="fa fa-check-square-o"></i>
+								<span>การอนุมัติ</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu" ng-style="{ 'display': (menu == 'leaves') ? 'block' : 'none' }">
+								<!-- // Authorize เฉพาะหัวหน้ากลุ่มงาน -->
+								@if (
+									Auth::user()->person_id == '1300200009261' ||
+									Auth::user()->memberOf->duty_id == 2
+								)
+									<li ng-class="{ 'active': submenu == 'receive' }">
+										<a href="{{ url('leaves/comment') }}">
+											<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มงาน
+										</a>
+									</li>
+								@endif
+
+								<!-- // Authorize เฉพาะธุรการหรือเลขาฯกลุ่มภารกิจ -->
+								@if (
+									Auth::user()->person_id == '1300200009261' ||
+									Auth::user()->person_id == '1309900322504'
+								)
+									<li ng-class="{ 'active': submenu == 'receive' }">
+										<a href="{{ url('leaves/receive') }}">
+											<i class="fa fa-circle-o"></i> รับเอกสาร
+										</a>
+									</li>
+								@endif
+
+								<!-- // Authorize เฉพาะหัวหน้ากลุ่มภารกิจ/ธุรการหรือเลขาฯกลุ่มภารกิจ -->
+								@if (
+									Auth::user()->person_id == '1300200009261' ||
+									Auth::user()->person_id == '1309900322504' ||
+									Auth::user()->memberOf->duty_id == 1
+								)
+									<li ng-class="{ 'active': submenu == 'approve' }">
+										<a href="{{ url('leaves/approve') }}">
+											<i class="fa fa-circle-o"></i> อนุมัติใบลา
+										</a>
+									</li>
+								@endif
+
+							</ul>
+						</li>
+					@endif
+
+					<!-- // Authorize เฉพาะหัวหน้ากลุ่มภารกิจ/ธุรการหรือเลขาฯกลุ่มภารกิจ/หัวหน้ากลุ่มงาน -->
+					@if (
+						Auth::user()->person_id == '1300200009261' ||
+						Auth::user()->person_id == '1309900322504' ||
+						Auth::user()->memberOf->duty_id == 1 ||
+						Auth::user()->memberOf->duty_id == 2
+					)
+						<li class="treeview" ng-class="{ 'menu-open active': menu == 'reports' }">
+							<a href="#">
+								<i class="fa fa-pie-chart"></i>
+								<span>รายงาน</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="{{ url('reports/summary') }}">
+										<i class="fa fa-circle-o"></i> สรุปการลา
+									</a>
+								</li>
+								<li>
+									<a href="{{ url('reports/remain') }}">
+										<i class="fa fa-circle-o"></i> สรุปวันลาคงเหลือ
+									</a>
+								</li>
+							</ul>
+						</li>
+					@endif
+
 					<!-- <li class="treeview">
 						<a href="#">
 							<i class="fa fa-gear"></i> <span>ข้อมูลพื้นฐาน</span>
