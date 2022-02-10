@@ -11,7 +11,22 @@ class Person extends Model
     protected $primaryKey = 'person_id';
     public $incrementing = false; //ไม่ใช้ options auto increment
     public $timestamps = false; //ไม่ใช้ field updated_at และ created_at
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     // protected $fillable = ['status'];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'person_password', 'remember_token',
+    ];
 
     public function prefix()
     {

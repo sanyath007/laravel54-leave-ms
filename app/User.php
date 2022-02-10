@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Academic', 'ac_id', 'ac_id');
     }
+
+    public function memberOf()
+    {
+        return $this->belongsTo(Models\MemberOf::class, 'person_id', 'person_id');
+    }
 }
