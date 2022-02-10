@@ -16,7 +16,11 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="historyCtrl" ng-init="getPersonHistories({{ Auth::user()->person_id }})">
+    <section
+        class="content"
+        ng-controller="historyCtrl"
+        ng-init="getPersonHistories({{ Auth::user()->person_id }}); getSummary({{ Auth::user()->person_id }});"
+    >
 
         <div class="row">
             <div class="col-md-12">
@@ -26,8 +30,25 @@
                         <h3 class="box-title">ค้นหาข้อมูล</h3>
                     </div><!-- /.box-header -->
 
-                    <div class="box-body" style="background-color: #F5F7FA;">
-
+                    <div class="box-body">
+                        <div class="form-group col-md-6">
+                            <label>ปีงบประมาณ</label>
+                            <select
+                                id="cboYear"
+                                name="cboYear"
+                                ng-model="cboYear"
+                                class="form-control"
+                                ng-change="
+                                    getPersonHistories({{ Auth::user()->person_id }});
+                                    getSummary({{ Auth::user()->person_id }});
+                                "
+                            >
+                                <option value="">-- ทั้งหมด --</option>
+                                <option ng-repeat="y in budgetYearRange" value="@{{ y }}">
+                                    @{{ y }}
+                                </option>
+                            </select>
+                        </div><!-- /.form group -->
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
 
@@ -40,31 +61,31 @@
                             <div class="box-body">
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
                                     <h4>ลาป่วย (ุ60 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ empty($histories) ? 60 : 60 - $histories->ill_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 60 : $histories->ill_days }} วัน</p>
+                                    <p>จำนวนวันลาสะสม @{{ !histories ? 60 : 60 - histories.ill_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา @{{ !histories ? 60 : histories.ill_days }} วัน</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
                                     <h4>ลากิจส่วนตัว (45 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ empty($histories) ? 60 : 45 - $histories->per_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 60 : $histories->per_days }} วัน</p>
+                                    <p>จำนวนวันลาสะสม @{{ !histories ? 60 : 45 - histories.per_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา @{{ !histories ? 60 : histories.per_days }} วัน</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
                                     <h4>ลาพักผ่อน (10 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ empty($vacation) ? 10 : $vacation->all_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 10 : $histories->vac_days }} วัน</p>
+                                    <p>จำนวนวันลาสะสม @{{ !vacation ? 10 : vacation.all_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา @{{ !histories ? 10 : histories.vac_days }} วัน</p>
                                 </div>
                                 <div
                                     style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;"
                                     ng-show="{{ Auth::user()->person_sex }} == 2"
                                 >
                                     <h4>ลาคลอด (90 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ empty($histories) ? 90 : 90 - $histories->lab_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 90 : $histories->lab_days }} วัน</p>
+                                    <p>จำนวนวันลาสะสม @{{ !histories ? 90 : 90 - histories.lab_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา @{{ !histories ? 90 : histories.lab_days }} วัน</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
                                     <h4>ลาอุปสมบท (120 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม {{ empty($histories) ? 120 : 120 - $histories->ord_days }} วัน</p>
-                                    <p>จำนวนวันที่ลา {{ empty($histories) ? 120 : $histories->ord_days }} วัน</p>
+                                    <p>จำนวนวันลาสะสม @{{ !histories ? 120 : 120 - histories.ord_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา @{{ !histories ? 120 : histories.ord_days }} วัน</p>
                                 </div>
                                 <!-- TODO: ใช้การลากิจ/พักผ่อน + บันทึกข้อความไปต่างประเทศ -->
                                 <!-- <div style="border: 1px solid grey; padding: 0.5em;">

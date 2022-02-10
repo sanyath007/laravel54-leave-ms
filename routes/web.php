@@ -41,7 +41,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     
     /** ประวัติ */
     Route::get('histories/profile/{id}', 'PersonController@getProfile');
-    Route::get('histories/stat/{id}/{year}', 'HistoryController@summary');
+    Route::get('histories/summary/{id}', 'HistoryController@summary');
+    Route::get('histories/stat/{id}/{year}', 'HistoryController@getSummary');
     Route::get('histories/{id}/{year}/person', 'HistoryController@getHistoriesByPerson');
 
     /** การลา */

@@ -12,18 +12,23 @@ use App\Models\LeaveType;
 
 class HistoryController extends Controller
 {
-    public function summary($person, $year)
+    public function summary($person)
     {
-        $histories  = History::where(['person_id' => $person, 'year' => 2565])->first();
-
-        $vacation   = Vacation::where(['person_id' => $person,'year' => 2565])->first();
-
         return view('histories.summary', [
             "person"        => Person::where('person_id', $person)->first(),
-            "histories"     => $histories,
-            "vacation"      => $vacation,
             "leave_types"   => LeaveType::all(),
         ]);
+    }
+
+    public function getSummary($person, $year)
+    {
+        $histories  = History::where(['person_id' => $person, 'year' => $year])->first();
+        $vacation   = Vacation::where(['person_id' => $person,'year' => $year])->first();
+
+        return [
+            "histories"     => $histories,
+            "vacation"      => $vacation,
+        ];
     }
 
     public function getHistoriesByPerson(Request $req, $person, $year)
@@ -40,7 +45,7 @@ class HistoryController extends Controller
                     ->with('cancellation')
                     ->orderBy('year', 'desc')
                     ->orderBy('leave_date', 'desc')
-                    ->paginate(20);
+                    ->paginate(10);
 
         return [
             "leaves" => $leaves,

@@ -5,13 +5,34 @@ app.controller('historyCtrl', function(CONFIG, $scope, $http, toaster, ModalServ
     $scope.loading = false;
 
     $scope.cboLeaveType = '';
+    $scope.cboYear = parseInt(moment().format('MM')) > 9
+                        ? (moment().year() + 544).toString()
+                        : (moment().year() + 543).toString();
+    $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
+
+    $scope.histories = null;
+    $scope.vacation = null;
+    $scope.getSummary = function(personId) {
+        $scope.loading = true;
+
+        $http.get(`${CONFIG.baseUrl}/histories/stat/${personId}/${$scope.cboYear}`)
+        .then(function(res) {
+            $scope.histories = res.data.histories;
+            $scope.vacation = res.data.vacation;
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    }
 
     $scope.getPersonHistories = function(personId) {
         $scope.loading = true;
 
         const type = $scope.cboLeaveType === '' ? '' : $scope.cboLeaveType;
 
-        $http.get(`${CONFIG.baseUrl}/histories/${personId}/2565/person?type=${type}`)
+        $http.get(`${CONFIG.baseUrl}/histories/${personId}/${$scope.cboYear}/person?type=${type}`)
         .then(function(res) {
             const { data, ...pager } = res.data.leaves;
 

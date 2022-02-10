@@ -57,8 +57,8 @@
 									<i class="fa fa-circle-o"></i> ข้อมูลส่วนตัว
 								</a>
 							</li>
-							<li ng-class="{ 'active': submenu == 'stat' }">
-								<a href="#" ng-click="redirectTo($event, 'histories/stat/' + {{ Auth::user()->person_id }} + '/2565')">
+							<li ng-class="{ 'active': submenu == 'summary' }">
+								<a href="#" ng-click="redirectTo($event, 'histories/summary/' + {{ Auth::user()->person_id }})">
 									<i class="fa fa-circle-o"></i> ข้อมูลประวัติการลา
 								</a>
 							</li>
