@@ -9,6 +9,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.cboLeaveStatus = "";
     $scope.cboMenu = "";
     $scope.searchKeyword = "";
+    $scope.cboQuery = "";
     $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
     $scope.monthLists = [
         { id: '01', name: 'มกราคม' },
@@ -312,10 +313,22 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.getPersons(depart, searchKey, null);
     };
 
+    $scope.onCommentLoad = function(depart) {
+        $scope.cboYear = '2565';
+        $scope.cboLeaveStatus = '0';
+        $scope.cboMenu = "1";
+        $scope.cboQuery = `depart=${depart}`;
+
+        $scope.getAll();
+
+        getCancellation();
+    };
+
     $scope.onReceiveLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '1';
         $scope.cboMenu = "1";
+        $scope.cboQuery = "";
 
         $scope.getAll(e);
 
@@ -326,6 +339,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '2';
         $scope.cboMenu = "1";
+        $scope.cboQuery = "";
 
         $scope.getAll(e);
 
@@ -410,10 +424,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
         let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
         let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
-        let status  = $scope.cboLeaveStatus === '' ? 0 : $scope.cboLeaveStatus;
+        let status  = $scope.cboLeaveStatus === '' ? '' : $scope.cboLeaveStatus;
         let menu    = $scope.cboMenu === '' ? 0 : $scope.cboMenu;
+        let query   = $scope.cboQuery === '' ? '' : $scope.cboQuery;
 
-        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}`)
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}?${query}`)
         .then(function(res) {
             $scope.setLeaves(res);
 

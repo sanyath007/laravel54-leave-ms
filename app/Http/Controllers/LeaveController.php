@@ -15,6 +15,7 @@ use App\Models\HelpedWife;
 use App\Models\Ordinate;
 use App\Models\Oversea;
 use App\Models\Country;
+use App\Models\Person;
 use PDF;
 
 
@@ -96,7 +97,7 @@ class LeaveController extends Controller
         ]);
     }
 
-    public function search($year, $type, $status, $menu)
+    public function search(Request $req, $year, $type, $status, $menu)
     {
         $matched = [];
         $pattern = '/^\<|\>/i';
@@ -104,7 +105,7 @@ class LeaveController extends Controller
         $conditions = [];
         if($year != '0') array_push($conditions, ['year', '=', $year]);
         if($type != '0') array_push($conditions, ['leave_type', $type]);
-        if($status != '0') {
+        if($status != '') {
             if (preg_match($pattern, $status, $matched) == 1) {
                 $arrStatus = explode($matched[0], $status);
                 
@@ -114,11 +115,25 @@ class LeaveController extends Controller
             }
         }
         if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
+        if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
+
+        /** Get depart from query params */
+        $qsDepart = $req->get('depart');
+
+        /** Generate list of person of depart from query params */
+        $personList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
+                        ->when(!empty($qsDepart), function($q) use ($qsDepart) {
+                            $q->where('level.depart_id', $qsDepart);
+                        })
+                        ->pluck('personal.person_id');
 
         if(count($conditions) == 0) {
             $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
                         ->with('person.memberOf', 'person.memberOf.depart', 'type')
                         ->with('cancellation')
+                        ->when(!empty($qsDepart), function($q) use ($personList) {
+                            $q->whereIn('leave_person', $personList);
+                        })
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
                         ->paginate(20);
@@ -127,6 +142,9 @@ class LeaveController extends Controller
                         ->with('person', 'person.prefix', 'person.position', 'person.academic')
                         ->with('person.memberOf', 'person.memberOf.depart', 'type')
                         ->with('cancellation')
+                        ->when(!empty($qsDepart), function($q) use ($personList) {
+                            $q->whereIn('leave_person', $personList);
+                        })
                         ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
                         ->paginate(10);
@@ -216,7 +234,7 @@ class LeaveController extends Controller
         $leave->end_period      = $req['end_period'];
         $leave->leave_days      = $req['leave_days'];
         $leave->year            = calcBudgetYear($req['start_date']);
-        $leave->status          = '1';
+        $leave->status          = '0';
 
         /** Upload attach file */
         $attachment = uploadFile($req->file('attachment'), 'uploads/');
@@ -288,7 +306,7 @@ class LeaveController extends Controller
         $leave->end_period      = $req['end_period'];
         $leave->leave_days      = $req['leave_days'];
         $leave->year            = calcBudgetYear($req['start_date']);
-        $leave->status          = '1';
+        $leave->status          = '0';
 
         /** Upload image */
         $leave->image = '';
@@ -420,6 +438,26 @@ class LeaveController extends Controller
     }
 
     public function doReceive(Request $req)
+    {
+        $leave = Leave::find($req['leave_id']);
+        $leave->received_date       = date('Y-m-d');
+        $leave->received_by         = Auth::user()->person_id;
+        $leave->status              = '2';
+
+        if ($leave->save()) {
+            return redirect('/leaves/receive');
+        }
+    }
+
+    public function getComment()
+    {
+        return view('leaves.comment-list', [
+            "leave_types" => LeaveType::all(),
+            "statuses"  => $this->status
+        ]);
+    }
+
+    public function doComment(Request $req)
     {
         $leave = Leave::find($req['leave_id']);
         $leave->received_date       = date('Y-m-d');
