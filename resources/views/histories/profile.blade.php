@@ -16,7 +16,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="depreciationCtrl" ng-init="getData()">
+    <section class="content" ng-controller="historyCtrl">
         <div class="row">
             <div class="col-md-3">
                 <?php $userPosition = Auth::user()->academic ? Auth::user()->position->position_name.Auth::user()->academic->ac_name : Auth::user()->position->position_name ?>
@@ -81,12 +81,12 @@
                             <span class="label label-primary">Node.js</span>
                         </p> -->
 
-                        <hr>
+                        <!-- <hr> -->
 
-                        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+                        <!-- <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
                         <p style="text-indent: 20px; border: 1px dotted grey;">
                             -
-                        </p>
+                        </p> -->
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div><!-- /.col -->
@@ -109,7 +109,7 @@
                                             type="email"
                                             class="form-control"
                                             id="inputName"
-                                            value="{{ Auth::user()->person_firstname. ' ' .Auth::user()->person_lastname }}"
+                                            value="{{ $personInfo->prefix->prefix_name.Auth::user()->person_firstname. ' ' .Auth::user()->person_lastname }}"
                                             placeholder="Name"
                                         />
                                     </div>
@@ -153,6 +153,22 @@
                                         />
                                     </div>
                                 </div>
+                                <?php
+                                    $userDepart = $personInfo->memberOf && $personInfo->memberOf->depart ? $personInfo->memberOf->depart->depart_name : '';
+                                    $userDuty = ' (' .($personInfo->memberOf && $personInfo->memberOf->duty ? $personInfo->memberOf->duty->duty_name : ''). ')';
+                                ?>
+                                <div class="form-group">
+                                    <label for="inputSkills" class="col-sm-2 control-label">สังกัด</label>
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="inputSkills"
+                                            value="{{ $userDepart.$userDuty }}"
+                                            placeholder="ตำแหน่ง"
+                                        />
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="inputSkills" class="col-sm-2 control-label">วันที่บรรจุ</label>
 
@@ -161,7 +177,7 @@
                                             type="text"
                                             class="form-control"
                                             id="inputSkills"
-                                            value="{{ Auth::user()->person_singin }}"
+                                            value="{{ convDbDateToThDate(Auth::user()->person_singin) }}"
                                             placeholder="วันที่บรรจุ"
                                         />
                                     </div>
@@ -171,10 +187,13 @@
 
                                     <div class="col-sm-10">
                                         <textarea
+                                            rows="5"
                                             class="form-control"
                                             id="inputExperience"
                                             placeholder="หมายเหตุ"
-                                        ></textarea>
+                                        >
+                                        {{ Auth::user()->remark }}
+                                    </textarea>
                                     </div>
                                 </div>
                                 <!-- <div class="form-group">
@@ -193,6 +212,7 @@
                                 </div> -->
                             </form>
                         </div><!-- /.tab-pane -->
+
                         <div class="tab-pane" id="activity">
                             <!-- Post -->
                             <div class="post">
@@ -317,10 +337,9 @@
                             </ul>
 
                             <input class="form-control input-sm" type="text" placeholder="Type a comment">
-                            </div>
-                            <!-- /.post -->
-                        </div>
-                        <!-- /.tab-pane -->
+                            </div><!-- /.post -->
+                        </div><!-- /.tab-pane -->
+
                         <div class="tab-pane" id="timeline">
                             <!-- The timeline -->
                             <ul class="timeline timeline-inverse">

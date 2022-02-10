@@ -66,7 +66,13 @@ class PersonController extends Controller
 
         $educations = Education::where('person_id', $id)->orderBy('edu_year', 'DESC')->first();
 
+        $personInfo = Person::where('person_id', $id)
+                    ->with('prefix','typeposition','position','academic','office')
+                    ->with('memberOf','memberOf.depart','memberOf.division','memberOf.duty')
+                    ->first();
+
         return view('histories.profile', [
+            'personInfo' => $personInfo,
             'educations' => $educations,
             'educationLevels' => $educationLevels,
         ]);
