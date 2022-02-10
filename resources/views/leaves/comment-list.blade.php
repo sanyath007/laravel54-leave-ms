@@ -286,6 +286,9 @@
                         </div><!-- /.tab-content -->
                     </div><!-- /.box-body -->
 
+                    @include('leaves._comment-form')
+                    @include('leaves._cancel-comment-form')
+
                     <!-- Loading (remove the following to stop the loading)-->
                     <div ng-show="loading" class="overlay">
                         <i class="fa fa-refresh fa-spin"></i>
