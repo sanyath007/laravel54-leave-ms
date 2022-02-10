@@ -56,7 +56,7 @@
                     <div class="col-md-4">
                         <div class="box box-success">
                             <div class="box-header">
-                                <h3 class="box-title">สถิติการลา ปีงบประมาณ</h3>
+                                <h3 class="box-title">สถิติการลา ปีงบประมาณ @{{ cboYear }}</h3>
                             </div>
                             <div class="box-body">
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
@@ -70,8 +70,8 @@
                                     <p>จำนวนวันที่ลา @{{ !histories ? 60 : histories.per_days }} วัน</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาพักผ่อน (10 วันทำการ)</h4>
-                                    <p>จำนวนวันลาสะสม @{{ !vacation ? 10 : vacation.all_days }} วัน</p>
+                                    <h4>ลาพักผ่อน (@{{ !vacation ? 10 : vacation.all_days }} วันทำการ)</h4>
+                                    <p>จำนวนวันลาสะสม @{{ !vacation ? 10 : vacation.all_days - histories.vac_days }} วัน</p>
                                     <p>จำนวนวันที่ลา @{{ !histories ? 10 : histories.vac_days }} วัน</p>
                                 </div>
                                 <div
@@ -102,7 +102,7 @@
                             <div class="box-header">
                                 <div class="row">
                                     <div class="col-md-8" style="margin-top: 8px;">
-                                        <h3 class="box-title">รายละเอียดข้อมูลการลา</h3>
+                                        <h3 class="box-title">รายละเอียดข้อมูลการลา ปีงบประมาณ @{{ cboYear }}</h3>
                                     </div>
                                     <div class="form-group col-sm-4" style="margin-bottom: 0px;">
                                         <select
