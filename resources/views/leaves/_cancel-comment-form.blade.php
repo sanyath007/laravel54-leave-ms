@@ -1,13 +1,13 @@
-<div class="modal fade" id="cancel-approval-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade" id="cancel-comment-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ url('/cancellations/approve') }}" method="POST">
+            <form action="{{ url('/cancellations/comment') }}" method="POST">
                 <input type="hidden" id="_id" name="_id" value="@{{ leave.cancellation[0].id }}" />
                 <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                 {{ csrf_field() }}
 
                 <div class="modal-header">
-                    <h5 class="modal-title">อนุมัติยกเลิกวันลา</h5>
+                    <h5 class="modal-title">ความเห็นจากหัวหน้ากลุ่มงาน</h5>
                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button> -->

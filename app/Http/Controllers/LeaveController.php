@@ -460,12 +460,13 @@ class LeaveController extends Controller
     public function doComment(Request $req)
     {
         $leave = Leave::find($req['leave_id']);
-        $leave->received_date       = date('Y-m-d');
-        $leave->received_by         = Auth::user()->person_id;
-        $leave->status              = '2';
+        $leave->commented_text       = $req['comment'];
+        $leave->commented_date       = date('Y-m-d');
+        $leave->commented_by         = Auth::user()->person_id;
+        $leave->status              = '1';
 
         if ($leave->save()) {
-            return redirect('/leaves/receive');
+            return redirect('/leaves/comment');
         }
     }
 

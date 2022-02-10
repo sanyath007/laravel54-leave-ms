@@ -128,14 +128,15 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <form action="{{ url('/leaves/comment') }}" method="POST">
-                                                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-success btn-sm">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                        อนุญาต
-                                                    </button>
-                                                </form>
+                                                <a  
+                                                    ng-click="showCommentForm(leave, 1)" 
+                                                    ng-show="(leave.status!==4 || leave.status!==3)" 
+                                                    class="btn btn-warning btn-sm"
+                                                    title="ลงความเห็น"
+                                                >
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                    ลงความเห็น
+                                                </a>
                                             </td>             
                                         </tr>
                                     </tbody>
@@ -230,15 +231,13 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <form action="{{ url('/cancellations/comment') }}" method="POST">
-                                                    <input type="hidden" id="_id" name="_id" value="@{{ cancel.cancellation[0].id }}" />
-                                                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ cancel.id }}" />
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-success btn-sm">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                        อนุญาต
-                                                    </button>
-                                                </form>
+                                                <a  ng-click="showCommentForm(cancel, 2)" 
+                                                    ng-show="(cancel.status!==4 || cancel.status!==3) && cancel.cancellation[0].received_date != null"
+                                                    class="btn btn-danger btn-sm"
+                                                    title="ลงความเห็นยกเลิกการลา">
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                    ลงความเห็น
+                                                </a>
                                             </td>             
                                         </tr>
                                     </tbody>
@@ -284,10 +283,12 @@
 
                             </div><!-- /.tab-pane -->
                         </div><!-- /.tab-content -->
+
+                        @include('leaves._comment-form')
+                        @include('leaves._cancel-comment-form')
+
                     </div><!-- /.box-body -->
 
-                    @include('leaves._comment-form')
-                    @include('leaves._cancel-comment-form')
 
                     <!-- Loading (remove the following to stop the loading)-->
                     <div ng-show="loading" class="overlay">

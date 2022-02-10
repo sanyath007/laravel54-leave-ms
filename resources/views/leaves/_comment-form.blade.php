@@ -1,12 +1,12 @@
-<div class="modal fade" id="approve-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade" id="comment-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ url('/leaves/approve') }}" method="POST">
+            <form action="{{ url('/leaves/comment') }}" method="POST">
                 <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                 {{ csrf_field() }}
 
                 <div class="modal-header">
-                    <h5 class="modal-title">อนุมัติใบลา</h5>
+                    <h5 class="modal-title">ความเห็นจากหัวหน้ากลุ่มงาน</h5>
                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button> -->

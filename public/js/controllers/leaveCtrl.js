@@ -324,6 +324,16 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         getCancellation();
     };
 
+    $scope.showCommentForm = function(leave, type) {
+        $scope.leave = leave;
+
+        if (type === 1) {
+            $('#comment-form').modal('show');
+        } else {
+            $('#cancel-comment-form').modal('show');
+        }
+    };
+
     $scope.onReceiveLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '1';
