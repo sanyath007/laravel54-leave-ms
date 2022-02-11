@@ -77,18 +77,22 @@
                                 </div><!-- /.form group -->
                             </div><!-- /.col -->
 
-                            <div class="col-md-6">                            
-                                <div class="form-group">
-                                    <label>ปีงบประมาณ</label>
-                                    <input
-                                        type="text"
-                                        id="dtpYear"
-                                        name="dtpYear"
-                                        ng-model="dtpYear"
-                                        ng-keyup="getSummary()"
-                                        class="form-control">
-                                </div><!-- /.form group -->
-                            </div>
+                            <!-- // TODO: should use datepicker instead -->
+                            <div class="form-group col-md-6">
+                                <label>ปีงบประมาณ</label>
+                                <select
+                                    id="dtpYear"
+                                    name="dtpYear"
+                                    ng-model="dtpYear"
+                                    class="form-control"
+                                    ng-change="getSummary()"
+                                >
+                                    <option value="">-- ทั้งหมด --</option>
+                                    <option ng-repeat="y in budgetYearRange" value="@{{ y }}">
+                                        @{{ y }}
+                                    </option>
+                                </select>
+                            </div><!-- /.form group -->
 
                             <div class="col-md-6">                            
                                 <div class="form-group">
