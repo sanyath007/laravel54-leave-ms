@@ -93,7 +93,7 @@
 						Auth::user()->memberOf->duty_id == 1 ||
 						Auth::user()->memberOf->duty_id == 2
 					)
-						<li class="treeview" ng-class="{ 'menu-open active': menu == 'approve' }">
+						<li class="treeview" ng-class="{ 'menu-open active': menu == 'approvals' }">
 							<a href="#">
 								<i class="fa fa-check-square-o"></i>
 								<span>การอนุมัติ</span>
@@ -101,14 +101,14 @@
 									<i class="fa fa-angle-left pull-right"></i>
 								</span>
 							</a>
-							<ul class="treeview-menu" ng-style="{ 'display': (menu == 'approve') ? 'block' : 'none' }">
+							<ul class="treeview-menu" ng-style="{ 'display': (menu == 'approvals') ? 'block' : 'none' }">
 								<!-- // Authorize เฉพาะหัวหน้ากลุ่มงาน -->
 								@if (
 									Auth::user()->person_id == '1300200009261' ||
 									Auth::user()->memberOf->duty_id == 2
 								)
-									<li ng-class="{ 'active': submenu == 'receive' }">
-										<a href="{{ url('leaves/comment') }}">
+									<li ng-class="{ 'active': submenu == 'comment' }">
+										<a href="{{ url('approvals/comment') }}">
 											<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มงาน
 										</a>
 									</li>
@@ -120,7 +120,7 @@
 									Auth::user()->person_id == '1309900322504'
 								)
 									<li ng-class="{ 'active': submenu == 'receive' }">
-										<a href="{{ url('leaves/receive') }}">
+										<a href="{{ url('approvals/receive') }}">
 											<i class="fa fa-circle-o"></i> รับเอกสาร
 										</a>
 									</li>
@@ -133,7 +133,7 @@
 									Auth::user()->memberOf->duty_id == 1
 								)
 									<li ng-class="{ 'active': submenu == 'approve' }">
-										<a href="{{ url('leaves/approve') }}">
+										<a href="{{ url('approvals/approve') }}">
 											<i class="fa fa-circle-o"></i> อนุมัติใบลา
 										</a>
 									</li>

@@ -57,45 +57,23 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/edit/{id}', 'LeaveController@edit');
     Route::put('leaves/update', 'LeaveController@update');
     Route::delete('leaves/delete/{id}', 'LeaveController@delete');
-    Route::get('leaves/approve', 'LeaveController@getApprove');
-    Route::post('leaves/approve', 'LeaveController@doApprove');
     Route::get('leaves/cancel', 'LeaveController@getCancel');
     Route::post('leaves/cancel', 'LeaveController@doCancel');
-    Route::get('leaves/receive', 'LeaveController@getReceive');
-    Route::post('leaves/receive', 'LeaveController@doReceive');
-    Route::get('leaves/comment', 'LeaveController@getComment');
-    Route::post('leaves/comment', 'LeaveController@doComment');
     Route::get('leaves/print/{id}', 'LeaveController@printLeaveForm');
     Route::get('leaves/print-cancel/{id}', 'LeaveController@printCancelForm');
+
+    /** การอนุมัติ */
+    Route::get('approvals/comment', 'LeaveController@getComment');
+    Route::post('approvals/comment', 'LeaveController@doComment');
+    Route::get('approvals/receive', 'LeaveController@getReceive');
+    Route::post('approvals/receive', 'LeaveController@doReceive');
+    Route::get('approvals/approve', 'LeaveController@getApprove');
+    Route::post('approvals/approve', 'LeaveController@doApprove');
 
     /** ยกเลิกการลา */
     Route::post('cancellations/approve', 'CancellationController@doApprove');
     Route::post('cancellations/comment', 'CancellationController@doComment');
     Route::post('cancellations/receive', 'CancellationController@doReceive');
-
-    /** Asset Type */
-    Route::post('asset-type/validate', 'AssetTypeController@formValidate');
-    Route::get('asset-type/list', 'AssetTypeController@index');
-	Route::get('asset-type/search/{cateId}/{searchKey}', 'AssetTypeController@search');
-    Route::get('asset-type/get-ajax-all', 'AssetTypeController@getAll');
-    Route::get('asset-type/get-ajax-byid/{typeId}', 'AssetTypeController@getById');
-    Route::get('asset-type/get-ajax-bycate/{cateId}', 'AssetTypeController@getByCate');
-    Route::get('asset-type/get-ajax-no/{cateId}', 'AssetTypeController@getNo');
-    Route::get('asset-type/add', 'AssetTypeController@add');
-    Route::post('asset-type/store', 'AssetTypeController@store');
-    Route::get('asset-type/edit/{typeId}', 'AssetTypeController@edit');
-    Route::put('asset-type/update', 'AssetTypeController@update');
-    Route::delete('asset-type/delete/{typeId}', 'AssetTypeController@delete');
-
-    /** Supplier */
-    Route::get('supplier/list', 'SupplierController@index');
-    Route::get('supplier/search/{searchKey}', 'SupplierController@search');
-    Route::get('supplier/get-supplier/{creditorId}', 'SupplierController@getById');
-    Route::get('supplier/add', 'SupplierController@add');
-    Route::post('supplier/store', 'SupplierController@store');
-    Route::get('supplier/edit/{creditorId}', 'SupplierController@edit');
-    Route::put('supplier/update', 'SupplierController@update');
-    Route::delete('supplier/delete/{creditorId}', 'SupplierController@delete');
 
     /** Report */
     Route::get('reports/summary', 'ReportController@summary');
@@ -106,8 +84,5 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('reports/debt-creditor-excel/{creditor}/{sdate}/{edate}/{showall}', 'ReportController@debtCreditorExcel');     
     Route::get('reports/debt-debttype/list', 'ReportController@debtDebttype');    
     Route::get('reports/debt-debttype/rpt/{debtType}/{sdate}/{edate}/{showall}', 'ReportController@debtDebttypeRpt');
-    Route::get('reports/debt-debttype-excel/{debttype}/{sdate}/{edate}/{showall}', 'ReportController@debtDebttypeExcel');
-    Route::get('reports/debt-chart/{creditorId}', 'ReportController@debtChart');     
-    Route::get('reports/sum-month-chart/{month}', 'ReportController@sumMonth');     
-    Route::get('reports/sum-year-chart/{month}', 'ReportController@sumYear');     
+    Route::get('reports/debt-debttype-excel/{debttype}/{sdate}/{edate}/{showall}', 'ReportController@debtDebttypeExcel');   
 });
