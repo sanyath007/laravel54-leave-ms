@@ -19,7 +19,10 @@
     <section
         class="content"
         ng-controller="reportCtrl"
-        ng-init="getSummary(); initForm({ factions: {{ $factions }}, departs: {{ $departs }} })"
+        ng-init="
+            getSummary();
+            initForm({ factions: {{ $factions }}, departs: {{ $departs }}, divisions: {{ $divisions }} });
+        "
     >
 
         <div class="row">
@@ -90,10 +93,10 @@
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
                                         <option
-                                            ng-repeat="depart in filteredDeparts"
-                                            value="@{{ depart.depart_id }}"
+                                            ng-repeat="division in filteredDivisions"
+                                            value="@{{ division.ward_id }}"
                                         >
-                                            @{{ depart.depart_name }}
+                                            @{{ division.ward_name }}
                                         </option>
                                     </select>
                                 </div><!-- /.form group -->

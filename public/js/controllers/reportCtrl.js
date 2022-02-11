@@ -7,10 +7,12 @@ app.controller(
         $scope.pager = [];
         $scope.initFormValues = null;
         $scope.filteredDeparts = [];
+        $scope.filteredDivisions = [];
         $scope.loading = false;
 
         $scope.cboFaction = '';
         $scope.cboDepart = '';
+        $scope.cboDivision = '';
         $scope.dtpYear = parseInt(moment().format('MM')) > 9
                             ? (moment().year() + 544).toString()
                             : (moment().year() + 543).toString();
@@ -20,6 +22,7 @@ app.controller(
             $scope.initFormValues = initValues;
 
             $scope.filteredDeparts = initValues.departs;
+            $scope.filteredDivisions = initValues.divisions;
         };
 
         $scope.onSelectedFaction = function (faction) {
@@ -30,6 +33,7 @@ app.controller(
 
         $scope.getSummary = function () {
             let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
+            let division = $scope.cboDivision === '' ? '' : $scope.cboDivision;
             let year = $scope.dtpYear === ''
                         ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
                             ? moment().year() + 544
@@ -37,7 +41,7 @@ app.controller(
                         : $scope.dtpYear;
 
             $http
-                .get(`${CONFIG.baseUrl}/reports/summary-data?depart=${depart}&year=${year}`)
+                .get(`${CONFIG.baseUrl}/reports/summary-data?depart=${depart}&division=${division}&year=${year}`)
                 .then(function (res) {
                     const { leaves, histories, persons } = res.data;
                     const { data, ...pager } = persons;

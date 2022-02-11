@@ -6,61 +6,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Faction;
 use App\Models\Depart;
+use App\Models\Division;
 use App\Models\Leave;
 use App\Models\History;
 use App\Models\Person;
 
 class ReportController extends Controller
-{   
-    protected $status = [
-        '1' => 'อยู่ระหว่างการซ่อม',
-        '2' => 'ซ่อมเสร็จแล้ว',
-    ];
-
-    protected $types = [
-        '1' => 'ภายใน',
-        '2' => 'ภายนอก',
-    ];
-
-    public function formValidate (Request $request)
-    {
-        $validator = \Validator::make($request->all(), [
-            'asset_id' => 'required',
-            'reparation_date' => 'required',
-            'reparation_doc_no' => 'required',
-            'reparation_doc_date' => 'required',
-            'reparation_cause' => 'required',
-            'reparation_detail' => 'required',
-            'reparation_price' => 'required',
-            'reparation_handler' => 'required',
-            'reparation_type' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'success' => 0,
-                'errors' => $validator->getMessageBag()->toArray(),
-            ];
-        } else {
-            return [
-                'success' => 1,
-                'errors' => $validator->getMessageBag()->toArray(),
-            ];
-        }
-    }
-
+{
     public function summary()
     {
+        $depart = '';
+        if (Auth::user()->memberOf->duty_id == 2) {
+            $depart = Auth::user()->memberOf->depart_id;
+        }
+
         return view('reports.summary', [
-            "factions"   => Faction::all(),
-            "departs"    => Depart::orderBy('depart_name', 'ASC')->get(),
+            "factions"  => Faction::all(),
+            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
+            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
+                $q->where('depart_id', $depart);
+            })->get()
         ]);
     }
 
     public function getSummaryData(Request $req)
     {
-        $depart = '';
-        $year   = $req->input('year');
+        $depart     = '';
+        $year       = $req->input('year');
+        $division   = $req->input('division');
 
         if (Auth::user()->memberOf->duty_id == 1) {
             $depart = $req->input('depart');
@@ -98,6 +71,9 @@ class ReportController extends Controller
                             })
                             ->when(!empty($depart), function($q) use ($depart) {
                                 $q->where('level.depart_id', $depart);
+                            })
+                            ->when(!empty($division), function($q) use ($division) {
+                                $q->where('level.ward_id', $division);
                             })
                             ->with('prefix','position','academic')
                             ->with('memberOf', 'memberOf.depart')
