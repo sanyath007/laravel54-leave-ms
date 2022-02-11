@@ -344,8 +344,6 @@ class LeaveController extends Controller
     public function getApprove()
     {
         return view('leaves.approve-list', [
-            // "suppliers" => Supplier::all(),
-            // "cates"     => AssetCategory::all(),
             "leave_types"     => LeaveType::all(),
             "statuses"  => $this->status
         ]);
