@@ -24,8 +24,8 @@ class ReportController extends Controller
             "factions"  => Faction::all(),
             "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
             "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
-                $q->where('depart_id', $depart);
-            })->get()
+                                $q->where('depart_id', $depart);
+                            })->get()
         ]);
     }
 
@@ -35,7 +35,7 @@ class ReportController extends Controller
         $year       = $req->input('year');
         $division   = $req->input('division');
 
-        if (Auth::user()->memberOf->duty_id == 1) {
+        if (Auth::user()->memberOf->duty_id == 1 || Auth::user()->person_id == '1300200009261') {
             $depart = $req->input('depart');
         } else if (Auth::user()->memberOf->duty_id == 2) {
             $depart = Auth::user()->memberOf->depart_id;
@@ -84,9 +84,17 @@ class ReportController extends Controller
 
     public function remain()
     {
+        $depart = '';
+        if (Auth::user()->memberOf->duty_id == 2) {
+            $depart = Auth::user()->memberOf->depart_id;
+        }
+
         return view('reports.remain', [
-            "factions"   => Faction::all(),
-            "departs"    => Depart::orderBy('depart_name', 'ASC')->get(),
+            "factions"  => Faction::all(),
+            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
+            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
+                                $q->where('depart_id', $depart);
+                            })->get()
         ]);
     }
 }
