@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Faction;
 use App\Models\Depart;
 use App\Models\Leave;
@@ -58,8 +59,14 @@ class ReportController extends Controller
 
     public function getSummaryData(Request $req)
     {
+        $depart = '';
         $year   = $req->input('year');
-        $depart = $req->input('depart');
+
+        if (Auth::user()->memberOf->duty_id == 1) {
+            $depart = $req->input('depart');
+        } else if (Auth::user()->memberOf->duty_id == 2) {
+            $depart = Auth::user()->memberOf->depart_id;
+        }
 
         $leaves = \DB::table('leaves')
                     ->select(
