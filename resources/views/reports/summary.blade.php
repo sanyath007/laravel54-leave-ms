@@ -32,7 +32,7 @@
 
                     <form id="frmSearch" name="frmSearch" role="form">
                         <div class="box-body">
-                            <div class="col-md-6">
+                            <div class="col-md-6" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
                                 <div class="form-group">
                                     <label>กลุ่มภารกิจ</label>
                                     <select
@@ -55,13 +55,35 @@
                                 </div><!-- /.form group -->
                             </div><!-- /.col -->
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
                                 <div class="form-group">
                                     <label>กลุ่มงาน</label>
                                     <select
                                         id="depart"
                                         name="depart"
                                         ng-model="cboDepart"
+                                        class="form-control select2"
+                                        style="width: 100%; font-size: 12px;"
+                                        ng-change="getSummary()"
+                                    >
+                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
+                                        <option
+                                            ng-repeat="depart in filteredDeparts"
+                                            value="@{{ depart.depart_id }}"
+                                        >
+                                            @{{ depart.depart_name }}
+                                        </option>
+                                    </select>
+                                </div><!-- /.form group -->
+                            </div><!-- /.col -->
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>งาน</label>
+                                    <select
+                                        id="division"
+                                        name="division"
+                                        ng-model="cboDivision"
                                         class="form-control select2"
                                         style="width: 100%; font-size: 12px;"
                                         ng-change="getSummary()"
@@ -94,7 +116,7 @@
                                 </select>
                             </div><!-- /.form group -->
 
-                            <div class="col-md-6">                            
+                            <div class="col-md-12">                            
                                 <div class="form-group">
                                     <label>ค้นหาชื่อบุคลากร</label>
                                     <input
