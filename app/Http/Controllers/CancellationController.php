@@ -22,7 +22,7 @@ class CancellationController extends Controller
             if ($cancel->save()) {
                 /** Update status of cancelled leave data */
                 $leave = Leave::find($req['leave_id']);
-                $leave->status = '9';
+                $leave->status = $leave->leave_days == $cancel->days ? '9' : '8';
                 $leave->save();
 
                 /** Update cancelled leave histories data */
