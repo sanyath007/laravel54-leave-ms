@@ -194,10 +194,10 @@
                                         <span class="label label-warning" ng-show="leave.status == 5">
                                             อยู่ระหว่างการยกเลิก
                                         </span>
-                                        <span class="label label-danger" ng-show="leave.status == 9 && leave.leave_days - leave.cancellation[0].days == 0">
+                                        <span class="label label-danger" ng-show="leave.status == 9">
                                             ยกเลิก
                                         </span>
-                                        <span class="label label-success" ng-show="leave.status == 9 && leave.leave_days - leave.cancellation[0].days > 0">
+                                        <span class="label label-success" ng-show="leave.status == 8">
                                             ผ่านการอนุมัติ
                                         </span>
                                     </td>
