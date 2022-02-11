@@ -93,7 +93,7 @@
 						Auth::user()->memberOf->duty_id == 1 ||
 						Auth::user()->memberOf->duty_id == 2
 					)
-						<li class="treeview" ng-class="{ 'menu-open active': menu == 'leaves' }">
+						<li class="treeview" ng-class="{ 'menu-open active': menu == 'approve' }">
 							<a href="#">
 								<i class="fa fa-check-square-o"></i>
 								<span>การอนุมัติ</span>
@@ -101,7 +101,7 @@
 									<i class="fa fa-angle-left pull-right"></i>
 								</span>
 							</a>
-							<ul class="treeview-menu" ng-style="{ 'display': (menu == 'leaves') ? 'block' : 'none' }">
+							<ul class="treeview-menu" ng-style="{ 'display': (menu == 'approve') ? 'block' : 'none' }">
 								<!-- // Authorize เฉพาะหัวหน้ากลุ่มงาน -->
 								@if (
 									Auth::user()->person_id == '1300200009261' ||
@@ -139,6 +139,26 @@
 									</li>
 								@endif
 
+							</ul>
+						</li>
+					@endif
+					
+					<!-- // Authorize เฉพาะกลุ่มงาน HR -->
+					@if (Auth::user()->person_id == '1300200009261')
+						<li class="treeview" ng-class="{ 'menu-open active': menu == 'vacations' }">
+							<a href="#">
+								<i class="fa fa-bar-chart"></i>
+								<span>วันสะสม</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="{{ url('vacations/summary') }}">
+										<i class="fa fa-circle-o"></i> สรุปวันสะสม
+									</a>
+								</li>
 							</ul>
 						</li>
 					@endif
