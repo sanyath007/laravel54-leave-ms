@@ -12,8 +12,9 @@ app.controller(
         $scope.cboFaction = '';
         $scope.cboDepart = '';
         $scope.dtpYear = parseInt(moment().format('MM')) > 9
-                            ? moment().year() + 544
-                            : moment().year() + 543;
+                            ? (moment().year() + 544).toString()
+                            : (moment().year() + 543).toString();
+        $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
 
         $scope.initForm = function (initValues) {
             $scope.initFormValues = initValues;
