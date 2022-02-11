@@ -63,12 +63,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/print-cancel/{id}', 'LeaveController@printCancelForm');
 
     /** การอนุมัติ */
-    Route::get('approvals/comment', 'LeaveController@getComment');
-    Route::post('approvals/comment', 'LeaveController@doComment');
-    Route::get('approvals/receive', 'LeaveController@getReceive');
-    Route::post('approvals/receive', 'LeaveController@doReceive');
-    Route::get('approvals/approve', 'LeaveController@getApprove');
-    Route::post('approvals/approve', 'LeaveController@doApprove');
+    Route::get('approvals/comment', 'ApprovalController@getComment');
+    Route::post('approvals/comment', 'ApprovalController@doComment');
+    Route::get('approvals/receive', 'ApprovalController@getReceive');
+    Route::post('approvals/receive', 'ApprovalController@doReceive');
+    Route::get('approvals/approve', 'ApprovalController@getApprove');
+    Route::post('approvals/approve', 'ApprovalController@doApprove');
 
     /** ยกเลิกการลา */
     Route::post('cancellations/approve', 'CancellationController@doApprove');
