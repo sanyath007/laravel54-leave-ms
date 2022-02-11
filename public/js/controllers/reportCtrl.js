@@ -31,6 +31,12 @@ app.controller(
             });
         };
 
+        $scope.onSelectedDepart = function (depart) {
+            $scope.filteredDivisions = $scope.initFormValues.divisions.filter(division => {
+                return division.depart_id === parseInt(depart);
+            });
+        };
+
         $scope.getSummary = function () {
             let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
             let division = $scope.cboDivision === '' ? '' : $scope.cboDivision;

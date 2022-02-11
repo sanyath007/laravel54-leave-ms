@@ -67,7 +67,7 @@
                                         ng-model="cboDepart"
                                         class="form-control select2"
                                         style="width: 100%; font-size: 12px;"
-                                        ng-change="getSummary()"
+                                        ng-change="getSummary(); onSelectedDepart(cboDepart);"
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
                                         <option
@@ -137,11 +137,9 @@
                 </div><!-- /.box -->
 
                 <div class="box">
-
                     <div class="box-header with-border">
                         <h3 class="box-title">รายงานสรุปการลา</h3>
                     </div><!-- /.box-header -->
-
                     <div class="box-body">
                         <table class="table table-bordered">
                             <thead>
