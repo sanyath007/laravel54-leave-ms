@@ -92,6 +92,7 @@ app.controller(
             $scope.loading = true;
 
             let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
+            let division = $scope.cboDivision === '' ? '' : $scope.cboDivision;
             let year = $scope.dtpYear === ''
                         ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
                             ? moment().year() + 544
