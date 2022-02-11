@@ -211,7 +211,6 @@ class LeaveController extends Controller
          *  4 = ลาคลอด
          *  5 = ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
          *  6 = ลาอุปสมบท/ไปประกอบพิธีฮัจย์
-         *  7 = ไปต่างประเทศ
          */
         if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
             $req['leave_type'] == '3' || $req['leave_type'] == '4') {
@@ -234,7 +233,30 @@ class LeaveController extends Controller
         $leave->end_period      = $req['end_period'];
         $leave->leave_days      = $req['leave_days'];
         $leave->year            = calcBudgetYear($req['start_date']);
-        $leave->status          = '0';
+
+        /** 
+         * TODO: 
+         * If user duty is 2 (หน.กลุ่มงาน), status must be setted to 1 
+         * with insert commented_ column with bypass data
+         * or if user duty is 1 (หน.กลุ่มภารกิจ), status must be setted to 2
+         * with insert commented_ and received_ column with bypass data
+         * else, status must be setted to 0
+         */
+        if (Auth::user()->memberOf->duty_id == 1) {
+            $leave->commented_text  = 'หัวหน้ากลุ่มภารกิจ';
+            $leave->commented_date  = date('Y-m-d');
+            $leave->commented_by    = Auth::user()->person_id;
+            $leave->received_date   = date('Y-m-d');
+            $leave->received_by     = Auth::user()->person_id;
+            $leave->status          = '2';
+        } else if (Auth::user()->memberOf->duty_id == 2) {
+            $leave->commented_text  = 'หัวหน้ากลุ่มงาน';
+            $leave->commented_date  = date('Y-m-d');
+            $leave->commented_by    = Auth::user()->person_id;
+            $leave->status          = '1';
+        } else {
+            $leave->status          = '0';
+        }
 
         /** Upload attach file */
         $attachment = uploadFile($req->file('attachment'), 'uploads/');
