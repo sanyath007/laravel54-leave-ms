@@ -3,14 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use App\Models\Leave;
+use App\Models\LeaveType;
+use App\Models\History;
 
 class ApprovalController extends Controller
 {
-    
+    protected $status = [
+        '1' => 'รอเบิก',
+        '2' => 'ใช้งานอยู่',
+        '3' => 'ถูกยืม',
+        '4' => 'จำหน่าย',
+    ];
+
+    protected $periods = [
+        '1'  => 'เต็มวัน',
+        '2'  => 'ช่วงเช้า (08.00-12.00น.)',
+        '3'  => 'ช่วงบ่าย (13.00-16.00น.)',
+    ];
+
     public function getApprove()
     {
         return view('leaves.approve-list', [
-            "leave_types"     => LeaveType::all(),
+            "leave_types" => LeaveType::all(),
             "statuses"  => $this->status
         ]);
     }
