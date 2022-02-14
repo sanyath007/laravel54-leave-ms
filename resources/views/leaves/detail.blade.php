@@ -30,8 +30,9 @@
                             <div class="col-md-2">
                                 <!-- TODO: to use css class instead of inline code -->
                                 <div style="border: 1px dotted grey; display: flex; justify-content: center; min-height: 240px; padding: 5px;">
+                                <?php $userAvatarUrl = (Auth::user()->person_photo != '') ? "http://192.168.20.4:3839/ps/PhotoPersonal/" .Auth::user()->person_photo : asset('img/user2-160x160.jpg'); ?>
                                     <img
-                                        src="{{ asset('img/user2-160x160.jpg') }}"
+                                        src="{{ $userAvatarUrl }}"
                                         alt="user_image"
                                         style="width: 98%;"
                                     />
@@ -400,6 +401,41 @@
                                             class="form-control"
                                             readonly="readonly" />
                                 </div>
+                                <div class="form-group col-md-12">
+                                    <label>สถานะ :</label>
+                                    <span class="label label-primary" ng-show="leave.status == 0">
+                                        @{{ leave.status }} อยู่ระหว่างดำเนินการ
+                                    </span>
+                                    <span class="label label-info" ng-show="leave.status == 1">
+                                        @{{ leave.status }} หัวหน้าลงความเห็นแล้ว
+                                    </span>
+                                    <span class="label label-info" ng-show="leave.status == 2">
+                                        @{{ leave.status }} รับเอกสารแล้ว
+                                    </span>
+                                    <span class="label label-success" ng-show="leave.status == 3">
+                                        @{{ leave.status }} ผ่านการอนุมัติ
+                                    </span>
+                                    <span class="label label-default" ng-show="leave.status == 4">
+                                        @{{ leave.status }} ไม่ผ่านการอนุมัติ
+                                    </span>
+                                    <span class="label label-default" ng-show="leave.status == 7">
+                                        @{{ leave.status }} หัวหน้าไม่อนุญาต
+                                    </span>
+                                    <span class="label label-warning" ng-show="leave.status == 5">
+                                        @{{ leave.status }} อยู่ระหว่างการยกเลิก
+                                    </span>
+                                    <span class="label label-danger" ng-show="leave.status == 9">
+                                        @{{ leave.status }} ยกเลิก
+                                    </span>
+                                    <span class="label label-success" ng-show="leave.status == 8">
+                                        @{{ leave.status }} ผ่านการอนุมัติ
+                                    </span>
+                                    <span ng-show="leave.cancellation.length > 0" style="color: red; margin-left: 10px;">
+                                        ยกเลิกวันลา <span>@{{ leave.cancellation[0].days }} วัน </span>
+                                        <span>(@{{ leave.cancellation[0].start_date | thdate }} - @{{ leave.cancellation[0].end_date | thdate }})</span>
+                                        <span>คงเหลือวันลา @{{ leave.leave_days - leave.cancellation[0].days }} วัน</span>
+                                    </span>
+                                </div>
                             </div>
                         </div><!-- /.row -->
 
@@ -412,6 +448,7 @@
                             href="{{ url('/leaves/print') }}/{{ $leave->id }}"
                             class="btn btn-success"
                             target="_blank"
+                            ng-show="![8, 9].includes(leave.status)"
                         >
                             <i class="fa fa-print"></i> พิมพ์ใบลา
                         </a>
@@ -419,12 +456,13 @@
                             href="{{ url('/leaves/print-cancel') }}/{{ $leave->id }}"
                             class="btn btn-primary"
                             target="_blank"
-                            ng-show="{{ $leave->status }}=='8'"
+                            ng-show="leave.status == 5"
                         >
                             <i class="fa fa-print"></i> พิมพ์ยกเลิกใบลา
                         </a>
                         <a
-                            ng-show="(leave.status!==4 || leave.status!==3)"
+                            href="#"
+                            ng-show="leave.status == 0"
                             ng-click="edit(leave.id)"
                             class="btn btn-warning"
                         >
@@ -432,6 +470,7 @@
                         </a>
                         <a
                             href="#"
+                            ng-show="leave.status == 0"
                             ng-click="edit(leave.id)"
                             class="btn btn-danger"
                         >

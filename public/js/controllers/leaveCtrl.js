@@ -497,6 +497,8 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.leave.leave_delegate     = data.leave.leave_delegate;
         $scope.leave.leave_days         = data.leave.leave_days;
         $scope.leave.attachment         = data.leave.attachment;
+        $scope.leave.status             = data.leave.status;
+        $scope.leave.cancellation       = data.leave.cancellation;
 
         if (data.leave.leave_type == '5') {
             $scope.leave.wife_name          = data.leave.helped_wife.wife_name;

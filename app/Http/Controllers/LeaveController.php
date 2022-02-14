@@ -160,7 +160,8 @@ class LeaveController extends Controller
             'leave' => Leave::where('id', $id)
                         ->with('delegate')
                         ->with('delegate.prefix','delegate.position','delegate.academic')
-                        ->with('helpedWife','ordinate','oversea','oversea.country')
+                        ->with('helpedWife','ordinate')
+                        ->with('cancellation')
                         ->first(),
         ];
     }
