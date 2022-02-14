@@ -57,7 +57,7 @@
 
                 <div class="box">
                     <div class="box-body">
-                    <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs">
                             <li class="active"><a href="#approve" data-toggle="tab">
                                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
                                 รายการขออนุมัติใบลา
