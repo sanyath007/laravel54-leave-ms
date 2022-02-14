@@ -21,6 +21,12 @@ use PDF;
 
 class LeaveController extends Controller
 {
+    protected $periods = [
+        '1'  => 'เต็มวัน',
+        '2'  => 'ช่วงเช้า (08.00-12.00น.)',
+        '3'  => 'ช่วงบ่าย (13.00-16.00น.)',
+    ];
+
     public function formValidate (Request $request)
     {
         $rules = [
@@ -165,7 +171,6 @@ class LeaveController extends Controller
             "leave"         => Leave::find($id),
             "leave_types"   => LeaveType::all(),
             "positions"     => Position::all(),
-            "statuses"      => $this->status,
             "periods"       => $this->periods,
         ]);
     }
@@ -175,7 +180,6 @@ class LeaveController extends Controller
         return view('leaves.add', [
             "leave_types"   => LeaveType::all(),
             "positions"     => Position::all(),
-            "statuses"      => $this->status,
             "periods"       => $this->periods,
         ]);
     }
@@ -291,7 +295,6 @@ class LeaveController extends Controller
             "leave"         => Leave::find($id),
             "leave_types"   => LeaveType::all(),
             "positions"     => Position::all(),
-            "statuses"      => $this->status,
             "periods"       => $this->periods,
         ]);
     }
