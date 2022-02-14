@@ -64,28 +64,6 @@
                                         @endforeach
                                     </select>
                                 </div><!-- /.form group -->
-                                <div class="form-group col-md-6" ng-show="false">
-                                    <label>สถานะ</label>
-
-                                    <select
-                                            id="cboLeaveStatus"
-                                            name="cboLeaveStatus"
-                                            ng-model="cboLeaveStatus"
-                                            class="form-control select2"
-                                            style="width: 100%; font-size: 12px;">
-
-                                        <option value="" selected="selected">-- เลือกสถานะ --</option>
-                                        @foreach($statuses as $key => $status)
-
-                                            <option value="{{ $key }}">
-                                                {{ $status }}
-                                            </option>
-
-                                        @endforeach
-
-                                    </select>
-                                </div>
-
                             </div><!-- /.row -->
                         </div><!-- /.box-body -->
                     </form>

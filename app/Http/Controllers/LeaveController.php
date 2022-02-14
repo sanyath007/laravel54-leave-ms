@@ -357,7 +357,6 @@ class LeaveController extends Controller
         return view('leaves.cancel-list', [
             "leave_types"   => LeaveType::all(),
             "periods"       => $this->periods,
-            "statuses"      => $this->status
         ]);
     }
 
