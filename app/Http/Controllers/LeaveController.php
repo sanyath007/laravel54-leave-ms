@@ -385,6 +385,7 @@ class LeaveController extends Controller
 
     public function printLeaveForm($id)
     {
+        $pdfView = '';
         $leave      = Leave::where('id', $id)
                         ->with('person', 'person.prefix', 'person.position', 'person.academic')
                         ->with('person.memberOf', 'person.memberOf.depart', 'type')
@@ -423,18 +424,19 @@ class LeaveController extends Controller
         ];
 
         if (in_array($leave->leave_type, [1,2,4])) { // ลาป่วย กิจ คลอด
-            $pdf = PDF::loadView('forms.form01', $data);
-        } else if ($leave->leave_type == 5) { // ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
-            $pdf = PDF::loadView('forms.form05', $data);
-        } else if ($leave->leave_type == 6) { // ลาอุปสมบท/ไปประกอบพิธีฮัจย์
-            $pdf = PDF::loadView('forms.form06', $data);
-        } else if ($leave->leave_type == 7) { // ลาไปต่างประเทศ
-            $pdf = PDF::loadView('forms.form07', $data);
-        } else { // ลาพักผ่อน
-            $pdf = PDF::loadView('forms.form02', $data);
+            $pdfView = 'forms.form01';
+        } else if ($leave->leave_type == 5) {       // ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
+            $pdfView = 'forms.form05';
+        } else if ($leave->leave_type == 6) {       // ลาอุปสมบท/ไปประกอบพิธีฮัจย์
+            $pdfView = 'forms.form06';
+        } else if ($leave->leave_type == 7) {       // ลาไปต่างประเทศ
+            $pdfView = 'forms.form07';
+        } else {                                    // ลาพักผ่อน
+            $pdfView = 'forms.form02';
         }
 
-        $this->renderPdf($pdf);
+        /** return view of pdf instead of laravel's view to client */
+        return $this->renderPdf($pdfView, $data);
     }
 
     public function printCancelForm($id)
@@ -461,14 +463,20 @@ class LeaveController extends Controller
             'histories' => $histories
         ];
 
-        $this->renderPdf(PDF::loadView('forms.form03', $data));
+        /** return view of pdf instead of laravel's view to client */
+        return $this->renderPdf('forms.form03', $data);
     }
 
-    private function renderPdf(PDF $pdf, $renderType = 'preview')
+    /**
+     * $renderType should be 'preview' | 'download'
+     */
+    public function renderPdf($view, $data, $renderType = 'preview')
     {
+        $pdf = PDF::loadView($view, $data);
+
         /** แบบนี้จะ stream มา preview */
         if ($renderType == 'preview') {
-            return @$pdf->stream();
+            return $pdf->stream();
         }
 
         /** แบบนี้จะดาวโหลดเลย */
