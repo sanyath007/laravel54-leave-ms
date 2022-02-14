@@ -88,7 +88,6 @@ class ApprovalController extends Controller
     {
         return view('leaves.comment-list', [
             "leave_types" => LeaveType::all(),
-            "statuses"  => $this->status
         ]);
     }
 

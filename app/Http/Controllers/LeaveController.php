@@ -420,19 +420,18 @@ class LeaveController extends Controller
         ];
 
         if (in_array($leave->leave_type, [1,2,4])) { // ลาป่วย กิจ คลอด
-            $pdf = PDF::loadView('leaves.form01', $data);
+            $pdf = PDF::loadView('forms.form01', $data);
         } else if ($leave->leave_type == 5) { // ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
-            $pdf = PDF::loadView('leaves.form05', $data);
+            $pdf = PDF::loadView('forms.form05', $data);
         } else if ($leave->leave_type == 6) { // ลาอุปสมบท/ไปประกอบพิธีฮัจย์
-            $pdf = PDF::loadView('leaves.form06', $data);
+            $pdf = PDF::loadView('forms.form06', $data);
         } else if ($leave->leave_type == 7) { // ลาไปต่างประเทศ
-            $pdf = PDF::loadView('leaves.form07', $data);
+            $pdf = PDF::loadView('forms.form07', $data);
         } else { // ลาพักผ่อน
-            $pdf = PDF::loadView('leaves.form02', $data);
+            $pdf = PDF::loadView('forms.form02', $data);
         }
 
-        return @$pdf->stream(); //แบบนี้จะ stream มา preview
-        // return $pdf->download('test.pdf'); //แบบนี้จะดาวโหลดเลย
+        $this->renderPdf($pdf);
     }
 
     public function printCancelForm($id)
@@ -459,9 +458,17 @@ class LeaveController extends Controller
             'histories' => $histories
         ];
 
-        $pdf = PDF::loadView('leaves.form03', $data);
+        $this->renderPdf(PDF::loadView('forms.form03', $data));
+    }
 
-        return @$pdf->stream(); //แบบนี้จะ stream มา preview
-        // return $pdf->download('test.pdf'); //แบบนี้จะดาวโหลดเลย
+    private function renderPdf(PDF $pdf, $renderType = 'preview')
+    {
+        /** แบบนี้จะ stream มา preview */
+        if ($renderType == 'preview') {
+            return @$pdf->stream();
+        }
+
+        /** แบบนี้จะดาวโหลดเลย */
+        return $pdf->download('test.pdf');
     }
 }
