@@ -63,46 +63,8 @@
                                         @endforeach
                                     </select>
                                 </div><!-- /.form group -->
-                                <div class="form-group col-md-6" ng-show="false">
-                                    <label>สถานะ</label>
-
-                                    <select
-                                            id="cboLeaveStatus"
-                                            name="cboLeaveStatus"
-                                            ng-model="cboLeaveStatus"
-                                            class="form-control select2"
-                                            style="width: 100%; font-size: 12px;">
-
-                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        @foreach($statuses as $key => $status)
-
-                                            <option value="{{ $key }}">
-                                                {{ $status }}
-                                            </option>
-
-                                        @endforeach
-
-                                    </select>
-                                </div>
                                 <!-- <div class="form-group">
-                                    <label>พัสดุหลัก</label>
-                                    <select
-                                            id="cboParcel"
-                                            name="cboParcel"
-                                            ng-model="cboParcel"
-                                            ng-change="getData($event);"
-                                            class="form-control select2"
-                                            style="width: 100%; font-size: 12px;">
-
-                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        <option ng-repeat="(index, parcel) in parcels" value="@{{ parcel.parcel_id }}">
-                                            @{{ parcel.parcel_no + '-' +parcel.parcel_name }}
-                                        </option>
-                                    </select>
-                                </div>                            
-
-                                <div class="form-group">
-                                    <label>ชื่อครุภัณฑ์</label>
+                                    <label>คำค้นหา</label>
                                     <input
                                         type="text"
                                         id="searchKey"
