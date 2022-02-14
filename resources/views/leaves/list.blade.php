@@ -179,13 +179,13 @@
                                             <i class="fa fa-search"></i>
                                         </a>
                                         <a  ng-click="edit(leave.id)"
-                                            ng-show="(leave.status!==4 || leave.status!==3)"
+                                            ng-show="leave.status == 0"
                                             class="btn btn-warning btn-xs"
                                             title="แก้ไขรายการ">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a  ng-click="delete(leave.leaves_id)"
-                                            ng-show="(leave.status!==4 || leave.status!==3)"
+                                            ng-show="leave.status == 0"
                                             class="btn btn-danger btn-xs"
                                             title="ลบรายการ">
                                             <i class="fa fa-trash"></i>
