@@ -85,6 +85,12 @@
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="to-cancel-list">
+
+                                <div class="alert alert-warning alert-dismissible" style="margin: 10px 5px;">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="icon fa fa-warning"></i>ท่านสามารถยกเลิกวันลาในรายการที่ผ่านการอนุมัติแล้วเท่านั้น !!
+                                </div>
+
                                 <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 10px;">
                                     <thead>
                                         <tr>
