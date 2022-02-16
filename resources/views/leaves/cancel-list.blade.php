@@ -16,7 +16,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="leaveCtrl" ng-init="onCancelLoad($event)">
+    <section class="content" ng-controller="leaveCtrl" ng-init="onCancelLoad({{ Auth::user()->person_id }})">
 
         <div class="row">
             <div class="col-md-12">
@@ -37,7 +37,7 @@
                                         name="cboYear"
                                         ng-model="cboYear"
                                         class="form-control"
-                                        ng-change="getAll($event)"
+                                        ng-change="onCancelLoad($event)"
                                     >
                                         <option value="">-- ทั้งหมด --</option>
                                         <option ng-repeat="y in budgetYearRange" value="@{{ y }}">
@@ -52,7 +52,7 @@
                                         name="cboLeaveType"
                                         ng-model="cboLeaveType"
                                         class="form-control"
-                                        ng-change="getAll($event)"
+                                        ng-change="onCancelLoad($event)"
                                     >
                                         <option value="">-- ทั้งหมด --</option>
                                         @foreach($leave_types as $type)
@@ -204,7 +204,7 @@
                                             <th>รายละเอียดการลา</th>
                                             <th style="width: 35%;">ขอยกเลิกวันลา</th>
                                             <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
-                                            <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
+                                            <th style="width: 10%; text-align: center;">การอนุมัติ</th>
                                             <th style="width: 6%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
@@ -213,8 +213,7 @@
                                             <td style="text-align: center;">@{{ index+cancelPager.from }}</td>
                                             <td>
                                                 <h4 style="margin: 2px auto;">
-                                                    ขอยกเลิกวัน@{{ cancel.type.name }}
-                                                    @{{ cancel.person.prefix.prefix_name + cancel.person.person_firstname + ' ' + cancel.person.person_lastname }}
+                                                    @{{ cancel.type.name }}
                                                 </h4>
                                                 <p style="color: grey; margin: 0px auto;">
                                                     ระหว่างวันที่ <span>@{{ cancel.start_date | thdate }} - </span>
@@ -231,7 +230,8 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <span style="font-weight: bold;">วันที่</span> @{{ cancel.cancellation[0].cancel_date | thdate }}
+                                                <span style="font-weight: bold;">วันที่</span> 
+                                                @{{ cancel.cancellation[0].start_date | thdate }} - @{{ cancel.cancellation[0].end_date | thdate }}
                                                 <span style="font-weight: bold;">จำนวน</span> @{{ cancel.cancellation[0].days }} วัน
                                                 <p style="color: grey; margin: 0px auto;">
                                                     <span style="font-weight: bold;">เนื่องจาก</span> @{{ cancel.cancellation[0].reason }}
@@ -239,12 +239,39 @@
                                             </td>
                                             <td style="text-align: center;">@{{ cancel.year }}</td>
                                             <td style="text-align: center;">
-                                                <p style="margin: 0px auto;">@{{ cancel.leave_date | thdate }}</p>
                                                 <p style="margin: 0px auto;">
                                                     <span class="label label-warning" ng-show="cancel.status == 5">
                                                         อยู่ระหว่างการยกเลิก
                                                     </span>
+                                                    <span class="label label-success" ng-show="cancel.status == 8">
+                                                        ผ่านการอนุมัติ (ยกเลิกบางส่วน)
+                                                    </span>
+                                                    <span class="label label-danger" ng-show="cancel.status == 9">
+                                                        ผ่านการอนุมัติ (ยกเลิกทั้งหมด)
+                                                    </span>
+                                                    <p style="margin: 0px auto;">
+                                                        @{{ cancel.cancel_date | thdate }}
+                                                    </p>
                                                 </p>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <a  href="{{ url('/leaves/detail') }}/@{{ leave.id }}"
+                                                    class="btn btn-primary btn-xs" 
+                                                    title="รายละเอียด">
+                                                    <i class="fa fa-search"></i>
+                                                </a>
+                                                <a  ng-click="edit(leave.id)"
+                                                    ng-show="leave.status == 5"
+                                                    class="btn btn-warning btn-xs"
+                                                    title="แก้ไขรายการ">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a  ng-click="delete(leave.leaves_id)"
+                                                    ng-show="leave.status == 5"
+                                                    class="btn btn-danger btn-xs"
+                                                    title="ลบรายการ">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>

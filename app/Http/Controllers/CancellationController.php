@@ -11,6 +11,27 @@ use App\Models\Cancellation;
 
 class CancellationController extends Controller
 {
+    public function getByPerson(Request $req, $personId)
+    {
+        $year = $req->get('year');
+        $type = $req->get('type');
+
+        return [
+            'cancellations' => Leave::where('leave_person', $personId)
+                                ->whereIn('status', [5,8,9])
+                                ->when(!empty($year), function($q) use($year) {
+                                    $q->where('year', $year);
+                                })
+                                ->when(!empty($type), function($q) use($type) {
+                                    $q->where('leave_type', $type);
+                                })
+                                ->with('delegate')
+                                ->with('delegate.prefix','delegate.position','delegate.academic')
+                                ->with('type','cancellation')
+                                ->paginate(10),
+        ];
+    }
+
     public function doApprove(Request $req)
     {
         try {

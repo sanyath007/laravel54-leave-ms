@@ -398,12 +398,24 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         }
     };
 
-    $scope.onCancelLoad = function(e) {
-        $scope.cboYear = '2565';
+    $scope.onCancelLoad = function(personId) {
         $scope.cboLeaveStatus = '3';
         $scope.cboMenu = "";
 
-        $scope.getAll(e);
+        $scope.getAll();
+
+        $http.get(`${CONFIG.baseUrl}/cancellations/${personId}/person?year=${$scope.cboYear}&type=${$scope.cboLeaveType}`)
+        .then(function(res) {
+            const { data, ...pager } = res.data.cancellations;
+
+            $scope.cancellations = data;
+            $scope.cancelPager = pager;
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
     };
 
     $scope.showCancelForm = function(leave) {
