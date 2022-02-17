@@ -134,7 +134,7 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <form action="{{ url('/leaves/receive') }}" method="POST">
+                                                <form action="{{ url('/approvals/receive') }}" method="POST">
                                                     <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn-success btn-sm">

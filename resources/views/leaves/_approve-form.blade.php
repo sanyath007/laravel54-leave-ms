@@ -1,7 +1,7 @@
 <div class="modal fade" id="approve-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ url('/leaves/approve') }}" method="POST">
+            <form action="{{ url('/approvals/approve') }}" method="POST">
                 <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                 {{ csrf_field() }}
 
