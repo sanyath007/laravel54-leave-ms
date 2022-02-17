@@ -292,8 +292,8 @@
 
                         </div><!-- /.tab-content -->
 
-                        @include('leaves._approve-form')
-                        @include('leaves._cancel-approval-form')
+                        @include('approvals._approve-form')
+                        @include('approvals._cancel-approval-form')
 
                     </div><!-- /.box-body -->
 

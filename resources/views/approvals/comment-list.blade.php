@@ -288,8 +288,8 @@
                             </div><!-- /.tab-pane -->
                         </div><!-- /.tab-content -->
 
-                        @include('leaves._comment-form')
-                        @include('leaves._cancel-comment-form')
+                        @include('approvals._comment-form')
+                        @include('approvals._cancel-comment-form')
 
                     </div><!-- /.box-body -->
 
