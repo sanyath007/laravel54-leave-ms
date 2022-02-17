@@ -85,3 +85,19 @@ function convDbDateToLongThDate ($dbDate)
 
     return (int)$arrDate[2]. ' ' .$monthNames[$arrDate[1]]. ' ' .((int)$arrDate[0] + 543);
 }
+
+/**
+ * $renderType should be 'preview' | 'download'
+ */
+function renderPdf($view, $data, $renderType = 'preview')
+{
+    $pdf = PDF::loadView($view, $data);
+
+    /** แบบนี้จะ stream มา preview */
+    if ($renderType == 'preview') {
+        return $pdf->stream();
+    }
+
+    /** แบบนี้จะดาวโหลดเลย */
+    return $pdf->download('test.pdf');
+}

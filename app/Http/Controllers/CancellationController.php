@@ -72,8 +72,8 @@ class CancellationController extends Controller
             'histories' => $histories
         ];
 
-        /** return view of pdf instead of laravel's view to client */
-        return $this->renderPdf('forms.form03', $data);
+        /** Invoke helper function to return view of pdf instead of laravel's view to client */
+        return renderPdf('forms.form03', $data);
     }
 
     public function getByPerson(Request $req, $personId)

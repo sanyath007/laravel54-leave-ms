@@ -453,7 +453,7 @@
                             <i class="fa fa-print"></i> พิมพ์ใบลา
                         </a>
                         <a
-                            href="{{ url('/leaves/print-cancel') }}/{{ $leave->id }}"
+                            href="{{ url('/cancellations/print') }}/{{ $leave->id }}"
                             class="btn btn-primary"
                             target="_blank"
                             ng-show="leave.status == 5"

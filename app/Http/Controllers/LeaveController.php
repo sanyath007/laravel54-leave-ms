@@ -405,23 +405,7 @@ class LeaveController extends Controller
             $pdfView = 'forms.form02';
         }
 
-        /** return view of pdf instead of laravel's view to client */
-        return $this->renderPdf($pdfView, $data);
-    }
-
-    /**
-     * $renderType should be 'preview' | 'download'
-     */
-    public function renderPdf($view, $data, $renderType = 'preview')
-    {
-        $pdf = PDF::loadView($view, $data);
-
-        /** แบบนี้จะ stream มา preview */
-        if ($renderType == 'preview') {
-            return $pdf->stream();
-        }
-
-        /** แบบนี้จะดาวโหลดเลย */
-        return $pdf->download('test.pdf');
+        /** Invoke helper function to return view of pdf instead of laravel's view to client */
+        return renderPdf($pdfView, $data);
     }
 }
