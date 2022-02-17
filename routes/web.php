@@ -74,7 +74,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('cancellations/approve', 'CancellationController@doApprove');
     Route::post('cancellations/comment', 'CancellationController@doComment');
     Route::post('cancellations/receive', 'CancellationController@doReceive');
-    Route::get('cancellations/print-cancel/{id}', 'CancellationController@printCancelForm');
+    Route::get('cancellations/print/{id}', 'CancellationController@printCancelForm');
 
     /** รายงาน */
     Route::get('reports/summary', 'ReportController@summary');

@@ -79,7 +79,7 @@
 								</a>
 							</li>
 							<li ng-class="{ 'active': submenu == 'cancel' }">
-								<a href="{{ url('/leaves/cancel') }}">
+								<a href="{{ url('/cancellations/cancel') }}">
 									<i class="fa fa-circle-o"></i> ยกเลิกใบลา
 								</a>
 							</li>

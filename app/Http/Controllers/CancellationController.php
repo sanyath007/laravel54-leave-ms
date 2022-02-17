@@ -6,11 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Person;
 use App\Models\Leave;
+use App\Models\LeaveType;
 use App\Models\History;
 use App\Models\Cancellation;
 
 class CancellationController extends Controller
 {
+    protected $periods = [
+        '1'  => 'เต็มวัน',
+        '2'  => 'ช่วงเช้า (08.00-12.00น.)',
+        '3'  => 'ช่วงบ่าย (13.00-16.00น.)',
+    ];
+
     public function getCancel()
     {
         return view('cancellations.cancel-list', [
@@ -39,6 +46,34 @@ class CancellationController extends Controller
 
             return redirect('/cancellations/cancel');
         }
+    }
+
+    public function printCancelForm($id)
+    {
+        $leave      = Leave::where('id', $id)
+                        ->with('person', 'person.prefix', 'person.position', 'person.academic')
+                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
+                        ->with('delegate', 'delegate.prefix', 'delegate.position', 'delegate.academic')
+                        ->first();
+
+        $cancel     = Cancellation::where('leave_id', $leave->id)->first();
+
+        $places     = ['1' => 'โรงพยาบาลเทพรัตน์นครราชสีมา'];
+
+        $histories  = History::where([
+                            'person_id' => $leave->leave_person,
+                            'year'      => $leave->year
+                        ])->first();
+
+        $data = [
+            'leave'     => $leave,
+            'cancel'    => $cancel,
+            'places'    => $places,
+            'histories' => $histories
+        ];
+
+        /** return view of pdf instead of laravel's view to client */
+        return $this->renderPdf('forms.form03', $data);
     }
 
     public function getByPerson(Request $req, $personId)

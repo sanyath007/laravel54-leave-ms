@@ -156,7 +156,7 @@
                                     </tbody>
                                 </table>
 
-                                @include('leaves._cancel-form')
+                                @include('cancellations._cancel-form')
 
                                 <ul class="pagination pagination-sm no-margin pull-right">
                                     <li ng-if="pager.current_page !== 1">
@@ -255,19 +255,19 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <a  href="{{ url('/leaves/detail') }}/@{{ leave.id }}"
+                                                <a  href="{{ url('/leaves/detail') }}/@{{ cancel.id }}"
                                                     class="btn btn-primary btn-xs" 
                                                     title="รายละเอียด">
                                                     <i class="fa fa-search"></i>
                                                 </a>
-                                                <a  ng-click="edit(leave.id)"
-                                                    ng-show="leave.status == 5"
+                                                <a  ng-click="edit(cancel.id)"
+                                                    ng-show="cancel.status == 5"
                                                     class="btn btn-warning btn-xs"
                                                     title="แก้ไขรายการ">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a  ng-click="delete(leave.leaves_id)"
-                                                    ng-show="leave.status == 5"
+                                                <a  ng-click="delete(cancel.id)"
+                                                    ng-show="cancel.status == 5"
                                                     class="btn btn-danger btn-xs"
                                                     title="ลบรายการ">
                                                     <i class="fa fa-trash"></i>

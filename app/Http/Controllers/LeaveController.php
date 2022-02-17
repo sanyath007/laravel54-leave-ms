@@ -409,34 +409,6 @@ class LeaveController extends Controller
         return $this->renderPdf($pdfView, $data);
     }
 
-    public function printCancelForm($id)
-    {
-        $leave      = Leave::where('id', $id)
-                        ->with('person', 'person.prefix', 'person.position', 'person.academic')
-                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
-                        ->with('delegate', 'delegate.prefix', 'delegate.position', 'delegate.academic')
-                        ->first();
-
-        $cancel     = Cancellation::where('leave_id', $leave->id)->first();
-
-        $places     = ['1' => 'โรงพยาบาลเทพรัตน์นครราชสีมา'];
-
-        $histories  = History::where([
-                            'person_id' => $leave->leave_person,
-                            'year'      => $leave->year
-                        ])->first();
-
-        $data = [
-            'leave'     => $leave,
-            'cancel'    => $cancel,
-            'places'    => $places,
-            'histories' => $histories
-        ];
-
-        /** return view of pdf instead of laravel's view to client */
-        return $this->renderPdf('forms.form03', $data);
-    }
-
     /**
      * $renderType should be 'preview' | 'download'
      */
