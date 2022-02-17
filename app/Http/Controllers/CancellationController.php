@@ -20,7 +20,7 @@ class CancellationController extends Controller
 
     public function getCancel()
     {
-        return view('cancellations.cancel-list', [
+        return view('cancellations.list', [
             "leave_types"   => LeaveType::all(),
             "periods"       => $this->periods,
         ]);
