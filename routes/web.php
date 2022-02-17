@@ -57,10 +57,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/edit/{id}', 'LeaveController@edit');
     Route::put('leaves/update', 'LeaveController@update');
     Route::delete('leaves/delete/{id}', 'LeaveController@delete');
-    Route::get('leaves/cancel', 'LeaveController@getCancel');
-    Route::post('leaves/cancel', 'LeaveController@doCancel');
     Route::get('leaves/print/{id}', 'LeaveController@printLeaveForm');
-    Route::get('leaves/print-cancel/{id}', 'LeaveController@printCancelForm');
 
     /** การอนุมัติ */
     Route::get('approvals/comment', 'ApprovalController@getComment');
@@ -71,12 +68,15 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('approvals/approve', 'ApprovalController@doApprove');
 
     /** ยกเลิกการลา */
+    Route::get('cancellations/cancel', 'CancellationController@getCancel');
+    Route::post('cancellations/cancel', 'CancellationController@doCancel');
     Route::get('cancellations/{personId}/person', 'CancellationController@getByPerson');
     Route::post('cancellations/approve', 'CancellationController@doApprove');
     Route::post('cancellations/comment', 'CancellationController@doComment');
     Route::post('cancellations/receive', 'CancellationController@doReceive');
+    Route::get('cancellations/print-cancel/{id}', 'CancellationController@printCancelForm');
 
-    /** Report */
+    /** รายงาน */
     Route::get('reports/summary', 'ReportController@summary');
     Route::get('reports/summary-data', 'ReportController@getSummaryData');
     Route::get('reports/remain', 'ReportController@remain');

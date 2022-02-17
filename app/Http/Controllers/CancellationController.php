@@ -11,6 +11,36 @@ use App\Models\Cancellation;
 
 class CancellationController extends Controller
 {
+    public function getCancel()
+    {
+        return view('cancellations.cancel-list', [
+            "leave_types"   => LeaveType::all(),
+            "periods"       => $this->periods,
+        ]);
+    }
+
+    public function doCancel(Request $req)
+    {
+        $cancel = new Cancellation;
+        $cancel->leave_id       = $req['leave_id'];
+        $cancel->cancel_date    = date('Y-m-d');
+        $cancel->reason         = $req['reason'];
+        $cancel->start_date     = convThDateToDbDate($req['from_date']);
+        $cancel->start_period   = $req['start_period'];
+        $cancel->end_date       = convThDateToDbDate($req['to_date']);
+        $cancel->end_period     = $req['end_period'];
+        $cancel->days           = $req['leave_days'];
+
+        if ($cancel->save()) {
+            /** Update status of leave data */
+            $leave = Leave::find($req['leave_id']);
+            $leave->status  = '5';
+            $leave->save();
+
+            return redirect('/cancellations/cancel');
+        }
+    }
+
     public function getByPerson(Request $req, $personId)
     {
         $year = $req->get('year');
