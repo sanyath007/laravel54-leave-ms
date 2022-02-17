@@ -13,7 +13,7 @@ class ApprovalController extends Controller
 {
     public function getApprove()
     {
-        return view('leaves.approve-list', [
+        return view('approvals.approve-list', [
             "leave_types" => LeaveType::all(),
         ]);
     }
@@ -61,13 +61,13 @@ class ApprovalController extends Controller
 
             $history->save();
 
-            return redirect('/leaves/approve');
+            return redirect('/approvals/approve');
         }
     }
 
     public function getReceive()
     {
-        return view('leaves.receive-list', [
+        return view('approvals.receive-list', [
             "leave_types"     => LeaveType::all(),
         ]);
     }
@@ -80,13 +80,13 @@ class ApprovalController extends Controller
         $leave->status              = '2';
 
         if ($leave->save()) {
-            return redirect('/leaves/receive');
+            return redirect('/approvals/receive');
         }
     }
 
     public function getComment()
     {
-        return view('leaves.comment-list', [
+        return view('approvals.comment-list', [
             "leave_types" => LeaveType::all(),
         ]);
     }
@@ -100,7 +100,7 @@ class ApprovalController extends Controller
         $leave->status          = $req['approved'];
 
         if ($leave->save()) {
-            return redirect('/leaves/comment');
+            return redirect('/approvals/comment');
         }
     }
 }
