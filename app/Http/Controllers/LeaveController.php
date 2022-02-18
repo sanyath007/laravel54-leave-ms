@@ -128,8 +128,8 @@ class LeaveController extends Controller
                         ->when(!empty($qsDepart), function($q) use ($personList) {
                             $q->whereIn('leave_person', $personList);
                         })
-                        ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
+                        ->orderBy('start_date', 'desc')
                         ->paginate(20);
         } else {
             $leaves = Leave::where($conditions)
@@ -145,8 +145,8 @@ class LeaveController extends Controller
                         ->when(!empty($qsDepart), function($q) use ($personList) {
                             $q->whereIn('leave_person', $personList);
                         })
-                        ->orderBy('year', 'desc')
                         ->orderBy('leave_date', 'desc')
+                        ->orderBy('start_date', 'desc')
                         ->paginate(10);
         }
 

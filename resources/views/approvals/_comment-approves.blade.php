@@ -5,6 +5,7 @@
             <th>รายละเอียด</th>
             <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
             <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
+            <th style="width: 6%; text-align: center;">การอนุมัติ</th>
             <th style="width: 6%; text-align: center;">Actions</th>
         </tr>
     </thead>
@@ -65,6 +66,17 @@
             </td>
             <td style="text-align: center;">
                 <a  
+                    ng-click="showApproval()"
+                    ng-show="leave.status != 0"
+                    class="btn btn-default btn-sm" 
+                    title="รายละเอียด"
+                    target="_blank"
+                >
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                </a>
+            </td>
+            <td style="text-align: center;">
+                <a  
                     ng-click="showCommentForm(leave, 1)" 
                     ng-show="leave.status == 0" 
                     class="btn btn-success btn-sm"
@@ -73,14 +85,15 @@
                     <i class="fa fa-check" aria-hidden="true"></i>
                     ลงความเห็น
                 </a>
-                <a  
-                    ng-show="leave.status == 1 || leave.status == 7" 
-                    class="btn btn-danger btn-sm"
-                    title="ยกเลิก"
-                >
-                    <i class="fa fa-remove" aria-hidden="true"></i>
-                    ยกเลิก
-                </a>
+                <form action="{{ url('/approvals/status') }}" method="POST" ng-show="leave.status == 1 || leave.status == 7">
+                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                    <input type="hidden" id="status" name="status" value="0" />
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fa fa-remove" aria-hidden="true"></i>
+                        ยกเลิก
+                    </button>
+                </form>
             </td>             
         </tr>
     </tbody>
