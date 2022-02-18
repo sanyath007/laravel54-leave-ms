@@ -337,7 +337,6 @@ class LeaveController extends Controller
         if (!empty($attachment)) {
             $leave->attachment = $attachment;
         }
-        // dd($leave);
 
         if($leave->save()) {
             /** Update detail data of some leave type */
@@ -347,8 +346,7 @@ class LeaveController extends Controller
                 $hw->deliver_date       = convThDateToDbDate($req['deliver_date']);
                 $hw->wife_is_officer    = $req['wife_is_officer'] == true ? 1 : 0;
                 $hw->wife_id            = $req['wife_id'];
-                // $hw->save();
-                dd($hw);
+                $hw->save();
             }
 
             if ($req['leave_type'] == '6') {
@@ -359,7 +357,7 @@ class LeaveController extends Controller
                 $ord->ordain_location       = $req['ordain_location'];
                 $ord->hibernate_temple      = $req['hibernate_temple'];
                 $ord->hibernate_location    = $req['hibernate_location'];
-                // $ord->save();
+                $ord->save();
             }
 
             return redirect('/leaves/list');
