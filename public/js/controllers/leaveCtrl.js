@@ -511,18 +511,34 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.leave.cancellation       = data.leave.cancellation;
 
         if (data.leave.leave_type == '5') {
+            $scope.leave.helped_wife        = data.leave.helped_wife;
             $scope.leave.wife_name          = data.leave.helped_wife.wife_name;
             $scope.leave.wife_id            = data.leave.helped_wife.wife_id;
             $scope.leave.wife_is_officer    = data.leave.helped_wife.wife_is_officer == 1 ? true : false;
             $scope.leave.deliver_date       = StringFormatService.convFromDbDate(data.leave.helped_wife.deliver_date);
+            
+            $('#deliver_date').datepicker({
+                autoclose: true,
+                language: 'th',
+                format: 'dd/mm/yyyy',
+                thaiyear: true
+            }).datepicker('update', moment(data.leave.helped_wife.deliver_date).toDate());
         }
 
         if (data.leave.leave_type == '6') {
+            $scope.leave.ordinate           = data.leave.ordinate;
             $scope.leave.ordain_temple      = data.leave.ordinate.ordain_temple;
             $scope.leave.ordain_location    = data.leave.ordinate.ordain_location;
             $scope.leave.hibernate_temple   = data.leave.ordinate.hibernate_temple;
             $scope.leave.hibernate_location = data.leave.ordinate.hibernate_location;
             $scope.leave.ordain_date        = StringFormatService.convFromDbDate(data.leave.ordinate.ordain_date);
+            
+            $('#ordain_date').datepicker({
+                autoclose: true,
+                language: 'th',
+                format: 'dd/mm/yyyy',
+                thaiyear: true
+            }).datepicker('update', moment(data.leave.ordinate.ordain_date).toDate());
         }
 
         if (data.leave.leave_type == '7') {

@@ -55,7 +55,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('leaves/add', 'LeaveController@add');
     Route::post('leaves/store', 'LeaveController@store');
     Route::get('leaves/edit/{id}', 'LeaveController@edit');
-    Route::put('leaves/update', 'LeaveController@update');
+    Route::post('leaves/update', 'LeaveController@update');
     Route::delete('leaves/delete/{id}', 'LeaveController@delete');
     Route::get('leaves/print/{id}', 'LeaveController@printLeaveForm');
 

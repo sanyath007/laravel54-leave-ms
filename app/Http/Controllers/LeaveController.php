@@ -302,55 +302,79 @@ class LeaveController extends Controller
 
     public function update(Request $req)
     {
-        $leave = Leave::find($req['id']);
+        $leave = Leave::find($req['leave_id']);
         $leave->leave_date      = convThDateToDbDate($req['leave_date']);
         $leave->leave_place     = $req['leave_place'];
         $leave->leave_topic     = $req['leave_topic'];
         $leave->leave_to        = $req['leave_to'];
         $leave->leave_person    = $req['leave_person'];
         $leave->leave_type      = $req['leave_type'];
-        $leave->leave_reason    = $req['leave_reason'];
-        $leave->leave_contact   = $req['leave_contact'];
-        $leave->leave_delegate  = $req['leave_delegate'];
+
+        if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
+            $req['leave_type'] == '3' || $req['leave_type'] == '4') {
+            $leave->leave_contact   = $req['leave_contact'];
+            $leave->leave_delegate  = $req['leave_delegate'];
+        }
+
+        if ($req['leave_type'] == '5') {
+            $leave->leave_contact   = $req['leave_contact'];
+        }
+
+        if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
+            $req['leave_type'] == '4' || $req['leave_type'] == '7') {
+            $leave->leave_reason    = $req['leave_reason'];
+        }
+
         $leave->start_date      = convThDateToDbDate($req['start_date']);
         $leave->start_period    = '1';
         $leave->end_date        = convThDateToDbDate($req['end_date']);
         $leave->end_period      = $req['end_period'];
         $leave->leave_days      = $req['leave_days'];
         $leave->year            = calcBudgetYear($req['start_date']);
-        $leave->status          = '0';
 
         /** Upload image */
-        $leave->image = '';
+        $attachment = uploadFile($req->file('attachment'), 'uploads/');
+        if (!empty($attachment)) {
+            $leave->attachment = $attachment;
+        }
+        // dd($leave);
 
         if($leave->save()) {
-            return [
-                "status" => "success",
-                "message" => "Insert success.",
-            ];
-        } else {
-            return [
-                "status" => "error",
-                "message" => "Insert failed.",
-            ];
+            /** Update detail data of some leave type */
+            if ($req['leave_type'] == '5') {
+                $hw = HelpedWife::find($req['hw_id']);
+                $hw->wife_name          = $req['wife_name'];
+                $hw->deliver_date       = convThDateToDbDate($req['deliver_date']);
+                $hw->wife_is_officer    = $req['wife_is_officer'] == true ? 1 : 0;
+                $hw->wife_id            = $req['wife_id'];
+                // $hw->save();
+                dd($hw);
+            }
+
+            if ($req['leave_type'] == '6') {
+                $ord = Ordinate::find($req['ord_id']);
+                $ord->have_ordain           = $req['have_ordain'];
+                $ord->ordain_date           = convThDateToDbDate($req['ordain_date']);
+                $ord->ordain_temple         = $req['ordain_temple'];
+                $ord->ordain_location       = $req['ordain_location'];
+                $ord->hibernate_temple      = $req['hibernate_temple'];
+                $ord->hibernate_location    = $req['hibernate_location'];
+                // $ord->save();
+            }
+
+            return redirect('/leaves/list');
         }
     }
 
-    public function delete($assetId)
+    public function delete($id)
     {
-        $asset = Asset::find($assetId);
+        $leave = Leave::find($id);
 
-        if($asset->delete()) {
-            return [
-                "status" => "success",
-                "message" => "Delete success.",
-            ];
-        } else {
-            return [
-                "status" => "error",
-                "message" => "Delete failed.",
-            ];
-        }   
+        if($leave->delete()) {
+            // TODO: Should decrease days amount in histories data according to leave_type
+
+            return redirect('/leaves/list');
+        }
     }
 
     public function printLeaveForm($id)

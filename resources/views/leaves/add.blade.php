@@ -32,8 +32,8 @@
                         {{ csrf_field() }}
 
                         <div class="box-body">
-                            <div class="row">
 
+                            <div class="row">
                                 <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_place')}">
                                     <label>เขียนที่ :</label>
                                     <select id="leave_place" 
@@ -69,6 +69,7 @@
                                     </span>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div
                                     class="form-group col-md-6"
@@ -473,7 +474,7 @@
                             <div class="row">
                                 <div
                                     class="form-group col-md-12"
-                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'hibernate_location')}"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_days')}"
                                 >
                                     <label>มีกำหนด (วัน) :</label>
                                     <input  type="text" 
@@ -482,7 +483,7 @@
                                             ng-model="leave.leave_days" 
                                             class="form-control pull-right"
                                             tabindex="5">
-                                    <span class="help-block" ng-show="checkValidate(leave, 'hibernate_location')">กรุณาระบุจำนวนวันลา</span>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_days')">กรุณาระบุจำนวนวันลา</span>
                                 </div>
                             </div>
 
@@ -505,13 +506,13 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'depart')}">
+                                <div class="form-group col-md-12" ng-class="{'has-error has-feedback': checkValidate(leave, 'attachment')}">
                                     <label>แนบเอกสาร :</label>
                                     <input type="file"
                                             id="attachment" 
                                             name="attachment"
                                             class="form-control" />
-                                    <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาแนบเอกสาร</span>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'attachment')">กรุณาแนบเอกสาร</span>
                                 </div>
                             </div>
 
