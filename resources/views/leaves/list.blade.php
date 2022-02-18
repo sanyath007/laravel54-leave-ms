@@ -184,7 +184,7 @@
                                             title="แก้ไขรายการ">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a  ng-click="delete(leave.leaves_id)"
+                                        <a  ng-click="delete(leave.id)"
                                             ng-show="leave.status == 0"
                                             class="btn btn-danger btn-xs"
                                             title="ลบรายการ">

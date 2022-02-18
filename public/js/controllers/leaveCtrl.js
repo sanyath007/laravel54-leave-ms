@@ -606,16 +606,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.update = function(event) {
         event.preventDefault();
     
-        if(confirm("คุณต้องแก้ไขใบลาเลขที่ " + $scope.leave.leave_id + " ใช่หรือไม่?")) {
+        if(confirm(`คุณต้องแก้ไขใบลาเลขที่ ${$scope.leave.leave_id} ใช่หรือไม่?`)) {
             $('#frmEditLeave').submit();
         }
     };
 
     $scope.delete = function(id) {
-        console.log(id);
-
-        if(confirm("คุณต้องลบใบลาเลขที่ " + id + " ใช่หรือไม่?")) {
-            $http.delete(CONFIG.baseUrl + '/leaves/delete/' +id)
+        if(confirm(`คุณต้องลบใบลาเลขที่ ${id} ใช่หรือไม่?`)) {
+            $http.delete(`${CONFIG.baseUrl}/leaves/delete/${id}`)
             .then(function(res) {
                 console.log(res);
                 toaster.pop('success', "", 'ลบข้อมูลเรียบร้อยแล้ว !!!');
@@ -624,63 +622,5 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
                 toaster.pop('error', "", 'พบข้อผิดพลาด !!!');
             });
         }
-    };
-
-    $scope.discharge = function(assetId) {
-        console.log(assetId);
-
-        if(confirm("คุณต้องลดหนี้เป็นศูนย์รายการหนี้เลขที่ " + assetId + " ใช่หรือไม่?")) {
-            $http.post(CONFIG.baseUrl + '/asset/discharge', { asset_id: assetId })
-            .then(function(res) {
-                console.log(res);
-                if(res.data.status == 'success') {
-                    toaster.pop('success', "ระบบทำการงลดหนี้เป็นศูนย์สำเร็จแล้ว", "");
-                } else { 
-                    toaster.pop('error', "พบข้อผิดพลาดในระหว่างการดำเนินการ !!!", "");
-                }
-            }, function(err) {
-                console.log(err);
-
-                toaster.pop('error', "พบข้อผิดพลาดในระหว่างการดำเนินการ !!!", "");
-            });
-        }
-    };
-
-    $scope.getAssetChart = function (creditorId) {
-        ReportService.getSeriesData('/report/debt-chart/', creditorId)
-        .then(function(res) {
-            console.log(res);
-
-            var debtSeries = [];
-            var paidSeries = [];
-            var setzeroSeries = [];
-
-            angular.forEach(res.data, function(value, key) {
-                let debt = (value.debt) ? parseFloat(value.debt.toFixed(2)) : 0;
-                let paid = (value.paid) ? parseFloat(value.paid.toFixed(2)) : 0;
-                let setzero = (value.setzero) ? parseFloat(value.setzero.toFixed(2)) : 0;
-
-                debtSeries.push(debt);
-                paidSeries.push(paid);
-                setzeroSeries.push(setzero);
-            });
-
-            var categories = ['ยอดหนี้']
-            $scope.barOptions = ReportService.initBarChart("barContainer", "", categories, 'จำนวน');
-            $scope.barOptions.series.push({
-                name: 'หนี้คงเหลือ',
-                data: debtSeries
-            }, {
-                name: 'ตัดจ่ายแล้ว',
-                data: paidSeries
-            }, {
-                name: 'ลดหนี้ศูนย์',
-                data: setzeroSeries
-            });
-
-            var chart = new Highcharts.Chart($scope.barOptions);
-        }, function(err) {
-            console.log(err);
-        });
     };
 });
