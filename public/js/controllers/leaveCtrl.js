@@ -315,7 +315,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
 
     $scope.onCommentLoad = function(depart) {
         $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '0';
+        $scope.cboLeaveStatus = '0&1&7';
         $scope.cboMenu = "1";
         $scope.cboQuery = `depart=${depart}`;
 
@@ -591,12 +591,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         event.preventDefault();
 
         $('#frmNewLeave').submit();
-
-        /** Clear control value and model data */
-        // document.getElementById(form).reset();
-        // $scope.clearLeaveObj();
-
-        // TODO: clear date controls to current date
     }
 
     $scope.edit = function(id) {

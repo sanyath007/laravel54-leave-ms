@@ -92,7 +92,8 @@ class LeaveController extends Controller
     public function search(Request $req, $year, $type, $status, $menu)
     {
         $matched = [];
-        $pattern = '/^\<|\>/i';
+        $arrStatus = [];
+        $pattern = '/^\<|\>|\&|\-/i';
 
         $conditions = [];
         if($year != '0') array_push($conditions, ['year', '=', $year]);
@@ -100,13 +101,14 @@ class LeaveController extends Controller
         if($status != '-') {
             if (preg_match($pattern, $status, $matched) == 1) {
                 $arrStatus = explode($matched[0], $status);
-                
-                array_push($conditions, ['status', $matched[0], $arrStatus[1]]);
+
+                if ($matched[0] != '-' && $matched[0] != '&') {
+                    array_push($conditions, ['status', $matched[0], $arrStatus[1]]);
+                }
             } else {
                 array_push($conditions, ['status', '=', $status]);
             }
         }
-        if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
         if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
 
         /** Get depart from query params */
@@ -131,6 +133,12 @@ class LeaveController extends Controller
                         ->paginate(20);
         } else {
             $leaves = Leave::where($conditions)
+                        ->when(count($matched) > 0 && $matched[0] == '&', function($q) use ($arrStatus) {
+                            $q->whereIn('status', $arrStatus);
+                        })
+                        ->when(count($matched) > 0 && $matched[0] == '-', function($q) use ($arrStatus) {
+                            $q->whereBetween('status', $arrStatus);
+                        })
                         ->with('person', 'person.prefix', 'person.position', 'person.academic')
                         ->with('person.memberOf', 'person.memberOf.depart', 'type')
                         ->with('cancellation')
