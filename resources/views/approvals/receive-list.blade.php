@@ -78,6 +78,7 @@
                                             <th>รายละเอียด</th>
                                             <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
                                             <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
+                                            <th style="width: 6%; text-align: center;">การอนุมัติ</th>
                                             <th style="width: 6%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
@@ -134,12 +135,29 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <form action="{{ url('/approvals/receive') }}" method="POST">
+                                                <a  ng-click="showApproval()"
+                                                    class="btn btn-default btn-sm" 
+                                                    title="รายละเอียด"
+                                                    target="_blank">
+                                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <form action="{{ url('/approvals/receive') }}" method="POST" ng-show="leave.status == 1">
                                                     <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn-success btn-sm">
                                                         <i class="fa fa-check" aria-hidden="true"></i>
                                                         รับเอกสาร
+                                                    </button>
+                                                </form>
+                                                <form action="{{ url('/approvals/status') }}" method="POST" ng-show="leave.status == 2">
+                                                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                                                    <input type="hidden" id="status" name="status" value="1" />
+                                                    {{ csrf_field() }}
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-remove" aria-hidden="true"></i>
+                                                        ยกเลิก
                                                     </button>
                                                 </form>
                                             </td>             
