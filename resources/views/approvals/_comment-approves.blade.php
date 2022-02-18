@@ -66,7 +66,7 @@
             </td>
             <td style="text-align: center;">
                 <a  
-                    ng-click="showApproval()"
+                    ng-click="showApproval(leave)"
                     ng-show="leave.status != 0"
                     class="btn btn-default btn-sm" 
                     title="รายละเอียด"

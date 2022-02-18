@@ -84,6 +84,7 @@
 
                         @include('approvals._comment-form')
                         @include('approvals._cancel-comment-form')
+                        @include('approvals._approval-detail')
 
                     </div><!-- /.box-body -->
 

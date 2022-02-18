@@ -334,6 +334,12 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         }
     };
 
+    $scope.showApproval = function(leave) {
+        $scope.leave = leave;
+
+        $('#approval-detail').modal('show');
+    };
+
     $scope.onReceiveLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = '1&2';
