@@ -44,6 +44,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof \Illuminate\Database\QueryException) {
+            return redirect('/')->with('status', 'A database connection attempt failed!!');
+        }
+
         return parent::render($request, $exception);
     }
 
