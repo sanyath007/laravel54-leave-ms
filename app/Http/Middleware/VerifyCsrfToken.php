@@ -22,7 +22,7 @@ class VerifyCsrfToken extends BaseVerifier
     {
         if($request->input('_token')) {
             if($request->input('_token') !== csrf_token()) {
-                return redirect('/login');
+                return redirect('/login')->with('status', 'Token expired!!');
             }
         }
 
