@@ -315,34 +315,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.getPersons(depart, searchKey, null);
     };
 
-    $scope.showApproval = function(leave) {
-        $scope.leave = leave;
-
-        $('#approval-detail').modal('show');
-    };
-
-    $scope.onReceiveLoad = function(e) {
-        $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '1&2';
-        $scope.cboMenu = "1";
-        $scope.cboQuery = "";
-
-        $scope.getAll(e);
-
-        getCancellation();
-    };
-
-    $scope.onApproveLoad = function(e) {
-        $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '2';
-        $scope.cboMenu = "1";
-        $scope.cboQuery = "";
-
-        $scope.getAll(e);
-
-        getCancellation(true);
-    };
-
     const getCancellation = function(isApproval=false) {
         $scope.cancellations = [];
         $scope.cancelPager = [];
@@ -374,16 +346,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             $scope.loading = false;
         });
     }
-
-    $scope.showApproveForm = function(leave, type) {
-        $scope.leave = leave;
-
-        if (type === 1) {
-            $('#approve-form').modal('show');
-        } else {
-            $('#cancel-approval-form').modal('show');
-        }
-    };
 
     $scope.onCancelLoad = function(personId) {
         $scope.cboLeaveStatus = '3';

@@ -37,7 +37,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     }
 
     // TODO: Duplicated method
-    const getCancellation = function(isApproval=false) {
+    $scope.getCancellation = function(isApproval=false) {
         $scope.cancellations = [];
         $scope.cancelPager = null;
         $scope.loading = true;
@@ -51,6 +51,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
         .then(function(res) {
             const { data, ...pager } = res.data.leaves;
 
+            // TODO: Should fetch data with pagination from backend
             if (isApproval) {
                 $scope.cancellations = data;
             } else {
@@ -98,7 +99,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
 
         $scope.getAll();
 
-        getCancellation();
+        $scope.getCancellation();
     };
 
     $scope.showCommentForm = function(leave, type) {
@@ -108,6 +109,44 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
             $('#comment-form').modal('show');
         } else {
             $('#cancel-comment-form').modal('show');
+        }
+    };
+
+    $scope.showApprovalDetail = function(leave) {
+        $scope.leave = leave;
+
+        $('#approval-detail').modal('show');
+    };
+
+    $scope.onReceiveLoad = function(e) {
+        $scope.cboYear = '2565';
+        $scope.cboLeaveStatus = '1&2';
+        $scope.cboMenu = "1";
+        $scope.cboQuery = "";
+
+        $scope.getAll(e);
+
+        getCancellation();
+    };
+
+    $scope.onApproveLoad = function(e) {
+        $scope.cboYear = '2565';
+        $scope.cboLeaveStatus = '2';
+        $scope.cboMenu = "1";
+        $scope.cboQuery = "";
+
+        $scope.getAll(e);
+
+        getCancellation(true);
+    };
+
+    $scope.showApproveForm = function(leave, type) {
+        $scope.leave = leave;
+
+        if (type === 1) {
+            $('#approve-form').modal('show');
+        } else {
+            $('#cancel-approval-form').modal('show');
         }
     };
 });
