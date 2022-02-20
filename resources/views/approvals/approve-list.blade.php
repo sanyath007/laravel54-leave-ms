@@ -16,7 +16,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="leaveCtrl" ng-init="onApproveLoad($event)">
+    <section class="content" ng-controller="approvalCtrl" ng-init="onApproveLoad($event)">
 
         <div class="row">
             <div class="col-md-12">
