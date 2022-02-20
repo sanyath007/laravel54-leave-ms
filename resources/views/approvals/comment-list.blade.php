@@ -72,10 +72,24 @@
                         <div class="tab-content">
                             <div class="active tab-pane" id="approve">
 
+                                <div class="card">
+                                    <div class="card-body" style="padding: 10px 10px;">
+                                        <input type="checkbox" name="" id="">
+                                        <span>แสดงรายการที่ลงความเห็นแล้ว</span>
+                                    </div>
+                                </div>
+
                                 @include('approvals._comment-approves')
 
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="cancel">
+
+                                <div class="card">
+                                    <div class="card-body" style="padding: 10px 10px;">
+                                        <input type="checkbox" name="" id="">
+                                        <span>แสดงรายการที่ลงความเห็นแล้ว</span>
+                                    </div>
+                                </div>
 
                                 @include('approvals._comment-cancels')
 

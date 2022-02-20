@@ -71,6 +71,14 @@
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="approve">
+
+                                <div class="card">
+                                    <div class="card-body" style="padding: 10px 10px;">
+                                        <input type="checkbox" name="" id="">
+                                        <span>แสดงรายการที่ลงความเห็นแล้ว</span>
+                                    </div>
+                                </div>
+
                                 <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 10px;">
                                     <thead>
                                         <tr>
@@ -204,6 +212,14 @@
                                 </ul>
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="cancel">
+
+                                <div class="card">
+                                    <div class="card-body" style="padding: 10px 10px;">
+                                        <input type="checkbox" name="" id="">
+                                        <span>แสดงรายการที่ลงความเห็นแล้ว</span>
+                                    </div>
+                                </div>
+
                                 <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 10px;">
                                     <thead>
                                         <tr>
