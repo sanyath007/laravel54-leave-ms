@@ -39,13 +39,12 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     // TODO: Duplicated method
     const getCancellation = function(isApproval=false) {
         $scope.cancellations = [];
-        $scope.cancelPager = [];
-
+        $scope.cancelPager = null;
         $scope.loading = true;
 
         let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
         let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
-        let status  = '5';
+        let status  = $scope.showAllCancels ? '5&8&9' : '5';
         let menu    = "1";
 
         $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}`)
@@ -92,11 +91,10 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     };
 
     $scope.onCommentLoad = function(depart) {
-        let showAll = $scope.showAllApproves ? 1 : 0;
         $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '0&1&7';
+        $scope.cboLeaveStatus = $scope.showAllApproves ? '0&1&7' : '0';
         $scope.cboMenu = "1";
-        $scope.cboQuery = `depart=${depart}&showall=${showAll}`;
+        $scope.cboQuery = `depart=${depart}`;
 
         $scope.getAll();
 
