@@ -60,8 +60,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         hibernate_temple: '',
         hibernate_location: '',
     };
-    
+
     $scope.barOptions = {};
+    $scope.showAllApproves = true;
+    $scope.showAllCancels = true;
 
     /** ============================== Init Form elements ============================== */
     /** ให้เลือกช่วงได้เฉพาะวันสุดท้าย */
@@ -313,27 +315,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.getPersons(depart, searchKey, null);
     };
 
-    $scope.onCommentLoad = function(depart) {
-        $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '0&1&7';
-        $scope.cboMenu = "1";
-        $scope.cboQuery = `depart=${depart}`;
-
-        $scope.getAll();
-
-        getCancellation();
-    };
-
-    $scope.showCommentForm = function(leave, type) {
-        $scope.leave = leave;
-
-        if (type === 1) {
-            $('#comment-form').modal('show');
-        } else {
-            $('#cancel-comment-form').modal('show');
-        }
-    };
-
     $scope.showApproval = function(leave) {
         $scope.leave = leave;
 
@@ -446,6 +427,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $('#cancel-form').modal('show');
     };
 
+    // TODO: Duplicated method
     $scope.getAll = function(event) {
         $scope.leaves = [];
         $scope.loading = true;
@@ -467,6 +449,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
+    // TODO: Duplicated method
     $scope.setLeaves = function(res) {
         const { data, ...pager } = res.data.leaves;
         $scope.leaves = data;
@@ -479,6 +462,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.pager    = pager;
     };
 
+    // TODO: Duplicated method
     $scope.getDataWithURL = function(URL, cb) {
         $scope.loading = true;
 

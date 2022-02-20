@@ -83,7 +83,7 @@
 	<script type="text/javascript" src="{{ asset('/js/controllers/leaveCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/historyCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/leaveTypeCtrl.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/js/controllers/supplierCtrl.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/js/controllers/approvalCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/reportCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/services/report.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/services/stringFormat.js') }}"></script>
