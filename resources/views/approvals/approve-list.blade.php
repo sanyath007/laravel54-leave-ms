@@ -74,7 +74,13 @@
 
                                 <div class="card">
                                     <div class="card-body" style="padding: 10px 10px;">
-                                        <input type="checkbox" name="" id="">
+                                        <input
+                                            type="checkbox"
+                                            name="showAllApproves"
+                                            id="showAllApproves"
+                                            ng-model="showAllApproves"
+                                            ng-change="onCommentLoad({{ Auth::user()->memberOf->depart_id }})"
+                                        />
                                         <span>แสดงรายการที่ลงความเห็นแล้ว</span>
                                     </div>
                                 </div>
@@ -196,7 +202,12 @@
 
                                 <div class="card">
                                     <div class="card-body" style="padding: 10px 10px;">
-                                        <input type="checkbox" name="" id="">
+                                        <input
+                                            type="checkbox"
+                                            name="showAllCancels"
+                                            id="showAllCancels"
+                                            ng-model="showAllCancels"
+                                        />
                                         <span>แสดงรายการที่ลงความเห็นแล้ว</span>
                                     </div>
                                 </div>
