@@ -26,7 +26,7 @@ class CancellationController extends Controller
         ]);
     }
 
-    public function doCancel(Request $req)
+    public function store(Request $req)
     {
         $cancel = new Cancellation;
         $cancel->leave_id       = $req['leave_id'];
@@ -37,6 +37,7 @@ class CancellationController extends Controller
         $cancel->end_date       = convThDateToDbDate($req['to_date']);
         $cancel->end_period     = $req['end_period'];
         $cancel->days           = $req['leave_days'];
+        dd($cancel);
 
         if ($cancel->save()) {
             /** Update status of leave data */
@@ -44,6 +45,34 @@ class CancellationController extends Controller
             $leave->status  = '5';
             $leave->save();
 
+            return redirect('/cancellations/cancel');
+        }
+    }
+
+    public function update(Request $req)
+    {
+        $cancel = Cancellation::find($req['id']);
+        $cancel->leave_id       = $req['leave_id'];
+        $cancel->cancel_date    = date('Y-m-d');
+        $cancel->reason         = $req['reason'];
+        $cancel->start_date     = convThDateToDbDate($req['from_date']);
+        $cancel->start_period   = $req['start_period'];
+        $cancel->end_date       = convThDateToDbDate($req['to_date']);
+        $cancel->end_period     = $req['end_period'];
+        $cancel->days           = $req['leave_days'];
+        dd($cancel);
+
+        if ($cancel->save()) {
+            return redirect('/cancellations/cancel');
+        }
+    }
+
+    public function delete($id)
+    {
+        $cancel = Cancellation::find($id);
+        dd($cancel);
+
+        if ($cancel->delete()) {
             return redirect('/cancellations/cancel');
         }
     }

@@ -1,7 +1,7 @@
-<div class="modal fade" id="cancel-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade" id="add-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ url('/cancellations/cancel') }}" method="POST">
+            <form action="{{ url('/cancellations/store') }}" method="POST">
                 <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                 {{ csrf_field() }}
 
