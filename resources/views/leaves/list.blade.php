@@ -156,11 +156,11 @@
                                         <span class="label label-warning" ng-show="leave.status == 5">
                                             อยู่ระหว่างการยกเลิก
                                         </span>
-                                        <span class="label label-danger" ng-show="leave.status == 9">
-                                            ยกเลิก
-                                        </span>
                                         <span class="label label-success" ng-show="leave.status == 8">
-                                            ผ่านการอนุมัติ
+                                            ยกเลิกวันลา (บางส่วน)
+                                        </span>
+                                        <span class="label label-danger" ng-show="leave.status == 9">
+                                            ยกเลิกวันลา (ทั้งหมด)
                                         </span>
                                     </td>
                                     <td style="text-align: center;">

@@ -166,7 +166,7 @@
                                                     <span class="label label-warning" ng-show="leave.status == 5">
                                                         อยู่ระหว่างการยกเลิก
                                                     </span>
-                                                    <span class="label label-warning" ng-show="leave.status == 8">
+                                                    <span class="label label-success" ng-show="leave.status == 8">
                                                         ยกเลิกวันลา (บางส่วน)
                                                     </span>
                                                     <span class="label label-danger" ng-show="leave.status == 9">
