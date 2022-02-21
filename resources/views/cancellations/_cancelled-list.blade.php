@@ -61,7 +61,7 @@
                     title="รายละเอียด">
                     <i class="fa fa-search"></i>
                 </a>
-                <a  ng-click="showCancelForm(cancel)"
+                <a  ng-click="onEditCancel(cancel)"
                     ng-show="cancel.status == 5"
                     class="btn btn-warning btn-xs"
                     title="แก้ไขรายการ">

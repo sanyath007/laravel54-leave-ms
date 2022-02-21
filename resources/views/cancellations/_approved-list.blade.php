@@ -54,9 +54,10 @@
             </td>
             <td style="text-align: center;">
                 <a  ng-click="showCancelForm(leave)"
-                    class="btn btn-danger btn-xs"
-                    title="ยกเลิกใบลา">
-                    ยกเลิก
+                    class="btn btn-danger btn-sm"
+                    title="ยกเลิกวันลา">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    ยกเลิกวันลา
                 </a>
             </td>             
         </tr>

@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="">เนื่องจาก (ระบุเหตุผลการยกเลิก)</label>
-                            <textarea name="reason" cols="3" class="form-control"></textarea>
+                            <textarea name="reason" ng-model="cancelReason" cols="3" class="form-control"></textarea>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">จึงขอยกเลิกวันลา</label>

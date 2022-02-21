@@ -65,6 +65,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     $scope.showAllApproves = true;
     $scope.showAllCancels = true;
 
+    $scope.cboStartPeriod = '';
+    $scope.cboEndPeriod = '';
+    $scope.cancelReason = '';
+
     /** ============================== Init Form elements ============================== */
     /** ให้เลือกช่วงได้เฉพาะวันสุดท้าย */
     $('#start_period').prop("disabled", true);
@@ -182,8 +186,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         };
     };
 
-    $scope.cboStartPeriod = '';
-    $scope.cboEndPeriod = '';
     $scope.calculateLeaveDays = function(sDateStr, eDateStr, endPeriod) {
         let sdate = StringFormatService.convToDbDate($(`#${sDateStr}`).val());
         let edate = StringFormatService.convToDbDate($(`#${eDateStr}`).val());
@@ -367,8 +369,34 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     };
 
+    $scope.onEditCancel = function(leave) {
+        $scope.leave = leave;
+
+        $scope.cancelReason = leave.cancellation[0].reason;
+        $scope.cboStartPeriod = leave.cancellation[0].start_period.toString();
+        $scope.cboEndPeriod = leave.cancellation[0].end_period.toString();
+
+        $('#from_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(leave.cancellation[0].start_date).toDate());
+
+        $('#to_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(leave.cancellation[0].end_date).toDate());
+
+        $('#cancel-form').modal('show');
+    };
+
     $scope.showCancelForm = function(leave) {
         $scope.leave = leave;
+
+        $scope.cancelReason = '';
         $scope.cboStartPeriod = leave.start_period.toString();
         $scope.cboEndPeriod = leave.end_period.toString();
 

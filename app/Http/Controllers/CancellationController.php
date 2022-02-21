@@ -90,8 +90,9 @@ class CancellationController extends Controller
                                 ->when(!empty($type), function($q) use($type) {
                                     $q->where('leave_type', $type);
                                 })
-                                ->with('delegate')
-                                ->with('delegate.prefix','delegate.position','delegate.academic')
+                                ->with('person', 'person.prefix', 'person.position', 'person.academic')
+                                ->with('person.memberOf', 'person.memberOf.depart')
+                                ->with('delegate','delegate.prefix','delegate.position','delegate.academic')
                                 ->with('type','cancellation')
                                 ->paginate(10),
         ];
