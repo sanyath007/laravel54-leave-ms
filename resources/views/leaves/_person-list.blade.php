@@ -20,7 +20,9 @@
                                     ng-change="onFilterPerson()"
                                 >
                                     <option value="">--เลือกกลุ่มงาน--</option>
-                                    <option value="65">สำนักงานการพยาบาล</option>
+                                    @foreach($departs as $depart)
+                                        <option value="{{ $depart->depart_id }}">{{ $depart->depart_name }}</option>
+                                    @endforeach
                                 </select>
         
                                 <input type="text" ng-model="searchKey" class="form-control" ng-keyup="onFilterPerson()">
@@ -64,8 +66,14 @@
                 </div><!-- /.modal-body -->
                 <div class="modal-footer" style="padding-bottom: 8px;">
                     <div class="row">
-                        <div class="col-md-6">
-                            <ul class="pagination pagination-sm no-margin pull-left">
+                        <div class="col-md-4">
+                            <span class="pull-left" style="margin-top: 5px;">
+                                หน้า @{{ pager.current_page }} จาก @{{ pager.last_page }} | 
+                                จำนวน @{{ pager.total }} รายการ
+                            </span>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="pagination pagination-sm no-margin">
                                 <li ng-if="pager.current_page !== 1">
                                     <a ng-click="getDataWithURL(pager.path+ '?page=1', setPersons)" aria-label="Previous">
                                         <span aria-hidden="true">First</span>
@@ -97,7 +105,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <button type="button" class="btn btn-danger" ng-click="onSelectedPerson($event, null, personListsCallback)">
                                 ปิด
                             </button>

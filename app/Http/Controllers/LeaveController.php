@@ -16,6 +16,7 @@ use App\Models\Ordinate;
 use App\Models\Oversea;
 use App\Models\Country;
 use App\Models\Person;
+use App\Models\Depart;
 use PDF;
 
 
@@ -202,6 +203,7 @@ class LeaveController extends Controller
         return view('leaves.add', [
             "leave_types"   => LeaveType::all(),
             "positions"     => Position::all(),
+            "departs"       => Depart::where('faction_id', '5')->get(),
             "periods"       => $this->periods,
         ]);
     }
