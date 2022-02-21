@@ -73,12 +73,12 @@
                     <div class="box-body">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#to-cancel-list" data-toggle="tab">
-                                <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                <i class="fa fa-check-square-o text-success" aria-hidden="true"></i>
                                 รายการใบลาที่อนุมัติแล้ว
                                 <span class="badge badge-light">@{{ leaves.length }}</span>
                             </a></li>
                             <li><a href="#cancelled-list" data-toggle="tab">
-                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                <i class="fa fa-window-close-o text-danger" aria-hidden="true"></i>
                                 รายการขอยกเลิกวันลา
                                 <span class="badge badge-light">@{{ cancellations.length }}</span>
                             </a></li>
