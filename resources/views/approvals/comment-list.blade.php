@@ -76,6 +76,12 @@
                         <div class="tab-content">
                             <div class="active tab-pane" id="approve">
 
+                                <div class="alert alert-warning alert-dismissible" style="margin: 10px 10px;">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="icon fa fa-warning"></i>
+                                    การแสดงรายการที่ลงความเห็นแล้ว จะแสดงเฉพาะรายที่รอการลงรับเอกสารเท่านั้น !!
+                                </div>
+
                                 <div class="card">
                                     <div class="card-body" style="padding: 10px 10px;">
                                         <input

@@ -11,8 +11,8 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     $scope.cboMenu = "";
     $scope.searchKeyword = "";
     $scope.cboQuery = "";
-    $scope.showAllApproves = true;
-    $scope.showAllCancels = true;
+    $scope.showAllApproves = false;
+    $scope.showAllCancels = false;
 
     // TODO: Duplicated method
     $scope.getAll = function(event) {
@@ -120,24 +120,24 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
 
     $scope.onReceiveLoad = function(e) {
         $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '1&2';
+        $scope.cboLeaveStatus = $scope.showAllApproves ? '1&2' : '1';
         $scope.cboMenu = "1";
         $scope.cboQuery = "";
 
-        $scope.getAll(e);
+        $scope.getAll();
 
-        getCancellation();
+        $scope.getCancellation();
     };
 
     $scope.onApproveLoad = function(e) {
         $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = '2';
+        $scope.cboLeaveStatus = $scope.showAllApproves ? '2&3&4' : '2';
         $scope.cboMenu = "1";
         $scope.cboQuery = "";
 
-        $scope.getAll(e);
+        $scope.getAll();
 
-        getCancellation(true);
+        $scope.getCancellation(true);
     };
 
     $scope.showApproveForm = function(leave, type) {
