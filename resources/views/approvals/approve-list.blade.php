@@ -98,6 +98,7 @@
                                             <th>รายละเอียด</th>
                                             <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
                                             <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
+                                            <th style="width: 6%; text-align: center;">การอนุมัติ</th>
                                             <th style="width: 6%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
@@ -154,13 +155,34 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
+                                                <a  ng-click="showApprovalDetail(leave)"
+                                                    class="btn btn-default btn-sm" 
+                                                    title="รายละเอียด"
+                                                    target="_blank">
+                                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                            <td style="text-align: center;">
                                                 <a  ng-click="showApproveForm(leave, 1)" 
-                                                    ng-show="(leave.status!==4 || leave.status!==3)" 
+                                                    ng-show="leave.status != 4 && leave.status != 3" 
                                                     class="btn btn-success btn-sm"
                                                     title="ลงนามอนุมัติการลา">
                                                     <i class="fa fa-check" aria-hidden="true"></i>
                                                     ลงนาม
                                                 </a>
+                                                <form
+                                                    ng-show="leave.status == 4 || leave.status == 3"
+                                                    action="{{ url('/approvals/status') }}"
+                                                    method="POST"
+                                                >
+                                                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                                                    <input type="hidden" id="status" name="status" value="2" />
+                                                    {{ csrf_field() }}
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-remove" aria-hidden="true"></i>
+                                                        ยกเลิก
+                                                    </button>
+                                                </form>
                                             </td>             
                                         </tr>
                                     </tbody>
@@ -290,7 +312,7 @@
                                             <span aria-hidden="true">First</span>
                                         </a>
                                     </li>
-                                
+
                                     <li ng-class="{'disabled': (cancelPager.current_page==1)}">
                                         <a href="#" ng-click="getDataWithURL(cancelPager.prev_page_url, setLeaves)" aria-label="Prev">
                                             <span aria-hidden="true">Prev</span>
@@ -327,6 +349,7 @@
 
                         @include('approvals._approve-form')
                         @include('approvals._cancel-approval-form')
+                        @include('approvals._approval-detail')
 
                     </div><!-- /.box-body -->
 
