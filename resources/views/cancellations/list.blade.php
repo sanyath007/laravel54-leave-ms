@@ -101,7 +101,8 @@
                             </div><!-- /.tab-pane -->
                         </div><!-- /.tab-content -->
 
-                        @include('cancellations._cancel-form')
+                        @include('cancellations._add-form')
+                        @include('cancellations._edit-form')
 
                     </div><!-- /.box-body -->
 

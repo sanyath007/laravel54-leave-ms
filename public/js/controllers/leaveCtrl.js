@@ -390,7 +390,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             thaiyear: true
         }).datepicker('update', moment(leave.cancellation[0].end_date).toDate());
 
-        $('#cancel-form').modal('show');
+        $('#edit-form').modal('show');
     };
 
     $scope.showCancelForm = function(leave) {
@@ -414,7 +414,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             thaiyear: true
         }).datepicker('update', moment(leave.end_date).toDate());
 
-        $('#cancel-form').modal('show');
+        $('#add-form').modal('show');
     };
 
     // TODO: Duplicated method
