@@ -37,13 +37,13 @@
                     @endif
 
                     <div class="panel panel-default">
-                        <div class="panel-heading">Login</div>
+                        <div class="panel-heading">ลงชื่อเข้าใช้งานระบบ</div>
                         <div class="panel-body">
                             <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/signin') }}">
                                 {{ csrf_field() }}
 
                                 <div class="form-group{{ $errors->has('person_username') ? ' has-error' : '' }}">
-                                    <label for="email" class="col-md-4 control-label">Username</label>
+                                    <label for="email" class="col-md-4 control-label">ชื่อผู้ใช้</label>
 
                                     <div class="col-md-6">
                                         <input id="person_username" type="text" class="form-control" name="person_username" value="{{ old('person_username') }}">
@@ -57,7 +57,7 @@
                                 </div>
 
                                 <div class="form-group{{ $errors->has('person_password') ? ' has-error' : '' }}">
-                                    <label for="password" class="col-md-4 control-label">Password</label>
+                                    <label for="password" class="col-md-4 control-label">รหัสผ่าน</label>
 
                                     <div class="col-md-6">
                                         <input id="person_password" type="password" class="form-control" name="person_password">
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="col-md-6 col-md-offset-4">
                                         <div class="checkbox">
                                             <label>
@@ -78,15 +78,15 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-4">
                                         <button type="submit" class="btn btn-primary">
-                                            <i class="fa fa-btn fa-sign-in"></i> Login
+                                            <i class="fa fa-btn fa-sign-in"></i> ลงชื่อเข้า
                                         </button>
 
-                                        <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
+                                        <!-- <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a> -->
                                     </div>
                                 </div>
                             </form>
