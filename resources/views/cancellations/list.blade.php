@@ -156,45 +156,53 @@
                                     </tbody>
                                 </table>
 
-                                @include('cancellations._cancel-form')
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        หน้า @{{ pager.current_page }} จาก @{{ pager.last_page }}
+                                    </div>
+                                    <div class="col-md-4" style="text-align: center;">
+                                        จำนวน @{{ pager.total }} รายการ
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="pagination pagination-sm no-margin pull-right">
+                                            <li ng-if="pager.current_page !== 1">
+                                                <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1', setLeaves)" aria-label="Previous">
+                                                    <span aria-hidden="true">First</span>
+                                                </a>
+                                            </li>
+                                        
+                                            <li ng-class="{'disabled': (pager.current_page==1)}">
+                                                <a href="#" ng-click="getDataWithURL(pager.prev_page_url, setLeaves)" aria-label="Prev">
+                                                    <span aria-hidden="true">Prev</span>
+                                                </a>
+                                            </li>
 
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    <li ng-if="pager.current_page !== 1">
-                                        <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1', setLeaves)" aria-label="Previous">
-                                            <span aria-hidden="true">First</span>
-                                        </a>
-                                    </li>
-                                
-                                    <li ng-class="{'disabled': (pager.current_page==1)}">
-                                        <a href="#" ng-click="getDataWithURL(pager.prev_page_url, setLeaves)" aria-label="Prev">
-                                            <span aria-hidden="true">Prev</span>
-                                        </a>
-                                    </li>
+                                            <!-- <li ng-repeat="i in debtPages" ng-class="{'active': pager.current_page==i}">
+                                                <a href="#" ng-click="getDataWithURL(pager.path + '?page=' +i, setLeaves)">
+                                                    @{{ i }}
+                                                </a>
+                                            </li> -->
 
-                                    <!-- <li ng-repeat="i in debtPages" ng-class="{'active': pager.current_page==i}">
-                                        <a href="#" ng-click="getDataWithURL(pager.path + '?page=' +i, setLeaves)">
-                                            @{{ i }}
-                                        </a>
-                                    </li> -->
+                                            <!-- <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
+                                                <a href="#" ng-click="pager.path">
+                                                    ...
+                                                </a>
+                                            </li> -->
 
-                                    <!-- <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
-                                        <a href="#" ng-click="pager.path">
-                                            ...
-                                        </a>
-                                    </li> -->
+                                            <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
+                                                <a href="#" ng-click="getDataWithURL(pager.next_page_url, setLeaves)" aria-label="Next">
+                                                    <span aria-hidden="true">Next</span>
+                                                </a>
+                                            </li>
 
-                                    <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
-                                        <a href="#" ng-click="getDataWithURL(pager.next_page_url, setLeaves)" aria-label="Next">
-                                            <span aria-hidden="true">Next</span>
-                                        </a>
-                                    </li>
-
-                                    <li ng-if="pager.current_page !== pager.last_page">
-                                        <a href="#" ng-click="getDataWithURL(pager.path+ '?page=' +pager.last_page, setLeaves)" aria-label="Previous">
-                                            <span aria-hidden="true">Last</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                                            <li ng-if="pager.current_page !== pager.last_page">
+                                                <a href="#" ng-click="getDataWithURL(pager.path+ '?page=' +pager.last_page, setLeaves)" aria-label="Previous">
+                                                    <span aria-hidden="true">Last</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /.row -->
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="cancelled-list">
                                 <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 10px;">
@@ -277,47 +285,59 @@
                                     </tbody>
                                 </table>
 
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    <li ng-if="cancelPager.current_page !== 1">
-                                        <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=1', setLeaves)" aria-label="Previous">
-                                            <span aria-hidden="true">First</span>
-                                        </a>
-                                    </li>
-                                
-                                    <li ng-class="{'disabled': (cancelPager.current_page==1)}">
-                                        <a href="#" ng-click="getDataWithURL(cancelPager.prev_page_url, setLeaves)" aria-label="Prev">
-                                            <span aria-hidden="true">Prev</span>
-                                        </a>
-                                    </li>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        หน้า @{{ cancelPager.current_page }} จาก @{{ cancelPager.last_page }}
+                                    </div>
+                                    <div class="col-md-4" style="text-align: center;">
+                                        จำนวน @{{ cancelPager.total }} รายการ
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="pagination pagination-sm no-margin pull-right">
+                                            <li ng-if="cancelPager.current_page !== 1">
+                                                <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=1', setLeaves)" aria-label="Previous">
+                                                    <span aria-hidden="true">First</span>
+                                                </a>
+                                            </li>
+                                        
+                                            <li ng-class="{'disabled': (cancelPager.current_page==1)}">
+                                                <a href="#" ng-click="getDataWithURL(cancelPager.prev_page_url, setLeaves)" aria-label="Prev">
+                                                    <span aria-hidden="true">Prev</span>
+                                                </a>
+                                            </li>
 
-                                    <!-- <li ng-repeat="i in debtPages" ng-class="{'active': cancelPager.current_page==i}">
-                                        <a href="#" ng-click="getDataWithURL(cancelPager.path + '?page=' +i, setLeaves)">
-                                            @{{ i }}
-                                        </a>
-                                    </li> -->
+                                            <!-- <li ng-repeat="i in debtPages" ng-class="{'active': cancelPager.current_page==i}">
+                                                <a href="#" ng-click="getDataWithURL(cancelPager.path + '?page=' +i, setLeaves)">
+                                                    @{{ i }}
+                                                </a>
+                                            </li> -->
 
-                                    <!-- <li ng-if="cancelPager.current_page < cancelPager.last_page && (cancelPager.last_page - cancelPager.current_page) > 10">
-                                        <a href="#" ng-click="cancelPager.path">
-                                            ...
-                                        </a>
-                                    </li> -->
+                                            <!-- <li ng-if="cancelPager.current_page < cancelPager.last_page && (cancelPager.last_page - cancelPager.current_page) > 10">
+                                                <a href="#" ng-click="cancelPager.path">
+                                                    ...
+                                                </a>
+                                            </li> -->
 
-                                    <li ng-class="{'disabled': (cancelPager.current_page==cancelPager.last_page)}">
-                                        <a href="#" ng-click="getDataWithURL(cancelPager.next_page_url, setLeaves)" aria-label="Next">
-                                            <span aria-hidden="true">Next</span>
-                                        </a>
-                                    </li>
+                                            <li ng-class="{'disabled': (cancelPager.current_page==cancelPager.last_page)}">
+                                                <a href="#" ng-click="getDataWithURL(cancelPager.next_page_url, setLeaves)" aria-label="Next">
+                                                    <span aria-hidden="true">Next</span>
+                                                </a>
+                                            </li>
 
-                                    <li ng-if="cancelPager.current_page !== cancelPager.last_page">
-                                        <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=' +cancelPager.last_page, setLeaves)" aria-label="Previous">
-                                            <span aria-hidden="true">Last</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                                            <li ng-if="cancelPager.current_page !== cancelPager.last_page">
+                                                <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=' +cancelPager.last_page, setLeaves)" aria-label="Previous">
+                                                    <span aria-hidden="true">Last</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /.row -->
 
                             </div><!-- /.tab-pane -->
                         </div><!-- /.tab-content -->
-                        
+
+                        @include('cancellations._cancel-form')
+
                     </div><!-- /.box-body -->
 
                     <!-- Loading (remove the following to stop the loading)-->
