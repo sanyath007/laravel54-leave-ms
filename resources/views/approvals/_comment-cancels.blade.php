@@ -32,7 +32,8 @@
                 </p>
             </td>
             <td>
-                <span style="font-weight: bold;">วันที่</span> @{{ cancel.cancellation[0].cancel_date | thdate }}
+                <span style="font-weight: bold;">วันที่</span>
+                @{{ cancel.cancellation[0].start_date | thdate }} - @{{ cancel.cancellation[0].end_date | thdate }}
                 <span style="font-weight: bold;">จำนวน</span> @{{ cancel.cancellation[0].days }} วัน
                 <p style="color: grey; margin: 0px auto;">
                     <span style="font-weight: bold;">เนื่องจาก</span> @{{ cancel.cancellation[0].reason }}
@@ -40,7 +41,7 @@
             </td>
             <td style="text-align: center;">@{{ cancel.year }}</td>
             <td style="text-align: center;">
-                <p style="margin: 0px auto;">@{{ cancel.leave_date | thdate }}</p>
+                <p style="margin: 0px auto;">@{{ cancel.cancellation[0].cancel_date | thdate }}</p>
                 <p style="margin: 0px auto;">
                     <span class="label label-warning" ng-show="cancel.status == 5">
                         อยู่ระหว่างการยกเลิก
