@@ -103,13 +103,13 @@
                         <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 10px;">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%; text-align: center;">#</th>
+                                    <th style="width: 3%; text-align: center;">#</th>
+                                    <th style="width: 8%; text-align: center;">ปีงบประมาณ</th>
+                                    <th style="width: 8%; text-align: center;">วันที่ลงทะเบียน</th>
                                     <th>ประเภทการลา</th>
                                     <!-- <th style="text-align: left;">ชื่อครุภัณฑ์</th> -->
                                     <th style="width: 20%; text-align: center;">วันที่ลา</th>
                                     <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 15%; text-align: center;">วันที่ลงทะเบียน</th>
-                                    <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
                                     <th style="width: 15%; text-align: center;">สถานะ</th>
                                     <th style="width: 5%; text-align: center;">ไฟล์แนบ</th>
                                     <th style="width: 10%; text-align: center;">Actions</th>
@@ -118,6 +118,8 @@
                             <tbody>
                                 <tr ng-repeat="(index, leave) in leaves">
                                     <td style="text-align: center;">@{{ index+pager.from }}</td>
+                                    <td style="text-align: center;">@{{ leave.year }}</td>
+                                    <td style="text-align: center;">@{{ leave.leave_date | thdate }}</td>
                                     <td>@{{ leave.type.name }}</td>
                                     <td style="text-align: center;">
                                         <span>@{{ leave.start_date | thdate }} - </span>
@@ -132,8 +134,6 @@
                                             (ลา @{{ leave.leave_days - leave.cancellation[0].days }})
                                         </p>
                                     </td>
-                                    <td style="text-align: center;">@{{ leave.leave_date | thdate }}</td>
-                                    <td style="text-align: center;">@{{ leave.year }}</td>
                                     <td style="text-align: center;">
                                         <span class="label label-primary" ng-show="leave.status == 0">
                                             อยู่ระหว่างดำเนินการ
