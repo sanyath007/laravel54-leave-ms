@@ -230,11 +230,14 @@
 								<ul class="dropdown-menu">
 									<!-- User image -->
 									<li class="user-header">
-										<img src="{{ asset('img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+										<img src="{{ $userAvatarUrl }}" class="img-circle" alt="User Image">
 
 										<p>
 											{{ Auth::user()->person_firstname }} {{ Auth::user()->person_lastname }}
-											<small>Member since Nov. 2012</small>
+											<small>
+												<span>{{ Auth::user()->typeposition_id == 1 ? 'วันที่บรรจุ' : 'วันที่เริ่มงาน' }}</span> 
+												{{ convDbDateToThDate(Auth::user()->person_singin) }}
+											</small>
 										</p>
 									</li>
 									
@@ -260,14 +263,14 @@
 												class="btn btn-default btn-flat"
 												ng-click="redirectTo($event, 'histories/profile/' + {{ Auth::user()->person_id }})"
 											>
-												Profile
+												ข้อมูลส่วนตัว
 											</a>
 										</div>
 										<div class="pull-right">
 											<a 	href="{{ route('logout') }}" 
 												onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
 												class="btn btn-default btn-flat">
-												Sign out
+												ลงชื่อออก
 											</a>
 
 											<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -282,9 +285,9 @@
 						</li><!-- End user account menu -->
 
 						<!-- Control Sidebar Toggle Button -->
-						<li>
+						<!-- <li>
 							<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-						</li>
+						</li> -->
 						<!-- Control Sidebar Toggle Button -->
 
 					</ul><!-- /.nav navbar-nav -->
