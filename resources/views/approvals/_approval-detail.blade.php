@@ -21,7 +21,7 @@
 
                         <div ng-show="leave.commented_date != null">
                             <div class="form-group">
-                                <input type="checkbox" ng-checked="leave.status == 1" />
+                                <input type="checkbox" ng-checked="[1,2,3,4].includes(leave.status)" />
                                 <span style="margin-right: 10px;">อนุญาต</span>
                                 <input type="checkbox" ng-checked="leave.status == 7" />
                                 <span style="margin-right: 10px;">ไม่อนุญาต</span>

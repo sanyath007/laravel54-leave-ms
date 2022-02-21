@@ -155,7 +155,7 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <a  ng-click="showApproval()"
+                                                <a  ng-click="showApprovalDetail(leave)"
                                                     class="btn btn-default btn-sm" 
                                                     title="รายละเอียด"
                                                     target="_blank">
@@ -350,6 +350,9 @@
 
                             </div><!-- /.tab-pane -->
                         </div><!-- /.tab-content -->
+
+                        @include('approvals._approval-detail')
+
                     </div><!-- /.box-body -->
 
                     <!-- Loading (remove the following to stop the loading)-->
