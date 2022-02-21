@@ -113,6 +113,7 @@ class LeaveController extends Controller
 
         /** Get depart from query params */
         $qsDepart = $req->get('depart');
+        $qsMonth = $req->get('month');
 
         /** Generate list of person of depart from query params */
         $personList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
@@ -127,6 +128,12 @@ class LeaveController extends Controller
                         ->with('cancellation')
                         ->when(!empty($qsDepart), function($q) use ($personList) {
                             $q->whereIn('leave_person', $personList);
+                        })
+                        ->when(!empty($qsMonth), function($q) use ($qsMonth) {
+                            $sdate = $qsMonth. '-01';
+                            $edate = date('Y-m-t', strtotime($sdate));
+
+                            $q->whereBetween('start_date', [$sdate, $edate]);
                         })
                         ->orderBy('leave_date', 'desc')
                         ->orderBy('start_date', 'desc')
@@ -144,6 +151,12 @@ class LeaveController extends Controller
                         ->with('cancellation')
                         ->when(!empty($qsDepart), function($q) use ($personList) {
                             $q->whereIn('leave_person', $personList);
+                        })
+                        ->when(!empty($qsMonth), function($q) use ($qsMonth) {
+                            $sdate = $qsMonth. '-01';
+                            $edate = date('Y-m-t', strtotime($sdate));
+
+                            $q->whereBetween('start_date', [$sdate, $edate]);
                         })
                         ->orderBy('leave_date', 'desc')
                         ->orderBy('start_date', 'desc')

@@ -75,19 +75,36 @@
                                 <div class="alert alert-warning alert-dismissible" style="margin: 10px 10px;">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                     <i class="icon fa fa-warning"></i>
-                                    การแสดงรายการที่ลงนามแล้ว จะแสดงเฉพาะรายที่รอการอนุมัติเท่านั้น !!
+                                    การแสดงรายการที่ลงนามแล้ว จะแสดงเฉพาะรายการที่รอการอนุมัติและที่ผ่านการอนุมัติแล้วเท่านั้น !!
                                 </div>
 
                                 <div class="card">
-                                    <div class="card-body" style="padding: 10px 10px;">
-                                        <input
-                                            type="checkbox"
-                                            name="showAllApproves"
-                                            id="showAllApproves"
-                                            ng-model="showAllApproves"
-                                            ng-change="onApproveLoad()"
-                                        />
-                                        <span>แสดงรายการที่ลงนามแล้ว</span>
+                                    <div class="card-body" style="padding: 10px 10px 0;">
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <input
+                                                    type="checkbox"
+                                                    name="showAllApproves"
+                                                    id="showAllApproves"
+                                                    ng-model="showAllApproves"
+                                                    ng-change="onApproveLoad()"
+                                                />
+                                                <span>แสดงรายการที่ลงนามแล้ว</span>
+                                            </div>
+                                            <div class="form-group col-md-6"
+                                                style="display: flex; justify-content: flex-end;">
+                                                <label class="col-md-3" style="text-align: right; padding-top: 5px;">ประจำเดือน :</label>
+                                                <div class="col-md-6">
+                                                    <input
+                                                        type="text"
+                                                        id="leave_date"
+                                                        name="leave_date"
+                                                        class="form-control"
+                                                        tabindex="1"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -149,8 +166,11 @@
                                                     <span class="label label-warning" ng-show="leave.status == 5">
                                                         อยู่ระหว่างการยกเลิก
                                                     </span>
+                                                    <span class="label label-warning" ng-show="leave.status == 8">
+                                                        ยกเลิกวันลา (บางส่วน)
+                                                    </span>
                                                     <span class="label label-danger" ng-show="leave.status == 9">
-                                                        ยกเลิก
+                                                        ยกเลิกวันลา (ทั้งหมด)
                                                     </span>
                                                 </p>
                                             </td>
@@ -163,8 +183,12 @@
                                                 </a>
                                             </td>
                                             <td style="text-align: center;">
+                                                <span ng-show="[5,8,9].includes(leave.status)" style="color: red; font-size: 12px;">
+                                                    <i class="fa fa-window-close" aria-hidden="true"></i>
+                                                    มีการยกเลิกวันลา
+                                                </span>
                                                 <a  ng-click="showApproveForm(leave, 1)" 
-                                                    ng-show="leave.status != 4 && leave.status != 3" 
+                                                    ng-show="![3,4,5,8,9].includes(leave.status)" 
                                                     class="btn btn-success btn-sm"
                                                     title="ลงนามอนุมัติการลา">
                                                     <i class="fa fa-check" aria-hidden="true"></i>

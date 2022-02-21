@@ -13,6 +13,28 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     $scope.cboQuery = "";
     $scope.showAllApproves = false;
     $scope.showAllCancels = false;
+    $scope.leave_date = '';
+
+    $('#leave_date').datepicker({
+        autoclose: true,
+        language: 'th',
+        format: 'mm/yyyy',
+        thaiyear: true,
+        viewMode: "months", 
+        minViewMode: "months",
+    }).datepicker('update', new Date())
+
+    $('#leave_date').change(function(e) {
+        let [month, year] = e.target.value.split('/');
+
+        $scope.cboQuery = `month=${parseInt(year) - 543}-${month}`;
+        $scope.cboYear = '2565';
+        $scope.cboLeaveStatus = $scope.showAllApproves ? '2&3&4&8&9' : '2';
+        $scope.cboMenu = "1";
+
+        $scope.getAll();
+        $scope.getCancellation(true);
+    });
 
     // TODO: Duplicated method
     $scope.getAll = function(event) {
@@ -131,12 +153,11 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
 
     $scope.onApproveLoad = function(e) {
         $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = $scope.showAllApproves ? '2&3&4' : '2';
+        $scope.cboLeaveStatus = $scope.showAllApproves ? '2&3&4&8&9' : '2';
         $scope.cboMenu = "1";
-        $scope.cboQuery = "";
+        $scope.cboQuery = `month=${moment().format('YYYY-MM')}`;
 
         $scope.getAll();
-
         $scope.getCancellation(true);
     };
 
