@@ -100,7 +100,7 @@
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="cancel">
 
-                                <div class="card">
+                                <!-- <div class="card">
                                     <div class="card-body" style="padding: 10px 10px;">
                                         <input
                                             type="checkbox"
@@ -110,7 +110,7 @@
                                         />
                                         <span>แสดงรายการที่ลงความเห็นแล้ว</span>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 @include('approvals._comment-cancels')
 

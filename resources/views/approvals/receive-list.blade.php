@@ -225,7 +225,7 @@
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="cancel">
 
-                                <div class="card">
+                                <!-- <div class="card">
                                     <div class="card-body" style="padding: 10px 10px;">
                                         <input
                                             type="checkbox"
@@ -235,9 +235,9 @@
                                         />
                                         <span>แสดงรายการที่ลงรับเอกสารแล้ว</span>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 10px;">
+                                <table class="table table-bordered table-striped" style="font-size: 14px; margin: 10px auto;">
                                     <thead>
                                         <tr>
                                             <th style="width: 5%; text-align: center;">#</th>

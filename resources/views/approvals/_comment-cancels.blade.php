@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 10px;">
+<table class="table table-bordered table-striped" style="font-size: 14px; margin: 10px auto;">
     <thead>
         <tr>
             <th style="width: 5%; text-align: center;">#</th>
