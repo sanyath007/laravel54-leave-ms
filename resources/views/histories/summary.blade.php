@@ -82,6 +82,14 @@
                                     <p>จำนวนวันลาสะสม @{{ !histories ? 90 : 90 - histories.lab_days }} วัน</p>
                                     <p>จำนวนวันที่ลา @{{ !histories ? 90 : histories.lab_days }} วัน</p>
                                 </div>
+                                <div
+                                    style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;"
+                                    ng-show="{{ Auth::user()->person_sex }} == 1"
+                                >
+                                    <h5 style="font-weight: bold;">ลาเพื่อดูแลบุตรและภรรยาหลังคลอด (15 วันทำการ)</h5>
+                                    <p>จำนวนวันลาสะสม @{{ !histories ? 15 : 15 - histories.hel_days }} วัน</p>
+                                    <p>จำนวนวันที่ลา @{{ !histories ? 15 : histories.hel_days }} วัน</p>
+                                </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
                                     <h4>ลาอุปสมบท (120 วันทำการ)</h4>
                                     <p>จำนวนวันลาสะสม @{{ !histories ? 120 : 120 - histories.ord_days }} วัน</p>
@@ -125,7 +133,7 @@
                                 </div><!-- /.row -->
                             </div>
                             <div class="box-body">
-                                <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 1rem;">
+                                <table class="table table-bordered table-striped" style="font-size: 14px;">
                                     <thead>
                                         <tr>
                                             <th style="width: 5%; text-align: center;">#</th>
@@ -194,46 +202,59 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div><!-- /.box-body -->
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span style="margin-top: 5px;">
+                                            หน้า @{{ pager.current_page }} จาก @{{ pager.last_page }}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4" style="text-align: center;">
+                                        จำนวน @{{ pager.total }} รายการ
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="pagination pagination-sm no-margin pull-right">
+                                            <li ng-if="pager.current_page !== 1">
+                                                <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1')" aria-label="Previous">
+                                                    <span aria-hidden="true">First</span>
+                                                </a>
+                                            </li>
+                                        
+                                            <li ng-class="{'disabled': (pager.current_page==1)}">
+                                                <a href="#" ng-click="getDataWithURL(pager.prev_page_url)" aria-label="Prev">
+                                                    <span aria-hidden="true">Prev</span>
+                                                </a>
+                                            </li>
 
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    <li ng-if="pager.current_page !== 1">
-                                        <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1')" aria-label="Previous">
-                                            <span aria-hidden="true">First</span>
-                                        </a>
-                                    </li>
-                                
-                                    <li ng-class="{'disabled': (pager.current_page==1)}">
-                                        <a href="#" ng-click="getDataWithURL(pager.prev_page_url)" aria-label="Prev">
-                                            <span aria-hidden="true">Prev</span>
-                                        </a>
-                                    </li>
+                                            <!-- <li ng-repeat="i in debtPages" ng-class="{'active': pager.current_page==i}">
+                                                <a href="#" ng-click="getDataWithURL(pager.path + '?page=' +i)">
+                                                    @{{ i }}
+                                                </a>
+                                            </li> -->
 
-                                    <!-- <li ng-repeat="i in debtPages" ng-class="{'active': pager.current_page==i}">
-                                        <a href="#" ng-click="getDataWithURL(pager.path + '?page=' +i)">
-                                            @{{ i }}
-                                        </a>
-                                    </li> -->
+                                            <!-- <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
+                                                <a href="#" ng-click="pager.path">
+                                                    ...
+                                                </a>
+                                            </li> -->
 
-                                    <!-- <li ng-if="pager.current_page < pager.last_page && (pager.last_page - pager.current_page) > 10">
-                                        <a href="#" ng-click="pager.path">
-                                            ...
-                                        </a>
-                                    </li> -->
+                                            <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
+                                                <a href="#" ng-click="getDataWithURL(pager.next_page_url)" aria-label="Next">
+                                                    <span aria-hidden="true">Next</span>
+                                                </a>
+                                            </li>
 
-                                    <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
-                                        <a href="#" ng-click="getDataWithURL(pager.next_page_url)" aria-label="Next">
-                                            <span aria-hidden="true">Next</span>
-                                        </a>
-                                    </li>
-
-                                    <li ng-if="pager.current_page !== pager.last_page">
-                                        <a href="#" ng-click="getDataWithURL(pager.last_page_url)" aria-label="Previous">
-                                            <span aria-hidden="true">Last</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                                            <li ng-if="pager.current_page !== pager.last_page">
+                                                <a href="#" ng-click="getDataWithURL(pager.last_page_url)" aria-label="Previous">
+                                                    <span aria-hidden="true">Last</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div><!-- /.box-footer -->
+                        </div><!-- /.box -->
                     </div>
                 </div><!-- /.row -->
 

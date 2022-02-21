@@ -52,9 +52,9 @@ class ApprovalController extends Controller
             } else if ($leave->leave_type == '3') {
                 $history->vac_days += (float)$leave->leave_days; // ลาพักผ่อน
             } else if ($leave->leave_type == '4') {
-                $history->abr_days += (float)$leave->leave_days; // ลาไปต่างประเทศ
-            } else if ($leave->leave_type == '5') {
                 $history->lab_days += (float)$leave->leave_days; // ลาคลอด
+            } else if ($leave->leave_type == '5') {
+                $history->hel_days += (float)$leave->leave_days; // ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
             } else if ($leave->leave_type == '6') {
                 $history->ord_days += (float)$leave->leave_days; // ลาอุปสมบท
             }

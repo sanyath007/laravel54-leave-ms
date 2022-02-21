@@ -116,17 +116,17 @@ class CancellationController extends Controller
 
                 /** Decrease leave days coordineted leave type */
                 if ($leave->leave_type == '1') {
-                    $history->ill_days -= (float)$cancel->days; // ลาป่วย
+                    $history->ill_days -= (float)$cancel->days;     // ลาป่วย
                 } else if ($leave->leave_type == '2') {
-                    $history->per_days -= (float)$cancel->days; // ลากิจส่วนตัว
+                    $history->per_days -= (float)$cancel->days;     // ลากิจส่วนตัว
                 } else if ($leave->leave_type == '3') {
-                    $history->vac_days -= (float)$cancel->days; // ลาพักผ่อน
+                    $history->vac_days -= (float)$cancel->days;     // ลาพักผ่อน
                 } else if ($leave->leave_type == '4') {
-                    $history->abr_days -= (float)$cancel->days; // ลาไปต่างประเทศ
+                    $history->lab_days -= (float)$leave->leave_days; // ลาคลอด
                 } else if ($leave->leave_type == '5') {
-                    $history->lab_days -= (float)$cancel->days; // ลาคลอด
+                    $history->hel_days -= (float)$leave->leave_days; // ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
                 } else if ($leave->leave_type == '6') {
-                    $history->ord_days -= (float)$cancel->days; // ลาอุปสมบท
+                    $history->ord_days -= (float)$cancel->days;     // ลาอุปสมบท
                 }
 
                 $history->save();
