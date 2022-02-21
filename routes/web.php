@@ -66,6 +66,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('approvals/receive', 'ApprovalController@doReceive');
     Route::get('approvals/approve', 'ApprovalController@getApprove');
     Route::post('approvals/approve', 'ApprovalController@doApprove');
+    Route::post('approvals/status', 'ApprovalController@setStatus');
 
     /** ยกเลิกการลา */
     Route::get('cancellations/cancel', 'CancellationController@getCancel');

@@ -21,7 +21,7 @@ class ApprovalController extends Controller
     public function doApprove(Request $req)
     {
         $leave = Leave::find($req['leave_id']);
-        $leave->approved_comment    = $req['comment'];
+        $leave->approved_text       = $req['comment'];
         $leave->approved_date       = date('Y-m-d');
         $leave->approved_by         = Auth::user()->person_id;
         $leave->status              = $req['approved'];
@@ -101,6 +101,38 @@ class ApprovalController extends Controller
 
         if ($leave->save()) {
             return redirect('/approvals/comment');
+        }
+    }
+
+    public function setStatus(Request $req)
+    {
+        $redirectPath = '';
+        $leave = Leave::find($req['leave_id']);
+
+        if($req['status'] == '0') {             // ยกเลิกการลงความเห็นของหัวหน้ากลุ่มงาน
+            $leave->commented_text  = null;
+            $leave->commented_date  = null;
+            $leave->commented_by    = null;
+            $leave->status          = $req['status'];
+
+            $redirectPath           = '/approvals/comment';
+        } else if($req['status'] == '1') {      // ยกเลิกการลงรับเอกสาร
+            $leave->received_date   = null;
+            $leave->received_by     = null;
+            $leave->status          = $req['status'];
+
+            $redirectPath           = '/approvals/receive';
+        } else if($req['status'] == '2') {      // ยกเลิกการลงนามอนุมัติ
+            $leave->approved_text   = null;
+            $leave->approved_date   = null;
+            $leave->approved_by     = null;
+            $leave->status          = $req['status'];
+
+            $redirectPath           = '/approvals/approve';
+        }
+
+        if($leave->save()) {
+            return redirect($redirectPath);
         }
     }
 }
