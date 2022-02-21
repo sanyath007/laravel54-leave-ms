@@ -438,11 +438,7 @@
                                 </div>
                             </div>
                         </div><!-- /.row -->
-
-                        @include('leaves._person-list')
-
                     </div><!-- /.box-body -->
-
                     <div class="box-footer clearfix" style="text-align: center;">
                         <a
                             href="{{ url('/leaves/print') }}/{{ $leave->id }}"
@@ -477,7 +473,6 @@
                             <i class="fa fa-trash"></i> ลบ
                         </a>
                     </div><!-- /.box-footer -->
-
                 </div><!-- /.box -->
 
             </div><!-- /.col -->
