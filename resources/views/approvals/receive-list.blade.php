@@ -75,7 +75,7 @@
                                 <div class="alert alert-warning alert-dismissible" style="margin: 10px 10px;">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                     <i class="icon fa fa-warning"></i>
-                                    การแสดงรายการที่ลงความเห็นแล้ว จะแสดงเฉพาะรายที่รอการอนุมัติเท่านั้น !!
+                                    การแสดงรายการที่ลงรับเอกสารแล้ว จะแสดงเฉพาะรายที่รอการอนุมัติเท่านั้น !!
                                 </div>
 
                                 <div class="card">
@@ -87,7 +87,7 @@
                                             ng-model="showAllApproves"
                                             ng-change="onReceiveLoad()"
                                         />
-                                        <span>แสดงรายการที่ลงความเห็นแล้ว</span>
+                                        <span>แสดงรายการที่ลงรับเอกสารแล้ว</span>
                                     </div>
                                 </div>
 
@@ -233,7 +233,7 @@
                                             id="showAllCancels"
                                             ng-model="showAllCancels"
                                         />
-                                        <span>แสดงรายการที่ลงความเห็นแล้ว</span>
+                                        <span>แสดงรายการที่ลงรับเอกสารแล้ว</span>
                                     </div>
                                 </div>
 
@@ -271,7 +271,8 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <span style="font-weight: bold;">วันที่</span> @{{ cancel.cancellation[0].cancel_date | thdate }}
+                                                <span style="font-weight: bold;">วันที่</span>
+                                                @{{ cancel.cancellation[0].start_date | thdate }} - @{{ cancel.cancellation[0].end_date | thdate }}
                                                 <span style="font-weight: bold;">จำนวน</span> @{{ cancel.cancellation[0].days }} วัน
                                                 <p style="color: grey; margin: 0px auto;">
                                                     <span style="font-weight: bold;">เนื่องจาก</span> @{{ cancel.cancellation[0].reason }}
@@ -279,7 +280,7 @@
                                             </td>
                                             <td style="text-align: center;">@{{ cancel.year }}</td>
                                             <td style="text-align: center;">
-                                                <p style="margin: 0px auto;">@{{ cancel.leave_date | thdate }}</p>
+                                                <p style="margin: 0px auto;">@{{ cancel.cancellation[0].cancel_date | thdate }}</p>
                                                 <p style="margin: 0px auto;">
                                                     <span class="label label-warning" ng-show="cancel.status == 5">
                                                         อยู่ระหว่างการยกเลิก
@@ -287,11 +288,19 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center;">
-                                                <form action="{{ url('/cancellations/receive') }}" method="POST">
+                                                <span ng-show="cancel.cancellation[0].commented_date == null" style="color: red; font-size: 12px;">
+                                                    <i class="fa fa-window-close" aria-hidden="true"></i>
+                                                    ยังไม่ผ่านหัวหน้ากลุ่มงาน
+                                                </span>
+                                                <form
+                                                    ng-show="(cancel.status!==4 || cancel.status!==3) && cancel.cancellation[0].commented_date != null"
+                                                    action="{{ url('/cancellations/receive') }}"
+                                                    method="POST"
+                                                >
                                                     <input type="hidden" id="_id" name="_id" value="@{{ cancel.cancellation[0].id }}" />
                                                     <input type="hidden" id="leave_id" name="leave_id" value="@{{ cancel.id }}" />
                                                     {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                    <button type="submit" class="btn btn-danger btn-sm">
                                                         <i class="fa fa-check" aria-hidden="true"></i>
                                                         รับเอกสาร
                                                     </button>

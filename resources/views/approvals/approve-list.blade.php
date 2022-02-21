@@ -75,7 +75,7 @@
                                 <div class="alert alert-warning alert-dismissible" style="margin: 10px 10px;">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                     <i class="icon fa fa-warning"></i>
-                                    การแสดงรายการที่ลงความเห็นแล้ว จะแสดงเฉพาะรายที่รอการอนุมัติเท่านั้น !!
+                                    การแสดงรายการที่ลงนามแล้ว จะแสดงเฉพาะรายที่รอการอนุมัติเท่านั้น !!
                                 </div>
 
                                 <div class="card">
@@ -87,7 +87,7 @@
                                             ng-model="showAllApproves"
                                             ng-change="onApproveLoad()"
                                         />
-                                        <span>แสดงรายการที่ลงความเห็นแล้ว</span>
+                                        <span>แสดงรายการที่ลงนามแล้ว</span>
                                     </div>
                                 </div>
 
@@ -156,7 +156,7 @@
                                             <td style="text-align: center;">
                                                 <a  ng-click="showApproveForm(leave, 1)" 
                                                     ng-show="(leave.status!==4 || leave.status!==3)" 
-                                                    class="btn btn-warning btn-sm"
+                                                    class="btn btn-success btn-sm"
                                                     title="ลงนามอนุมัติการลา">
                                                     <i class="fa fa-check" aria-hidden="true"></i>
                                                     ลงนาม
@@ -214,7 +214,7 @@
                                             id="showAllCancels"
                                             ng-model="showAllCancels"
                                         />
-                                        <span>แสดงรายการที่ลงความเห็นแล้ว</span>
+                                        <span>แสดงรายการที่ลงนามแล้ว</span>
                                     </div>
                                 </div>
 
@@ -269,7 +269,7 @@
                                             </td>
                                             <td style="text-align: center;">
                                                 <span ng-show="cancel.cancellation[0].received_date == null" style="color: red; font-size: 12px;">
-                                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                                    <i class="fa fa-window-close" aria-hidden="true"></i>
                                                     ยังไม่ได้ลงรับ
                                                 </span>
                                                 <a  ng-click="showApproveForm(cancel, 2)" 
