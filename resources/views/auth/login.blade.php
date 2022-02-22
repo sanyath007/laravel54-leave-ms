@@ -90,7 +90,16 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+
+                            <div class="row">
+                                <div class="col-md-12 col-md-offset-4">
+                                    <a href="{{ asset('/uploads/manuals/v1.pdf') }}">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                        คู่มือการใช้งาน
+                                    </a>
+                                </div>
+                            </div>
+                        </div><!--- /.panel-body -->
                     </div><!--- /.panel -->
 
                 </div><!-- /.col -->
