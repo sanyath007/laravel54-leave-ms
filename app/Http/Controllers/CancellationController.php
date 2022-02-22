@@ -33,7 +33,7 @@ class CancellationController extends Controller
         $cancel->cancel_date    = date('Y-m-d');
         $cancel->reason         = $req['reason'];
         $cancel->start_date     = convThDateToDbDate($req['from_date']);
-        $cancel->start_period   = $req['start_period'];
+        $cancel->start_period   = '1';
         $cancel->end_date       = convThDateToDbDate($req['to_date']);
         $cancel->end_period     = $req['end_period'];
         $cancel->days           = $req['leave_days'];
@@ -56,7 +56,7 @@ class CancellationController extends Controller
         $cancel->cancel_date    = date('Y-m-d');
         $cancel->reason         = $req['reason'];
         $cancel->start_date     = convThDateToDbDate($req['from_date']);
-        $cancel->start_period   = $req['start_period'];
+        $cancel->start_period   = '1';
         $cancel->end_date       = convThDateToDbDate($req['to_date']);
         $cancel->end_period     = $req['end_period'];
         $cancel->days           = $req['leave_days'];
