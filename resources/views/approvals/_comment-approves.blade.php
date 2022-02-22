@@ -131,7 +131,7 @@
     </li>
 
     <li ng-if="pager.current_page !== pager.last_page">
-        <a href="#" ng-click="getDataWithURL(.path+ '?page=1' +pager.last_page, setLeaves)" aria-label="Previous">
+        <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1' +pager.last_page, setLeaves)" aria-label="Previous">
             <span aria-hidden="true">Last</span>
         </a>
     </li>

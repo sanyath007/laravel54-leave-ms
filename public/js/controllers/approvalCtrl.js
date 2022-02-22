@@ -67,9 +67,10 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
         let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
         let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
         let status  = $scope.showAllCancels ? '5&8&9' : '5';
+        let query   = $scope.cboQuery !== '' ? `?${$scope.cboQuery}` : '';
         let menu    = "1";
 
-        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}`)
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}${query}`)
         .then(function(res) {
             const { data, ...pager } = res.data.leaves;
 
