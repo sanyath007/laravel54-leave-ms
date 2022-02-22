@@ -60,8 +60,8 @@
                             <label for="">จำนวน (วัน)</label>
                             <input
                                 type="text"
-                                id="leave_days"
-                                name="leave_days"
+                                id="_days"
+                                name="_days"
                                 class="form-control"
                                 value="@{{ leave.leave_days }}"
                                 readonly="readonly"
@@ -69,12 +69,12 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">ตั้งแต่วันที่</label>
-                            <input type="text" id="from_date" name="from_date" class="form-control" />
+                            <input type="text" id="s_date" name="s_date" class="form-control" />
                         </div>
                         <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
                             <label>ช่วงเวลา :</label>
-                            <select id="start_period"
-                                    name="start_period"
+                            <select id="s_period"
+                                    name="s_period"
                                     ng-model="cboStartPeriod"
                                     class="form-control">
                                 <option value="">-- เลือกช่วงเวลา --</option>
@@ -90,14 +90,14 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">ถึงวันที่</label>
-                            <input type="text" id="to_date" name="to_date" class="form-control" />
+                            <input type="text" id="e_date" name="e_date" class="form-control" />
                         </div>
                         <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
                             <label>ช่วงเวลา :</label>
-                            <select id="end_period"
-                                    name="end_period"
+                            <select id="e_period"
+                                    name="e_period"
                                     ng-model="cboEndPeriod"
-                                    ng-change="calculateLeaveDays('from_date', 'to_date', cboEndPeriod)"
+                                    ng-change="calculateLeaveDays('from', 'to', cboEndPeriod)"
                                     class="form-control">
                                 <option value="">-- เลือกช่วงเวลา --</option>
                                 @foreach($periods as $key => $period)

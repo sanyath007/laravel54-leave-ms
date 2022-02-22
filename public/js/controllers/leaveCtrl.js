@@ -72,6 +72,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     /** ============================== Init Form elements ============================== */
     /** ให้เลือกช่วงได้เฉพาะวันสุดท้าย */
     $('#start_period').prop("disabled", true);
+    $('#s_period').prop("disabled", true);
     $('#cbo_start_period').prop("disabled", true);
     $('#cbo_end_period').prop("disabled", true);
 
@@ -376,14 +377,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         $scope.cboStartPeriod = leave.cancellation[0].start_period.toString();
         $scope.cboEndPeriod = leave.cancellation[0].end_period.toString();
 
-        $('#from_date').datepicker({
+        $('#s_date').datepicker({
             autoclose: true,
             language: 'th',
             format: 'dd/mm/yyyy',
             thaiyear: true
         }).datepicker('update', moment(leave.cancellation[0].start_date).toDate());
 
-        $('#to_date').datepicker({
+        $('#e_date').datepicker({
             autoclose: true,
             language: 'th',
             format: 'dd/mm/yyyy',
