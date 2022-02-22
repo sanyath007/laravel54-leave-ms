@@ -136,7 +136,7 @@
                 <div class="box">
 
                     <div class="box-header with-border">
-                        <h3 class="box-title">รายงานสรุปวันลาคงเหลือ</h3>
+                        <h3 class="box-title">รายงานสรุปวันลาคงเหลือ ปีงบประมาณ @{{ dtpYear }}</h3>
                     </div><!-- /.box-header -->
 
                     <div class="box-body">
