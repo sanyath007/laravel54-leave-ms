@@ -350,6 +350,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
+    $scope.isUnCancel = function(endDate) {
+        return moment(endDate).isBefore(moment());
+    };
+
     $scope.onCancelLoad = function(personId) {
         $scope.cboLeaveStatus = '3';
         $scope.cboMenu = "";
@@ -368,6 +372,31 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             console.log(err);
             $scope.loading = false;
         });
+    };
+
+    
+    $scope.showCancelForm = function(leave) {
+        $scope.leave = leave;
+
+        $scope.cancelReason = '';
+        $scope.cboStartPeriod = leave.start_period.toString();
+        $scope.cboEndPeriod = leave.end_period.toString();
+
+        $('#from_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(leave.start_date).toDate());
+
+        $('#to_date').datepicker({
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true
+        }).datepicker('update', moment(leave.end_date).toDate());
+
+        $('#add-form').modal('show');
     };
 
     $scope.onEditCancel = function(leave) {
@@ -392,30 +421,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         }).datepicker('update', moment(leave.cancellation[0].end_date).toDate());
 
         $('#edit-form').modal('show');
-    };
-
-    $scope.showCancelForm = function(leave) {
-        $scope.leave = leave;
-
-        $scope.cancelReason = '';
-        $scope.cboStartPeriod = leave.start_period.toString();
-        $scope.cboEndPeriod = leave.end_period.toString();
-
-        $('#from_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.start_date).toDate());
-
-        $('#to_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.end_date).toDate());
-
-        $('#add-form').modal('show');
     };
 
     // TODO: Duplicated method

@@ -55,6 +55,7 @@
             <td style="text-align: center;">
                 <a  ng-click="showCancelForm(leave)"
                     class="btn btn-danger btn-sm"
+                    ng-class="{'disabled': isUnCancel(leave.end_date)}"
                     title="ยกเลิกวันลา">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                     ยกเลิกวันลา
