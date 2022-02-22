@@ -134,7 +134,7 @@ class LeaveController extends Controller
                             $sdate = $qsMonth. '-01';
                             $edate = date('Y-m-t', strtotime($sdate));
 
-                            $q->whereBetween('start_date', [$sdate, $edate]);
+                            $q->whereBetween('leave_date', [$sdate, $edate]);
                         })
                         ->orderBy('leave_date', 'desc')
                         ->orderBy('start_date', 'desc')
@@ -157,7 +157,7 @@ class LeaveController extends Controller
                             $sdate = $qsMonth. '-01';
                             $edate = date('Y-m-t', strtotime($sdate));
 
-                            $q->whereBetween('start_date', [$sdate, $edate]);
+                            $q->whereBetween('leave_date', [$sdate, $edate]);
                         })
                         ->orderBy('leave_date', 'desc')
                         ->orderBy('start_date', 'desc')
