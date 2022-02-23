@@ -36,6 +36,10 @@
                         </div>
                     @endif
 
+                    <div style="text-align: center;">
+                        <h1>Leave <b>MS<b></h1>
+                    </div>
+
                     <div class="panel panel-default">
                         <div class="panel-heading">ลงชื่อเข้าใช้งานระบบ</div>
                         <div class="panel-body">
