@@ -98,11 +98,12 @@
                                     <a href="{{ url('/auth/checking') }}" style="margin-right: 10px;">
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                         ตรวจสอบชื่อผู้ใช้และรหัสผ่าน
-                                    </a> | 
-                                    <a href="{{ url('/password/reset') }}" style="margin-left: 10px;">
+                                    </a>
+                                    <!-- |  -->
+                                    <!-- <a href="{{ url('/password/reset') }}" style="margin-left: 10px;">
                                         <i class="fa fa-unlock-alt" aria-hidden="true"></i>
                                         Forgot Your Password?
-                                    </a>
+                                    </a> -->
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 20px;">
