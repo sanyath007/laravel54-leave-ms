@@ -454,7 +454,7 @@
                             target="_blank"
                             ng-show="leave.status == 5"
                         >
-                            <i class="fa fa-print"></i> พิมพ์ยกเลิกใบลา
+                            <i class="fa fa-print"></i> พิมพ์แบบขอยกเลิกวันลา
                         </a>
                         <a
                             href="#"

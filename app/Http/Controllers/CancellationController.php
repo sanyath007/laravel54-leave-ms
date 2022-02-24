@@ -37,7 +37,6 @@ class CancellationController extends Controller
         $cancel->end_date       = convThDateToDbDate($req['to_date']);
         $cancel->end_period     = $req['end_period'];
         $cancel->days           = $req['leave_days'];
-        dd($cancel);
 
         if ($cancel->save()) {
             /** Update status of leave data */
@@ -123,6 +122,7 @@ class CancellationController extends Controller
                                 ->with('person.memberOf', 'person.memberOf.depart')
                                 ->with('delegate','delegate.prefix','delegate.position','delegate.academic')
                                 ->with('type','cancellation')
+                                ->orderBy('leave_date', 'DESC')
                                 ->paginate(10),
         ];
     }

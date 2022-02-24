@@ -5,13 +5,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            ยกเลิกใบลา
+            ยกเลิกวันลา
             <!-- <small>preview of simple tables</small> -->
         </h1>
 
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">ยกเลิกใบลา</li>
+            <li class="breadcrumb-item active">ยกเลิกวันลา</li>
         </ol>
     </section>
 

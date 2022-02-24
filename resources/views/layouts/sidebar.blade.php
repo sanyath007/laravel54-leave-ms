@@ -64,7 +64,7 @@
 							</li>
 						</ul>
 					</li>
-					<li class="treeview" ng-class="{ 'menu-open active': menu == 'leaves' }">
+					<li class="treeview" ng-class="{ 'menu-open active': menu == 'leaves' || menu == 'cancellations' }">
 						<a href="#">
 							<i class="fa fa-calendar"></i>
 							<span>การลา</span>
@@ -72,23 +72,23 @@
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
-						<ul class="treeview-menu" ng-style="{ 'display': (menu == 'leaves') ? 'block' : 'none' }">
+						<ul class="treeview-menu" ng-style="{ 'display': (menu == 'leaves' || menu == 'cancellations') ? 'block' : 'none' }">
 							<li ng-class="{ 'active': ['list','add','edit','detail'].includes(submenu)}">
 								<a href="{{ url('/leaves/list') }}">
-									<i class="fa fa-circle-o"></i> รายการลา
+									<i class="fa fa-circle-o"></i> รายการใบลา
 								</a>
 							</li>
 							<li ng-class="{ 'active': submenu == 'cancel' }">
 								<a href="{{ url('/cancellations/cancel') }}">
-									<i class="fa fa-circle-o"></i> ยกเลิกใบลา
+									<i class="fa fa-circle-o"></i> ยกเลิกวันลา
 								</a>
 							</li>
 						</ul>
 					</li>
 
 					<!-- // Authorize เฉพาะหัวหน้ากลุ่มภารกิจ/ธุรการหรือเลขาฯกลุ่มภารกิจ/หัวหน้ากลุ่มงาน -->
+					<!-- Auth::user()->person_id == '1300200009261' || -->
 					@if (
-						Auth::user()->person_id == '1300200009261' ||
 						Auth::user()->person_id == '1309900322504' ||
 						Auth::user()->memberOf->duty_id == 1 ||
 						Auth::user()->memberOf->duty_id == 2
@@ -145,7 +145,7 @@
 					
 					<!-- // Authorize เฉพาะกลุ่มงาน HR -->
 					@if (Auth::user()->person_id == '1300200009261')
-						<li class="treeview" ng-class="{ 'menu-open active': menu == 'vacations' }">
+						<!-- <li class="treeview" ng-class="{ 'menu-open active': menu == 'vacations' }">
 							<a href="#">
 								<i class="fa fa-bar-chart"></i>
 								<span>วันสะสม</span>
@@ -160,12 +160,12 @@
 									</a>
 								</li>
 							</ul>
-						</li>
+						</li> -->
 					@endif
 
 					<!-- // Authorize เฉพาะหัวหน้ากลุ่มภารกิจ/ธุรการหรือเลขาฯกลุ่มภารกิจ/หัวหน้ากลุ่มงาน -->
+					<!-- Auth::user()->person_id == '1300200009261' || -->
 					@if (
-						Auth::user()->person_id == '1300200009261' ||
 						Auth::user()->person_id == '1309900322504' ||
 						Auth::user()->memberOf->duty_id == 1 ||
 						Auth::user()->memberOf->duty_id == 2
