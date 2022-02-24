@@ -89,18 +89,28 @@
                                         <button type="submit" class="btn btn-primary">
                                             <i class="fa fa-btn fa-sign-in"></i> ลงชื่อเข้า
                                         </button>
-
-                                        <!-- <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a> -->
                                     </div>
                                 </div>
                             </form>
 
                             <div class="row">
                                 <div class="col-md-12 col-md-offset-4">
-                                    <a href="{{ asset('/uploads/manuals/v1.pdf') }}">
+                                    <a href="{{ url('/auth/checking') }}" style="margin-right: 10px;">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        ตรวจสอบชื่อผู้ใช้และรหัสผ่าน
+                                    </a> | 
+                                    <a href="{{ url('/password/reset') }}" style="margin-left: 10px;">
+                                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                        Forgot Your Password?
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-md-12 col-md-offset-4">
+                                    [ <a href="{{ asset('/uploads/manuals/v1.pdf') }}">
                                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         คู่มือการใช้งาน
-                                    </a>
+                                    </a> ]
                                 </div>
                             </div>
                         </div><!--- /.panel-body -->

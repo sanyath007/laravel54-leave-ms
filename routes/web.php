@@ -20,14 +20,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'web'], function() {
     /** ============= Authentication ============= */
     Route::get('/auth/login', 'Auth\LoginController@showLogin');
-
     Route::post('/auth/signin', 'Auth\LoginController@doLogin');
-
     Route::get('/auth/logout', 'Auth\LoginController@doLogout');
-
     Route::get('/auth/register', 'Auth\RegisterController@register');
-
     Route::post('/auth/signup', 'Auth\RegisterController@create');
+    Route::get('/auth/checking', 'Auth\LoginController@getChecking');
+    Route::post('/auth/checking', 'Auth\LoginController@checking');
 });
 
 Route::group(['middleware' => ['web','auth']], function () {

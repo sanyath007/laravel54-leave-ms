@@ -68,4 +68,18 @@ class LoginController extends Controller
         Auth::logout(); // logging out user
         return redirect('auth/login'); // redirection to login screen
     }
+
+    public function getChecking()
+    {
+        return view('auth.checking-user');
+    }
+
+    public function checking(Request $req)
+    {
+        $birthdate = ((int)substr($req['birthdate'], 4, 4) - 543). '-' .substr($req['birthdate'], 2, 2). '-' .substr($req['birthdate'], 0, 2);
+
+        $existed_user = User::where('person_id', $req['cid'])->where('person_birth', $birthdate)->first();
+
+        return redirect('/auth/checking')->with(['existed_user' => $existed_user ? $existed_user : '']);
+    }
 }

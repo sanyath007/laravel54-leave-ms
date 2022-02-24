@@ -48,7 +48,7 @@ app.controller('mainCtrl', function($scope, $http, $location, $routeParams, CONF
     $scope.ldMonth = moment().format('YYYY-12-31');
     // $scope.ldMonth = moment($scope.fdMonth).endOf('month').format('YYYY-MM-DD');
     $scope.events = [];
-    
+
     $scope.initCalendar = function ($scope) {
         console.log(this.today);
         var callback = this.showEvent;
@@ -220,5 +220,4 @@ app.controller('mainCtrl', function($scope, $http, $location, $routeParams, CONF
         window.location.href = `${CONFIG.baseUrl}/${path}`;
     };
 /** ################################################################################## */
-
 });
