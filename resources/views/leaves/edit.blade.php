@@ -30,6 +30,7 @@
                         <input type="hidden" id="user" name="user" value="{{ Auth::user()->person_id }}">
                         <input type="hidden" id="leave_id" name="leave_id" value="{{ $leave->id }}" ng-model="leave.leave_id">
                         <input type="hidden" id="leave_topic" name="leave_topic" value="{{ $leave->leave_topic }}" ng-model="leave.leave_topic">
+                        <input type="hidden" id="leave_delegate" name="leave_delegate" value="{{ $leave->leave_delegate }}" ng-model="leave.leave_delegate" />
                         {{ csrf_field() }}
 
                         @if ($leave->helpedWife)
@@ -537,15 +538,9 @@
                                                 class="form-control"
                                                 readonly="readonly" />
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary" ng-click="onShowPersonLists($event)">...</button>
+                                            <button type="button" class="btn btn-primary" ng-click="onShowDelegatorLists($event)">...</button>
                                         </span>
                                     </div>
-                                    <input type="hidden"
-                                                id="leave_delegate" 
-                                                name="leave_delegate"
-                                                ng-model="leave.leave_delegate" 
-                                                class="form-control"
-                                                tabindex="2" />
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาเลือกผู้รับมอบหมายแทน</span>
                                 </div>
                             </div><!-- /.row -->

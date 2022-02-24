@@ -319,6 +319,7 @@ class LeaveController extends Controller
             "leave"         => Leave::find($id),
             "leave_types"   => LeaveType::all(),
             "positions"     => Position::all(),
+            "departs"       => Depart::where('faction_id', '5')->get(),
             "periods"       => $this->periods,
         ]);
     }
