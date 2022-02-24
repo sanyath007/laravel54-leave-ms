@@ -181,17 +181,17 @@
                                         <td>ป่วย</td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ $histories->ill_days }}
+                                                <!-- {{ $histories->ill_days }} -->
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ ($leave->leave_type == '1') ? (float)$leave->leave_days : '-' }}
+                                                <!-- {{ ($leave->leave_type == '1') ? (float)$leave->leave_days : '-' }} -->
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ ($leave->leave_type == '1') ? (float)$histories->ill_days + (float)$leave->leave_days : $histories->ill_days }}
+                                                <!-- {{ ($leave->leave_type == '1') ? (float)$histories->ill_days + (float)$leave->leave_days : $histories->ill_days }} -->
                                             @endif
                                         </td>
                                     </tr>
@@ -199,17 +199,17 @@
                                         <td>กิจส่วนตัว</td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ $histories->per_days }}
+                                                <!-- {{ $histories->per_days }} -->
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ ($leave->leave_type == '2') ? (float)$leave->leave_days : '-' }}
+                                                <!-- {{ ($leave->leave_type == '2') ? (float)$leave->leave_days : '-' }} -->
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ ($leave->leave_type == '2') ? (float)$histories->per_days + (float)$leave->leave_days : $histories->per_days }}
+                                                <!-- {{ ($leave->leave_type == '2') ? (float)$histories->per_days + (float)$leave->leave_days : $histories->per_days }} -->
                                             @endif
                                         </td>
                                     </tr>
@@ -217,17 +217,17 @@
                                         <td>คลอดบุตร</td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ $histories->lab_days }}
+                                                <!-- {{ $histories->lab_days }} -->
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ ($leave->leave_type == '3') ? (float)$leave->leave_days : '-' }}
+                                                <!-- {{ ($leave->leave_type == '3') ? (float)$leave->leave_days : '-' }} -->
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ ($leave->leave_type == '3') ? (float)$histories->lab_days + (float)$leave->leave_days : $histories->lab_days }}
+                                                <!-- {{ ($leave->leave_type == '3') ? (float)$histories->lab_days + (float)$leave->leave_days : $histories->lab_days }} -->
                                             @endif
                                         </td>
                                     </tr>

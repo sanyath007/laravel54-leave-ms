@@ -134,17 +134,17 @@
                                     <tr>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ $histories->hel_days }}
+                                                <!-- {{ $histories->hel_days }} -->
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ (float)$leave->leave_days }}
+                                                <!-- {{ (float)$leave->leave_days }} -->
                                             @endif
                                         </td>
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
-                                                {{ (float)$histories->hel_days + (float)$leave->leave_days }}
+                                                <!-- {{ (float)$histories->hel_days + (float)$leave->leave_days }} -->
                                             @endif
                                         </td>
                                     </tr>
