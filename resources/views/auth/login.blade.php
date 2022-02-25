@@ -106,11 +106,18 @@
                                     </a> -->
                                 </div>
                             </div>
+
+                            <hr />
+
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col-md-12 col-md-offset-4">
-                                    [ <a href="{{ asset('/uploads/manuals/v1.pdf') }}">
+                                    [ <a href="{{ asset('/uploads/manuals/user-v1.pdf') }}">
                                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                        คู่มือการใช้งาน
+                                        คู่มือการใช้งาน (สำหรับผู้ใช้ทั่วไป)
+                                    </a> ]
+                                    [ <a href="{{ asset('/uploads/manuals') }}">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                        คู่มือการใช้งาน (สำหรับหัวหน้า)
                                     </a> ]
                                 </div>
                             </div>
