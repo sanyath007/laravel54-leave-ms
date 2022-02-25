@@ -350,79 +350,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         });
     }
 
-    $scope.isUnCancel = function(endDate) {
-        return moment(endDate).isBefore(moment());
-    };
-
-    $scope.onCancelLoad = function(personId) {
-        $scope.cboLeaveStatus = '3';
-        $scope.cboMenu = "";
-
-        $scope.getAll();
-
-        $http.get(`${CONFIG.baseUrl}/cancellations/${personId}/person?year=${$scope.cboYear}&type=${$scope.cboLeaveType}`)
-        .then(function(res) {
-            const { data, ...pager } = res.data.cancellations;
-
-            $scope.cancellations = data;
-            $scope.cancelPager = pager;
-
-            $scope.loading = false;
-        }, function(err) {
-            console.log(err);
-            $scope.loading = false;
-        });
-    };
-
-    
-    $scope.showCancelForm = function(leave) {
-        $scope.leave = leave;
-
-        $scope.cancelReason = '';
-        $scope.cboStartPeriod = leave.start_period.toString();
-        $scope.cboEndPeriod = leave.end_period.toString();
-
-        $('#from_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.start_date).toDate());
-
-        $('#to_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.end_date).toDate());
-
-        $('#add-form').modal('show');
-    };
-
-    $scope.onEditCancel = function(leave) {
-        $scope.leave = leave;
-
-        $scope.cancelReason = leave.cancellation[0].reason;
-        $scope.cboStartPeriod = leave.cancellation[0].start_period.toString();
-        $scope.cboEndPeriod = leave.cancellation[0].end_period.toString();
-
-        $('#s_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.cancellation[0].start_date).toDate());
-
-        $('#e_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.cancellation[0].end_date).toDate());
-
-        $('#edit-form').modal('show');
-    };
-
     // TODO: Duplicated method
     $scope.getAll = function(event) {
         $scope.leaves = [];
@@ -443,7 +370,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             console.log(err);
             $scope.loading = false;
         });
-    }
+    };
 
     // TODO: Duplicated method
     $scope.setLeaves = function(res) {
@@ -471,7 +398,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             console.log(err);
             $scope.loading = false;
         });
-    }
+    };
 
     $scope.getById = function(id, cb) {
         $http.get(`${CONFIG.baseUrl}/leaves/get-ajax-byid/${id}`)

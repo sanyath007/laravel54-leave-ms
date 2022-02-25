@@ -16,7 +16,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="leaveCtrl" ng-init="onCancelLoad({{ Auth::user()->person_id }})">
+    <section class="content" ng-controller="cancelCtrl" ng-init="onLoad({{ Auth::user()->person_id }})">
 
         <div class="row">
             <div class="col-md-12">

@@ -61,18 +61,29 @@
                     title="รายละเอียด">
                     <i class="fa fa-search"></i>
                 </a>
-                <a  ng-click="onEditCancel(cancel)"
+                <a  ng-click="onEdit(cancel)"
                     ng-show="cancel.status == 5"
                     class="btn btn-warning btn-xs"
                     title="แก้ไขรายการ">
                     <i class="fa fa-edit"></i>
                 </a>
-                <a  ng-click="delete(cancel.id)"
+                <form
+                    id="frmDelete"
+                    method="POST"
+                    action="{{ url('/cancellations/delete') }}"
                     ng-show="cancel.status == 5"
-                    class="btn btn-danger btn-xs"
-                    title="ลบรายการ">
-                    <i class="fa fa-trash"></i>
-                </a>
+                >
+                    <input type="hidden" id="id" name="id" value="@{{ cancel.cancellation[0].id }}" />
+                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ cancel.id }}" />
+                    {{ csrf_field() }}
+                    <button
+                        type="submit"
+                        ng-click="onDelete($event, cancel.cancellation[0].id)"
+                        class="btn btn-danger btn-xs"
+                    >
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
             </td>
         </tr>
     </tbody>
