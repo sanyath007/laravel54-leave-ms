@@ -36,6 +36,9 @@ Route::group(['middleware' => ['web','auth']], function () {
     /** บุคลากร */
     Route::get('persons/list', 'PersonController@index');
     Route::get('persons/search/{depart}/{searchKey}', 'PersonController@search');
+    Route::get('persons/departs', 'PersonController@departs');
+    Route::get('persons/departs/head', 'PersonController@getHeadOfDeparts');
+    Route::get('persons/detail/{id}', 'PersonController@detail');
     
     /** ประวัติ */
     Route::get('histories/profile/{id}', 'PersonController@getProfile');

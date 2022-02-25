@@ -87,8 +87,8 @@
 					</li>
 
 					<!-- // Authorize เฉพาะหัวหน้ากลุ่มภารกิจ/ธุรการหรือเลขาฯกลุ่มภารกิจ/หัวหน้ากลุ่มงาน -->
-					<!-- Auth::user()->person_id == '1300200009261' || -->
 					@if (
+						Auth::user()->person_id == '1300200009261' ||
 						Auth::user()->person_id == '1309900322504' ||
 						Auth::user()->memberOf->duty_id == 1 ||
 						Auth::user()->memberOf->duty_id == 2
@@ -145,7 +145,7 @@
 					
 					<!-- // Authorize เฉพาะกลุ่มงาน HR -->
 					@if (Auth::user()->person_id == '1300200009261')
-						<!-- <li class="treeview" ng-class="{ 'menu-open active': menu == 'vacations' }">
+						<li class="treeview" ng-class="{ 'menu-open active': menu == 'vacations' }">
 							<a href="#">
 								<i class="fa fa-bar-chart"></i>
 								<span>วันสะสม</span>
@@ -160,12 +160,12 @@
 									</a>
 								</li>
 							</ul>
-						</li> -->
+						</li>
 					@endif
 
 					<!-- // Authorize เฉพาะหัวหน้ากลุ่มภารกิจ/ธุรการหรือเลขาฯกลุ่มภารกิจ/หัวหน้ากลุ่มงาน -->
-					<!-- Auth::user()->person_id == '1300200009261' || -->
 					@if (
+						Auth::user()->person_id == '1300200009261' ||
 						Auth::user()->person_id == '1309900322504' ||
 						Auth::user()->memberOf->duty_id == 1 ||
 						Auth::user()->memberOf->duty_id == 2
@@ -179,12 +179,12 @@
 								</span>
 							</a>
 							<ul class="treeview-menu">
-								<li>
+								<li ng-class="{ 'active': submenu == 'summary' }">
 									<a href="{{ url('reports/summary') }}">
 										<i class="fa fa-circle-o"></i> สรุปการลา
 									</a>
 								</li>
-								<li>
+								<li ng-class="{ 'active': submenu == 'remain' }">
 									<a href="{{ url('reports/remain') }}">
 										<i class="fa fa-circle-o"></i> สรุปวันลาคงเหลือ
 									</a>
@@ -193,51 +193,34 @@
 						</li>
 					@endif
 
-					<!-- <li class="treeview">
-						<a href="#">
-							<i class="fa fa-gear"></i> <span>ข้อมูลพื้นฐาน</span>
-							<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-							</span>
-						</a>
-						<ul class="treeview-menu">
-							<li>
-								<a href="{{ url('/parcel/list') }}">
-									<i class="fa fa-circle-o"></i> พัสดุหลัก
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('/asset-group/list') }}">
-									<i class="fa fa-circle-o"></i> กลุ่มครุภัณฑ์
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('/asset-cate/list') }}">
-									<i class="fa fa-circle-o"></i> หมวดครุภัณฑ์
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('/asset-type/list') }}">
-									<i class="fa fa-circle-o"></i> ชนิดครุภัณฑ์
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('/asset-unit/list') }}">
-									<i class="fa fa-circle-o"></i> หน่วยครุภัณฑ์
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('/deprec-type/list') }}">
-									<i class="fa fa-circle-o"></i> เกณฑ์การคิดค่าเสื่อม
-								</a>
-							</li>
-							<li>
-								<a href="{{ url('/supplier/list') }}">
-									<i class="fa fa-circle-o"></i> ผู้จัดจำหน่าย
-								</a>
-							</li>
-						</ul>
-					</li> -->
+					@if (Auth::user()->person_id == '1300200009261')
+						<li class="treeview" ng-class="{ 'menu-open active': menu == 'persons' }">
+							<a href="#">
+								<i class="fa fa-gear"></i> <span>ข้อมูลระบบ</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<!-- <li ng-class="{ 'active': submenu == 'factions' }">
+									<a href="{{ url('/persons/factions') }}">
+										<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มภารกิจ
+									</a>
+								</li> -->
+								<li ng-class="{ 'active': submenu == 'departs' }">
+									<a href="{{ url('/persons/departs') }}">
+										<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มงาน
+									</a>
+								</li>
+								<li ng-class="{ 'active': submenu == 'list' }">
+									<a href="{{ url('/persons/list') }}">
+										<i class="fa fa-circle-o"></i> รายการบุคลากร
+									</a>
+								</li>
+							</ul>
+						</li>
+					@endif
+
 				</ul>
 			</section><!-- /.sidebar -->
 
