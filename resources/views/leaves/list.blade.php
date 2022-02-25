@@ -91,14 +91,14 @@
                     </div><!-- /.box-header -->
 
                     <div class="box-body">
-                        <!-- <div class="form-group pull-right">
-                            <input  type="text" 
-                                    id="table_search" 
-                                    name="table_search"
-                                    ng-model="searchKeyword"
-                                    class="form-control pull-right" 
-                                    placeholder="ค้นหาเลขที่ใบส่งของ">                                       
-                        </div> -->
+
+                        @if (session('status'))
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                {{ session('status') }}
+                            </div>
+                        @endif
 
                         <table class="table table-bordered table-striped" style="font-size: 14px; margin-bottom: 10px;">
                             <thead>
@@ -184,12 +184,22 @@
                                             title="แก้ไขรายการ">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a  ng-click="delete(leave.id)"
+                                        <form
+                                            id="frmDelete"
+                                            method="POST"
+                                            action="{{ url('/leaves/delete') }}"
                                             ng-show="leave.status == 0"
-                                            class="btn btn-danger btn-xs"
-                                            title="ลบรายการ">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+                                        >
+                                            <input type="hidden" id="id" name="id" value="@{{ leave.id }}" />
+                                            {{ csrf_field() }}
+                                            <button
+                                                type="submit"
+                                                ng-click="delete($event, leave.id)"
+                                                class="btn btn-danger btn-xs"
+                                            >
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>             
                                 </tr>
                             </tbody>

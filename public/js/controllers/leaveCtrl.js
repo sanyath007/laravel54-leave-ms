@@ -518,16 +518,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         }
     };
 
-    $scope.delete = function(id) {
+    $scope.delete = function(e, id) {
+        e.preventDefault();
+
         if(confirm(`คุณต้องลบใบลาเลขที่ ${id} ใช่หรือไม่?`)) {
-            $http.delete(`${CONFIG.baseUrl}/leaves/delete/${id}`)
-            .then(function(res) {
-                console.log(res);
-                toaster.pop('success', "", 'ลบข้อมูลเรียบร้อยแล้ว !!!');
-            }, function(err) {
-                console.log(err);
-                toaster.pop('error', "", 'พบข้อผิดพลาด !!!');
-            });
+            $('#frmDelete').submit();
         }
     };
 });

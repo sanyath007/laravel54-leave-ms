@@ -440,38 +440,51 @@
                         </div><!-- /.row -->
                     </div><!-- /.box-body -->
                     <div class="box-footer clearfix" style="text-align: center;">
-                        <a
-                            href="{{ url('/leaves/print') }}/{{ $leave->id }}"
-                            class="btn btn-success"
-                            target="_blank"
-                            ng-show="![8, 9].includes(leave.status)"
-                        >
-                            <i class="fa fa-print"></i> พิมพ์ใบลา
-                        </a>
-                        <a
-                            href="{{ url('/cancellations/print') }}/{{ $leave->id }}"
-                            class="btn btn-primary"
-                            target="_blank"
-                            ng-show="leave.status == 5"
-                        >
-                            <i class="fa fa-print"></i> พิมพ์แบบขอยกเลิกวันลา
-                        </a>
-                        <a
-                            href="#"
-                            ng-show="leave.status == 0"
-                            ng-click="edit(leave.id)"
-                            class="btn btn-warning"
-                        >
-                            <i class="fa fa-edit"></i> แก้ไข
-                        </a>
-                        <a
-                            href="#"
-                            ng-show="leave.status == 0"
-                            ng-click="edit(leave.id)"
-                            class="btn btn-danger"
-                        >
-                            <i class="fa fa-trash"></i> ลบ
-                        </a>
+
+                        <div style="display: flex; justify-content: center; gap: 0.5rem;">
+                            <a
+                                href="{{ url('/leaves/print') }}/{{ $leave->id }}"
+                                class="btn btn-success"
+                                target="_blank"
+                                ng-show="![8, 9].includes(leave.status)"
+                            >
+                                <i class="fa fa-print"></i> พิมพ์ใบลา
+                            </a>
+                            <a
+                                href="{{ url('/cancellations/print') }}/{{ $leave->id }}"
+                                class="btn btn-primary"
+                                target="_blank"
+                                ng-show="leave.status == 5"
+                            >
+                                <i class="fa fa-print"></i> พิมพ์แบบขอยกเลิกวันลา
+                            </a>
+                            <a
+                                href="#"
+                                ng-show="leave.status == 0"
+                                ng-click="edit(leave.leave_id)"
+                                class="btn btn-warning"
+                            >
+                                <i class="fa fa-edit"></i> แก้ไข
+                            </a>
+                            <form
+                                id="frmDelete"
+                                method="POST"
+                                action="{{ url('/leaves/delete') }}"
+                                ng-show="leave.status == 0"
+                            >
+                                <input type="hidden" id="id" name="id" value="@{{ leave.leave_id }}" />
+                                {{ csrf_field() }}
+                                <button
+                                    type="submit"
+                                    ng-click="delete($event, leave.leave_id)"
+                                    class="btn btn-danger"
+                                >
+                                    <i class="fa fa-trash"></i> ลบ
+                                </button>
+                            </form>
+                        </div>
+                        <!-- /** Action buttons container */ -->
+
                     </div><!-- /.box-footer -->
                 </div><!-- /.box -->
 

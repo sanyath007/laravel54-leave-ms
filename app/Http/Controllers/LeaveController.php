@@ -388,14 +388,12 @@ class LeaveController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete(Request $req)
     {
-        $leave = Leave::find($id);
+        $leave = Leave::find($req['id']);
 
         if($leave->delete()) {
-            // TODO: Should decrease days amount in histories data according to leave_type
-
-            return redirect('/leaves/list');
+            return redirect('/leaves/list')->with('status', 'ลบข้อมูลเรียบร้อยแล้ว !!');
         }
     }
 
