@@ -73,7 +73,7 @@
         จำนวน @{{ pager.total }} รายการ
     </div>
     <div class="col-md-4">
-        <ul class="pagination pagination-sm no-margin pull-right">
+        <ul class="pagination pagination-sm no-margin pull-right" ng-show="pager.last_page > 1">
             <li ng-if="pager.current_page !== 1">
                 <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1', setLeaves)" aria-label="Previous">
                     <span aria-hidden="true">First</span>

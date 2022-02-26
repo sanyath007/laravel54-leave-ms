@@ -97,7 +97,7 @@
         จำนวน @{{ cancelPager.total }} รายการ
     </div>
     <div class="col-md-4">
-        <ul class="pagination pagination-sm no-margin pull-right">
+        <ul class="pagination pagination-sm no-margin pull-right" ng-show="pager.last_page > 1">
             <li ng-if="cancelPager.current_page !== 1">
                 <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=1', setCancellations)" aria-label="Previous">
                     <span aria-hidden="true">First</span>
