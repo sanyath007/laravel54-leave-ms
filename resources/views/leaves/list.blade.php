@@ -173,33 +173,35 @@
                                         </a>
                                     </td>
                                     <td style="text-align: center;">
-                                        <a  href="{{ url('/leaves/detail') }}/@{{ leave.id }}"
-                                            class="btn btn-primary btn-xs" 
-                                            title="รายละเอียด">
-                                            <i class="fa fa-search"></i>
-                                        </a>
-                                        <a  ng-click="edit(leave.id)"
-                                            ng-show="leave.status == 0"
-                                            class="btn btn-warning btn-xs"
-                                            title="แก้ไขรายการ">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <form
-                                            id="frmDelete"
-                                            method="POST"
-                                            action="{{ url('/leaves/delete') }}"
-                                            ng-show="leave.status == 0"
-                                        >
-                                            <input type="hidden" id="id" name="id" value="@{{ leave.id }}" />
-                                            {{ csrf_field() }}
-                                            <button
-                                                type="submit"
-                                                ng-click="delete($event, leave.id)"
-                                                class="btn btn-danger btn-xs"
+                                        <div style="display: flex; justify-content: center; gap: 2px;">
+                                            <a  href="{{ url('/leaves/detail') }}/@{{ leave.id }}"
+                                                class="btn btn-primary btn-xs" 
+                                                title="รายละเอียด">
+                                                <i class="fa fa-search"></i>
+                                            </a>
+                                            <a  ng-click="edit(leave.id)"
+                                                ng-show="leave.status == 0"
+                                                class="btn btn-warning btn-xs"
+                                                title="แก้ไขรายการ">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <form
+                                                id="frmDelete"
+                                                method="POST"
+                                                action="{{ url('/leaves/delete') }}"
+                                                ng-show="leave.status == 0"
                                             >
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
+                                                <input type="hidden" id="id" name="id" value="@{{ leave.id }}" />
+                                                {{ csrf_field() }}
+                                                <button
+                                                    type="submit"
+                                                    ng-click="delete($event, leave.id)"
+                                                    class="btn btn-danger btn-xs"
+                                                >
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>             
                                 </tr>
                             </tbody>

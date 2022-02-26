@@ -26,26 +26,50 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
     $scope.getLeaves = function() {
         $scope.leaves = [];
         $scope.pager = null;
-
+        
         $scope.loading = true;
-
+        
         let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
         let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
         let status  = $scope.cboLeaveStatus === '' ? '-' : $scope.cboLeaveStatus;
         let menu    = $scope.cboMenu === '' ? 0 : $scope.cboMenu;
         let query   = $scope.cboQuery === '' ? '' : `?${$scope.cboQuery}`;
-
+        
         $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}${query}`)
         .then(function(res) {
-            const { data, ...pager } = res.data.leaves;
-            $scope.leaves = data;
-            $scope.pager = pager;
+            $scope.setLeaves(res);
 
             $scope.loading = false;
         }, function(err) {
             console.log(err);
             $scope.loading = false;
         });
+    };
+
+    $scope.getCancellations = function(personId) {
+        $http.get(`${CONFIG.baseUrl}/cancellations/${personId}/person?year=${$scope.cboYear}&type=${$scope.cboLeaveType}`)
+        .then(function(res) {
+            $scope.setCancellations(res);
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
+
+    $scope.setLeaves = function (res) {
+        console.log(res);
+        const { data, ...pager } = res.data.leaves;
+        $scope.leaves = data;
+        $scope.pager = pager;
+    };
+
+    $scope.setCancellations = function(res) {
+        console.log(res);
+        const { data, ...pager } = res.data.cancellations;
+        $scope.cancellations = data;
+        $scope.cancelPager = pager;
     };
 
     // TODO: Duplicated method
@@ -72,19 +96,7 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
         $scope.cboMenu = "";
 
         $scope.getLeaves();
-
-        $http.get(`${CONFIG.baseUrl}/cancellations/${personId}/person?year=${$scope.cboYear}&type=${$scope.cboLeaveType}`)
-        .then(function(res) {
-            const { data, ...pager } = res.data.cancellations;
-
-            $scope.cancellations = data;
-            $scope.cancelPager = pager;
-
-            $scope.loading = false;
-        }, function(err) {
-            console.log(err);
-            $scope.loading = false;
-        });
+        $scope.getCancellations(personId);
     };
 
     $scope.showCancelForm = function(leave) {

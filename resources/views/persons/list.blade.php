@@ -149,7 +149,7 @@
                                         <span ng-show="(row.person_state === '99')">ไม่ทราบสถานะ</span>
                                     </td>
                                     <td style="text-align: center;">
-                                    <div style="display: flex; justify-content: center; gap: 2px;">
+                                        <div style="display: flex; justify-content: center; gap: 2px;">
                                             <!-- <div class="btn-group" role="group">
                                                 <button id="btnGroupDrop1" type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-sign-out-alt"></i>
