@@ -115,7 +115,7 @@
                                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         คู่มือการใช้งาน (สำหรับผู้ใช้ทั่วไป)
                                     </a> ]
-                                    [ <a href="{{ asset('/uploads/manuals') }}">
+                                    [ <a href="{{ asset('/uploads/manuals/head-v1.pdf') }}">
                                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         คู่มือการใช้งาน (สำหรับหัวหน้า)
                                     </a> ]
