@@ -101,19 +101,19 @@
 
 <ul class="pagination pagination-sm no-margin pull-right">
     <li ng-if="pager.current_page !== 1">
-        <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1', setLeaves)" aria-label="Previous">
+        <a href="#" ng-click="getDataWithURL($event, pager.path+ '?page=1', setLeaves)" aria-label="Previous">
             <span aria-hidden="true">First</span>
         </a>
     </li>
 
     <li ng-class="{'disabled': (pager.current_page==1)}">
-        <a href="#" ng-click="getDataWithURL(pager.prev_page_url, setLeaves)" aria-label="Prev">
+        <a href="#" ng-click="getDataWithURL($event, pager.prev_page_url, setLeaves)" aria-label="Prev">
             <span aria-hidden="true">Prev</span>
         </a>
     </li>
 
     <!-- <li ng-repeat="i in debtPages" ng-class="{'active': pager.current_page==i}">
-        <a href="#" ng-click="getDebtWithURL(pager.path + '?page=' +i)">
+        <a href="#" ng-click="getDebtWithURL($event, pager.path + '?page=' +i)">
             @{{ i }}
         </a>
     </li> -->
@@ -125,13 +125,13 @@
     </li> -->
 
     <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
-        <a href="#" ng-click="getDataWithURL(pager.next_page_url, setLeaves)" aria-label="Next">
+        <a href="#" ng-click="getDataWithURL($event, pager.next_page_url, setLeaves)" aria-label="Next">
             <span aria-hidden="true">Next</span>
         </a>
     </li>
 
     <li ng-if="pager.current_page !== pager.last_page">
-        <a href="#" ng-click="getDataWithURL(pager.path+ '?page=1' +pager.last_page, setLeaves)" aria-label="Previous">
+        <a href="#" ng-click="getDataWithURL($event, pager.path+ '?page=1' +pager.last_page, setLeaves)" aria-label="Previous">
             <span aria-hidden="true">Last</span>
         </a>
     </li>
