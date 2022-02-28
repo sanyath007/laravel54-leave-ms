@@ -99,19 +99,19 @@
     <div class="col-md-4">
         <ul class="pagination pagination-sm no-margin pull-right" ng-show="pager.last_page > 1">
             <li ng-if="cancelPager.current_page !== 1">
-                <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=1', setCancellations)" aria-label="Previous">
+                <a href="#" ng-click="getDataWithURL($event, cancelPager.path+ '?page=1', setCancellations)" aria-label="Previous">
                     <span aria-hidden="true">First</span>
                 </a>
             </li>
         
             <li ng-class="{'disabled': (cancelPager.current_page==1)}">
-                <a href="#" ng-click="getDataWithURL(cancelPager.prev_page_url, setCancellations)" aria-label="Prev">
+                <a href="#" ng-click="getDataWithURL($event, cancelPager.prev_page_url, setCancellations)" aria-label="Prev">
                     <span aria-hidden="true">Prev</span>
                 </a>
             </li>
 
             <!-- <li ng-repeat="i in debtPages" ng-class="{'active': cancelPager.current_page==i}">
-                <a href="#" ng-click="getDataWithURL(cancelPager.path + '?page=' +i, setCancellations)">
+                <a href="#" ng-click="getDataWithURL($event, cancelPager.path + '?page=' +i, setCancellations)">
                     @{{ i }}
                 </a>
             </li> -->
@@ -123,13 +123,13 @@
             </li> -->
 
             <li ng-class="{'disabled': (cancelPager.current_page==cancelPager.last_page)}">
-                <a href="#" ng-click="getDataWithURL(cancelPager.next_page_url, setCancellations)" aria-label="Next">
+                <a href="#" ng-click="getDataWithURL($event, cancelPager.next_page_url, setCancellations)" aria-label="Next">
                     <span aria-hidden="true">Next</span>
                 </a>
             </li>
 
             <li ng-if="cancelPager.current_page !== cancelPager.last_page">
-                <a href="#" ng-click="getDataWithURL(cancelPager.path+ '?page=' +cancelPager.last_page, setCancellations)" aria-label="Previous">
+                <a href="#" ng-click="getDataWithURL($event, cancelPager.path+ '?page=' +cancelPager.last_page, setCancellations)" aria-label="Previous">
                     <span aria-hidden="true">Last</span>
                 </a>
             </li>

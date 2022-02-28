@@ -73,7 +73,10 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
     };
 
     // TODO: Duplicated method
-    $scope.getDataWithURL = function(URL, cb) {
+    $scope.getDataWithURL = function(e, URL, cb) {
+        /** Check whether parent of clicked a tag is .disabled just do nothing */
+        if ($(e.currentTarget).parent().is('li.disabled')) return;
+
         $scope.loading = true;
 
         $http.get(URL)
