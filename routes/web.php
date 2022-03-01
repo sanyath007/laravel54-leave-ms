@@ -39,6 +39,10 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('persons/departs', 'PersonController@departs');
     Route::get('persons/departs/head', 'PersonController@getHeadOfDeparts');
     Route::get('persons/detail/{id}', 'PersonController@detail');
+
+    /** วันหยุดราชการ */
+    Route::get('holidays', 'HolidayController@getHolidays');
+    Route::get('holidays/list', 'HolidayController@index');
     
     /** ประวัติ */
     Route::get('histories/profile/{id}', 'PersonController@getProfile');
