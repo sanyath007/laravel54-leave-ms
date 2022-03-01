@@ -84,10 +84,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         todayHighlight: true
     };
 
-    $('#leave_date')
-    .datepicker(dtpOptions)
-    .datepicker('update', new Date())
-    .on('show', function(e){
+    $('#leave_date').datepicker(dtpOptions).datepicker('update', new Date()).on('show', function (e) {
         $('.day').click(function(event) {
             event.preventDefault();
             event.stopPropagation();
@@ -95,31 +92,33 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
     });
 
     $('#deliver_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        let selectedDate = moment(event.date).format('YYYY-MM-DD');
-
-        $scope.leave.deliver_date = convertDbDateToThDate(selectedDate);
+        $scope.leave.deliver_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
     });
 
     $('#ordain_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        if (!moment(event.date).isSameOrAfter(moment())) {
+            alert('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
 
-        $scope.leave.ordain_date = convertDbDateToThDate(selectedDate);
+            $('#ordain_date').datepicker('update', moment().toDate());
+
+            $scope.leave.ordain_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
+        } else {
+            $scope.leave.ordain_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
+        }
     });
 
     $('#start_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        // const leaveType = $('#leave_type').val();
-        // console.log('leave type is ', leaveType);
-        // console.log([1,2].includes(leaveType), !moment(event.date).isSameOrAfter(moment()));
+        const leaveType = $('#leave_type').val();
 
-        // if (![1,2].includes(leaveType) && !moment(event.date).isSameOrAfter(moment())) {
-        //     toaster.error('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
+        if (![1,2,5].includes(parseInt(leaveType)) && !moment(event.date).isSameOrAfter(moment())) {
+            alert('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
 
-        //     $('#start_date').datepicker('update', moment().toDate());
-            
-        //     $scope.leave.start_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
-        // } else {
+            $('#start_date').datepicker('update', moment().toDate());
+
+            $scope.leave.start_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
+        } else {
             $scope.leave.start_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
-        // }
+        }
     });
 
     $scope.speriodSelected = '';
@@ -128,7 +127,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
 
         // TODO: should check existance leave at selected data
         if (!moment(event.date).isSameOrAfter(moment(startDate))) {
-            toaster.error('ไม่สามารถระบุช่องถึงวันที่ก่อนช่องจากวันที่ได้!!');
+            alert('ช่องถึงวันที่ต้องมากกว่าหรือเท่ากับช่องจากวันที่!!');
 
             $('#end_date').datepicker('update', moment(startDate).toDate());
             
@@ -186,7 +185,8 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         let sdate = StringFormatService.convToDbDate($(`#${sDateStr}`).val());
         let edate = StringFormatService.convToDbDate($(`#${eDateStr}`).val());
         let days = moment(edate).diff(moment(sdate), 'days');
-        
+
+        // TODO: ตรวจสอบวันทำการ
         if (endPeriod !== '1') {
             days += 0.5;
         } else {
