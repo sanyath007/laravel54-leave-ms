@@ -341,45 +341,6 @@
                                 </div>
                             </div>
 
-                            <?php $contries = [
-                                '1' => 'เกาหลีใต้',
-                                '2' => 'ญี่ปุ่น',
-                                '3' => 'จีน',
-                                '4' => 'ไต้หวัน',
-                                '5' => 'ฮ่องกง',
-                                '6' => 'เวียดนาม',
-                                '7' => 'ลาว',
-                                '8' => 'พม่า',
-                                '9' => 'กัมพูชา',
-                                '10' => 'มาเลเซีย',
-                                '11' => 'สิงคโปร์',
-                            ]; ?>
-                            <div class="row">
-                                <div
-                                    class="form-group col-md-12"
-                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'country')}"
-                                    ng-show="leave.leave_type == '7'"
-                                >
-                                    <label>ณ ประเทศ :</label>
-                                    <select id="country"
-                                            name="country"
-                                            ng-model="leave.country"
-                                            class="form-control" 
-                                            style="width: 100%;"
-                                            tabindex="2">
-                                        <option value="">-- เลือกประเทศ --</option>
-                                        @foreach($contries as $key => $contry)
-
-                                            <option value="{{ $key }}">
-                                                {{ $contry }}
-                                            </option>
-
-                                        @endforeach
-                                    </select>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'country')">กรุณาเลือกประเทศ</span>
-                                </div>
-                            </div>
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group" ng-class="{'has-error has-feedback': checkValidate(leave, 'start_date')}">
