@@ -68,17 +68,19 @@
                                     <h4>ลากิจส่วนตัว (45 วันทำการ)</h4>
                                     <p>จำนวนวันลาสะสม @{{ !histories ? 60 : 45 - histories.per_days }} วัน</p>
                                     <p>จำนวนวันที่ลา @{{ !histories ? 60 : histories.per_days }} วัน</p>
+                                    <p style="color: red;">(รับราชการปีแรก ไม่เกิน 15 วันทำการ)</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
                                     <h4>ลาพักผ่อน (@{{ !vacation ? 10 : vacation.all_days }} วันทำการ)</h4>
                                     <p>จำนวนวันลาสะสม @{{ !vacation ? 10 : vacation.all_days - histories.vac_days }} วัน</p>
                                     <p>จำนวนวันที่ลา @{{ !histories ? 10 : histories.vac_days }} วัน</p>
+                                    <p style="color: red;">(รับราชการปีแรกต้องทำงานครบ 6 เดือน จึงมีสิทธิ์ลาได้)</p>
                                 </div>
                                 <div
                                     style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;"
                                     ng-show="{{ Auth::user()->person_sex }} == 2"
                                 >
-                                    <h4>ลาคลอด (90 วันทำการ)</h4>
+                                    <h4>ลาคลอด (90 วัน)</h4>
                                     <p>จำนวนวันลาสะสม @{{ !histories ? 90 : 90 - histories.lab_days }} วัน</p>
                                     <p>จำนวนวันที่ลา @{{ !histories ? 90 : histories.lab_days }} วัน</p>
                                 </div>
@@ -89,11 +91,13 @@
                                     <h5 style="font-weight: bold;">ลาเพื่อดูแลบุตรและภรรยาหลังคลอด (15 วันทำการ)</h5>
                                     <p>จำนวนวันลาสะสม @{{ !histories ? 15 : 15 - histories.hel_days }} วัน</p>
                                     <p>จำนวนวันที่ลา @{{ !histories ? 15 : histories.hel_days }} วัน</p>
+                                    <p style="color: red;">(ขอลาภายใน 90 วัน นับแต่วันที่ภรรยาคลอดบุตร)</p>
                                 </div>
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
-                                    <h4>ลาอุปสมบท (120 วันทำการ)</h4>
+                                    <h4>ลาอุปสมบท (120 วัน)</h4>
                                     <p>จำนวนวันลาสะสม @{{ !histories ? 120 : 120 - histories.ord_days }} วัน</p>
                                     <p>จำนวนวันที่ลา @{{ !histories ? 120 : histories.ord_days }} วัน</p>
+                                    <p style="color: red;">(ต้องรับราชการมาแล้ว 12 เดือน)</p>
                                 </div>
                                 <!-- TODO: ใช้การลากิจ/พักผ่อน + บันทึกข้อความไปต่างประเทศ -->
                                 <!-- <div style="border: 1px solid grey; padding: 0.5em;">
