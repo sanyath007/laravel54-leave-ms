@@ -22,6 +22,29 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
     $scope.cboEndPeriod = '';
     $scope.cancelReason = '';
 
+    /** ============================== Init Form elements ============================== */
+    let dtpOptions = {
+        autoclose: true,
+        language: 'th',
+        format: 'dd/mm/yyyy',
+        thaiyear: true,
+        todayBtn: true,
+        todayHighlight: true
+    };
+
+    $('#s_period').prop("disabled", true);
+
+    $('#from_date').datepicker(dtpOptions).on('changeDate', function(event) {
+        // let selectedDate = moment(event.date).format('YYYY-MM-DD');
+    });
+
+    $('#to_date').datepicker(dtpOptions).on('changeDate', function(event) {
+        // let selectedDate = moment(event.date).format('YYYY-MM-DD');
+
+        /** Clear value of .select2 */
+        $('#end_period').val(null).trigger('change');
+    });
+
     // TODO: Duplicated method
     $scope.getLeaves = function() {
         $scope.leaves = [];
@@ -109,19 +132,9 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
         $scope.cboStartPeriod = leave.start_period.toString();
         $scope.cboEndPeriod = leave.end_period.toString();
 
-        $('#from_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.start_date).toDate());
+        $('#from_date').datepicker(dtpOptions).datepicker('update', moment(leave.start_date).toDate());
 
-        $('#to_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.end_date).toDate());
+        $('#to_date').datepicker(dtpOptions).datepicker('update', moment(leave.end_date).toDate());
 
         $('#add-form').modal('show');
     };
@@ -133,19 +146,9 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
         $scope.cboStartPeriod = leave.cancellation[0].start_period.toString();
         $scope.cboEndPeriod = leave.cancellation[0].end_period.toString();
 
-        $('#s_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.cancellation[0].start_date).toDate());
+        $('#s_date').datepicker(dtpOptions).datepicker('update', moment(leave.cancellation[0].start_date).toDate());
 
-        $('#e_date').datepicker({
-            autoclose: true,
-            language: 'th',
-            format: 'dd/mm/yyyy',
-            thaiyear: true
-        }).datepicker('update', moment(leave.cancellation[0].end_date).toDate());
+        $('#e_date').datepicker(dtpOptions).datepicker('update', moment(leave.cancellation[0].end_date).toDate());
 
         $('#edit-form').modal('show');
     };

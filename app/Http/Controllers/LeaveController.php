@@ -217,7 +217,7 @@ class LeaveController extends Controller
         $leave->leave_to        = $req['leave_to'];
         $leave->leave_person    = $req['leave_person'];
         $leave->leave_type      = $req['leave_type'];
-        
+
         /** leave_type detail
          *  1 = ลาป่วย
          *  2 = ลากิจ

@@ -72,91 +72,82 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     /** ============================== Init Form elements ============================== */
     /** ให้เลือกช่วงได้เฉพาะวันสุดท้าย */
     $('#start_period').prop("disabled", true);
-    $('#s_period').prop("disabled", true);
     $('#cbo_start_period').prop("disabled", true);
     $('#cbo_end_period').prop("disabled", true);
 
-    $('#leave_date').datepicker({
+    let dtpOptions = {
         autoclose: true,
         language: 'th',
         format: 'dd/mm/yyyy',
-        thaiyear: true
-    }).datepicker('update', new Date());
+        thaiyear: true,
+        todayBtn: true,
+        todayHighlight: true
+    };
 
-    $('#deliver_date').datepicker({
-        autoclose: true,
-        language: 'th',
-        format: 'dd/mm/yyyy',
-        thaiyear: true
-    }).on('changeDate', function(event) {
-        let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        let [ year, month, day ] = selectedDate.split('-');
-
-        $scope.leave.deliver_date = day+ '/' +month+ '/' +(parseInt(year)+543);
+    $('#leave_date').datepicker(dtpOptions)
+    .datepicker('update', new Date())
+    .on('show', function(e){
+        $('.day').click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+        });
     });
 
-    $('#ordain_date').datepicker({
-        autoclose: true,
-        language: 'th',
-        format: 'dd/mm/yyyy',
-        thaiyear: true
-    }).on('changeDate', function(event) {
+    $('#deliver_date').datepicker(dtpOptions).on('changeDate', function(event) {
         let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        let [ year, month, day ] = selectedDate.split('-');
 
-        $scope.leave.ordain_date = day+ '/' +month+ '/' +(parseInt(year)+543);
+        $scope.leave.deliver_date = convertDbDateToThDate(selectedDate);
     });
 
-    $('#start_date').datepicker({
-        autoclose: true,
-        language: 'th',
-        format: 'dd/mm/yyyy',
-        thaiyear: true
-    }).on('changeDate', function(event) {
+    $('#ordain_date').datepicker(dtpOptions).on('changeDate', function(event) {
         let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        let [ year, month, day ] = selectedDate.split('-');
 
-        $scope.leave.start_date = day+ '/' +month+ '/' +(parseInt(year)+543);
+        $scope.leave.ordain_date = convertDbDateToThDate(selectedDate);
+    });
+
+    $('#start_date').datepicker(dtpOptions).on('changeDate', function(event) {
+        // TODO: should also check leave type is 1 or 2 with date
+        if (!moment(event.date).isSameOrAfter(moment())) {
+            toaster.error('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
+
+            $('#start_date').datepicker('update', moment().toDate());
+            
+            $scope.leave.start_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
+        } else {
+            $scope.leave.start_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
+        }
     });
 
     $scope.speriodSelected = '';
-    $('#end_date').datepicker({
-        autoclose: true,
-        language: 'th',
-        format: 'dd/mm/yyyy',
-        thaiyear: true
-    }).on('changeDate', function(event) {
-        let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        let [ year, month, day ] = selectedDate.split('-');
+    $('#end_date').datepicker(dtpOptions).on('changeDate', function(event) {
+        const startDate = convertThDateToDbDate($('#start_date').val());
 
-        $scope.leave.end_date = day+ '/' +month+ '/' +(parseInt(year)+543);
+        // TODO: should check existance leave at selected data
+        if (!moment(event.date).isSameOrAfter(moment(startDate))) {
+            toaster.error('ไม่สามารถระบุช่องถึงวันที่ก่อนช่องจากวันที่ได้!!');
 
-        /** Clear value of .select2 */
-        $('#end_period').val(null).trigger('change');
-    });
-
-    $('#from_date').datepicker({
-        autoclose: true,
-        language: 'th',
-        format: 'dd/mm/yyyy',
-        thaiyear: true
-    }).on('changeDate', function(event) {
-        let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        let [ year, month, day ] = selectedDate.split('-');
-    });
-
-    $('#to_date').datepicker({
-        autoclose: true,
-        language: 'th',
-        format: 'dd/mm/yyyy',
-        thaiyear: true
-    }).on('changeDate', function(event) {
-        let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        let [ year, month, day ] = selectedDate.split('-');
+            $('#end_date').datepicker('update', moment(startDate).toDate());
+            
+            $scope.leave.end_date = convertDbDateToThDate(moment(startDate).format('YYYY-MM-DD'));
+        } else {
+            $scope.leave.end_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
+        }
 
         /** Clear value of .select2 */
         $('#end_period').val(null).trigger('change');
     });
+
+    const convertThDateToDbDate = function (dateStr) {
+        const [day, month, year] = dateStr.split('/');
+
+        return `${parseInt(year, 10) - 543}-${month}-${day}`;
+    };
+
+    const convertDbDateToThDate = function (dateStr) {
+        let [ year, month, day ] = dateStr.split('-');
+
+        return `${day}/${month}/${parseInt(year)+543}`;
+    };
 
     $scope.clearLeaveObj = function() {
         $scope.leave = {
@@ -437,7 +428,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
                 autoclose: true,
                 language: 'th',
                 format: 'dd/mm/yyyy',
-                thaiyear: true
+                thaiyear: true,
+                todayBtn: true,
+                todayHighlight: true
             }).datepicker('update', moment(data.leave.helped_wife.deliver_date).toDate());
         }
 
@@ -453,7 +446,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
                 autoclose: true,
                 language: 'th',
                 format: 'dd/mm/yyyy',
-                thaiyear: true
+                thaiyear: true,
+                todayBtn: true,
+                todayHighlight: true
             }).datepicker('update', moment(data.leave.ordinate.ordain_date).toDate());
         }
 
@@ -485,21 +480,27 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
             autoclose: true,
             language: 'th',
             format: 'dd/mm/yyyy',
-            thaiyear: true
+            thaiyear: true,
+            todayBtn: true,
+            todayHighlight: true
         }).datepicker('update', moment(data.leave.leave_date).toDate());
 
         $('#start_date').datepicker({
             autoclose: true,
             language: 'th',
             format: 'dd/mm/yyyy',
-            thaiyear: true
+            thaiyear: true,
+            todayBtn: true,
+            todayHighlight: true
         }).datepicker('update', moment(data.leave.start_date).toDate());
 
         $('#end_date').datepicker({
             autoclose: true,
             language: 'th',
             format: 'dd/mm/yyyy',
-            thaiyear: true
+            thaiyear: true,
+            todayBtn: true,
+            todayHighlight: true
         }).datepicker('update', moment(data.leave.end_date).toDate());
     };
 
