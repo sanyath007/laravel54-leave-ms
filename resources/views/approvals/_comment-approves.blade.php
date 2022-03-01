@@ -21,6 +21,10 @@
                     ระหว่างวันที่ <span>@{{ leave.start_date | thdate }} - </span>
                     ถึงวันที่ <span>@{{ leave.end_date | thdate }}</span>
                     จำนวน <span>@{{ leave.leave_days }}</span> วัน
+                    <span ng-show="leave.end_period != 1">
+                        <span ng-show="leave.end_period == 2">ช่วงเช้า (08.00-12.00น.)</span>
+                        <span ng-show="leave.end_period == 3">ช่วงบ่าย (13.00-16.00น.)</span>
+                    </span>
                     <a  href="{{ url('/'). '/uploads/' }}@{{ leave.attachment }}"
                         title="ไฟล์แนบ"
                         target="_blank"

@@ -21,6 +21,10 @@
                     ระหว่างวันที่ <span>@{{ cancel.start_date | thdate }} - </span>
                     ถึงวันที่ <span>@{{ cancel.end_date | thdate }}</span>
                     จำนวน <span>@{{ cancel.leave_days }}</span> วัน
+                    <span ng-show="cancel.end_period != 1">
+                        <span ng-show="cancel.end_period == 2">ช่วงเช้า (08.00-12.00น.)</span>
+                        <span ng-show="cancel.end_period == 3">ช่วงบ่าย (13.00-16.00น.)</span>
+                    </span>
                     <a  href="{{ url('/'). '/uploads/' }}@{{ cancel.attachment }}"
                         title="ไฟล์แนบ"
                         target="_blank"
