@@ -180,7 +180,7 @@
                                                 <i class="fa fa-search"></i>
                                             </a>
                                             <a  ng-click="edit(leave.id)"
-                                                ng-show="leave.status == 0"
+                                                ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
                                                 class="btn btn-warning btn-xs"
                                                 title="แก้ไขรายการ">
                                                 <i class="fa fa-edit"></i>
@@ -189,7 +189,7 @@
                                                 id="frmDelete"
                                                 method="POST"
                                                 action="{{ url('/leaves/delete') }}"
-                                                ng-show="leave.status == 0"
+                                                ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
                                             >
                                                 <input type="hidden" id="id" name="id" value="@{{ leave.id }}" />
                                                 {{ csrf_field() }}

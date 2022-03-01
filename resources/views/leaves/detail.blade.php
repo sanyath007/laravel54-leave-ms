@@ -460,7 +460,7 @@
                             </a>
                             <a
                                 href="#"
-                                ng-show="leave.status == 0"
+                                ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
                                 ng-click="edit(leave.leave_id)"
                                 class="btn btn-warning"
                             >
@@ -470,7 +470,7 @@
                                 id="frmDelete"
                                 method="POST"
                                 action="{{ url('/leaves/delete') }}"
-                                ng-show="leave.status == 0"
+                                ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
                             >
                                 <input type="hidden" id="id" name="id" value="@{{ leave.leave_id }}" />
                                 {{ csrf_field() }}
