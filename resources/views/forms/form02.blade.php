@@ -60,32 +60,30 @@
                     <tr>
                         <td colspan="4">
                             สังกัด 
-                            <span class="text-val" style="margin-right: 10px;">
+                            <span class="text-val" style="margin-right: 2px;">
                                 {{ $leave->person->memberOf->depart->depart_name }}
                             </span>
-                            <span style="margin-right: 10px;">
+                            <span style="margin-right: 2px;">
                                 โรงพยาบาลเทพรัตน์นครราชสีมา
                             </span>
-                            มีวันลาพักผ่อน
-                            <span>
-                                10
-                            </span>
-                            วันทำการ
+                            มีวันลาพักผ่อน <span class="dot">......</span> วันทำการ
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4">
                             มีสิทธิลาพักผ่อนประจำปีนี้อีก
                             <span style="margin-right: 10px;">
-                                <span class="text-val" style="margin-right: 5px;">
-                                    {{ '10' }}
-                                </span>วันทำการ
+                                <!-- <span class="text-val" style="margin-right: 5px;"> -->
+                                    <span class="dot">............</span>
+                                <!-- </span> -->
+                                วันทำการ
                             </span>
                             <span style="margin-right: 10px;">
                                 รวมเป็น
-                                <span class="text-val" style="margin-right: 5px;">
-                                    {{ '10' }}
-                                </span>วันทำการ
+                                <!-- <span class="text-val" style="margin-right: 5px;"> -->
+                                    <span class="dot">............</span>
+                                <!-- </span> -->
+                                วันทำการ
                             </span>ขอลาพักผ่อนประจำปี
                         </td>
                     </tr>
@@ -144,6 +142,24 @@
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="2">
+                            <div style="margin-top: 0px;">
+                                <p style="margin-top: 10px; margin-left: 50px;">
+                                    (ลงชื่อ)<span class="dot">......................................................ผู้รับมอบ</span>
+                                </p>
+                                <p style="margin-left: 80px;">
+                                    @if (empty($leave->delegate))
+                                        (<span class="dot">......................................................</span>)
+                                    @else
+                                        <span style="margin-left: 20px;">
+                                            ( {{ $leave->delegate->prefix->prefix_name.$leave->delegate->person_firstname. ' ' .$leave->delegate->person_lastname }} )
+                                        </span>
+                                    @endif
+                                </p>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="2">
                             <div style="margin: 0px; padding: 0px;">
                                 สถิติการลาในปีงบประมาณนี้ (วันทำการ)
@@ -158,6 +174,8 @@
                                         <td style="text-align: center;">
                                             @if(!empty($histories))
                                                 &nbsp;<!-- {{ (float)$histories->vac_days }} -->
+                                            @else
+                                                &nbsp;
                                             @endif
                                         </td>
                                         <td style="text-align: center;">

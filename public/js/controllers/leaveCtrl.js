@@ -1,4 +1,4 @@
-app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, ReportService, PaginateService) {
+app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringFormatService, PaginateService) {
 /** ################################################################################## */
     $scope.loading = false;
     $scope.cboYear = parseInt(moment().format('MM')) > 9
@@ -84,7 +84,8 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
         todayHighlight: true
     };
 
-    $('#leave_date').datepicker(dtpOptions)
+    $('#leave_date')
+    .datepicker(dtpOptions)
     .datepicker('update', new Date())
     .on('show', function(e){
         $('.day').click(function(event) {
@@ -106,16 +107,19 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, ModalServic
     });
 
     $('#start_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        // TODO: should also check leave type is 1 or 2 with date
-        if (!moment(event.date).isSameOrAfter(moment())) {
-            toaster.error('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
+        // const leaveType = $('#leave_type').val();
+        // console.log('leave type is ', leaveType);
+        // console.log([1,2].includes(leaveType), !moment(event.date).isSameOrAfter(moment()));
 
-            $('#start_date').datepicker('update', moment().toDate());
+        // if (![1,2].includes(leaveType) && !moment(event.date).isSameOrAfter(moment())) {
+        //     toaster.error('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
+
+        //     $('#start_date').datepicker('update', moment().toDate());
             
-            $scope.leave.start_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
-        } else {
+        //     $scope.leave.start_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
+        // } else {
             $scope.leave.start_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
-        }
+        // }
     });
 
     $scope.speriodSelected = '';
