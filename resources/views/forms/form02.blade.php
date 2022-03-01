@@ -128,7 +128,7 @@
                             <p>
                                 @if (empty($leave->delegate))
                                     นาย / นาง / นางสาว<span class="dot">......................................................</span>
-                                    ตำแหน่ง<span class="dot">.........................................................................</span>
+                                    ตำแหน่ง<span class="dot">..........................................................</span>
                                 @else
                                     <span class="text-val" style="margin-right: 10px;">
                                         {{ $leave->delegate->prefix->prefix_name.$leave->delegate->person_firstname. ' ' .$leave->delegate->person_lastname }}
@@ -138,27 +138,21 @@
                                     </span>
                                 @endif
                                 เป็นผู้ปฏิบัติงานแทน
-                            </p>
-                        </td>
-                    </tr>
-                    <!-- <tr>
-                        <td colspan="2">&nbsp;</td>
-                        <td colspan="2">
-                            <div style="margin-top: 0px;">
-                                <p style="margin-top: 10px; margin-left: 50px;">
+                                <span style="margin-left: 350px;">
                                     (ลงชื่อ)<span class="dot">......................................................ผู้รับมอบ</span>
-                                </p>
-                                <p style="margin-left: 80px;">
+                                </span>
+                            </p>
+                            <p style="margin-left: 350px;">
+                                <span style="margin-left: 30px;">
                                     @if (empty($leave->delegate))
                                         (<span class="dot">......................................................</span>)
                                     @else
-                                        <span style="margin-left: 20px;">
-                                            ( {{ $leave->delegate->prefix->prefix_name.$leave->delegate->person_firstname. ' ' .$leave->delegate->person_lastname }} )
-                                        </span>
+                                        ( {{ $leave->delegate->prefix->prefix_name.$leave->delegate->person_firstname. ' ' .$leave->delegate->person_lastname }} )
                                     @endif
-                                </p>
+                                </span>
+                            </p>
                         </td>
-                    </tr> -->
+                    </tr>
                     <tr>
                         <td colspan="2">
                             <div style="margin: 0px; padding: 0px;">
