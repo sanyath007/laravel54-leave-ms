@@ -33,7 +33,9 @@ class ApprovalController extends Controller
                         ->count();
 
             if ($count > 0) {
-                $history = History::where('person_id', $leave->leave_person)->first();
+                $history = History::where('person_id', $leave->leave_person)
+                            ->where('year', $leave->year)
+                            ->first();
             } else {
                 $history = new History;
             }
