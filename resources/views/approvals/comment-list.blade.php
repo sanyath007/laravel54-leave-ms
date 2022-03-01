@@ -16,12 +16,12 @@
     </section>
 
     <!-- Main content -->
+    <?php $divisions =  count(Auth::user()->delegations) > 0 ? Auth::user()->delegations[0]->divisions : '' ?>
     <section
         class="content"
         ng-controller="approvalCtrl"
-        ng-init="onCommentLoad({{ Auth::user()->memberOf->depart_id }})"
+        ng-init="onCommentLoad({{ Auth::user()->memberOf->depart_id }}, '{{ $divisions }}')"
     >
-
         <div class="row">
             <div class="col-md-12">
 
@@ -89,7 +89,7 @@
                                             name="showAllApproves"
                                             id="showAllApproves"
                                             ng-model="showAllApproves"
-                                            ng-change="onCommentLoad({{ Auth::user()->memberOf->depart_id }})"
+                                            ng-change="onCommentLoad({{ Auth::user()->memberOf->depart_id }}, '{{ $divisions }}')"
                                         />
                                         <span>แสดงรายการที่ลงความเห็นแล้ว</span>
                                     </div>

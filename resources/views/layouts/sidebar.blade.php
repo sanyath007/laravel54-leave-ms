@@ -91,7 +91,8 @@
 						Auth::user()->person_id == '1300200009261' ||
 						Auth::user()->person_id == '1309900322504' ||
 						Auth::user()->memberOf->duty_id == 1 ||
-						Auth::user()->memberOf->duty_id == 2
+						Auth::user()->memberOf->duty_id == 2 ||
+						count(Auth::user()->delegations) > 0
 					)
 						<li class="treeview" ng-class="{ 'menu-open active': menu == 'approvals' }">
 							<a href="#">
@@ -105,7 +106,8 @@
 								<!-- // Authorize เฉพาะหัวหน้ากลุ่มงาน -->
 								@if (
 									Auth::user()->person_id == '1300200009261' ||
-									Auth::user()->memberOf->duty_id == 2
+									Auth::user()->memberOf->duty_id == 2 ||
+									count(Auth::user()->delegations) > 0
 								)
 									<li ng-class="{ 'active': submenu == 'comment' }">
 										<a href="{{ url('approvals/comment') }}">

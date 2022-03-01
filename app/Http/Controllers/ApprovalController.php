@@ -153,9 +153,9 @@ class ApprovalController extends Controller
                 } else if ($leave->leave_type == '6') {
                     $history->ord_days -= (float)$leave->leave_days; // ลาอุปสมบท
                 }
-            }
 
-            $history->save();
+                $history->save();
+            }
 
             return redirect($redirectPath);
         }

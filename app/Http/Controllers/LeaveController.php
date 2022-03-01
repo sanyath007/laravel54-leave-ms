@@ -112,14 +112,20 @@ class LeaveController extends Controller
         }
         if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
 
-        /** Get depart from query params */
+        /** Get params from query string */
         $qsDepart = $req->get('depart');
+        $qsDivision = $req->get('division');
         $qsMonth = $req->get('month');
 
         /** Generate list of person of depart from query params */
         $personList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
                         ->when(!empty($qsDepart), function($q) use ($qsDepart) {
                             $q->where('level.depart_id', $qsDepart);
+                        })
+                        ->when(!empty($qsDivision), function($q) use ($qsDivision) {
+                            $wardLists = explode(",", $qsDivision);
+
+                            $q->whereIn('level.ward_id', $wardLists);
                         })
                         ->pluck('personal.person_id');
 
