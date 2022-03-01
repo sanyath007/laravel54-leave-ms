@@ -141,7 +141,7 @@
                             </p>
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2">
                             <div style="margin-top: 0px;">
@@ -158,7 +158,7 @@
                                     @endif
                                 </p>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td colspan="2">
                             <div style="margin: 0px; padding: 0px;">
