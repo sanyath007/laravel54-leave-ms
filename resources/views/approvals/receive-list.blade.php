@@ -109,7 +109,9 @@
                                             <td>
                                                 <h4 style="margin: 2px auto;">
                                                     @{{ leave.type.name }}
-                                                    @{{ leave.person.prefix.prefix_name + leave.person.person_firstname + ' ' + leave.person.person_lastname }}
+                                                    <a href="{{ url('/persons/detail') }}/@{{ leave.leave_person }}">
+                                                        @{{ leave.person.prefix.prefix_name + leave.person.person_firstname + ' ' + leave.person.person_lastname }}
+                                                    </a>
                                                 </h4>
                                                 <p style="color: grey; margin: 0px auto;">
                                                     ระหว่างวันที่ <span>@{{ leave.start_date | thdate }} - </span>
@@ -274,7 +276,9 @@
                                             <td>
                                                 <h4 style="margin: 2px auto;">
                                                     ขอยกเลิกวัน@{{ cancel.type.name }}
-                                                    @{{ cancel.person.prefix.prefix_name + cancel.person.person_firstname + ' ' + cancel.person.person_lastname }}
+                                                    <a href="{{ url('/persons/detail') }}/@{{ cancel.leave_person }}">
+                                                        @{{ cancel.person.prefix.prefix_name + cancel.person.person_firstname + ' ' + cancel.person.person_lastname }}
+                                                    </a>
                                                 </h4>
                                                 <p style="color: grey; margin: 0px auto;">
                                                     ระหว่างวันที่ <span>@{{ cancel.start_date | thdate }} - </span>
