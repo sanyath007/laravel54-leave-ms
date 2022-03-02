@@ -158,12 +158,19 @@
                                                 ? $personInfo->memberOf->duty->duty_name
                                                 : '';
                                     if (
-                                        $personInfo->memberOf && $personInfo->memberOf->duty 
-                                        && ($personInfo->memberOf->duty->duty_id <> '1' && $personInfo->memberOf->duty->duty_id <> '6')
+                                        $personInfo->memberOf && $personInfo->memberOf->duty
+                                        && ($personInfo->memberOf->duty->duty_id <> '1'
+                                        && $personInfo->memberOf->duty->duty_id <> '6')
                                     ) {
-                                        $userDepart = $personInfo->memberOf && $personInfo->memberOf->depart
-                                                        ? $personInfo->memberOf->depart->depart_name. ' (' .$userDuty. ')'
+                                        $userDivision = $personInfo->memberOf && $personInfo->memberOf->division
+                                                        ? $personInfo->memberOf->division->ward_name
                                                         : '';
+                                        $userDepart = $personInfo->memberOf && $personInfo->memberOf->depart
+                                                        ? $personInfo->memberOf->depart->depart_name
+                                                        : '';
+                                        $userDepart = !empty($userDivision) 
+                                                        ? $userDepart. ' / ' .$userDivision. ' (' .$userDuty. ')'
+                                                        : $userDepart. ' (' .$userDuty. ')';
                                     } else {
                                         $userDepart = $userDuty;
                                     }
