@@ -96,6 +96,7 @@
                                         <tr>
                                             <th style="width: 5%; text-align: center;">#</th>
                                             <th>รายละเอียด</th>
+                                            <th style="width: 20%;">กลุ่มงาน</th>
                                             <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
                                             <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
                                             <th style="width: 6%; text-align: center;">การอนุมัติ</th>
@@ -127,6 +128,9 @@
                                                         <i class="fa fa-paperclip" aria-hidden="true"></i>
                                                     </a>
                                                 </p>
+                                            </td>
+                                            <td>
+                                                @{{ leave.person.member_of.depart.depart_name }}
                                             </td>
                                             <td style="text-align: center;">@{{ leave.year }}</td>
                                             <td style="text-align: center;">
