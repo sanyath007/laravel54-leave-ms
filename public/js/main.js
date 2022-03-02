@@ -45,7 +45,7 @@ app.run(function ($rootScope, $window, $http, toaster) {
 		let status = false;
 		
 		if($rootScope.formError) {
-			status = ($rootScope.formError.errors.hasOwnProperty(field) && validObj[field] === '') ? true : false;
+			status = $rootScope.formError.errors.hasOwnProperty(field) ? true : false;
 		}
 
 		return status;

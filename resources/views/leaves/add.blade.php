@@ -360,7 +360,7 @@
                                                 tabindex="5">
                                     </div>
                                     <span class="help-block" ng-show="checkValidate(leave, 'start_date')">
-                                        กรุณาเลือกจากวันที่
+                                        @{{ formError.errors.start_date[0] }}
                                     </span>
                                 </div>
 
@@ -404,7 +404,9 @@
                                                 class="form-control pull-right"
                                                 tabindex="5">
                                     </div>
-                                    <span class="help-block" ng-show="checkValidate(leave, 'end_date')">กรุณาเลือกถึงวันที่</span>
+                                    <span class="help-block" ng-show="checkValidate(leave, 'end_date')">
+                                        @{{ formError.errors.end_date[0] }}
+                                    </span>
                                 </div>
 
                                 <div

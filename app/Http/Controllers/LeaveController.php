@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\MessageBag;
 use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\Position;
@@ -68,12 +70,33 @@ class LeaveController extends Controller
             $rules['country'] = 'required';
         }
 
-        $validator = \Validator::make($request->all(), $rules);
+        $messages = [
+            'start_date.required'   => 'กรุณาเลือกจากวันที่',
+            'start_date.not_in'     => 'คุณมีการลาในวันที่ระบุแล้ว',
+            'end_date.required'     => 'กรุณาเลือกถึงวันที่',
+            'end_date.not_in'       => 'คุณมีการลาในวันที่ระบุแล้ว',
+        ];
+
+        $validator = \Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
+            $messageBag = $validator->getMessageBag();
+
+            if (!$messageBag->has('start_date')) {
+                if ($this->isDateExistsValidation(convThDateToDbDate($request['start_date']), 'start_date') > 0) {
+                    $messageBag->add('start_date', 'คุณมีการลาในวันที่ระบุแล้ว');
+                }
+            }
+
+            if (!$messageBag->has('end_date')) {
+                if ($this->isDateExistsValidation(convThDateToDbDate($request['end_date']), 'end_date') > 0) {
+                    $messageBag->add('end_date', 'คุณมีการลาในวันที่ระบุแล้ว');
+                }
+            }
+
             return [
                 'success' => 0,
-                'errors' => $validator->getMessageBag()->toArray(),
+                'errors' => $messageBag->toArray(),
             ];
         } else {
             return [
@@ -81,6 +104,26 @@ class LeaveController extends Controller
                 'errors' => $validator->getMessageBag()->toArray(),
             ];
         }
+    }
+
+    private function isDateExistsValidation($dbDate, $column)
+    {
+        list($year, $month, $day) = explode('-', $dbDate);
+        $sdate = $year.'-'.$month.'-01';
+        $edate = date('Y-m-t', strtotime($sdate));
+
+        $leaves = Leave::where('leave_person', Auth::user()->person_id)
+                    ->whereBetween($column, [$sdate, $edate])
+                    ->get();
+
+        $existed = 0;
+        foreach($leaves as $leave) {
+            if ($leave->start_date <= $dbDate && $leave->end_date >= $dbDate) {
+                $existed++;
+            }
+        }
+
+        return $existed > 0;
     }
 
     public function index()
@@ -252,6 +295,7 @@ class LeaveController extends Controller
         $leave->end_date        = convThDateToDbDate($req['end_date']);
         $leave->end_period      = $req['end_period'];
         $leave->leave_days      = $req['leave_days'];
+        $leave->working_days    = $req['working_days'];
         $leave->year            = calcBudgetYear($req['start_date']);
 
         /** 
@@ -360,6 +404,7 @@ class LeaveController extends Controller
         $leave->end_date        = convThDateToDbDate($req['end_date']);
         $leave->end_period      = $req['end_period'];
         $leave->leave_days      = $req['leave_days'];
+        $leave->working_days    = $req['working_days'];
         $leave->year            = calcBudgetYear($req['start_date']);
 
         /** Upload image */
