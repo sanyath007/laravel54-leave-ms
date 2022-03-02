@@ -70,7 +70,10 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
         });
     }
 
-    $scope.getDataWithURL = function(e, URL) {
+    $scope.getDataWithURL = function(e, URL, cb) {
+        /** Check whether parent of clicked a tag is .disabled just do nothing */
+        if ($(e.currentTarget).parent().is('li.disabled')) return;
+
         $scope.loading = true;
         
         $scope.persons = [];

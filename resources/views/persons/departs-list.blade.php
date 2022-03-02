@@ -79,8 +79,8 @@
                             <thead>
                                 <tr>
                                     <th style="width: 3%; text-align: center;">ลำดับ</th>
-                                    <th style="width: 20%; text-align: center;">กลุ่มงาน</th>
-                                    <th style="text-align: center;">ชื่อ-สกุล</th>
+                                    <th>กลุ่มงาน</th>
+                                    <th style="width: 20%;">ชื่อ-สกุล</th>
                                     <!-- <th style="width: 15%; text-align: center;">จ.18</th> -->
                                     <th style="width: 7%; text-align: center;">ว/ด/ป เกิด</th>
                                     <th style="width: 5%; text-align: center;">อายุ</th>

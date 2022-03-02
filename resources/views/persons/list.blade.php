@@ -126,7 +126,7 @@
                                                 หัวหน้า
                                             </span>
                                             @{{ row.member_of.depart.depart_name }}<br />
-                                            <span ng-show="row.member_of.duty_id !== '1' && row.member_of.duty_id !== '2'">
+                                            <span ng-show="row.member_of.duty_id != '1' && row.member_of.duty_id != '2'">
                                                 (@{{ row.member_of.division.ward_name }})
                                             </span>
                                         </span>
