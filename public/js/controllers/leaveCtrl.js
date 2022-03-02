@@ -49,6 +49,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         end_date: '',
         end_period: '',
         leave_days: 0,
+        working_days: 0,
         wife_id: '',
         wife_name: '',
         wife_is_officer: false,
@@ -140,12 +141,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $('#end_period').val(null).trigger('change');
     });
 
+    // TODO: Should move to rootScope
     const convertThDateToDbDate = function (dateStr) {
         const [day, month, year] = dateStr.split('/');
 
         return `${parseInt(year, 10) - 543}-${month}-${day}`;
     };
 
+    // TODO: Should move to rootScope
     const convertDbDateToThDate = function (dateStr) {
         let [ year, month, day ] = dateStr.split('-');
 
@@ -168,6 +171,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
             end_date: '',
             end_period: '',
             leave_days: 0,
+            working_days: 0,
             wife_id: '',
             wife_name: '',
             wife_is_officer: false,
@@ -181,19 +185,65 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         };
     };
 
-    $scope.calculateLeaveDays = function(sDateStr, eDateStr, endPeriod) {
+    const getHolidays = async function () {
+        const res = await $http.get(`${CONFIG.baseUrl}/holidays?year=${$scope.cboYear}`);
+
+        return res.data;
+    };
+
+    $scope.holidays = null;
+    const calculateWorkingDays = async function(sdate, edate, endPeriod) {
+        let working_days = 0;
+        const { holidays } = await getHolidays();
+
+        $scope.holidays = holidays.map(holiday => holiday.holiday_date);
+
+        if ($scope.holidays) {
+            let startDate = moment(sdate);
+            let endDate = moment(edate);
+            let workDays = [];
+
+            while(startDate <= endDate) {
+                if (!$scope.holidays.includes(startDate.format('YYYY-MM-DD'))) {
+                    workDays.push(startDate.format('YYYY-MM-DD'));
+
+                    if (startDate.isSame(endDate)) {
+                        if (endPeriod !== 1) {
+                            working_days += 0.5;
+                        } else {
+                            working_days += 1;
+                        }
+                    } else {
+                        working_days++;
+                    }
+                }
+
+                startDate.add(1, "day");
+            }
+        }
+
+        return working_days;
+    };
+
+    $scope.calculateLeaveDays = async function(sDateStr, eDateStr, endPeriod) {
         let sdate = StringFormatService.convToDbDate($(`#${sDateStr}`).val());
         let edate = StringFormatService.convToDbDate($(`#${eDateStr}`).val());
         let days = moment(edate).diff(moment(sdate), 'days');
+        let working_days = 0;
 
-        // TODO: ตรวจสอบวันทำการ
-        if (endPeriod !== '1') {
+        if (parseInt(endPeriod) !== 1) {
             days += 0.5;
         } else {
             days += 1;
         }
 
         $scope.leave.leave_days = days;
+        $('#leave_days').val(days);
+
+        /** ตรวจสอบวันทำการ */
+        working_days = await calculateWorkingDays(sdate, edate, parseInt(endPeriod));
+        $scope.leave.working_days = working_days;
+        $('#working_days').val(working_days);
     };
 
     $scope.same_ordain_temple = false;
@@ -417,6 +467,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $scope.leave.leave_contact      = data.leave.leave_contact;
         $scope.leave.leave_delegate     = data.leave.leave_delegate;
         $scope.leave.leave_days         = data.leave.leave_days;
+        $scope.leave.working_days       = data.leave.working_days;
         $scope.leave.attachment         = data.leave.attachment;
         $scope.leave.status             = data.leave.status;
         $scope.leave.cancellation       = data.leave.cancellation;

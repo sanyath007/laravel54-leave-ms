@@ -421,7 +421,7 @@
 
                             <div class="row">
                                 <div
-                                    class="form-group col-md-12"
+                                    class="form-group col-md-6"
                                     ng-class="{'has-error has-feedback': checkValidate(leave, 'leave_days')}"
                                 >
                                     <label>มีกำหนด (วัน) :</label>
@@ -432,6 +432,19 @@
                                             class="form-control pull-right"
                                             tabindex="5">
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_days')">กรุณาระบุจำนวนวันลา</span>
+                                </div>
+                                <div
+                                    class="form-group col-md-6"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'working_days')}"
+                                >
+                                    <label>มีกำหนด (วันทำการ) :</label>
+                                    <input  type="text" 
+                                            id="working_days" 
+                                            name="working_days" 
+                                            ng-model="leave.working_days" 
+                                            class="form-control pull-right"
+                                            tabindex="5">
+                                    <span class="help-block" ng-show="checkValidate(leave, 'working_days')">กรุณาระบุจำนวนวันลา (วันทำการ)</span>
                                 </div>
                             </div>
 

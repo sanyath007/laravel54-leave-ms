@@ -27,10 +27,19 @@ class HolidayController extends Controller
         return view('holidays.list');
     }
 
-    public function getHolidays()
+    public function getHolidays(Request $req)
     {
+        $year = $req->input('year');
+
+        $holidays = Holiday::when(!empty($year), function($q) use ($year) {
+            $sdate = ((int)$year - 544). '-10-01';
+            $edate = ((int)$year - 543). '-09-30';
+
+            $q->whereBetween('holiday_date', [$sdate, $edate]);
+        })->get();
+
         return [
-            'holidays' => Holiday::all(),
+            'holidays' => $holidays,
         ];
     }
 }
