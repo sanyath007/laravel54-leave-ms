@@ -32,6 +32,7 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
         todayHighlight: true
     };
 
+    /** ==================== Add form ==================== */
     $('#start_period').prop("disabled", true);
 
     $('#from_date')
@@ -50,7 +51,14 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
             });
         })
         .on('changeDate', function(event) {
-            console.log(event.date);
+            if (
+                moment(event.date).isBefore(moment($scope.leave.start_date)) ||
+                moment(event.date).isAfter(moment($scope.leave.end_date))
+            ) {
+                alert('ไม่สามารถเลือกวันที่ไม่อยู่ระหว่างวันที่ลาได้!!');
+
+                $('#from_date').datepicker('update', moment($scope.leave.start_date).toDate());
+            }
         });
 
     $('#to_date')
@@ -69,10 +77,75 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
             });
         })
         .on('changeDate', function(event) {
-            console.log(event.date);
+            if (
+                moment(event.date).isBefore(moment($scope.leave.start_date)) ||
+                moment(event.date).isAfter(moment($scope.leave.end_date))
+            ) {
+                alert('ไม่สามารถเลือกวันที่ไม่อยู่ระหว่างวันที่ลาได้!!');
+
+                $('#to_date').datepicker('update', moment($scope.leave.to_date).toDate());
+            }
 
             /** Clear value of .select2 */
             $('#end_period').val(null).trigger('change');
+        });
+
+    /** ==================== Edit form ==================== */
+    $('#s_period').prop("disabled", true);
+
+    $('#s_date')
+        .datepicker(dtpOptions)
+        .on('show', function (e) {
+            /** If input is disabled user cannot select date  */
+            const isDisabled = $(e.currentTarget).is('.disabled');
+
+            $('.day').click(function(event) {
+                if (isDisabled) {
+                    alert('ไม่สามารถแก้ไชวันที่ได้');
+
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
+        })
+        .on('changeDate', function(event) {
+            if (
+                moment(event.date).isBefore(moment($scope.leave.start_date)) ||
+                moment(event.date).isAfter(moment($scope.leave.end_date))
+            ) {
+                alert('ไม่สามารถเลือกวันที่ไม่อยู่ระหว่างวันที่ลาได้!!');
+
+                $('#s_date').datepicker('update', moment($scope.leave.start_date).toDate());
+            }
+        });
+
+    $('#e_date')
+        .datepicker(dtpOptions)
+        .on('show', function (e) {
+            /** If input is disabled user cannot select date  */
+            const isDisabled = $(e.currentTarget).is('.disabled');
+
+            $('.day').click(function(event) {
+                if (isDisabled) {
+                    alert('ไม่สามารถแก้ไชวันที่ได้');
+
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
+        })
+        .on('changeDate', function(event) {
+            if (
+                moment(event.date).isBefore(moment($scope.leave.start_date)) ||
+                moment(event.date).isAfter(moment($scope.leave.end_date))
+            ) {
+                alert('ไม่สามารถเลือกวันที่ไม่อยู่ระหว่างวันที่ลาได้!!');
+
+                $('#e_date').datepicker('update', moment($scope.leave.to_date).toDate());
+            }
+
+            /** Clear value of .select2 */
+            $('#e_period').val(null).trigger('change');
         });
 
     $scope.isOnlyOneDay = function (sDate, eDate){
