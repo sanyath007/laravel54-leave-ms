@@ -1,7 +1,7 @@
 <div class="modal fade" id="add-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ url('/cancellations/store') }}" method="POST">
+            <form id="frmAddCancel" name="frmAddCancel" action="{{ url('/cancellations/store') }}" method="POST">
                 <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                 {{ csrf_field() }}
 
@@ -77,10 +77,10 @@
                                 ng-readonly="isOnlyOneDay(leave.start_date, leave.end_date)"
                             />
                         </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
+                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'from_period')}">
                             <label>ช่วงเวลา :</label>
-                            <select id="start_period"
-                                    name="start_period"
+                            <select id="from_period"
+                                    name="from_period"
                                     ng-model="cboStartPeriod"
                                     class="form-control">
                                 <option value="">-- เลือกช่วงเวลา --</option>
@@ -92,7 +92,7 @@
 
                                 @endforeach
                             </select>
-                            <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
+                            <span class="help-block" ng-show="checkValidate(leave, 'from_period')">เลือกช่วงเวลา</span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">ถึงวันที่</label>
@@ -105,10 +105,10 @@
                                 ng-readonly="isOnlyOneDay(leave.start_date, leave.end_date)"
                             />
                         </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
+                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'to_period')}">
                             <label>ช่วงเวลา :</label>
-                            <select id="end_period"
-                                    name="end_period"
+                            <select id="to_period"
+                                    name="to_period"
                                     ng-model="cboEndPeriod"
                                     ng-change="calculateLeaveDays('from_date', 'to_date', cboEndPeriod)"
                                     class="form-control">
@@ -121,13 +121,13 @@
 
                                 @endforeach
                             </select>
-                            <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
+                            <span class="help-block" ng-show="checkValidate(leave, 'to_period')">เลือกช่วงเวลา</span>
                         </div>
                     </div>
 
                 </div><!-- /.modal-body -->
                 <div class="modal-footer" style="padding-bottom: 8px;">
-                    <button type="submit" class="btn btn-primary">
+                    <button class="btn btn-primary" ng-click="formValidate($event, '/cancellations/validate', leave, 'frmAddCancel', store)">
                         บันทึก
                     </button>
                     <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">

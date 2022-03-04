@@ -18,6 +18,46 @@ class CancellationController extends Controller
         '3'  => 'ช่วงบ่าย (13.00-16.00น.)',
     ];
 
+    public function formValidate()
+    {
+        $rules = [
+            'reason'        => 'required',
+            'from_date'     => 'required',
+            'from_period'   => 'required',
+            'to_date'       => 'required',
+            'to_period'     => 'required',
+        ];
+
+        // if ($request['leave_type'] == '1' || $request['leave_type'] == '2' || 
+        //     $request['leave_type'] == '3' || $request['leave_type'] == '4' ||
+        //     $request['leave_type'] == '5') {
+        //     $rules['leave_contact'] = 'required';
+        // }
+
+        $messages = [
+            'reason.required'       => 'กรุณาระบุเหตุผลการยกเลิก',
+            'from_date.required'    => 'กรุณาเลือกจากวันที่',
+            'from_date.not_in'      => 'คุณมีการลาในวันที่ระบุแล้ว',
+            'to_date.required'      => 'กรุณาเลือกถึงวันที่',
+            'to_date.not_in'        => 'คุณมีการลาในวันที่ระบุแล้ว',
+            'to_period.required'    => 'กรุณาเลือกช่วงเวลา',
+        ];
+
+        $validator = \Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return [
+                'success' => 0,
+                'errors' => $messageBag->toArray(),
+            ];
+        } else {
+            return [
+                'success' => 1,
+                'errors' => $validator->getMessageBag()->toArray(),
+            ];
+        }
+    }
+
     public function getCancel()
     {
         return view('cancellations.list', [

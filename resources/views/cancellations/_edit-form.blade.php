@@ -1,7 +1,7 @@
 <div class="modal fade" id="edit-form" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ url('/cancellations/update') }}" method="POST">
+            <form id="frmEditCancel" name="frmEditCancel" action="{{ url('/cancellations/update') }}" method="POST">
                 <input type="hidden" id="id" name="id" value="@{{ leave.cancellation[0].id }}" />
                 <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                 {{ csrf_field() }}

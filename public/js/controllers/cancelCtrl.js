@@ -312,6 +312,12 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
         $('#add-form').modal('show');
     };
 
+    $scope.store = function(event, form) {
+        event.preventDefault();
+
+        $('#frmAddCancel').submit();
+    }
+
     $scope.onEdit = function(leave) {
         $scope.leave = leave;
 
@@ -325,6 +331,15 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
 
         $('#edit-form').modal('show');
     };
+
+    $scope.update = function(event) {
+        event.preventDefault();
+    
+        if(confirm(`คุณต้องแก้ไขใบลาเลขที่ ${$scope.leave.leave_id} ใช่หรือไม่?`)) {
+            $('#frmEditCancel').submit();
+        }
+    };
+
 
     $scope.onDelete = function(e, id) {
         e.preventDefault();
