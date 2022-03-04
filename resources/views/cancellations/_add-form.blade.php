@@ -68,7 +68,14 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">ตั้งแต่วันที่</label>
-                            <input type="text" id="from_date" name="from_date" class="form-control" />
+                            <input
+                                type="text"
+                                id="from_date"
+                                name="from_date"
+                                class="form-control"
+                                ng-class="{ disabled: isOnlyOneDay(leave.start_date, leave.end_date) }"
+                                ng-readonly="isOnlyOneDay(leave.start_date, leave.end_date)"
+                            />
                         </div>
                         <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
                             <label>ช่วงเวลา :</label>
@@ -89,7 +96,14 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">ถึงวันที่</label>
-                            <input type="text" id="to_date" name="to_date" class="form-control" />
+                            <input
+                                type="text"
+                                id="to_date"
+                                name="to_date"
+                                class="form-control"
+                                ng-class="{ disabled: isOnlyOneDay(leave.start_date, leave.end_date) }"
+                                ng-readonly="isOnlyOneDay(leave.start_date, leave.end_date)"
+                            />
                         </div>
                         <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
                             <label>ช่วงเวลา :</label>

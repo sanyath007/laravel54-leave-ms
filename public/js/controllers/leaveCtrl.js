@@ -188,12 +188,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         };
     };
 
+    // Duplicated methods in cancelCtrl
     const getHolidays = async function () {
         const res = await $http.get(`${CONFIG.baseUrl}/holidays?year=${$scope.cboYear}`);
 
         return res.data;
     };
 
+    // Duplicated methods in cancelCtrl
     $scope.holidays = null;
     const calculateWorkingDays = async function(sdate, edate, endPeriod) {
         let working_days = 0;
@@ -228,6 +230,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         return working_days;
     };
 
+    // Duplicated methods in cancelCtrl
     $scope.calculateLeaveDays = async function(sDateStr, eDateStr, endPeriod) {
         let sdate = StringFormatService.convToDbDate($(`#${sDateStr}`).val());
         let edate = StringFormatService.convToDbDate($(`#${eDateStr}`).val());

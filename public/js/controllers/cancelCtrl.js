@@ -32,22 +32,120 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
         todayHighlight: true
     };
 
-    $('#s_period').prop("disabled", true);
+    $('#start_period').prop("disabled", true);
 
-    $('#s_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        // let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        console.log(event.date);
-    });
+    $('#from_date')
+        .datepicker(dtpOptions)
+        .on('show', function (e) {
+            /** If input is disabled user cannot select date  */
+            const isDisabled = $(e.currentTarget).is('.disabled');
 
-    $('#e_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        // let selectedDate = moment(event.date).format('YYYY-MM-DD');
-        console.log(event.date);
+            $('.day').click(function(event) {
+                if (isDisabled) {
+                    alert('ไม่สามารถแก้ไชวันที่ได้');
 
-        /** Clear value of .select2 */
-        $('#end_period').val(null).trigger('change');
-    });
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
+        })
+        .on('changeDate', function(event) {
+            console.log(event.date);
+        });
 
-    // TODO: Duplicated method
+    $('#to_date')
+        .datepicker(dtpOptions)
+        .on('show', function (e) {
+            /** If input is disabled user cannot select date  */
+            const isDisabled = $(e.currentTarget).is('.disabled');
+
+            $('.day').click(function(event) {
+                if (isDisabled) {
+                    alert('ไม่สามารถแก้ไชวันที่ได้');
+
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
+        })
+        .on('changeDate', function(event) {
+            console.log(event.date);
+
+            /** Clear value of .select2 */
+            $('#end_period').val(null).trigger('change');
+        });
+
+    $scope.isOnlyOneDay = function (sDate, eDate){
+        return moment(eDate).diff(moment(sDate), "day") === 0;
+    };
+
+    // Duplicated methods in leaveCtrl
+    const getHolidays = async function () {
+        const res = await $http.get(`${CONFIG.baseUrl}/holidays?year=${$scope.cboYear}`);
+
+        return res.data;
+    };
+
+    // Duplicated methods in leaveCtrl
+    $scope.holidays = null;
+    const calculateWorkingDays = async function(sdate, edate, endPeriod) {
+        let working_days = 0;
+        const { holidays } = await getHolidays();
+
+        $scope.holidays = holidays.map(holiday => holiday.holiday_date);
+
+        if ($scope.holidays) {
+            let startDate = moment(sdate);
+            let endDate = moment(edate);
+            let workDays = [];
+
+            while(startDate <= endDate) {
+                if (!$scope.holidays.includes(startDate.format('YYYY-MM-DD'))) {
+                    workDays.push(startDate.format('YYYY-MM-DD'));
+
+                    if (startDate.isSame(endDate)) {
+                        if (endPeriod !== 1) {
+                            working_days += 0.5;
+                        } else {
+                            working_days += 1;
+                        }
+                    } else {
+                        working_days++;
+                    }
+                }
+
+                startDate.add(1, "day");
+            }
+        }
+
+        return working_days;
+    };
+
+    // Duplicated methods in leavelCtrl
+    $scope.calculateLeaveDays = async function(sDateStr, eDateStr, endPeriod) {
+        let sdate = StringFormatService.convToDbDate($(`#${sDateStr}`).val());
+        let edate = StringFormatService.convToDbDate($(`#${eDateStr}`).val());
+        let days = moment(edate).diff(moment(sdate), 'days');
+        let working_days = 0;
+
+        if (parseInt(endPeriod) !== 1) {
+            days += 0.5;
+        } else {
+            days += 1;
+        }
+
+        console.log($scope.leave);
+
+        $scope.leave.leave_days = days;
+        $('#leave_days').val(days);
+
+        /** ตรวจสอบวันทำการ */
+        working_days = await calculateWorkingDays(sdate, edate, parseInt(endPeriod));
+        $scope.leave.working_days = working_days;
+        $('#working_days').val(working_days);
+    };
+
+    // TODO: Duplicated method in leavelCtrl
     $scope.getLeaves = function() {
         $scope.leaves = [];
         $scope.pager = null;

@@ -71,7 +71,7 @@
                             <label for="">ตั้งแต่วันที่</label>
                             <input type="text" id="s_date" name="s_date" class="form-control" />
                         </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
+                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 's_period')}">
                             <label>ช่วงเวลา :</label>
                             <select id="s_period"
                                     name="s_period"
@@ -86,13 +86,13 @@
 
                                 @endforeach
                             </select>
-                            <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
+                            <span class="help-block" ng-show="checkValidate(leave, 's_period')">เลือกช่วงเวลา</span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">ถึงวันที่</label>
                             <input type="text" id="e_date" name="e_date" class="form-control" />
                         </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'end_period')}">
+                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'e_period')}">
                             <label>ช่วงเวลา :</label>
                             <select id="e_period"
                                     name="e_period"
@@ -108,7 +108,7 @@
 
                                 @endforeach
                             </select>
-                            <span class="help-block" ng-show="checkValidate(leave, 'end_period')">เลือกช่วงเวลา</span>
+                            <span class="help-block" ng-show="checkValidate(leave, 'e_period')">เลือกช่วงเวลา</span>
                         </div>
                     </div>
 
