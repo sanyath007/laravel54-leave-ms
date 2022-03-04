@@ -66,16 +66,17 @@ class CancellationController extends Controller
         }
     }
 
-    public function delete(Request $req)
+    public function delete(Request $req, $id)
     {
-        $cancel = Cancellation::find($req['id']);
+        $cancel = Cancellation::find($id);
+        $leaveId = $cancel->leave_id;
 
         if ($cancel->delete()) {
-            $leave = Leave::find($req['leave_id']);
+            $leave = Leave::find($cancel->leave_id);
             $leave->status = 3;
             $leave->save();
 
-            return redirect('/cancellations/cancel');
+            return redirect('/cancellations/cancel')->with('status', 'ลบรายการขอยกเลิกวันลา ID: ' .$id. ' เรียบร้อยแล้ว !!');;
         }
     }
 

@@ -73,8 +73,6 @@
                     action="{{ url('/cancellations/delete') }}"
                     ng-show="cancel.status == 5"
                 >
-                    <input type="hidden" id="id" name="id" value="@{{ cancel.cancellation[0].id }}" />
-                    <input type="hidden" id="leave_id" name="leave_id" value="@{{ cancel.id }}" />
                     {{ csrf_field() }}
                     <button
                         type="submit"

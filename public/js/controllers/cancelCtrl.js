@@ -34,12 +34,14 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
 
     $('#s_period').prop("disabled", true);
 
-    $('#from_date').datepicker(dtpOptions).on('changeDate', function(event) {
+    $('#s_date').datepicker(dtpOptions).on('changeDate', function(event) {
         // let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        console.log(event.date);
     });
 
-    $('#to_date').datepicker(dtpOptions).on('changeDate', function(event) {
+    $('#e_date').datepicker(dtpOptions).on('changeDate', function(event) {
         // let selectedDate = moment(event.date).format('YYYY-MM-DD');
+        console.log(event.date);
 
         /** Clear value of .select2 */
         $('#end_period').val(null).trigger('change');
@@ -155,6 +157,9 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
 
     $scope.onDelete = function(e, id) {
         e.preventDefault();
+
+        const actionUrl = $('#frmDelete').attr('action');
+        $('#frmDelete').attr('action', `${actionUrl}/${id}`);
 
         if (window.confirm(`คุณต้องลบรายการขอยกเลิกวันลาเลขที่ ${id} ใช่หรือไม่?`)) {
             $('#frmDelete').submit();
