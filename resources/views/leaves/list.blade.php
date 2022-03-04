@@ -191,7 +191,6 @@
                                                 action="{{ url('/leaves/delete') }}"
                                                 ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
                                             >
-                                                <input type="hidden" id="id" name="id" value="@{{ leave.id }}" />
                                                 {{ csrf_field() }}
                                                 <button
                                                     type="submit"

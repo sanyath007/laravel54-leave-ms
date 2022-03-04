@@ -439,12 +439,12 @@ class LeaveController extends Controller
         }
     }
 
-    public function delete(Request $req)
+    public function delete(Request $req, $id)
     {
-        $leave = Leave::find($req['id']);
+        $leave = Leave::find($id);
 
         if($leave->delete()) {
-            return redirect('/leaves/list')->with('status', 'ลบข้อมูลเรียบร้อยแล้ว !!');
+            return redirect('/leaves/list')->with('status', 'ลบใบลา ID: ' .$id. ' เรียบร้อยแล้ว !!');
         }
     }
 

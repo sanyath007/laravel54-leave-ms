@@ -120,6 +120,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         } else {
             $scope.leave.start_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
         }
+        
+        /** Clear value of .select2 */
+        $('#end_period').val(null).trigger('change');
     });
 
     $scope.speriodSelected = '';
@@ -579,6 +582,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
 
     $scope.delete = function(e, id) {
         e.preventDefault();
+
+        const actionUrl = $('#frmDelete').attr('action');
+        $('#frmDelete').attr('action', `${actionUrl}/${id}`);
 
         if(confirm(`คุณต้องลบใบลาเลขที่ ${id} ใช่หรือไม่?`)) {
             $('#frmDelete').submit();
