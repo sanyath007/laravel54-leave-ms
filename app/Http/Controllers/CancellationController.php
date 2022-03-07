@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\MessageBag;
 use App\Models\Person;
 use App\Models\Leave;
 use App\Models\LeaveType;
@@ -18,34 +20,32 @@ class CancellationController extends Controller
         '3'  => 'ช่วงบ่าย (13.00-16.00น.)',
     ];
 
-    public function formValidate()
+    public function formValidate(Request $request)
     {
         $rules = [
             'reason'        => 'required',
-            'from_date'     => 'required',
-            'from_period'   => 'required',
-            'to_date'       => 'required',
-            'to_period'     => 'required',
+            'start_date'    => 'required',
+            'end_date'      => 'required',
+            'end_period'    => 'required',
+            'end_period'    => 'required',
+            'days'          => 'required',
+            'working_days'  => 'required',
         ];
-
-        // if ($request['leave_type'] == '1' || $request['leave_type'] == '2' || 
-        //     $request['leave_type'] == '3' || $request['leave_type'] == '4' ||
-        //     $request['leave_type'] == '5') {
-        //     $rules['leave_contact'] = 'required';
-        // }
 
         $messages = [
             'reason.required'       => 'กรุณาระบุเหตุผลการยกเลิก',
-            'from_date.required'    => 'กรุณาเลือกจากวันที่',
-            'from_date.not_in'      => 'คุณมีการลาในวันที่ระบุแล้ว',
-            'to_date.required'      => 'กรุณาเลือกถึงวันที่',
-            'to_date.not_in'        => 'คุณมีการลาในวันที่ระบุแล้ว',
-            'to_period.required'    => 'กรุณาเลือกช่วงเวลา',
+            'start_date.required'    => 'กรุณาเลือกจากวันที่',
+            'start_date.not_in'      => 'คุณมีการลาในวันที่ระบุแล้ว',
+            'end_date.required'      => 'กรุณาเลือกถึงวันที่',
+            'end_date.not_in'        => 'คุณมีการลาในวันที่ระบุแล้ว',
+            'end_period.required'    => 'กรุณาเลือกช่วงเวลา',
         ];
 
         $validator = \Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
+            $messageBag = $validator->getMessageBag();
+
             return [
                 'success' => 0,
                 'errors' => $messageBag->toArray(),
@@ -72,11 +72,12 @@ class CancellationController extends Controller
         $cancel->leave_id       = $req['leave_id'];
         $cancel->cancel_date    = date('Y-m-d');
         $cancel->reason         = $req['reason'];
-        $cancel->start_date     = convThDateToDbDate($req['from_date']);
+        $cancel->start_date     = convThDateToDbDate($req['start_date']);
         $cancel->start_period   = '1';
-        $cancel->end_date       = convThDateToDbDate($req['to_date']);
+        $cancel->end_date       = convThDateToDbDate($req['end_date']);
         $cancel->end_period     = $req['end_period'];
-        $cancel->days           = $req['leave_days'];
+        $cancel->days           = $req['days'];
+        $cancel->working_days   = $req['working_days'];
 
         if ($cancel->save()) {
             /** Update status of leave data */
@@ -91,14 +92,13 @@ class CancellationController extends Controller
     public function update(Request $req)
     {
         $cancel = Cancellation::find($req['id']);
-        $cancel->leave_id       = $req['leave_id'];
-        $cancel->cancel_date    = date('Y-m-d');
         $cancel->reason         = $req['reason'];
-        $cancel->start_date     = convThDateToDbDate($req['from_date']);
+        $cancel->start_date     = convThDateToDbDate($req['start_date']);
         $cancel->start_period   = '1';
-        $cancel->end_date       = convThDateToDbDate($req['to_date']);
+        $cancel->end_date       = convThDateToDbDate($req['end_date']);
         $cancel->end_period     = $req['end_period'];
-        $cancel->days           = $req['leave_days'];
+        $cancel->days           = $req['days'];
+        $cancel->working_days   = $req['working_days'];
         dd($cancel);
 
         if ($cancel->save()) {

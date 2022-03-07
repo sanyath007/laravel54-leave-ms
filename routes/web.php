@@ -74,7 +74,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('approvals/status', 'ApprovalController@setStatus');
 
     /** ยกเลิกการลา */
-    Route::get('cancellations/validate', 'CancellationController@formValidate');
+    Route::post('cancellations/validate', 'CancellationController@formValidate');
     Route::get('cancellations/cancel', 'CancellationController@getCancel');
     Route::post('cancellations/store', 'CancellationController@store');
     Route::post('cancellations/update', 'CancellationController@update');

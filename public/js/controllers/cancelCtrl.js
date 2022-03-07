@@ -1,4 +1,4 @@
-app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalService, StringFormatService, ReportService, PaginateService) {
+app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, StringFormatService, PaginateService) {
     /** ################################################################################## */
     $scope.loading = false;
     $scope.cboYear = parseInt(moment().format('MM')) > 9
@@ -17,10 +17,17 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
 
     $scope.cancellations = [];
     $scope.cancelPager = [];
-
-    $scope.cboStartPeriod = '';
-    $scope.cboEndPeriod = '';
-    $scope.cancelReason = '';
+    
+    $scope.cancellation = {
+        leave_id: '',
+        reason: '',
+        start_date: '',
+        end_date: '',
+        start_period: '',
+        end_period: '',
+        days: 0,
+        working_days: 0,
+    };
 
     /** ============================== Init Form elements ============================== */
     let dtpOptions = {
@@ -35,7 +42,7 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
     /** ==================== Add form ==================== */
     $('#start_period').prop("disabled", true);
 
-    $('#from_date')
+    $('#start_date')
         .datepicker(dtpOptions)
         .on('show', function (e) {
             /** If input is disabled user cannot select date  */
@@ -57,11 +64,14 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
             ) {
                 alert('ไม่สามารถเลือกวันที่ไม่อยู่ระหว่างวันที่ลาได้!!');
 
-                $('#from_date').datepicker('update', moment($scope.leave.start_date).toDate());
+                $('#start_date').datepicker('update', moment($scope.leave.start_date).toDate());
             }
+
+            /** Clear value of .select2 */
+            $('#end_period').val(null).trigger('change');
         });
 
-    $('#to_date')
+    $('#end_date')
         .datepicker(dtpOptions)
         .on('show', function (e) {
             /** If input is disabled user cannot select date  */
@@ -83,7 +93,7 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
             ) {
                 alert('ไม่สามารถเลือกวันที่ไม่อยู่ระหว่างวันที่ลาได้!!');
 
-                $('#to_date').datepicker('update', moment($scope.leave.to_date).toDate());
+                $('#end_date').datepicker('update', moment($scope.leave.end_date).toDate());
             }
 
             /** Clear value of .select2 */
@@ -207,14 +217,12 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
             days += 1;
         }
 
-        console.log($scope.leave);
-
-        $scope.leave.leave_days = days;
-        $('#leave_days').val(days);
+        $scope.cancellation.leave_days = days;
+        $('#days').val(days);
 
         /** ตรวจสอบวันทำการ */
         working_days = await calculateWorkingDays(sdate, edate, parseInt(endPeriod));
-        $scope.leave.working_days = working_days;
+        $scope.cancellation.working_days = working_days;
         $('#working_days').val(working_days);
     };
 
@@ -301,13 +309,18 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
     $scope.showCancelForm = function(leave) {
         $scope.leave = leave;
 
-        $scope.cancelReason = '';
-        $scope.cboStartPeriod = leave.start_period.toString();
-        $scope.cboEndPeriod = leave.end_period.toString();
+        $scope.cancellation.leave_id = leave.id;
+        $scope.cancellation.reason = '';
+        $scope.cancellation.start_date = leave.start_date;
+        $scope.cancellation.end_date = leave.end_date;
+        $scope.cancellation.start_period = leave.start_period.toString();
+        $scope.cancellation.end_period = leave.end_period.toString();
+        $scope.cancellation.days = leave.leave_days;
+        $scope.cancellation.working_days = leave.working_days;
 
-        $('#from_date').datepicker(dtpOptions).datepicker('update', moment(leave.start_date).toDate());
+        $('#start_date').datepicker(dtpOptions).datepicker('update', moment(leave.start_date).toDate());
 
-        $('#to_date').datepicker(dtpOptions).datepicker('update', moment(leave.end_date).toDate());
+        $('#end_date').datepicker(dtpOptions).datepicker('update', moment(leave.end_date).toDate());
 
         $('#add-form').modal('show');
     };
@@ -321,9 +334,14 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, ModalServi
     $scope.onEdit = function(leave) {
         $scope.leave = leave;
 
-        $scope.cancelReason = leave.cancellation[0].reason;
-        $scope.cboStartPeriod = leave.cancellation[0].start_period.toString();
-        $scope.cboEndPeriod = leave.cancellation[0].end_period.toString();
+        $scope.cancellation.leave_id = leave.id;
+        $scope.cancellation.reason = leave.cancellation[0].reason;;
+        $scope.cancellation.start_date = leave.cancellation[0].start_date;
+        $scope.cancellation.end_date = leave.cancellation[0].end_date;
+        $scope.cancellation.start_period = leave.cancellation[0].start_period.toString();
+        $scope.cancellation.end_period = leave.cancellation[0].end_period.toString();
+        $scope.cancellation.days = leave.cancellation[0].days;
+        $scope.cancellation.working_days = leave.cancellation[0].working_days;
 
         $('#s_date').datepicker(dtpOptions).datepicker('update', moment(leave.cancellation[0].start_date).toDate());
 
