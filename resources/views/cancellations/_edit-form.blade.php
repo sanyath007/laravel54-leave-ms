@@ -38,16 +38,30 @@
                                 <span style="font-weight: bold;; margin-right: 5px;">@{{ leave.start_date | thdate }}</span>
                                 ถึงวันที่
                                 <span style="font-weight: bold;">@{{ leave.end_date | thdate }}</span>
+                                มีกำหนด
+                                <span style="font-weight: bold;">@{{ leave.leave_days | currency:'':1 }}</span> วัน
                             </p>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-md-12">
+                        <div
+                            class="form-group col-md-12"
+                            ng-class="{'has-error has-feedback': checkValidate(cancellation, 'reason')}"
+                        >
                             <label for="">เนื่องจาก (ระบุเหตุผลการยกเลิก)</label>
-                            <textarea name="reason" ng-model="cancelReason" cols="3" class="form-control"></textarea>
+                            <textarea
+                                id="reason"
+                                name="reason"
+                                ng-model="cancellation.reason"
+                                cols="3"
+                                class="form-control"
+                            ></textarea>
+                            <span class="help-block" ng-show="checkValidate(cancellation, 'reason')">
+                                @{{ formError.errors.reason[0] }}
+                            </span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="">จึงขอยกเลิกวันลา</label>
                             <input
                                 type="text"
@@ -56,27 +70,75 @@
                                 readonly="readonly"
                             />
                         </div>
-                        <div class="form-group col-md-6">
+                    </div>
+
+                    <div class="row">
+                        <div
+                            class="form-group col-md-6"
+                            ng-class="{'has-error has-feedback': checkValidate(cancellation, 'days')}"
+                        >
                             <label for="">จำนวน (วัน)</label>
                             <input
                                 type="text"
-                                id="_days"
-                                name="_days"
+                                id="days"
+                                name="days"
+                                ng-model="cancellation.days"
                                 class="form-control"
-                                value="@{{ leave.leave_days }}"
+                                value="@{{ cancellation.days }}"
                                 readonly="readonly"
                             />
+                            <span class="help-block" ng-show="checkValidate(cancellation, 'days')">
+                                @{{ formError.errors.days[0] }}
+                            </span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div
+                            class="form-group col-md-6"
+                            ng-class="{'has-error has-feedback': checkValidate(cancellation, 'working_days')}"
+                        >
+                            <label for="">จำนวน (วันทำการ)</label>
+                            <input
+                                type="text"
+                                id="working_days"
+                                name="working_days"
+                                ng-model="cancellation.working_days"
+                                class="form-control"
+                                value="@{{ cancellation.working_days }}"
+                                readonly="readonly"
+                            />
+                            <span class="help-block" ng-show="checkValidate(cancellation, 'working_days')">
+                                @{{ formError.errors.working_days[0] }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div
+                            class="form-group col-md-6"
+                            ng-class="{'has-error has-feedback': checkValidate(cancellation, 'start_date')}"
+                        >
                             <label for="">ตั้งแต่วันที่</label>
-                            <input type="text" id="s_date" name="s_date" class="form-control" />
+                            <input
+                                type="text"
+                                id="s_date"
+                                name="s_date"
+                                ng-model="cancellation.start_date"
+                                class="form-control"
+                            />
+                            <span class="help-block" ng-show="checkValidate(cancellation, 'start_date')">
+                                @{{ formError.errors.start_date[0] }}
+                            </span>
                         </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 's_period')}">
+                        <div
+                            class="form-group col-md-6"
+                            ng-class="{'has-error has-feedback': checkValidate(cancellation, 'start_period')}"
+                        >
                             <label>ช่วงเวลา :</label>
-                            <select id="s_period"
-                                    name="s_period"
-                                    ng-model="cboStartPeriod"
-                                    class="form-control">
+                            <select
+                                id="s_period"
+                                name="s_period"
+                                ng-model="cancellation.start_period"
+                                class="form-control"
+                            >
                                 <option value="">-- เลือกช่วงเวลา --</option>
                                 @foreach($periods as $key => $period)
 
@@ -86,19 +148,41 @@
 
                                 @endforeach
                             </select>
-                            <span class="help-block" ng-show="checkValidate(leave, 's_period')">เลือกช่วงเวลา</span>
+                            <span class="help-block" ng-show="checkValidate(cancellation, 'start_period')">
+                                @{{ formError.errors.start_period[0] }}
+                            </span>
                         </div>
-                        <div class="form-group col-md-6">
+                    </div>
+
+                    <div class="row">
+                        <div
+                            class="form-group col-md-6"
+                            ng-class="{'has-error has-feedback': checkValidate(cancellation, 'end_date')}"
+                        >
                             <label for="">ถึงวันที่</label>
-                            <input type="text" id="e_date" name="e_date" class="form-control" />
+                            <input
+                                type="text"
+                                id="e_date"
+                                name="e_date"
+                                ng-model="cancellation.end_period"
+                                class="form-control"
+                            />
+                            <span class="help-block" ng-show="checkValidate(cancellation, 'end_date')">
+                                @{{ formError.errors.end_date[0] }}
+                            </span>
                         </div>
-                        <div class="form-group col-md-6" ng-class="{'has-error has-feedback': checkValidate(leave, 'e_period')}">
+                        <div
+                            class="form-group col-md-6"
+                            ng-class="{'has-error has-feedback': checkValidate(cancellation, 'end_period')}"
+                        >
                             <label>ช่วงเวลา :</label>
-                            <select id="e_period"
-                                    name="e_period"
-                                    ng-model="cboEndPeriod"
-                                    ng-change="calculateLeaveDays('from', 'to', cboEndPeriod)"
-                                    class="form-control">
+                            <select
+                                id="e_period"
+                                name="e_period"
+                                ng-model="cancellation.end_period"
+                                ng-change="calculateLeaveDays('s_date', 'e_date', cancellation.end_period)"
+                                class="form-control"
+                            >
                                 <option value="">-- เลือกช่วงเวลา --</option>
                                 @foreach($periods as $key => $period)
 
@@ -108,7 +192,9 @@
 
                                 @endforeach
                             </select>
-                            <span class="help-block" ng-show="checkValidate(leave, 'e_period')">เลือกช่วงเวลา</span>
+                            <span class="help-block" ng-show="checkValidate(cancellation, 'end_period')">
+                                @{{ formError.errors.end_period[0] }}
+                            </span>
                         </div>
                     </div>
 

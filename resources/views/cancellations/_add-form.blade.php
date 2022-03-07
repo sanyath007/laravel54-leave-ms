@@ -37,7 +37,7 @@
                                 <span style="font-weight: bold;; margin-right: 5px;">@{{ leave.start_date | thdate }}</span>
                                 ถึงวันที่
                                 <span style="font-weight: bold;">@{{ leave.end_date | thdate }}</span>
-                                เป็นจำนวน
+                                มีกำหนด
                                 <span style="font-weight: bold;">@{{ leave.leave_days | currency:'':1 }}</span> วัน
                             </p>
                         </div>
