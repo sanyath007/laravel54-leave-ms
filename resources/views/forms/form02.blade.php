@@ -173,24 +173,16 @@
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                &nbsp;<!-- {{ (float)$histories->vac_days }} -->
-                                            @else
-                                                &nbsp;
-                                            @endif
+                                            &nbsp;
                                         </td>
                                         <td style="text-align: center;">
-                                            <!-- {{ $leave->leave_days }} -->
+                                            &nbsp;
                                         </td>
                                         <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                <!-- {{ (float)$histories->vac_days + (float)$leave->leave_days }} -->
-                                            @endif
+                                            &nbsp;
                                         </td>
                                         <td style="text-align: center;">
-                                            @if(!empty($histories))
-                                                <!-- {{ $vacations->all_days - ((float)$histories->vac_days + (float)$leave->leave_days) }} -->
-                                            @endif
+                                            &nbsp;
                                         </td>
                                     </tr>
                                 </table>
