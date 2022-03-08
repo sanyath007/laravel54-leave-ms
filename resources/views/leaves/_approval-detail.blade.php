@@ -5,7 +5,9 @@
                 <h5 class="modal-title">รายละเอียดการอนุมัติ</h5>
             </div>
             <div class="modal-body" style="padding: 20px 40px;">
-                @{{ approval.cancellation }}
+
+                <!-- TODO: If leave have been cancelling should use approval data from cancellations table -->
+                <!-- @{{ approval.cancellation }} -->
                 <div class="row">
                     <div class="col-md-12">
                         <h4>หัวหน้ากลุ่มงาน</h4>

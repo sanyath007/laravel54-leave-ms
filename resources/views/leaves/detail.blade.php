@@ -496,9 +496,6 @@
                             </div>
                         </div><!-- /.row -->
                     </div><!-- /.box-body -->
-                    <div class="box-footer clearfix" style="text-align: center;">
-
-                    </div><!-- /.box-footer -->
                 </div><!-- /.box -->
 
             </div><!-- /.col -->
