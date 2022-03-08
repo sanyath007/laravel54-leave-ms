@@ -590,7 +590,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $('#frmDelete').attr('action', `${actionUrl}/${id}`);
 
         if(confirm(`คุณต้องลบใบลาเลขที่ ${id} ใช่หรือไม่?`)) {
-            // $('#frmDelete').submit();
+            $('#frmDelete').submit();
         }
     };
 
