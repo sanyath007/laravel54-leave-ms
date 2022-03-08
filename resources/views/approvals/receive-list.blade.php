@@ -50,6 +50,18 @@
                                     </select>
                                 </div><!-- /.form group -->
 
+                                <div class="form-group col-md-6">
+                                    <label>ชื่อบุคลากร (ขึ้นต้นด้วย)</label>
+                                    <input
+                                        type="text"
+                                        id="searchKeyword"
+                                        name="searchKeyword"
+                                        class="form-control"
+                                        ng-model="searchKeyword"
+                                        ng-change="onSearchKeyChange(searchKeyword)"
+                                    />
+                                </div><!-- /.form group -->
+
                             </div><!-- /.row -->
                         </div><!-- /.box-body -->
                     </form>

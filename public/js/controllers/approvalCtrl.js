@@ -147,8 +147,8 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     $scope.onReceiveLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '1&2' : '1';
-        $scope.cboMenu = "1";
         $scope.cboQuery = "";
+        $scope.cboMenu = "1";
 
         $scope.getAll();
 
@@ -158,8 +158,8 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     $scope.onApproveLoad = function(e) {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '2&3&4&8&9' : '2';
-        $scope.cboMenu = "1";
         $scope.cboQuery = `month=${moment().format('YYYY-MM')}`;
+        $scope.cboMenu = "1";
 
         $scope.getAll();
         $scope.getCancellation(true);
@@ -173,5 +173,16 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
         } else {
             $('#cancel-approval-form').modal('show');
         }
+    };
+
+    $scope.onSearchKeyChange = function(keyword) {
+        $scope.cboYear = '2565';
+        $scope.cboLeaveStatus = $scope.showAllApproves ? '1&2' : '1';
+        $scope.cboQuery = `name=${keyword}`;
+        $scope.cboMenu = "1";
+
+        $scope.getAll();
+
+        $scope.getCancellation();
     };
 });

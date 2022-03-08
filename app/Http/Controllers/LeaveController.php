@@ -156,12 +156,15 @@ class LeaveController extends Controller
         if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
 
         /** Get params from query string */
-        $qsDepart = $req->get('depart');
+        $qsDepart   = $req->get('depart');
         $qsDivision = $req->get('division');
-        $qsMonth = $req->get('month');
+        $qsName     = $req->get('name');
+        $qsMonth    = $req->get('month');
 
         /** Generate list of person of depart from query params */
         $personList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
+                        ->where('level.faction_id', '5')
+                        ->where('person_state', '1')
                         ->when(!empty($qsDepart), function($q) use ($qsDepart) {
                             $q->where('level.depart_id', $qsDepart);
                         })
@@ -170,48 +173,33 @@ class LeaveController extends Controller
 
                             $q->whereIn('level.ward_id', $wardLists);
                         })
+                        ->when(!empty($qsName), function($q) use ($qsName) {
+                            $q->where('person_firstname', 'like', $qsName.'%');
+                        })
                         ->pluck('personal.person_id');
 
-        if(count($conditions) == 0) {
-            $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
-                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
-                        ->with('cancellation')
-                        ->when(!empty($qsDepart), function($q) use ($personList) {
-                            $q->whereIn('leave_person', $personList);
-                        })
-                        ->when(!empty($qsMonth), function($q) use ($qsMonth) {
-                            $sdate = $qsMonth. '-01';
-                            $edate = date('Y-m-t', strtotime($sdate));
+        $leaves = Leave::when(count($conditions) > 0, function($q) use ($conditions) {
+                        $q->where($conditions);
+                    })
+                    ->when(count($matched) > 0 && $matched[0] == '&', function($q) use ($arrStatus) {
+                        $q->whereIn('status', $arrStatus);
+                    })
+                    ->when(count($matched) > 0 && $matched[0] == '-', function($q) use ($arrStatus) {
+                        $q->whereBetween('status', $arrStatus);
+                    })
+                    ->with('person', 'person.prefix', 'person.position', 'person.academic')
+                    ->with('person.memberOf', 'person.memberOf.depart', 'type')
+                    ->with('cancellation')
+                    ->whereIn('leave_person', $personList)
+                    ->when(!empty($qsMonth), function($q) use ($qsMonth) {
+                        $sdate = $qsMonth. '-01';
+                        $edate = date('Y-m-t', strtotime($sdate));
 
-                            $q->whereBetween('leave_date', [$sdate, $edate]);
-                        })
-                        ->orderBy('leave_date', 'desc')
-                        ->orderBy('start_date', 'desc')
-                        ->paginate(20);
-        } else {
-            $leaves = Leave::where($conditions)
-                        ->when(count($matched) > 0 && $matched[0] == '&', function($q) use ($arrStatus) {
-                            $q->whereIn('status', $arrStatus);
-                        })
-                        ->when(count($matched) > 0 && $matched[0] == '-', function($q) use ($arrStatus) {
-                            $q->whereBetween('status', $arrStatus);
-                        })
-                        ->with('person', 'person.prefix', 'person.position', 'person.academic')
-                        ->with('person.memberOf', 'person.memberOf.depart', 'type')
-                        ->with('cancellation')
-                        ->when(!empty($qsDepart), function($q) use ($personList) {
-                            $q->whereIn('leave_person', $personList);
-                        })
-                        ->when(!empty($qsMonth), function($q) use ($qsMonth) {
-                            $sdate = $qsMonth. '-01';
-                            $edate = date('Y-m-t', strtotime($sdate));
-
-                            $q->whereBetween('leave_date', [$sdate, $edate]);
-                        })
-                        ->orderBy('leave_date', 'desc')
-                        ->orderBy('start_date', 'desc')
-                        ->paginate(10);
-        }
+                        $q->whereBetween('leave_date', [$sdate, $edate]);
+                    })
+                    ->orderBy('leave_date', 'desc')
+                    ->orderBy('start_date', 'desc')
+                    ->paginate(10);
 
         return [
             'leaves' => $leaves,
