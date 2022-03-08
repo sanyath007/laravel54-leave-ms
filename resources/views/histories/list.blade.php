@@ -63,7 +63,7 @@
 
                             </div><!-- /.col-md-6 -->                 
                         </div><!-- /.box-body -->
-                  
+
                         <div class="box-footer">
                             <a ng-click="deprecCalulate()" class="btn btn-primary">
                                 คำนวณค่าเสื่อม
@@ -78,7 +78,7 @@
 
                 <div class="box">
                     <div class="box-header with-border">
-                      <h3 class="box-title">รายการครุภัณฑ์</h3>
+                        <h3 class="box-title">รายการครุภัณฑ์</h3>
                     </div><!-- /.box-header -->
 
                     <div class="box-body">
