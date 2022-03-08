@@ -33,11 +33,13 @@ class DashboardController extends Controller
 
         $leaves     = Leave::whereIn('leave_person', $heads)
                         ->with('type')
-                        ->where('start_date', $date)
+                        ->where('start_date', '<=', $date)
+                        ->where('end_date', '>=', $date)
+                        // ->where('status', '3')
                         ->paginate(10);
 
         return [
-            'leaves'   => $leaves,
+            'leaves'    => $leaves,
             'persons'   => $persons,
         ];
     }

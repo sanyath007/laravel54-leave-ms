@@ -1,6 +1,6 @@
 <div class="box" ng-init="getHeadLeaves()">
     <div class="box-header">
-        <h3 class="box-title">หัวหน้า</h3>
+        <h3 class="box-title">หัวหน้าลาประจำวัน</h3>
         <div class="pull-right box-tools">
             <div class="row">
                 <div class="form-group col-md-12" style="margin-bottom: 0px;">

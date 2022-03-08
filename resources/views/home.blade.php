@@ -19,7 +19,6 @@
 
         @include('dashboard._stat-cards')
 
-
         <!-- Main row -->
         <div class="row">
 
@@ -35,13 +34,13 @@
 
             </section> -->
 
-            <section class="col-lg-8 connectedSortable">
+            <section class="col-lg-6 connectedSortable">
 
                 @include('dashboard._head')
 
             </section>
 
-            <section class="col-lg-4 connectedSortable">
+            <section class="col-lg-6 connectedSortable">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">จำนวนการลา รายหน่วยงาน</h3>
