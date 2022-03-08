@@ -67,7 +67,7 @@
                                 <div class="row">
                                     <div
                                         class="form-group col-md-12"
-                                        ng-class="{ 'has-error has-feedback': {{ $errors->has('reason') ? 1 : 0 }} }"
+                                        ng-class="{ 'has-error has-feedback': checkValidate(cancellation, 'reason') }"
                                     >
                                         <label for="">เนื่องจาก (ระบุเหตุผลการยกเลิก)</label>
                                         <textarea
@@ -77,12 +77,9 @@
                                             cols="3"
                                             class="form-control"
                                         ></textarea>
-                                        
-                                        @if($errors->has('reason'))
-                                            <span class="help-block">
-                                                {{ $errors->first('reason') }}
-                                            </span>
-                                        @endif
+                                        <span class="help-block" ng-show="checkValidate(cancellation, 'reason')">
+                                            @{{ formError.errors.end_period[0] }}
+                                        </span>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="">จึงขอยกเลิกวันลา</label>
@@ -196,7 +193,7 @@
                                     </div>
                                     <div
                                         class="form-group col-md-6"
-                                        ng-class="{ 'has-error has-feedback': {{ $errors->has('end_period') ? 1 : 0 }} }"
+                                        ng-class="{ 'has-error has-feedback': checkValidate(cancellation, 'end_period') }"
                                     >
                                         <label>ช่วงเวลา :</label>
                                         <select
@@ -215,12 +212,9 @@
 
                                             @endforeach
                                         </select>
-
-                                        @if($errors->has('end_period'))
-                                            <span class="help-block">
-                                                {{ $errors->first('end_period') }}
-                                            </span>
-                                        @endif
+                                        <span class="help-block" ng-show="checkValidate(cancellation, 'end_period')">
+                                            @{{ formError.errors.end_period[0] }}
+                                        </span>
                                     </div>
                                 </div>
 
@@ -232,7 +226,7 @@
                                 <button
                                     type="submit"
                                     class="btn btn-warning pull-right"
-                                    ng-click="update($event, cancellation.leave_id)"
+                                    ng-click="formValidate($event, '/cancellations/validate', cancellation, 'frmEditCancel', update)"
                                     style="margin-right: 5px;"
                                 >
                                     แก้ไข

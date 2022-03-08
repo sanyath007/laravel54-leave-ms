@@ -113,7 +113,6 @@ class CancellationController extends Controller
         $cancel->end_period     = $req['end_period'];
         $cancel->days           = $req['days'];
         $cancel->working_days   = $req['working_days'];
-        dd($cancel);
 
         if ($cancel->save()) {
             return redirect('/cancellations/cancel');

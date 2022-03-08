@@ -270,7 +270,7 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     $scope.store = function(event, form) {
         event.preventDefault();
 
-        $('#frmAddCancel').submit();
+        $(`#${form}`).submit();
     }
 
     $scope.onEdit = function(leave) {
@@ -294,11 +294,11 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, StringForm
             .datepicker('update', moment(leave.cancellation[0].end_date).toDate());
     };
 
-    $scope.update = function(event, id) {
+    $scope.update = function(event, form) {
         event.preventDefault();
 
-        if(confirm(`คุณต้องแก้ไขรายการขอยกเลิกวันลาเลขที่ ${id} ใช่หรือไม่?`)) {
-            $('#frmEditCancel').submit();
+        if(confirm(`คุณต้องแก้ไขรายการขอยกเลิกวันลาเลขที่ ${$scope.cancellation.leave_id} ใช่หรือไม่?`)) {
+            $(`#${form}`).submit();
         }
     };
 
