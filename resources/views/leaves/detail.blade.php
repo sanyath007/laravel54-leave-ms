@@ -20,6 +20,8 @@
         <div class="row">
             <div class="col-md-12">
 
+                @include('leaves._approval-detail')
+
                 <div class="box box-info">
                     <div class="box-header">
                         <h3 class="box-title">รายละเอียดใบลา</h3>
@@ -37,7 +39,16 @@
                                         style="width: 98%;"
                                     />
                                 </div>
+                                <div style="text-align: center; margin-top: 10px;">
+                                    <a  ng-click="showApprovalDetail({{ $leave->id }})"
+                                        class="btn btn-default" 
+                                        title="การอนุมัติ"
+                                        target="_blank">
+                                        ตรวจสอบผลการอนุมัติ
+                                    </a>
+                                </div>
                             </div>
+
                             <div class="col-md-8">
                                 <div class="form-group col-md-6">
                                     <label>เขียนที่ :</label>
@@ -437,53 +448,55 @@
                                     </span>
                                 </div>
                             </div>
+
+                            <div class="col-md-2">
+                                <div style="display: flex; flex-direction: column; justify-content: center; gap: 0.5rem;">
+                                <a
+                                    href="{{ url('/leaves/print') }}/{{ $leave->id }}"
+                                    class="btn btn-success"
+                                    target="_blank"
+                                    ng-show="![8, 9].includes(leave.status)"
+                                >
+                                    <i class="fa fa-print"></i> พิมพ์ใบลา
+                                </a>
+                                <a
+                                    href="{{ url('/cancellations/print') }}/{{ $leave->id }}"
+                                    class="btn btn-primary"
+                                    target="_blank"
+                                    ng-show="leave.status == 5"
+                                >
+                                    <i class="fa fa-print"></i> พิมพ์แบบขอยกเลิกวันลา
+                                </a>
+                                <a
+                                    href="#"
+                                    ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
+                                    ng-click="edit(leave.leave_id)"
+                                    class="btn btn-warning"
+                                >
+                                    <i class="fa fa-edit"></i> แก้ไข
+                                </a>
+                                <form
+                                    id="frmDelete"
+                                    method="POST"
+                                    action="{{ url('/leaves/delete') }}"
+                                    ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
+                                >
+                                    <input type="hidden" id="id" name="id" value="@{{ leave.leave_id }}" />
+                                    {{ csrf_field() }}
+                                    <button
+                                        type="submit"
+                                        ng-click="delete($event, leave.leave_id)"
+                                        class="btn btn-danger btn-block"
+                                    >
+                                        <i class="fa fa-trash"></i> ลบ
+                                    </button>
+                                </form>
+                            </div>
+                            <!-- /** Action buttons container */ -->
+                            </div>
                         </div><!-- /.row -->
                     </div><!-- /.box-body -->
                     <div class="box-footer clearfix" style="text-align: center;">
-
-                        <div style="display: flex; justify-content: center; gap: 0.5rem;">
-                            <a
-                                href="{{ url('/leaves/print') }}/{{ $leave->id }}"
-                                class="btn btn-success"
-                                target="_blank"
-                                ng-show="![8, 9].includes(leave.status)"
-                            >
-                                <i class="fa fa-print"></i> พิมพ์ใบลา
-                            </a>
-                            <a
-                                href="{{ url('/cancellations/print') }}/{{ $leave->id }}"
-                                class="btn btn-primary"
-                                target="_blank"
-                                ng-show="leave.status == 5"
-                            >
-                                <i class="fa fa-print"></i> พิมพ์แบบขอยกเลิกวันลา
-                            </a>
-                            <a
-                                href="#"
-                                ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
-                                ng-click="edit(leave.leave_id)"
-                                class="btn btn-warning"
-                            >
-                                <i class="fa fa-edit"></i> แก้ไข
-                            </a>
-                            <form
-                                id="frmDelete"
-                                method="POST"
-                                action="{{ url('/leaves/delete') }}"
-                                ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
-                            >
-                                <input type="hidden" id="id" name="id" value="@{{ leave.leave_id }}" />
-                                {{ csrf_field() }}
-                                <button
-                                    type="submit"
-                                    ng-click="delete($event, leave.leave_id)"
-                                    class="btn btn-danger"
-                                >
-                                    <i class="fa fa-trash"></i> ลบ
-                                </button>
-                            </form>
-                        </div>
-                        <!-- /** Action buttons container */ -->
 
                     </div><!-- /.box-footer -->
                 </div><!-- /.box -->

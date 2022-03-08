@@ -590,7 +590,17 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $('#frmDelete').attr('action', `${actionUrl}/${id}`);
 
         if(confirm(`คุณต้องลบใบลาเลขที่ ${id} ใช่หรือไม่?`)) {
-            $('#frmDelete').submit();
+            // $('#frmDelete').submit();
         }
+    };
+
+    $scope.approval = null;
+    $scope.showApprovalDetail = function(id) {
+        $scope.getById(id, function(data) {
+            console.log(data);
+            $scope.approval = data.leave;
+        });
+
+        $('#approval-detail').modal('show');
     };
 });

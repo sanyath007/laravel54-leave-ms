@@ -3,35 +3,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">รายละเอียดการอนุมัติ</h5>
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button> -->
             </div>
             <div class="modal-body" style="padding: 20px 40px;">
+                @{{ approval.cancellation }}
                 <div class="row">
                     <div class="col-md-12">
                         <h4>หัวหน้ากลุ่มงาน</h4>
                         <span
                             style="margin-right: 10px; color: red; font-size: 12px;"
-                            ng-show="leave.commented_date == null"
+                            ng-show="approval.commented_date == null"
                         >
                             <i class="fa fa-window-close" aria-hidden="true"></i>
                             ยังไม่ได้ลงความเห็น
                         </span>
 
-                        <div ng-show="leave.commented_date != null">
+                        <div ng-show="approval.commented_date != null">
                             <div class="form-group">
-                                <input type="checkbox" ng-checked="[1,2,3,4].includes(leave.status)" />
+                                <input type="checkbox" ng-checked="[1,2,3,4].includes(approval.status)" />
                                 <span style="margin-right: 10px;">อนุญาต</span>
-                                <input type="checkbox" ng-checked="leave.status == 7" />
+                                <input type="checkbox" ng-checked="approval.status == 7" />
                                 <span style="margin-right: 10px;">ไม่อนุญาต</span>
                                 <span style="margin-right: 10px;">
-                                    เมื่อวันที่ @{{ leave.commented_date | thdate }}
+                                    เมื่อวันที่ @{{ approval.commented_date | thdate }}
                                 </span>
                             </div>
                             <div class="form-group">
                                 <label for="">ความเห็นของหัวหน้ากลุ่มงาน</label>
-                                @{{ leave.commented_text }}
+                                @{{ approval.commented_text }}
                             </div>
                         </div>
                     </div>
@@ -44,13 +42,13 @@
                         <h4>การรับเอกสาร</h4>
                         <span
                             style="margin-right: 10px; color: red; font-size: 12px;"
-                            ng-show="leave.received_date == null"
+                            ng-show="approval.received_date == null"
                         >
                             <i class="fa fa-window-close" aria-hidden="true"></i>
                             ยังไม่ได้ลงรับ
                         </span>
-                        <span style="margin-right: 10px;" ng-show="leave.received_date != null">
-                            เมื่อวันที่ @{{ leave.received_date | thdate }}
+                        <span style="margin-right: 10px;" ng-show="approval.received_date != null">
+                            เมื่อวันที่ @{{ approval.received_date | thdate }}
                         </span>
                     </div>
                 </div>
@@ -62,25 +60,25 @@
                         <h4>ผู้มีอำนาจลงนาม</h4>
                         <span
                             style="margin-right: 10px; color: red; font-size: 12px;"
-                            ng-show="leave.approved_date == null"
+                            ng-show="approval.approved_date == null"
                         >
                             <i class="fa fa-window-close" aria-hidden="true"></i>
                             ยังไม่ได้ลงนาม
                         </span>
 
-                        <div ng-show="leave.approved_date != null">
+                        <div ng-show="approval.approved_date != null">
                             <div class="form-group">
-                                <input type="checkbox" ng-checked="leave.status == 3" />
+                                <input type="checkbox" ng-checked="approval.status == 3" />
                                 <span style="margin-right: 10px;">อนุญาต</span>
-                                <input type="checkbox" ng-checked="leave.status == 4" />
+                                <input type="checkbox" ng-checked="approval.status == 4" />
                                 <span style="margin-right: 10px;">ไม่อนุญาต</span>
                                 <span style="margin-right: 10px;">
-                                    เมื่อวันที่ @{{ leave.approved_date | thdate }}
+                                    เมื่อวันที่ @{{ approval.approved_date | thdate }}
                                 </span>
                             </div>
                             <div class="form-group">
                                 <label for="">ความเห็นในการลงนาม</label>
-                                @{{ leave.approved_comment }}
+                                @{{ approval.approved_comment }}
                             </div>
                         </div>
                     </div>
