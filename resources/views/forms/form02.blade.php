@@ -10,7 +10,7 @@
                 <h2 style="margin: 0px; padding: 0px;">ใบลาพักผ่อน</h2>
             </div>
             <div class="content">
-                <table style="width: 100%;">
+                <table style="width: 100%; border-spacing: 0px;">
                     <tr style="height: 20px">
                         <td style="width: 5%;"></td>
                         <td style="width: 30%;"></td>
@@ -66,11 +66,13 @@
                             <span style="margin-right: 2px;">
                                 โรงพยาบาลเทพรัตน์นครราชสีมา
                             </span>
-                            มีวันลาพักผ่อน <span class="dot">......</span> วันทำการ
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4">
+                            <span style="margin-right: 10px;">
+                                มีวันลาพักผ่อน <span class="dot">......</span> วันทำการ
+                            </span>
                             มีสิทธิลาพักผ่อนประจำปีนี้อีก
                             <span style="margin-right: 10px;">
                                 <!-- <span class="text-val" style="margin-right: 5px;"> -->
@@ -84,17 +86,20 @@
                                     <span class="dot">............</span>
                                 <!-- </span> -->
                                 วันทำการ
-                            </span>ขอลาพักผ่อนประจำปี
+                            </span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4">
+                            <span style="margin-right: 10px;">
+                                ขอลาพักผ่อนประจำปี
+                            </span>
                             ตั้งแต่วันที่
-                            <span class="text-val" style="margin-right: 50px;">
+                            <span class="text-val" style="margin-right: 10px;">
                                 {{ convDbDateToLongThDate($leave->start_date) }}
                             </span>
                             ถึงวันที่ 
-                            <span class="text-val" style="margin-right: 50px;">
+                            <span class="text-val" style="margin-right: 10px;">
                                 {{ convDbDateToLongThDate($leave->end_date) }}
                             </span>
                             มีกำหนด <span class="text-val"> {{ $leave->leave_days }} </span> วัน
@@ -103,7 +108,9 @@
                     <tr>
                         <td colspan="4">
                             ในระหว่างลาจะติดต่อกับข้าพเจ้าได้ที่
-                            <span class="text-val">{{ $leave->leave_contact }}</span>
+                            <span class="text-val">
+                                {{ $leave->leave_contact }}
+                            </span>
                         </td>
                     </tr>
                     <tr>
