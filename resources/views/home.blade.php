@@ -41,23 +41,9 @@
             </section>
 
             <section class="col-lg-6 connectedSortable">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">จำนวนการลา รายหน่วยงาน</h3>
-                    </div>
-                    <div class="box-body">
-                        <table class="table table-triped">
-                            <tr>
-                                <th>กลุ่มงาน</th>
-                                <th style="width: 10%; text-align: center;">จำนวน</th>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+
+                @include('dashboard._depart')
+
             </section>
 
         </div><!-- /.row (main row) -->

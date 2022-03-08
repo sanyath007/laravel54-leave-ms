@@ -5,8 +5,10 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) 
     $scope.barOptions = {};
     $scope.headLeaves = [];
     $scope.pager = null;
+    $scope.departs = [];
+    $scope.departPager = null;
 
-    $('#cboNow').datepicker({
+    $('#cboHeadDate').datepicker({
         autoclose: true,
         language: 'th',
         format: 'dd/mm/yyyy',
@@ -18,29 +20,80 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) 
         $scope.getHeadLeaves();
     });
 
+    $('#cboDepartDate').datepicker({
+        autoclose: true,
+        language: 'th',
+        format: 'dd/mm/yyyy',
+        orientation: 'bottom',
+        thaiyear: true
+    })
+    .datepicker('update', moment().toDate())
+    .on('changeDate', function(event) {
+        $scope.getDepartLeaves();
+    });
+
     $scope.getHeadLeaves = function() {
         $scope.loading = true;
 
-        let date = $('#cboNow').val() !== ''
-                    ? StringFormatService.convToDbDate($('#cboNow').val())
+        let date = $('#cboHeadDate').val() !== ''
+                    ? StringFormatService.convToDbDate($('#cboHeadDate').val())
                     : moment().format('YYYY-MM-DD');
 
         $http.get(`${CONFIG.baseUrl}/dashboard/head/${date}`)
         .then(function(res) {
-            let { data, ...pager } = res.data.leaves;
-
-            data.forEach(leave => {
-                leave.person = res.data.persons.find(person => person.person_id === leave.leave_person);
-            });
-
-            $scope.headLeaves = data;
-            $scope.pager = pager;
+            $scope.setHeadLeaves(res);
 
             $scope.loading = false;
         }, function(err) {
             console.log(err);
             $scope.loading = false;
         });
+    };
+
+    $scope.setHeadLeaves = function(res) {
+        let { data, ...pager } = res.data.leaves;
+
+        data.forEach(leave => {
+            leave.person = res.data.persons.find(person => person.person_id === leave.leave_person);
+        });
+
+        $scope.headLeaves = data;
+        $scope.pager = pager;
+    };
+
+    $scope.getDepartLeaves = function() {
+        $scope.loading = true;
+
+        let date = $('#cboDepartDate').val() !== ''
+                    ? StringFormatService.convToDbDate($('#cboDepartDate').val())
+                    : moment().format('YYYY-MM-DD');
+
+        $http.get(`${CONFIG.baseUrl}/dashboard/depart/${date}`)
+        .then(function(res) {
+            $scope.setDepartLeaves(res);
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
+
+    $scope.setDepartLeaves = function (res) {
+        let { data, ...pager } = res.data.departs;
+
+        data.forEach(depart => {
+            depart.sum_leave = res.data.leaves.reduce((sum, leave) => {
+                if (depart.depart_id == leave.person.member_of.depart_id) {
+                    sum++;
+                }
+
+                return sum;
+            }, 0);
+        });
+
+        $scope.departs = data;
+        $scope.departPager = pager;
     };
 
     $scope.statCards = [];
@@ -57,6 +110,24 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) 
         }, function(err) {
             console.log(err);
 
+            $scope.loading = false;
+        });
+    };
+
+    // TODO: Duplicated method
+    $scope.getDataWithURL = function(e, URL, cb) {
+        /** Check whether parent of clicked a tag is .disabled just do nothing */
+        if ($(e.currentTarget).parent().is('li.disabled')) return;
+
+        $scope.loading = true;
+
+        $http.get(URL)
+        .then(function(res) {
+            cb(res);
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
             $scope.loading = false;
         });
     };

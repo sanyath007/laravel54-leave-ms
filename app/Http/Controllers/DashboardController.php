@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Person;
+use App\Models\Depart;
 use App\Models\Leave;
 
 class DashboardController extends Controller
@@ -41,6 +42,29 @@ class DashboardController extends Controller
         return [
             'leaves'    => $leaves,
             'persons'   => $persons,
+        ];
+    }
+
+    public function getDepartData($date)
+    {
+        $departs      = Depart::where('faction_id', '5')->paginate(10);
+
+        // $persons    = Person::join('level', 'level.person_id', '=', 'personal.person_id')
+        //                 ->with('leaves')
+        //                 ->whereNotIn('person_state', [6,7,8,9,99])
+        //                 ->where('level.faction_id', '5')
+        //                 ->whereIn('level.duty_id', [1,2,3])
+        //                 ->get();
+
+        $leaves     = Leave::with('type','person','person.memberOf')
+                        ->where('start_date', '<=', $date)
+                        ->where('end_date', '>=', $date)
+                        // ->where('status', '3')
+                        ->get();
+
+        return [
+            'leaves'    => $leaves,
+            'departs'   => $departs,
         ];
     }
 

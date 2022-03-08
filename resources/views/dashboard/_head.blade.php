@@ -6,8 +6,8 @@
                 <div class="form-group col-md-12" style="margin-bottom: 0px;">
                     <input
                         type="text"
-                        id="cboNow"
-                        name="cboNow"
+                        id="cboHeadDate"
+                        name="cboHeadDate"
                         class="form-control"
                     />
                 </div>
