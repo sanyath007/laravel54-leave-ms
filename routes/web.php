@@ -77,6 +77,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('cancellations/validate', 'CancellationController@formValidate');
     Route::get('cancellations/cancel', 'CancellationController@getCancel');
     Route::post('cancellations/store', 'CancellationController@store');
+    Route::get('cancellations/edit/{id}', 'CancellationController@edit');
     Route::post('cancellations/update', 'CancellationController@update');
     Route::post('cancellations/delete/{id}', 'CancellationController@delete');
     Route::get('cancellations/{personId}/person', 'CancellationController@getByPerson');

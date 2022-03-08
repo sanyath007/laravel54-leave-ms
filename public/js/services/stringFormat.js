@@ -1,13 +1,13 @@
 app.service('StringFormatService', function(CONFIG, $http) {
 	this.convToDbDate = function (date) {
-		arrDate = date.split('/');
+		const [day, month, year] = date.split('/');
 
-		return (parseInt(arrDate[2]) - 543)+ '-' +arrDate[1]+ '-' +arrDate[0];
+		return `${(parseInt(year) - 543)}-${month}-${day}`;
 	}
 
 	this.convFromDbDate = function (date) {
-		arrDate = date.split('-');
+		const [year, month, day] = date.split('-');
 
-		return arrDate[2]+ '/' +arrDate[1]+ '/' +(parseInt(arrDate[0]) + 543);
+		return `${day}/${month}/${(parseInt(year) + 543)}`;
 	}
 });

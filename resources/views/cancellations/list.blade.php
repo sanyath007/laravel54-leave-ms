@@ -102,7 +102,6 @@
                         </div><!-- /.tab-content -->
 
                         @include('cancellations._add-form')
-                        @include('cancellations._edit-form')
 
                     </div><!-- /.box-body -->
 

@@ -100,64 +100,6 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, StringForm
             $('#end_period').val(null).trigger('change');
         });
 
-    /** ==================== Edit form ==================== */
-    $('#s_period').prop("disabled", true);
-
-    $('#s_date')
-        .datepicker(dtpOptions)
-        .on('show', function (e) {
-            /** If input is disabled user cannot select date  */
-            const isDisabled = $(e.currentTarget).is('.disabled');
-
-            $('.day').click(function(event) {
-                if (isDisabled) {
-                    alert('ไม่สามารถแก้ไชวันที่ได้');
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            });
-        })
-        .on('changeDate', function(event) {
-            if (
-                moment(event.date).isBefore(moment($scope.leave.start_date)) ||
-                moment(event.date).isAfter(moment($scope.leave.end_date))
-            ) {
-                alert('ไม่สามารถเลือกวันที่ไม่อยู่ระหว่างวันที่ลาได้!!');
-
-                $('#s_date').datepicker('update', moment($scope.leave.start_date).toDate());
-            }
-        });
-
-    $('#e_date')
-        .datepicker(dtpOptions)
-        .on('show', function (e) {
-            /** If input is disabled user cannot select date  */
-            const isDisabled = $(e.currentTarget).is('.disabled');
-
-            $('.day').click(function(event) {
-                if (isDisabled) {
-                    alert('ไม่สามารถแก้ไชวันที่ได้');
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            });
-        })
-        .on('changeDate', function(event) {
-            if (
-                moment(event.date).isBefore(moment($scope.leave.start_date)) ||
-                moment(event.date).isAfter(moment($scope.leave.end_date))
-            ) {
-                alert('ไม่สามารถเลือกวันที่ไม่อยู่ระหว่างวันที่ลาได้!!');
-
-                $('#e_date').datepicker('update', moment($scope.leave.to_date).toDate());
-            }
-
-            /** Clear value of .select2 */
-            $('#e_period').val(null).trigger('change');
-        });
-
     $scope.isOnlyOneDay = function (sDate, eDate){
         return moment(eDate).diff(moment(sDate), "day") === 0;
     };
@@ -336,28 +278,29 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, StringForm
 
         $scope.cancellation.leave_id = leave.id;
         $scope.cancellation.reason = leave.cancellation[0].reason;;
-        $scope.cancellation.start_date = leave.cancellation[0].start_date;
-        $scope.cancellation.end_date = leave.cancellation[0].end_date;
+        $scope.cancellation.start_date = StringFormatService.convFromDbDate(leave.cancellation[0].start_date);
+        $scope.cancellation.end_date = StringFormatService.convFromDbDate(leave.cancellation[0].end_date);
         $scope.cancellation.start_period = leave.cancellation[0].start_period.toString();
         $scope.cancellation.end_period = leave.cancellation[0].end_period.toString();
         $scope.cancellation.days = leave.cancellation[0].days;
         $scope.cancellation.working_days = leave.cancellation[0].working_days;
 
-        $('#s_date').datepicker(dtpOptions).datepicker('update', moment(leave.cancellation[0].start_date).toDate());
+        $('#start_date')
+            .datepicker(dtpOptions)
+            .datepicker('update', moment(leave.cancellation[0].start_date).toDate());
 
-        $('#e_date').datepicker(dtpOptions).datepicker('update', moment(leave.cancellation[0].end_date).toDate());
-
-        $('#edit-form').modal('show');
+        $('#end_date')
+            .datepicker(dtpOptions)
+            .datepicker('update', moment(leave.cancellation[0].end_date).toDate());
     };
 
-    $scope.update = function(event) {
+    $scope.update = function(event, id) {
         event.preventDefault();
-    
-        if(confirm(`คุณต้องแก้ไขใบลาเลขที่ ${$scope.leave.leave_id} ใช่หรือไม่?`)) {
+
+        if(confirm(`คุณต้องแก้ไขรายการขอยกเลิกวันลาเลขที่ ${id} ใช่หรือไม่?`)) {
             $('#frmEditCancel').submit();
         }
     };
-
 
     $scope.onDelete = function(e, id) {
         e.preventDefault();

@@ -89,6 +89,20 @@ class CancellationController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $leave = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
+                    ->with('person.memberOf', 'person.memberOf.depart', 'type')
+                    ->with('cancellation')
+                    ->where('id', $id)
+                    ->first();
+
+        return view('cancellations.edit', [
+            "leave"     => $leave,
+            "periods"   => $this->periods,
+        ]);
+    }
+
     public function update(Request $req)
     {
         $cancel = Cancellation::find($req['id']);
