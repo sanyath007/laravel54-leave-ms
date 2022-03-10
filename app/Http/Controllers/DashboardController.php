@@ -37,7 +37,7 @@ class DashboardController extends Controller
                         ->where('start_date', '<=', $date)
                         ->where('end_date', '>=', $date)
                         // ->where('status', '3')
-                        ->paginate(10);
+                        ->paginate(20);
 
         return [
             'leaves'    => $leaves,
@@ -48,13 +48,6 @@ class DashboardController extends Controller
     public function getDepartData($date)
     {
         $departs      = Depart::where('faction_id', '5')->paginate(10);
-
-        // $persons    = Person::join('level', 'level.person_id', '=', 'personal.person_id')
-        //                 ->with('leaves')
-        //                 ->whereNotIn('person_state', [6,7,8,9,99])
-        //                 ->where('level.faction_id', '5')
-        //                 ->whereIn('level.duty_id', [1,2,3])
-        //                 ->get();
 
         $leaves     = Leave::with('type','person','person.memberOf')
                         ->where('start_date', '<=', $date)

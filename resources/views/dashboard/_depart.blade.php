@@ -29,15 +29,15 @@
     <div class="box-footer">
         <div class="row">
             <div class="col-md-4">
-                <span style="margin-top: 5px;">
+                <span style="margin-top: 5px;" ng-show="departPager.last_page > 0">
                     หน้า @{{ departPager.current_page }} จาก @{{ departPager.last_page }}
                 </span>
             </div>
             <div class="col-md-4" style="text-align: center;">
-                จำนวน @{{ departPager.total }} รายการ
+                จำนวนทั้งสิ้น @{{ departTotal }} ราย
             </div>
             <div class="col-md-4">
-                <ul class="pagination pagination-sm no-margin pull-right" ng-show="!loading">
+                <ul class="pagination pagination-sm no-margin pull-right" ng-show="departPager.last_page > 0">
                     <li ng-if="departPager.current_page !== 1">
                         <a href="#" ng-click="getDataWithURL($event, departPager.path+ '?page=1', setDepartLeaves)" aria-label="Previous">
                             <span aria-hidden="true">First</span>

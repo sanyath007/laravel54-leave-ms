@@ -79,6 +79,7 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) 
         });
     };
 
+    $scope.departTotal = 0;
     $scope.setDepartLeaves = function (res) {
         let { data, ...pager } = res.data.departs;
 
@@ -94,6 +95,10 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) 
 
         $scope.departs = data;
         $scope.departPager = pager;
+
+        $scope.departTotal = res.data.leaves.reduce((sum, leave) => {
+            return sum = sum + 1;
+        }, 0);
     };
 
     $scope.statCards = [];
