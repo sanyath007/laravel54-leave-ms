@@ -181,6 +181,11 @@
 								</span>
 							</a>
 							<ul class="treeview-menu">
+								<li ng-class="{ 'active': submenu == 'daily' }">
+									<a href="{{ url('reports/daily') }}">
+										<i class="fa fa-circle-o"></i> สรุปผู้ลาประจำวัน
+									</a>
+								</li>
 								<li ng-class="{ 'active': submenu == 'summary' }">
 									<a href="{{ url('reports/summary') }}">
 										<i class="fa fa-circle-o"></i> สรุปการลา
