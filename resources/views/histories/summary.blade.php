@@ -59,6 +59,13 @@
                                 <h3 class="box-title">สถิติการลา ปีงบประมาณ @{{ cboYear }}</h3>
                             </div>
                             <div class="box-body">
+
+                                <div class="alert alert-warning alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="icon fa fa-warning"></i>
+                                    สถิติการลาที่แสดงนับเฉพาะที่ผู้ใช้ลาในระบบเท่านั้น !!
+                                </div>
+
                                 <div style="border: 1px solid grey; margin-bottom: 1rem; padding: 0.5em;">
                                     <h4>ลาป่วย (ุ60 วันทำการ)</h4>
                                     <p>จำนวนวันลาสะสม @{{ !histories ? 60 : 60 - histories.ill_days }} วัน</p>

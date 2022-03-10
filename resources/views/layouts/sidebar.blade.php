@@ -221,7 +221,7 @@
 								</li>
 								<li ng-class="{ 'active': submenu == 'list' }">
 									<a href="{{ url('/persons/list') }}">
-										<i class="fa fa-circle-o"></i> รายการบุคลากร
+										<i class="fa fa-circle-o"></i> บุคลากร
 									</a>
 								</li>
 							</ul>
