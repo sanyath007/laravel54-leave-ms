@@ -137,7 +137,7 @@
                 </div><!-- /.box -->
 
                 <div class="box">
-                    <div class="box-header with-border">
+                    <div class="box-header with-border table-striped">
                         <h3 class="box-title">รายงานสรุปการลา ปีงบประมาณ @{{ dtpYear }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">

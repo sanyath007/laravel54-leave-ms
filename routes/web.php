@@ -88,6 +88,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('cancellations/print/{id}', 'CancellationController@printCancelForm');
 
     /** รายงาน */
+    Route::get('reports/daily', 'ReportController@daily');
+    Route::get('reports/daily-data', 'ReportController@getDailyData');
     Route::get('reports/summary', 'ReportController@summary');
     Route::get('reports/summary-data', 'ReportController@getSummaryData');
     Route::get('reports/remain', 'ReportController@remain');

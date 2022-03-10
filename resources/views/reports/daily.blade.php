@@ -20,7 +20,7 @@
         class="content"
         ng-controller="reportCtrl"
         ng-init="
-            getSummary();
+            getDaily();
             initForm({ factions: {{ $factions }}, departs: {{ $departs }}, divisions: {{ $divisions }} });
         "
     >
@@ -67,7 +67,7 @@
                                         ng-model="cboDepart"
                                         class="form-control select2"
                                         style="width: 100%; font-size: 12px;"
-                                        ng-change="getSummary(); onSelectedDepart(cboDepart);"
+                                        ng-change="getDaily(); onSelectedDepart(cboDepart);"
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
                                         <option
@@ -89,7 +89,7 @@
                                         ng-model="cboDivision"
                                         class="form-control select2"
                                         style="width: 100%; font-size: 12px;"
-                                        ng-change="getSummary()"
+                                        ng-change="getDaily()"
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
                                         <option
@@ -104,19 +104,13 @@
 
                             <!-- // TODO: should use datepicker instead -->
                             <div class="form-group col-md-6">
-                                <label>ปีงบประมาณ</label>
-                                <select
-                                    id="dtpYear"
-                                    name="dtpYear"
-                                    ng-model="dtpYear"
+                                <label>ประจำวันที่</label>
+                                <input
+                                    id="dtpDate"
+                                    name="dtpDate"
+                                    ng-model="dtpDate"
                                     class="form-control"
-                                    ng-change="getSummary()"
-                                >
-                                    <option value="">-- ทั้งหมด --</option>
-                                    <option ng-repeat="y in budgetYearRange" value="@{{ y }}">
-                                        @{{ y }}
-                                    </option>
-                                </select>
+                                />
                             </div><!-- /.form group -->
 
                             <div class="col-md-12">                            
@@ -127,7 +121,7 @@
                                         id="searchKeyword"
                                         name="searchKeyword"
                                         ng-model="searchKeyword"
-                                        ng-keyup="getSummary()"
+                                        ng-keyup="getDaily()"
                                         class="form-control">
                                 </div><!-- /.form group -->
                             </div>
@@ -138,67 +132,69 @@
 
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">รายงานสรุปผู้ลาประจำวัน @{{ dtpYear }}</h3>
+                        <h3 class="box-title">รายงานสรุปผู้ลาประจำวัน @{{ dtpDate }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width: 3%; text-align: center;" rowspan="2">#</th>
-                                    <th style="text-align: left;" rowspan="2">ชื่อ-สกุล</th>
-                                    <th style="width: 20%; text-align: center;" rowspan="2">ตำแหน่ง</th>
-                                    <th style="text-align: center;" colspan="2">ลาป่วย</th>
-                                    <th style="text-align: center;" colspan="2">ลากิจ</th>
-                                    <th style="text-align: center;" colspan="2">ลาคลอด</th>
-                                    <th style="text-align: center;" colspan="2">ลาพักผ่อน</th>
-                                    <th style="text-align: center;" colspan="2">
-                                        ลาเพื่อดูแลบุตร<br>และภริยาที่คลอดบุตร
+                                    <th style="width: 3%; text-align: center;">#</th>
+                                    <th>ชื่อ-สกุล</th>
+                                    <th style="width: 15%;">ตำแหน่ง</th>
+                                    <th style="width: 22%;">สังกัด</th>
+                                    <th style="width: 12%; text-align: center;">ประเภทการลา</th>
+                                    <th style="width: 15%; text-align: center;">ระหว่างวันที่</th>
+                                    <th style="width: 5%; text-align: center;">มีกำหนด</th>
+                                    <th
+                                        style="width: 8%; text-align: center;"
+                                        ng-show="{{ Auth::user()->person_id }} == '1300200009261'"
+                                    >
+                                        สถานะ
                                     </th>
-                                    <th style="text-align: center;" colspan="2">
-                                        ลาอุปสมบท/<br>ประกอบพิธีฮัจย์
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 4%; text-align: center;">วัน</th>
-                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 4%; text-align: center;">วัน</th>
-                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 4%; text-align: center;">วัน</th>
-                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 4%; text-align: center;">วัน</th>
-                                    <th style="width: 5%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 5%; text-align: center;">วัน</th>
-                                    <th style="width: 4%; text-align: center;">ครั้ง</th>
-                                    <th style="width: 4%; text-align: center;">วัน</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="(index, person) in data">
+                                <tr ng-repeat="(index, leave) in data">
                                     <td style="text-align: center;">@{{ pager.from + index }}</td>
                                     <td>
-                                        @{{ person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname }}
+                                        @{{ leave.person.prefix.prefix_name + leave.person.person_firstname + ' ' + leave.person.person_lastname }}
                                     </td>
                                     <td>
-                                        @{{ person.position.position_name + person.academic.ac_name }}
+                                        @{{ leave.person.position.position_name + leave.person.academic.ac_name }}
                                     </td>
-                                    <td style="text-align: center;">@{{ person.leave.ill_times }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.ill_days }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.per_times }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.per_days }}</td>
-                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : person.leave.lab_times }}</td>
-                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : person.leave.lab_days }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.vac_times }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.vac_days }}</td>
-                                    <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : person.leave.hel_times }}</td>
-                                    <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : person.leave.hel_days }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.ord_times }}</td>
-                                    <td style="text-align: center;">@{{ person.leave.ord_days }}</td>
+                                    <td>
+                                        <span ng-show="{{ Auth::user()->person_id }} == '1300200009261' ||
+                                                    {{ Auth::user()->person_id }} == '1309900322504' ||
+                                                    {{ Auth::user()->memberOf->duty_id }} == 1">
+                                            @{{ leave.person.member_of.depart.depart_name }}
+                                        </span>
+                                        <span ng-show="{{ Auth::user()->memberOf->duty_id }} == 2">
+                                            @{{ leave.person.member_of.division.ward_name }}
+                                        </span>
+                                    </td>
+                                    <td style="text-align: center;">@{{ leave.type.name }}</td>
+                                    <td style="text-align: center;">
+                                        @{{ leave.start_date | thdate }} - @{{ leave.end_date | thdate }}
+                                    </td>
+                                    <td style="text-align: center;">
+                                        @{{ leave.leave_days }} วัน
+                                    </td>
+                                    <td style="text-align: center;" ng-show="{{ Auth::user()->person_id }} == '1300200009261'">
+                                        <span ng-show="(leave.person.person_state == '1')">ปฏิบัติราชการ</span>
+										<span ng-show="(leave.person.person_state == '2')">มาช่วยราชการ</span>
+										<span ng-show="(leave.person.person_state == '3')">ไปช่วยราชการ</span>
+										<span ng-show="(leave.person.person_state == '4')">ลาศึกษาต่อ</span>
+										<span ng-show="(leave.person.person_state == '5')">เพิ่มพูนทักษะ</span>
+										<span ng-show="(leave.person.person_state == '6')">ลาออก</span>
+										<span ng-show="(leave.person.person_state == '7')">เกษียณอายุราชการ</span>
+										<span ng-show="(leave.person.person_state == '8')">โอน/ย้าย</span>
+										<span ng-show="(leave.person.person_state == '9')">ถูกให้ออก</span>
+										<span ng-show="(leave.person.person_state == '99')">ไม่ทราบสถานะ</span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->
-
                     <div class="box-footer clearfix">
                         <div class="row">
                             <div class="col-md-4">
@@ -208,7 +204,7 @@
                                 จำนวน @{{ pager.total }} รายการ
                             </div>
                             <div class="col-md-4">
-                                <ul class="pagination pagination-sm no-margin pull-right">
+                                <ul class="pagination pagination-sm no-margin pull-right" ng-show="pager.last_page > 1">
                                     <li ng-if="pager.current_page !== 1">
                                         <a ng-click="getDataWithURL(pager.path+ '?page=1')" aria-label="Previous">
                                             <span aria-hidden="true">First</span>
@@ -242,7 +238,6 @@
                             </div>
                         </div>
                     </div><!-- /.box-footer -->
-
                 </div><!-- /.box -->
 
             </div><!-- /.col -->

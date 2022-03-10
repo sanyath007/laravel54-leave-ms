@@ -13,6 +13,68 @@ use App\Models\Person;
 
 class ReportController extends Controller
 {
+    public function daily()
+    {
+        $depart = '';
+        if (Auth::user()->memberOf->duty_id == 2) {
+            $depart = Auth::user()->memberOf->depart_id;
+        }
+
+        return view('reports.daily', [
+            "factions"  => Faction::all(),
+            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
+            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
+                                $q->where('depart_id', $depart);
+                            })->get()
+        ]);
+    }
+
+    public function getDailyData(Request $req)
+    {
+        /** Get params from query string */
+        $faction    = Auth::user()->memberOf->duty_id == 2
+                        ? Auth::user()->memberOf->faction_id
+                        : $req->get('faction');
+        $depart     = Auth::user()->memberOf->duty_id == 2
+                        ? Auth::user()->memberOf->depart_id
+                        : $req->get('depart');
+        $division   = $req->get('division');
+        $date       = $req->get('date');
+        $name       = $req->get('name');
+
+        /** Generate list of person of depart from query params */
+        $personList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
+                        ->where('level.faction_id', '5')
+                        // ->where('person_state', '1')
+                        ->when(!empty($depart), function($q) use ($depart) {
+                            $q->where('level.depart_id', $depart);
+                        })
+                        ->when(!empty($division), function($q) use ($division) {
+                            $wardLists = explode(",", $division);
+
+                            $q->whereIn('level.ward_id', $wardLists);
+                        })
+                        ->when(!empty($name), function($q) use ($name) {
+                            $q->where('person_firstname', 'like', $name.'%');
+                        })
+                        ->pluck('personal.person_id');
+
+        $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
+                    ->with('person.memberOf', 'person.memberOf.depart', 'person.memberOf.division')
+                    ->with('cancellation', 'type')
+                    ->whereIn('leave_person', $personList)
+                    ->when(!empty($date), function($q) use ($date) {
+                        $q->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+                    })
+                    ->orderBy('leave_date', 'desc')
+                    ->orderBy('start_date', 'desc')
+                    ->paginate(10);
+
+        return [
+            'leaves' => $leaves,
+        ];
+    }
+
     public function summary()
     {
         $depart = '';
@@ -63,9 +125,9 @@ class ReportController extends Controller
 
         return [
             'leaves'    => $leaves,
-            'persons'   => Person::where('person_state', '1')
-                            ->join('level', 'personal.person_id', '=', 'level.person_id')
+            'persons'   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
                             ->where('level.faction_id', '5')
+                            // ->where('person_state', '1')
                             ->when(empty($depart), function($q) {
                                 $q->where('level.depart_id', '65');
                             })

@@ -1,6 +1,6 @@
 app.controller(
     "reportCtrl",
-    function (CONFIG, $scope, $http, toaster, PaginateService) {
+    function (CONFIG, $scope, $http, toaster, StringFormatService, PaginateService) {
         /** ################################################################################## */
         $scope.leaves = [];
         $scope.data = [];
@@ -16,7 +16,26 @@ app.controller(
         $scope.dtpYear = parseInt(moment().format('MM')) > 9
                             ? (moment().year() + 544).toString()
                             : (moment().year() + 543).toString();
+        $scope.dtpDate = StringFormatService.convFromDbDate(moment().format('YYYY-MM-DD'));
         $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
+
+        let dtpOptions = {
+            autoclose: true,
+            language: 'th',
+            format: 'dd/mm/yyyy',
+            thaiyear: true,
+            todayBtn: true,
+            todayHighlight: true
+        };
+    
+        $('#dtpDate')
+            .datepicker(dtpOptions)
+            .datepicker('update', new Date())
+            .on('changeDate', function(event) {
+                $('#dtpDate').datepicker('update', moment(event.date).toDate());
+
+                $scope.getDaily();
+            });
 
         $scope.initForm = function (initValues) {
             $scope.initFormValues = initValues;
@@ -34,6 +53,28 @@ app.controller(
         $scope.onSelectedDepart = function (depart) {
             $scope.filteredDivisions = $scope.initFormValues.divisions.filter(division => {
                 return division.depart_id === parseInt(depart);
+            });
+        };
+
+        $scope.getDaily = function () {
+            let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
+            let division = $scope.cboDivision === '' ? '' : $scope.cboDivision;
+            let date = $scope.dtpDate === ''
+                        ? moment().format('YYYY-MM-DD')
+                        : StringFormatService.convToDbDate($scope.dtpDate);
+
+            $http.get(`${CONFIG.baseUrl}/reports/daily-data?depart=${depart}&division=${division}&date=${date}`)
+            .then(function (res) {
+                console.log(res);
+                const { data, ...pager } = res.data.leaves;
+
+                $scope.data = data;
+                $scope.pager = pager;
+
+                $scope.loading = false;
+            }, function (err) {
+                console.log(err);
+                $scope.loading = false;
             });
         };
 

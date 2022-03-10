@@ -37,7 +37,7 @@
                 จำนวนทั้งสิ้น @{{ departTotal }} ราย
             </div>
             <div class="col-md-4">
-                <ul class="pagination pagination-sm no-margin pull-right" ng-show="departPager.last_page > 0">
+                <ul class="pagination pagination-sm no-margin pull-right" ng-show="departPager.last_page > 1">
                     <li ng-if="departPager.current_page !== 1">
                         <a href="#" ng-click="getDataWithURL($event, departPager.path+ '?page=1', setDepartLeaves)" aria-label="Previous">
                             <span aria-hidden="true">First</span>
