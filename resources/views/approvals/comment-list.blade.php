@@ -61,7 +61,7 @@
 
                 <div class="box">
                     <div class="box-body">
-                    <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs">
                             <li class="active"><a href="#approve" data-toggle="tab">
                                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
                                 รายการขออนุมัติใบลา
@@ -75,6 +75,14 @@
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="approve">
+
+                                @if (session('status'))
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
 
                                 <div class="alert alert-warning alert-dismissible" style="margin: 10px 10px;">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
