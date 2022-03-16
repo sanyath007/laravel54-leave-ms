@@ -39,6 +39,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     // TODO: Duplicated method
     $scope.getAll = function(event) {
         $scope.leaves = [];
+        $scope.pager = null;
         $scope.loading = true;
 
         let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;

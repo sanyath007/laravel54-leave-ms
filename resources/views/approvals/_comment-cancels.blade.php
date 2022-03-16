@@ -72,14 +72,14 @@
 <div class="row">
     <div class="col-md-4">
         <span style="margin-top: 5px;">
-            หน้า @{{ pager.current_page }} จาก @{{ pager.last_page }}
+            หน้า @{{ cancelPager.current_page }} จาก @{{ cancelPager.last_page }}
         </span>
     </div>
     <div class="col-md-4" style="text-align: center;">
-        จำนวน @{{ pager.total }} รายการ
+        จำนวน @{{ cancelPager.total }} รายการ
     </div>
     <div class="col-md-4">
-        <ul class="pagination pagination-sm no-margin pull-right" ng-show="pager.last_page > 1">
+        <ul class="pagination pagination-sm no-margin pull-right" ng-show="cancelPager.last_page > 1">
             <li ng-if="cancelPager.current_page !== 1">
                 <a href="#" ng-click="getDataWithURL($event, cancelPager.path+ '?page=1', setLeaves)" aria-label="Previous">
                     <span aria-hidden="true">First</span>
