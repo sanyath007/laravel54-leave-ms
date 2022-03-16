@@ -119,7 +119,7 @@ class ReportController extends Controller
                         \DB::raw("count(case when (leave_type='6') then id end) as ord_times"),
                         \DB::raw("sum(case when (leave_type='6') then leave_days end) as ord_days")
                     )
-                    ->whereIn('status', [3, 8])
+                    ->whereIn('status', [3,5,8,9])
                     ->where('year', $year)
                     ->groupBy('leave_person')->get();
 

@@ -85,7 +85,7 @@
                             <div class="active tab-pane" id="approve">
 
                                 @if (session('status'))
-                                    <div class="alert alert-success alert-dismissible">
+                                    <div class="alert alert-success alert-dismissible" style="margin: 10px 10px;">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                         {{ session('status') }}

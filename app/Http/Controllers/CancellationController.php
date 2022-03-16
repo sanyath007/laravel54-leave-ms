@@ -218,7 +218,8 @@ class CancellationController extends Controller
 
                 $history->save();
 
-                return redirect('/approvals/approve');
+                return redirect('/approvals/approve')
+                        ->with('status', 'ลงนามอนุมัติการขอยกเลิกวันลา ID: ' .$req['_id']. ' เรียบร้อยแล้ว !!');
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -239,7 +240,8 @@ class CancellationController extends Controller
                 $leave->status = $req['approved'];
                 $leave->save();
 
-                return redirect('/approvals/comment');
+                return redirect('/approvals/comment')
+                        ->with('status', 'ลงความเห็นการขอยกเลิกวันลา ID: ' .$req['_id']. ' เรียบร้อยแล้ว !!');
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -254,7 +256,8 @@ class CancellationController extends Controller
             $cancel->received_by    = Auth::user()->person_id;
 
             if ($cancel->save()) {
-                return redirect('/approvals/receive');
+                return redirect('/approvals/receive')
+                        ->with('status', 'ลงรับเอกสารการขอยกเลิกวันลา ID: ' .$req['_id']. ' เรียบร้อยแล้ว !!');
             }
         } catch (\Throwable $th) {
             //throw $th;
