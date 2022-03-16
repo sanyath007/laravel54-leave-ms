@@ -3,6 +3,7 @@
         <tr>
             <th style="width: 5%; text-align: center;">#</th>
             <th>รายละเอียด</th>
+            <th style="width: 20%;">สังกัด</th>
             <th style="width: 10%; text-align: center;">ปีงบประมาณ</th>
             <th style="width: 10%; text-align: center;">วันที่ลงทะเบียน</th>
             <th style="width: 6%; text-align: center;">การอนุมัติ</th>
@@ -34,6 +35,14 @@
                         <i class="fa fa-paperclip" aria-hidden="true"></i>
                     </a>
                 </p>
+            </td>
+            <td>
+                <span ng-show="{{ Auth::user()->person_id }} == '1300200009261'">
+                    @{{ leave.person.member_of.depart.depart_name }} /
+                </span>
+                <span>
+                    @{{ leave.person.member_of.division.ward_name }}
+                </span>
             </td>
             <td style="text-align: center;">@{{ leave.year }}</td>
             <td style="text-align: center;">
@@ -71,7 +80,6 @@
             <td style="text-align: center;">
                 <a  
                     ng-click="showApprovalDetail(leave)"
-                    ng-show="leave.status != 0"
                     class="btn btn-default btn-sm" 
                     title="รายละเอียด"
                     target="_blank"

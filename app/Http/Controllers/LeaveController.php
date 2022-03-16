@@ -156,8 +156,8 @@ class LeaveController extends Controller
         if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
 
         /** Get params from query string */
-        $qsDepart   = $req->get('depart');
-        $qsDivision = $req->get('division');
+        $qsDepart   = Auth::user()->person_id == '1300200009261' ? '' : $req->get('depart');
+        $qsDivision = Auth::user()->person_id == '1300200009261' ? '' : $req->get('division');
         $qsName     = $req->get('name');
         $qsMonth    = $req->get('month');
 
@@ -187,9 +187,9 @@ class LeaveController extends Controller
                     ->when(count($matched) > 0 && $matched[0] == '-', function($q) use ($arrStatus) {
                         $q->whereBetween('status', $arrStatus);
                     })
-                    ->with('person', 'person.prefix', 'person.position', 'person.academic')
-                    ->with('person.memberOf', 'person.memberOf.depart', 'type')
-                    ->with('cancellation')
+                    ->with('person','person.prefix','person.position','person.academic')
+                    ->with('person.memberOf','person.memberOf.depart','person.memberOf.division')
+                    ->with('type','cancellation')
                     ->whereIn('leave_person', $personList)
                     ->when(!empty($qsMonth), function($q) use ($qsMonth) {
                         $sdate = $qsMonth. '-01';

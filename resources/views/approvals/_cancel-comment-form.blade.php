@@ -7,7 +7,7 @@
                 {{ csrf_field() }}
 
                 <div class="modal-header">
-                    <h5 class="modal-title">ความเห็นจากหัวหน้ากลุ่มงาน</h5>
+                    <h5 class="modal-title">ความเห็นจากหัวหน้ากลุ่มงาน (ใบขอยกเลิกวันลา)</h5>
                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button> -->
