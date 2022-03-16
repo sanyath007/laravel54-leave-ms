@@ -218,7 +218,7 @@ class CancellationController extends Controller
 
                 $history->save();
 
-                return redirect('/leaves/approve');
+                return redirect('/approvals/approve');
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -239,7 +239,7 @@ class CancellationController extends Controller
                 $leave->status = $req['approved'];
                 $leave->save();
 
-                return redirect('/leaves/comment');
+                return redirect('/approvals/comment');
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -254,7 +254,7 @@ class CancellationController extends Controller
             $cancel->received_by    = Auth::user()->person_id;
 
             if ($cancel->save()) {
-                return redirect('/leaves/receive');
+                return redirect('/approvals/receive');
             }
         } catch (\Throwable $th) {
             //throw $th;
