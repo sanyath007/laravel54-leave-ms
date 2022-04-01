@@ -127,7 +127,7 @@ class ReportController extends Controller
             'leaves'    => $leaves,
             'persons'   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
                             ->where('level.faction_id', '5')
-                            // ->where('person_state', '1')
+                            ->where('person_state', '1')
                             ->when(empty($depart), function($q) {
                                 $q->where('level.depart_id', '65');
                             })
