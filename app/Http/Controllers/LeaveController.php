@@ -21,7 +21,6 @@ use App\Models\Person;
 use App\Models\Depart;
 use PDF;
 
-
 class LeaveController extends Controller
 {
     protected $periods = [
