@@ -155,6 +155,7 @@ class LeaveController extends Controller
         if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
 
         /** Get params from query string */
+        $qsFaction  = Auth::user()->person_id == '1300200009261' ? '' : $req->get('faction');
         $qsDepart   = Auth::user()->person_id == '1300200009261' ? '' : $req->get('depart');
         $qsDivision = Auth::user()->person_id == '1300200009261' ? '' : $req->get('division');
         $qsName     = $req->get('name');
@@ -162,8 +163,10 @@ class LeaveController extends Controller
 
         /** Generate list of person of depart from query params */
         $personList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
-                        ->where('level.faction_id', '5')
                         ->where('person_state', '1')
+                        ->when(!empty($qsFaction), function($q) use ($qsFaction) {
+                            $q->where('level.faction_id', $qsFaction);
+                        })
                         ->when(!empty($qsDepart), function($q) use ($qsDepart) {
                             $q->where('level.depart_id', $qsDepart);
                         })
