@@ -97,29 +97,29 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
     });
 
     $('#ordain_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        if (!moment(event.date).isSameOrAfter(moment())) {
-            alert('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
+        // if (!moment(event.date).isSameOrAfter(moment())) {
+        //     alert('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
 
-            $('#ordain_date').datepicker('update', moment().toDate());
+        //     $('#ordain_date').datepicker('update', moment().toDate());
 
-            $scope.leave.ordain_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
-        } else {
+        //     $scope.leave.ordain_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
+        // } else {
             $scope.leave.ordain_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
-        }
+        // }
     });
 
     $('#start_date').datepicker(dtpOptions).on('changeDate', function(event) {
         const leaveType = $('#leave_type').val();
 
-        if (![1,2,5].includes(parseInt(leaveType)) && !moment(event.date).isSameOrAfter(moment())) {
-            alert('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
+        // if (![1,2,5].includes(parseInt(leaveType)) && !moment(event.date).isSameOrAfter(moment())) {
+        //     alert('ไม่สามารถระบุวันที่ย้อนหลังได้!!');
 
-            $('#start_date').datepicker('update', moment().toDate());
+        //     $('#start_date').datepicker('update', moment().toDate());
 
-            $scope.leave.start_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
-        } else {
+        //     $scope.leave.start_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
+        // } else {
             $scope.leave.start_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
-        }
+        // }
         
         /** Clear value of .select2 */
         $('#end_period').val(null).trigger('change');
