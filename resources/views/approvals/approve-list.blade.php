@@ -29,7 +29,6 @@
                     <form id="frmSearch" name="frmSearch" role="form">
                         <div class="box-body">
                             <div class="row">
-
                                 <div class="form-group col-md-6">
                                     <label>ประเภทการลา</label>
                                     <select
@@ -41,15 +40,22 @@
                                     >
                                         <option value="">-- ทั้งหมด --</option>
                                         @foreach($leave_types as $type)
-
                                             <option value="{{ $type->id }}">
                                                 {{ $type->name }}
                                             </option>
-
                                         @endforeach
                                     </select>
-                                </div><!-- /.form group -->
-
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>ชื่อ-สกุล</label>
+                                    <input
+                                        id="searchKeyword"
+                                        name="searchKeyword"
+                                        ng-model="searchKeyword"
+                                        class="form-control"
+                                        ng-change="getApprovals($event)"
+                                    />
+                                </div>
                             </div><!-- /.row -->
                         </div><!-- /.box-body -->
                     </form>

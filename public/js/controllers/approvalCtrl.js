@@ -57,7 +57,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
             console.log(err);
             $scope.loading = false;
         });
-    }
+    };
 
     // TODO: Duplicated method
     $scope.getCancellation = function(isApproval=false) {
@@ -118,6 +118,28 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
         });
     };
 
+    $scope.getComments = function(event) {
+        $scope.leaves = [];
+        $scope.pager = null;
+        $scope.loading = true;
+
+        let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
+        let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
+        let status  = $scope.cboLeaveStatus === '' ? '-' : $scope.cboLeaveStatus;
+        let name    = $scope.searchKeyword === '' ? '' : $scope.searchKeyword;
+        let menu    = $scope.cboMenu === '' ? 0 : $scope.cboMenu;
+
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}?name=${name}`)
+        .then(function(res) {
+            $scope.setLeaves(res);
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
+
     $scope.onCommentLoad = function(depart, division='') {
         $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '0&1&7' : '0';
@@ -154,6 +176,28 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
         $scope.getAll();
 
         $scope.getCancellation();
+    };
+
+    $scope.getApprovals = function(event) {
+        $scope.leaves = [];
+        $scope.pager = null;
+        $scope.loading = true;
+
+        let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
+        let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
+        let status  = $scope.cboLeaveStatus === '' ? '-' : $scope.cboLeaveStatus;
+        let name    = $scope.searchKeyword === '' ? '' : $scope.searchKeyword;
+        let menu    = $scope.cboMenu === '' ? 0 : $scope.cboMenu;
+
+        $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}?name=${name}`)
+        .then(function(res) {
+            $scope.setLeaves(res);
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
     };
 
     $scope.onApproveLoad = function(e) {
