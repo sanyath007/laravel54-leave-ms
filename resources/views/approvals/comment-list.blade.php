@@ -34,6 +34,21 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="form-group col-md-6">
+                                    <label>ปีงบประมาณ</label>
+                                    <select
+                                        id="cboYear"
+                                        name="cboYear"
+                                        ng-model="cboYear"
+                                        class="form-control"
+                                        ng-change="getAll($event)"
+                                    >
+                                        <option value="">-- ทั้งหมด --</option>
+                                        <option ng-repeat="y in budgetYearRange" value="@{{ y }}">
+                                            @{{ y }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
                                     <label>ประเภทการลา</label>
                                     <select
                                         id="cboLeaveType"
@@ -50,7 +65,9 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
                                     <label>ชื่อ-สกุล</label>
                                     <input
                                         id="searchKeyword"

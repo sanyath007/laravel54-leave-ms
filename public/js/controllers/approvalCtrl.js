@@ -15,6 +15,8 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     $scope.showAllCancels = false;
     $scope.leave_date = '';
 
+    $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
+
     $('#leave_date').datepicker({
         autoclose: true,
         language: 'th',
