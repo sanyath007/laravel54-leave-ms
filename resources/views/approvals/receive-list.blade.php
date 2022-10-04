@@ -29,7 +29,21 @@
                     <form id="frmSearch" name="frmSearch" role="form">
                         <div class="box-body">
                             <div class="row">
-
+                                <div class="form-group col-md-6">
+                                    <label>ปีงบประมาณ</label>
+                                    <select
+                                        id="cboYear"
+                                        name="cboYear"
+                                        ng-model="cboYear"
+                                        class="form-control"
+                                        ng-change="getAll($event)"
+                                    >
+                                        <option value="">-- ทั้งหมด --</option>
+                                        <option ng-repeat="y in budgetYearRange" value="@{{ y }}">
+                                            @{{ y }}
+                                        </option>
+                                    </select>
+                                </div>
                                 <div class="form-group col-md-6">
                                     <label>ประเภทการลา</label>
                                     <select
@@ -49,8 +63,9 @@
                                         @endforeach
                                     </select>
                                 </div><!-- /.form group -->
-
-                                <div class="form-group col-md-6">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
                                     <label>ชื่อบุคลากร (ขึ้นต้นด้วย)</label>
                                     <input
                                         type="text"

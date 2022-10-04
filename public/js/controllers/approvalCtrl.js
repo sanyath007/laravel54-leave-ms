@@ -14,7 +14,9 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     $scope.showAllApproves = false;
     $scope.showAllCancels = false;
     $scope.leave_date = '';
-
+    $scope.cboYear = parseInt(moment().format('MM')) > 9
+                        ? (moment().year() + 544).toString()
+                        : (moment().year() + 543).toString();
     $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
 
     $('#leave_date').datepicker({
@@ -143,7 +145,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     };
 
     $scope.onCommentLoad = function(depart, division='') {
-        $scope.cboYear = '2565';
+        // $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '0&1&7' : '0';
         $scope.cboMenu = "1";
         $scope.cboQuery = `depart=${depart}&division=${division}`;
@@ -170,7 +172,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     };
 
     $scope.onReceiveLoad = function(e) {
-        $scope.cboYear = '2565';
+        // $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '1&2' : '1';
         $scope.cboQuery = "";
         $scope.cboMenu = "1";
@@ -203,7 +205,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     };
 
     $scope.onApproveLoad = function(e) {
-        $scope.cboYear = '2565';
+        // $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '2&3&4&8&9' : '2';
         $scope.cboQuery = `month=${moment().format('YYYY-MM')}`;
         $scope.cboMenu = "1";
@@ -223,7 +225,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     };
 
     $scope.onSearchKeyChange = function(keyword) {
-        $scope.cboYear = '2565';
+        // $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '1&2' : '1';
         $scope.cboQuery = `name=${keyword}`;
         $scope.cboMenu = "1";
