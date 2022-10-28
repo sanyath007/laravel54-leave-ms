@@ -205,14 +205,12 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     };
 
     $scope.setLeaves = function (res) {
-        console.log(res);
         const { data, ...pager } = res.data.leaves;
         $scope.leaves = data;
         $scope.pager = pager;
     };
 
     $scope.setCancellations = function(res) {
-        console.log(res);
         const { data, ...pager } = res.data.cancellations;
         $scope.cancellations = data;
         $scope.cancelPager = pager;
@@ -237,7 +235,7 @@ app.controller('cancelCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     };
 
     $scope.isUnCancel = function(endDate) {
-        return moment(endDate).isBefore(moment());
+        return moment(endDate).add(8, "days").isBefore(moment());
     };
 
     $scope.onLoad = function(personId) {

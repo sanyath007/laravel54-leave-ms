@@ -88,7 +88,7 @@
 
                                 <div class="alert alert-warning alert-dismissible" style="margin: 10px 5px;">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <i class="icon fa fa-warning"></i>ท่านสามารถยกเลิกวันลาในรายการที่ผ่านการอนุมัติแล้วเท่านั้น !!
+                                    <i class="icon fa fa-warning"></i>ท่านสามารถยกเลิกวันลาในรายการที่ผ่านการอนุมัติแล้วเท่านั้น และต้องยกเลิกก่อนวันลาหรือหลังวันลาภายใน 7 วัน !!
                                 </div>
 
                                 @include('cancellations._approved-list')
