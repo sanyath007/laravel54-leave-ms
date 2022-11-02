@@ -362,16 +362,29 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <label>มีกำหนด (วัน) :</label>
                                     <input
                                         type="text" 
                                         id="leave_days" 
                                         name="leave_days" 
                                         ng-model="leave.leave_days" 
-                                        class="form-control pull-right"
-                                        tabindex="5"
+                                        class="form-control"
                                     />
+                                </div>
+
+                                <div
+                                    class="form-group col-md-6"
+                                    ng-class="{'has-error has-feedback': checkValidate(leave, 'working_days')}"
+                                >
+                                    <label>มีกำหนด (วันทำการ) :</label>
+                                    <input  type="text" 
+                                            id="working_days" 
+                                            name="working_days" 
+                                            ng-model="leave.working_days" 
+                                            class="form-control"
+                                    />
+                                    <span class="help-block" ng-show="checkValidate(leave, 'working_days')">กรุณาระบุจำนวนวันลา</span>
                                 </div>
 
                                 <div class="form-group col-md-12" ng-show="leave.leave_type != '6' && leave.leave_type != '7'">

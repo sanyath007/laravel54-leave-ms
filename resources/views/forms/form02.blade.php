@@ -102,7 +102,11 @@
                             <span class="text-val" style="margin-right: 10px;">
                                 {{ convDbDateToLongThDate($leave->end_date) }}
                             </span>
-                            มีกำหนด <span class="text-val"> {{ $leave->leave_days }} </span> วัน
+                            @if($leave->working_days)
+                                มีกำหนด <span class="text-val"> {{ $leave->working_days }} </span> วัน
+                            @else
+                                มีกำหนด <span class="text-val"> {{ $leave->leave_days }} </span> วัน
+                            @endif
                         </td>
                     </tr>
                     <tr>
