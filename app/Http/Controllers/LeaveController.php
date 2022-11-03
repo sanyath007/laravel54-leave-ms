@@ -29,7 +29,7 @@ class LeaveController extends Controller
         '3'  => 'ช่วงบ่าย (13.00-16.00น.)',
     ];
 
-    public function formValidate (Request $request)
+    public function formValidate(Request $request)
     {
         $rules = [
             'leave_place'   => 'required',
@@ -81,13 +81,13 @@ class LeaveController extends Controller
         if ($validator->fails()) {
             $messageBag = $validator->getMessageBag();
 
-            if (!$messageBag->has('start_date')) {
+            if (empty($request['leave_id']) && !$messageBag->has('start_date')) {
                 if ($this->isDateExistsValidation(convThDateToDbDate($request['start_date']), 'start_date') > 0) {
                     $messageBag->add('start_date', 'คุณมีการลาในวันที่ระบุแล้ว');
                 }
             }
 
-            if (!$messageBag->has('end_date')) {
+            if (empty($request['leave_id']) && !$messageBag->has('end_date')) {
                 if ($this->isDateExistsValidation(convThDateToDbDate($request['end_date']), 'end_date') > 0) {
                     $messageBag->add('end_date', 'คุณมีการลาในวันที่ระบุแล้ว');
                 }
