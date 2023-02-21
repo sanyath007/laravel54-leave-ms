@@ -63,6 +63,11 @@ class Person extends Model
         return $this->hasMany(Leave::class, 'leave_person', 'person_id');
     }
 
+    public function dutyOf()
+    {
+        return $this->hasMany(MemberOf::class, 'person_id', 'person_id');
+    }
+
     public function educations()
     {
         return $this->hasMany(Education::class, 'person_id', 'person_id');

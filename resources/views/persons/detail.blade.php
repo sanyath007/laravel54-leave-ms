@@ -16,7 +16,17 @@
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="personCtrl">
+    <section
+        class="content"
+        ng-controller="personCtrl"
+        ng-init="
+            getMovings({{ $personInfo->person_id }});
+            initForms({
+                departs: {{ $departs }},
+                divisions: {{ $divisions }}
+            });
+        "
+    >
         <div class="row">
             <div class="col-md-3">
                 <?php $userPosition = $personInfo->academic ? $personInfo->position->position_name.$personInfo->academic->ac_name : $personInfo->position->position_name ?>
@@ -94,9 +104,16 @@
             <div class="col-md-9">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#settings" data-toggle="tab">แก้ไขข้อมูล</a></li>
-                        <!-- <li><a href="#activity" data-toggle="tab">Activity</a></li>
-                        <li><a href="#timeline" data-toggle="tab">Timeline</a></li> -->
+                        <li class="active">
+                            <a href="#settings" data-toggle="tab">
+                                แก้ไขข้อมูล
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#movings" data-toggle="tab">
+                                ประวัติการย้าย
+                            </a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="active tab-pane" id="settings">
@@ -214,21 +231,202 @@
                                     </textarea>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                            </label>
+                                <div class="form-group">
+                                    <label for="status" class="col-sm-2 control-label">สถานะ</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-control">
+                                            <span class="label label-success" ng-show="({{ $personInfo->person_state }} == 1)">
+                                                ปฏิบัติราชการ
+                                            </span>
+                                            <span class="label bg-olive" ng-show="({{ $personInfo->person_state }} == 2)">
+                                                มาช่วยราชการ
+                                            </span>
+                                            <span class="label bg-maroon" ng-show="({{ $personInfo->person_state }} == 3)">
+                                                ไปช่วยราชการ
+                                            </span>
+                                            <span class="label bg-navy" ng-show="({{ $personInfo->person_state }} == 4)">
+                                                ลาศึกษาต่อ
+                                            </span>
+                                            <span class="label bg-purple" ng-show="({{ $personInfo->person_state }} == 5)">
+                                                เพิ่มพูนทักษะ
+                                            </span>
+                                            <span class="label label-danger" ng-show="({{ $personInfo->person_state }} == 6)">
+                                                ลาออก
+                                            </span>
+                                            <span class="label label-warning" ng-show="({{ $personInfo->person_state }} == 7)">
+                                                เกษียณอายุราชการ
+                                            </span>
+                                            <span class="label label-primary" ng-show="({{ $personInfo->person_state }} == 8)">
+                                                โอน/ย้าย
+                                            </span>
+                                            <span class="label label-danger" ng-show="({{ $personInfo->person_state }} == 9)">
+                                                ถูกให้ออก
+                                            </span>
+                                            <span class="label label-default" ng-show="({{ $personInfo->person_state }} == 99)">
+                                                ไม่ทราบสถานะ
+                                            </span>
                                         </div>
                                     </div>
-                                </div> -->
-                                <!-- <div class="form-group">
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                        <a href="{{ url('/persons/edit/'.$personInfo->person_id) }}" class="btn btn-warning">
+                                            แก้ไขข้อมูล
+                                        </a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger">Action</button>
+                                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a href="#" ng-click="showMoveForm($event, 'S', {{ $personInfo->memberOf->faction_id }}, {{ $personInfo->person_id }})">
+                                                        ย้ายภายใน ก.ภารกิจ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="showMoveForm($event, 'M', {{ $personInfo->memberOf->faction_id }}, {{ $personInfo->person_id }})">
+                                                        ย้ายออกภายใน รพ.
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="showTransferForm($event, {{ $personInfo->person_id }})">
+                                                        โอน/ย้าย (ภายนอก)
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="showLeaveForm($event, {{ $personInfo->person_id }})">
+                                                        ออก
+                                                    </a>
+                                                </li>
+                                                <!-- <li>
+                                                    <a href="#">
+                                                        ลาศึกษาต่อ
+                                                    </a>
+                                                </li> -->
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary">สถานะ</button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '1')">
+                                                        ปฏิบัติราชการ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '2')">
+                                                        มาช่วยราชการ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '3')">
+                                                        ไปช่วยราชการ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '4')">
+                                                        ลาศึกษาต่อ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '5')">
+                                                        เพิ่มพูนทักษะ
+                                                    </a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <!-- <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '6')">
+                                                        ลาออก
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '7')">
+                                                        เกษียณอายุราชการ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '8')">
+                                                        โอน/ย้าย
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '9')">
+                                                        ถูกให้ออก
+                                                    </a>
+                                                </li> -->
+                                                <li>
+                                                    <a href="#" ng-click="status($event, {{ $personInfo->person_id }}, '99')">
+                                                        ไม่ทราบสถานะ
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div> -->
+                                </div>
                             </form>
+                        </div><!-- /.tab-pane -->
+
+                        <div class="tab-pane" id="movings">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center; width: 5%;">ลำดับ</th>
+                                        <th style="text-align: center; width: 10%;">วันที่ย้าย</th>
+                                        <th style="text-align: center; width: 30%;">จากหน่วยงาน</th>
+                                        <th style="text-align: center; width: 30%;">ไปหน่วยงาน</th>
+                                        <th style="text-align: center;">คำสั่ง</th>
+                                        <!-- <th style="text-align: center; width: 8%;">Actions</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="(index, row) in movings">
+                                        <td style="text-align: center;">@{{ index + 1 }}</td>
+                                        <td style="text-align: center;">@{{ row.move_date | thdate }}</td>
+                                        <td>
+                                            <p class="text-sm" style="margin: 0;">
+                                                @{{ row.old_faction.faction_name || '-' }}
+                                            </p>
+                                            <p class="text-sm" style="margin: 0;">
+                                                @{{ row.old_depart.depart_name || '-' }}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm" style="margin: 0;">
+                                                @{{ row.new_faction.faction_name || '-' }}
+                                            </p>
+                                            <p class="text-sm" style="margin: 0;">
+                                                @{{ row.new_depart.depart_name || '-' }}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm" style="margin: 0;">
+                                                เลขที่ @{{ row.move_doc_no || '-' }}
+                                            </p>
+                                            <p class="text-sm" style="margin: 0;">
+                                                ลงวันที่ @{{ row.move_doc_date || '-' }}
+                                            </p>
+                                            <p class="text-sm" style="margin: 0;">
+                                                หมายเหตุ : 
+                                                <span class="text-sm text-primary">@{{ row.remark || '-' }}</span>
+                                            </p>
+                                        </td>
+                                        <!-- <td style="text-align: center;">
+                                            <a href="" class="btn btn-warning btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a href="" class="btn btn-danger btn-xs">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div><!-- /.tab-pane -->
 
                         <div class="tab-pane" id="activity">
@@ -454,8 +652,13 @@
                     </div><!-- /.tab-content -->
                 </div><!-- /.nav-tabs-custom -->
             </div><!-- /.col -->
-
         </div><!-- /.row -->
+
+        @include('persons._move-form')
+        @include('persons._shift-form')
+        @include('persons._transfer-form')
+        @include('persons._leave-form')
+
     </section>
 
 <script>
