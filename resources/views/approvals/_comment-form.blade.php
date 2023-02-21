@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <h4 style="margin: 0px 5px auto;">
-                                <input type="radio" name="approved" value="1" />
+                                <input type="radio" name="approved" value="2" />
                                 <span style="margin-right: 10px;">อนุญาต</span>
                                 <input type="radio" name="approved" value="7" />
                                 <span style="margin-right: 10px;">ไม่อนุญาต</span>

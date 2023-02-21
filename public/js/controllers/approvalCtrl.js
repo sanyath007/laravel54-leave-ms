@@ -150,7 +150,7 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
 
     $scope.onCommentLoad = function(depart, division='') {
         // $scope.cboYear = '2565';
-        $scope.cboLeaveStatus = $scope.showAllApproves ? '0&1&7' : '0';
+        $scope.cboLeaveStatus = $scope.showAllApproves ? '0&1&2&7' : '0';
         $scope.cboMenu = "1";
         $scope.cboQuery = `depart=${depart}&division=${division}`;
 

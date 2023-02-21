@@ -97,7 +97,7 @@
                     <i class="fa fa-check" aria-hidden="true"></i>
                     ลงความเห็น
                 </a>
-                <form action="{{ url('/approvals/status') }}" method="POST" ng-show="leave.status == 1 || leave.status == 7">
+                <form action="{{ url('/approvals/status') }}" method="POST" ng-show="leave.status == 1 || leave.status == 2 || leave.status == 7">
                     <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
                     <input type="hidden" id="status" name="status" value="0" />
                     {{ csrf_field() }}
