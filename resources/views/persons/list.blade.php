@@ -168,17 +168,27 @@
                                     <td style="text-align: center;">
                                         @{{ calcAge(row.person_birth, 'years')+ 'ปี' }}
                                     </td>
-                                    <td>
-                                        <span ng-show="row.member_of.duty_id === '1'">
+                                    <td style="text-align: center;" ng-show="row.duty_of.length == 1">
+                                        <span ng-show="row.member_of.duty_id == 1">
                                             หัวหน้ากลุ่มภารกิจ
                                         </span>
-                                        <span ng-show="row.member_of.duty_id !== '1'">
-                                            <span ng-show="row.member_of.duty_id === '2'">
-                                                หัวหน้า
-                                            </span>
-                                            @{{ row.member_of.depart.depart_name }}<br />
-                                            <span ng-show="(row.member_of.duty_id != '1' && row.member_of.duty_id != '2') && row.member_of.division">
+                                        <span ng-show="row.member_of.duty_id != 1">
+                                            <span ng-show="row.member_of.duty_id == 2">หัวหน้า</span>@{{ row.member_of.depart.depart_name }}<br />
+                                            <span ng-show="row.member_of.duty_id != 1 && row.member_of.duty_id != 2 && row.member_of.ward_id != 0">
                                                 (@{{ row.member_of.division.ward_name }})
+                                            </span>
+                                        </span>
+                                    </td>
+                                    <td style="text-align: center;" ng-show="row.duty_of.length > 1">
+                                        <span ng-repeat="duty in row.duty_of">
+                                            <span ng-show="duty.duty_id == 1">
+                                                หัวหน้ากลุ่มภารกิจ และ
+                                            </span>
+                                            <span ng-show="duty.duty_id != 1">
+                                                <span ng-show="duty.duty_id == 2">หัวหน้า</span>@{{ duty.depart.depart_name }}<br />
+                                                <span ng-show="duty.duty_id != 1 && duty.duty_id != 2 && duty.ward_id != 0">
+                                                    (@{{ duty.division.ward_name }})
+                                                </span>
                                             </span>
                                         </span>
                                     </td>
