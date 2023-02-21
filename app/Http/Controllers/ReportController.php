@@ -21,7 +21,7 @@ class ReportController extends Controller
         }
 
         return view('reports.daily', [
-            "factions"  => Faction::all(),
+            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
             "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
             "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
                                 $q->where('depart_id', $depart);
@@ -83,7 +83,7 @@ class ReportController extends Controller
         }
 
         return view('reports.summary', [
-            "factions"  => Faction::all(),
+            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
             "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
             "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
                                 $q->where('depart_id', $depart);
@@ -139,7 +139,7 @@ class ReportController extends Controller
                             })
                             ->with('prefix','position','academic')
                             ->with('memberOf', 'memberOf.depart')
-                            ->paginate(10),
+                            ->paginate(20),
             'histories' => History::where('year', $year)->get()
         ];
     }
@@ -152,7 +152,7 @@ class ReportController extends Controller
         }
 
         return view('reports.remain', [
-            "factions"  => Faction::all(),
+            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
             "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
             "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
                                 $q->where('depart_id', $depart);

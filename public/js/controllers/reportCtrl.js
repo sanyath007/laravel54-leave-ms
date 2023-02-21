@@ -58,7 +58,7 @@ app.controller(
 
         $scope.getDaily = function () {
             let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
-            let division = $scope.cboDivision === '' ? '' : $scope.cboDivision;
+            let division = !$scope.cboDivision ? '' : $scope.cboDivision;
             let date = $scope.dtpDate === ''
                         ? moment().format('YYYY-MM-DD')
                         : StringFormatService.convToDbDate($scope.dtpDate);
@@ -80,7 +80,7 @@ app.controller(
 
         $scope.getSummary = function () {
             let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
-            let division = $scope.cboDivision === '' ? '' : $scope.cboDivision;
+            let division = !$scope.cboDivision ? '' : $scope.cboDivision;
             let year = $scope.dtpYear === ''
                         ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
                             ? moment().year() + 544
@@ -133,7 +133,7 @@ app.controller(
             $scope.loading = true;
 
             let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
-            let division = $scope.cboDivision === '' ? '' : $scope.cboDivision;
+            let division = !$scope.cboDivision ? '' : $scope.cboDivision;
             let year = $scope.dtpYear === ''
                         ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
                             ? moment().year() + 544
