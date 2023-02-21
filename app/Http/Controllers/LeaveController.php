@@ -139,8 +139,6 @@ class LeaveController extends Controller
         $pattern = '/^\<|\>|\&|\-/i';
 
         $conditions = [];
-        if($year != '0') array_push($conditions, ['year', '=', $year]);
-        if($type != '0') array_push($conditions, ['leave_type', $type]);
         if($status != '-') {
             if (preg_match($pattern, $status, $matched) == 1) {
                 $arrStatus = explode($matched[0], $status);
@@ -152,7 +150,6 @@ class LeaveController extends Controller
                 array_push($conditions, ['status', '=', $status]);
             }
         }
-        if($menu == '0') array_push($conditions, ['leave_person', \Auth::user()->person_id]);
 
         /** Get params from query string */
         $qsFaction  = Auth::user()->person_id == '1300200009261' ? '' : $req->get('faction');
@@ -180,7 +177,19 @@ class LeaveController extends Controller
                         })
                         ->pluck('personal.person_id');
 
-        $leaves = Leave::when(count($conditions) > 0, function($q) use ($conditions) {
+        $leaves = Leave::with('person','person.prefix','person.position','person.academic')
+                    ->with('person.memberOf','person.memberOf.depart','person.memberOf.division')
+                    ->with('type','cancellation')
+                    ->when($year != '0', function($q) use ($year) {
+                        $q->where('year', $year);
+                    })
+                    ->when($type != '0', function($q) use ($type) {
+                        $q->where('leave_type', $type);
+                    })
+                    ->when($menu == '0', function($q) use ($type) {
+                        $q->where('leave_person', \Auth::user()->person_id);
+                    })
+                    ->when(count($conditions) > 0, function($q) use ($conditions) {
                         $q->where($conditions);
                     })
                     ->when(count($matched) > 0 && $matched[0] == '&', function($q) use ($arrStatus) {
@@ -189,15 +198,16 @@ class LeaveController extends Controller
                     ->when(count($matched) > 0 && $matched[0] == '-', function($q) use ($arrStatus) {
                         $q->whereBetween('status', $arrStatus);
                     })
-                    ->with('person','person.prefix','person.position','person.academic')
-                    ->with('person.memberOf','person.memberOf.depart','person.memberOf.division')
-                    ->with('type','cancellation')
-                    ->whereIn('leave_person', $personList)
                     ->when(!empty($qsMonth), function($q) use ($qsMonth) {
                         $sdate = $qsMonth. '-01';
                         $edate = date('Y-m-t', strtotime($sdate));
 
-                        $q->whereBetween('leave_date', [$sdate, $edate]);
+                        $q->where(function($sq) use ($sdate, $edate) {
+                            $sq->whereBetween('leave_date', [$sdate, $edate]);
+                        });
+                    })
+                    ->where(function($sq) use ($personList) {
+                        $sq->whereIn('leave_person', $personList);
                     })
                     ->orderBy('leave_date', 'desc')
                     ->orderBy('start_date', 'desc')

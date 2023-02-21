@@ -32,7 +32,6 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
         let [month, year] = e.target.value.split('/');
 
         $scope.cboQuery = `month=${parseInt(year) - 543}-${month}`;
-        $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '2&3&4&8&9' : '2';
         $scope.cboMenu = "1";
 
@@ -64,6 +63,36 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     };
 
     // TODO: Duplicated method
+    $scope.getDataWithURL = function(e, url, cb) {
+        /** Check whether parent of clicked a tag is .disabled just do nothing */
+        if ($(e.currentTarget).parent().is('li.disabled')) return;
+
+        $scope.leaves = [];
+        $scope.pager = null;
+        $scope.loading = true;
+
+        let query   = $scope.cboQuery === '' ? '' : `${$scope.cboQuery}`;
+
+        $http.get(`${url}&${query}`)
+        .then(function(res) {
+            cb(res);
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
+
+    // TODO: Duplicated method
+    $scope.setLeaves = function(res) {
+        const { data, ...pager } = res.data.leaves;
+
+        $scope.leaves = data;
+        $scope.pager = pager;
+    };
+
+    // TODO: Duplicated method
     $scope.getCancellation = function(isApproval=false) {
         $scope.cancellations = [];
         $scope.cancelPager = null;
@@ -89,31 +118,6 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
             }
 
             $scope.cancelPager = pager;
-
-            $scope.loading = false;
-        }, function(err) {
-            console.log(err);
-            $scope.loading = false;
-        });
-    };
-
-    // TODO: Duplicated method
-    $scope.setLeaves = function(res) {
-        const { data, ...pager } = res.data.leaves;
-        $scope.leaves = data;
-        $scope.pager = pager;
-    };
-
-    // TODO: Duplicated method
-    $scope.getDataWithURL = function(e, URL, cb) {
-        /** Check whether parent of clicked a tag is .disabled just do nothing */
-        if ($(e.currentTarget).parent().is('li.disabled')) return;
-
-        $scope.loading = true;
-
-        $http.get(URL)
-        .then(function(res) {
-            cb(res);
 
             $scope.loading = false;
         }, function(err) {
