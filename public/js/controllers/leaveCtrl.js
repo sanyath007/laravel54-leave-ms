@@ -310,7 +310,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
     };
 
     $scope.getPersons = function(depart, searchKey, cbName) {
-        $http.get(`${CONFIG.baseUrl}/persons/search/${depart}/${searchKey}`)
+        $http.get(`${CONFIG.baseUrl}/persons/search?depart=${depart}&name=${searchKey}`)
         .then(function(res) {
             let { data, ...pager } = res.data.persons;
             $scope.persons = data;
@@ -324,6 +324,35 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
             console.log(err);
             $scope.loading = false;
         });
+    };
+
+    $scope.getPersonWithURL = function(e, url, cb) {
+        /** Check whether parent of clicked a tag is .disabled just do nothing */
+        if ($(e.currentTarget).parent().is('li.disabled')) return;
+
+        $scope.loading = true;
+        $scope.persons = [];
+        $scope.pager = null;
+
+        let depart = $scope.cboDepart === '' ? '0' : $scope.cboDepart; 
+        let name = $scope.searchKey === '' ? '0' : $scope.searchKey; 
+
+        $http.get(`${url}&depart=${depart}&name=${name}`)
+        .then(function(res) {
+            cb(res);
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
+
+    $scope.setPersons = function(res) {
+        let { data, ...pager } = res.data.persons;
+
+        $scope.persons  = data;
+        $scope.pager    = pager;
     };
 
     $scope.onSelectedDelegator = function(person) {
@@ -362,7 +391,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
     $scope.cboDepart = '';
     $scope.searchKey = '';
     $scope.onFilterPerson = function() {
-        console.log($scope.cboDepart);
         let depart = $scope.cboDepart === '' ? '0' : $scope.cboDepart; 
         let searchKey = $scope.searchKey === '' ? '0' : $scope.searchKey; 
 
@@ -428,12 +456,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         const { data, ...pager } = res.data.leaves;
         $scope.leaves = data;
         $scope.pager = pager;
-    };
-
-    $scope.setPersons = function(res) {
-        let { data, ...pager } = res.data.persons;
-        $scope.persons  = data;
-        $scope.pager    = pager;
     };
 
     // TODO: Duplicated method

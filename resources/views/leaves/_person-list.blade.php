@@ -82,13 +82,13 @@
                         <div class="col-md-4">
                             <ul class="pagination pagination-sm no-margin">
                                 <li ng-if="pager.current_page !== 1">
-                                    <a ng-click="getDataWithURL($event, pager.path+ '?page=1', setPersons)" aria-label="Previous">
+                                    <a ng-click="getPersonWithURL($event, pager.path+ '?page=1', setPersons)" aria-label="Previous">
                                         <span aria-hidden="true">First</span>
                                     </a>
                                 </li>
 
                                 <li ng-class="{'disabled': (pager.current_page==1)}">
-                                    <a ng-click="getDataWithURL($event, pager.prev_page_url, setPersons)" aria-label="Prev">
+                                    <a ng-click="getPersonWithURL($event, pager.prev_page_url, setPersons)" aria-label="Prev">
                                         <span aria-hidden="true">Prev</span>
                                     </a>
                                 </li>
@@ -100,13 +100,13 @@
                                 </li> -->
 
                                 <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
-                                    <a ng-click="getDataWithURL($event, pager.next_page_url, setPersons)" aria-label="Next">
+                                    <a ng-click="getPersonWithURL($event, pager.next_page_url, setPersons)" aria-label="Next">
                                         <span aria-hidden="true">Next</span>
                                     </a>
                                 </li>
 
                                 <li ng-if="pager.current_page !== pager.last_page">
-                                    <a ng-click="getDataWithURL($event, pager.path+ '?page=' +pager.last_page, setPersons)" aria-label="Previous">
+                                    <a ng-click="getPersonWithURL($event, pager.path+ '?page=' +pager.last_page, setPersons)" aria-label="Previous">
                                         <span aria-hidden="true">Last</span>
                                     </a>
                                 </li>
