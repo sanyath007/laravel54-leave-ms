@@ -93,6 +93,7 @@
                             </a></li>
                         </ul>
                         <div class="tab-content">
+                            <!-- ============================ End รายการขออนุมัตลา ============================ -->
                             <div class="active tab-pane" id="approve">
 
                                 @if (session('status'))
@@ -228,13 +229,34 @@
                                                     <i class="fa fa-window-close" aria-hidden="true"></i>
                                                     มีการยกเลิกวันลา
                                                 </span>
-                                                <a  ng-click="showApproveForm(leave, 1)" 
+                                                <!-- <a  ng-click="showApproveForm(leave, 1)" 
                                                     ng-show="![3,4,5,8,9].includes(leave.status)" 
                                                     class="btn btn-success btn-sm"
                                                     title="ลงนามอนุมัติการลา">
                                                     <i class="fa fa-check" aria-hidden="true"></i>
                                                     ลงนาม
-                                                </a>
+                                                </a> -->
+                                                <div
+                                                    style="display: flex; flex-direction: row; gap: 5px; justify-content: center;"
+                                                    ng-show="![3,4,5,8,9].includes(leave.status)"
+                                                >
+                                                    <form action="{{ url('/approvals/approve') }}" method="POST">
+                                                        <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                                                        <input type="hidden" id="approved" name="approved" value="3" />
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-success btn-xs">
+                                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form action="{{ url('/approvals/approve') }}" method="POST">
+                                                        <input type="hidden" id="leave_id" name="leave_id" value="@{{ leave.id }}" />
+                                                        <input type="hidden" id="approved" name="approved" value="4" />
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-danger btn-xs">
+                                                            <i class="fa fa-remove" aria-hidden="true"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                                 <form
                                                     ng-show="leave.status == 4 || leave.status == 3"
                                                     action="{{ url('/approvals/status') }}"
@@ -244,7 +266,7 @@
                                                     <input type="hidden" id="status" name="status" value="2" />
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn-danger btn-sm">
-                                                        <i class="fa fa-remove" aria-hidden="true"></i>
+                                                        <i class="fa fa-ban" aria-hidden="true"></i>
                                                         ยกเลิก
                                                     </button>
                                                 </form>
@@ -303,8 +325,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="cancel">
+                            <!-- ============================ End รายการขออนุมัตลา ============================ -->
 
+                            <!-- ============================ รายการขอยกเลิกการลา ============================ -->
+                            <div class="tab-pane" id="cancel">
                                 <!-- <div class="card">
                                     <div class="card-body" style="padding: 10px 10px;">
                                         <input
@@ -439,7 +463,7 @@
                                     </div>
                                 </div>
                             </div><!-- /.tab-pane -->
-
+                            <!-- ============================ End รายการขอยกเลิกการลา ============================ -->
                         </div><!-- /.tab-content -->
 
                         @include('approvals._approve-form')

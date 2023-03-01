@@ -42,6 +42,8 @@
 			box-shadow:inset 0 1px 1px rgba(0,0,0,.075)
 		}
 	</style>
+	<!-- Custom Style -->
+	<link rel="stylesheet" href="{{ asset('/css/main.css') }}">
 
 	<!-- Scripts -->
 	<script type="text/javascript" src="{{ asset('/js/env.js') }}"></script>

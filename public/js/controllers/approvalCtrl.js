@@ -1,4 +1,4 @@
-app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalService) {
+app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalService, StringFormatService) {
 /** ################################################################################## */
     $scope.loading = false;
     $scope.leave = null;
@@ -211,7 +211,9 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     $scope.onApproveLoad = function(e) {
         // $scope.cboYear = '2565';
         $scope.cboLeaveStatus = $scope.showAllApproves ? '2&3&4&8&9' : '2';
-        $scope.cboQuery = `month=${moment().format('YYYY-MM')}`;
+        $scope.cboQuery = $('#leave_date').val()
+                            ? `month=${StringFormatService.thMonthToDbMonth($('#leave_date').val())}`
+                            : `month=${moment().format('YYYY-MM')}`;
         $scope.cboMenu = "1";
 
         $scope.getAll();

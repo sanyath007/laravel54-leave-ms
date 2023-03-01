@@ -10,4 +10,10 @@ app.service('StringFormatService', function(CONFIG, $http) {
 
 		return `${day}/${month}/${(parseInt(year) + 543)}`;
 	}
+
+	this.thMonthToDbMonth = function(thmonth) {
+		const [month, year] = thmonth.split('/');
+
+		return `${(parseInt(year) - 543)}-${month}`;
+	}
 });
