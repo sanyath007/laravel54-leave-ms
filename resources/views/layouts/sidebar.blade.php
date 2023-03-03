@@ -146,18 +146,24 @@
 					@endif
 					
 					<!-- // Authorize เฉพาะกลุ่มงาน HR -->
-					@if (Auth::user()->person_id == '1300200009261')
-						<li class="treeview" ng-class="{ 'menu-open active': menu == 'vacations' }">
+					@if (
+						Auth::user()->person_id == '1300200009261' ||
+						Auth::user()->memberOf->depart_id == 40
+					)
+						<li class="treeview" ng-class="{ 'menu-open active': menu == 'managements' }">
 							<a href="#">
 								<i class="fa fa-bar-chart"></i>
-								<span>วันสะสม</span>
+								<span>บริหารบุคลากร</span>
 								<span class="pull-right-container">
 									<i class="fa fa-angle-left pull-right"></i>
 								</span>
 							</a>
 							<ul class="treeview-menu">
 								<li>
-									<a href="{{ url('vacations/summary') }}">
+									<a href="{{ url('managements/leaves') }}">
+										<i class="fa fa-circle-o"></i> ตรวจสอบวันลา
+									</a>
+									<a href="{{ url('managements/vacations') }}">
 										<i class="fa fa-circle-o"></i> สรุปวันสะสม
 									</a>
 								</li>
@@ -184,6 +190,11 @@
 								<li ng-class="{ 'active': submenu == 'daily' }">
 									<a href="{{ url('reports/daily') }}">
 										<i class="fa fa-circle-o"></i> สรุปผู้ลาประจำวัน
+									</a>
+								</li>
+								<li ng-class="{ 'active': submenu == 'monthly' }">
+									<a href="{{ url('reports/monthly') }}">
+										<i class="fa fa-circle-o"></i> สรุปผู้ลาประจำเดือน
 									</a>
 								</li>
 								<li ng-class="{ 'active': submenu == 'summary' }">

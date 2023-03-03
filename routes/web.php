@@ -90,9 +90,15 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('cancellations/receive', 'CancellationController@doReceive');
     Route::get('cancellations/print/{id}', 'CancellationController@printCancelForm');
 
+    /** บริหารบุคลากร */
+    Route::get('managements/leaves', 'ManagementController@getLeaves');
+    Route::get('managements/vacations', 'ManagementController@getVacations');
+
     /** รายงาน */
     Route::get('reports/daily', 'ReportController@daily');
     Route::get('reports/daily-data', 'ReportController@getDailyData');
+    Route::get('reports/monthly', 'ReportController@monthly');
+    Route::get('reports/monthly-data', 'ReportController@getMonthlyData');
     Route::get('reports/summary', 'ReportController@summary');
     Route::get('reports/summary-data', 'ReportController@getSummaryData');
     Route::get('reports/remain', 'ReportController@remain');
