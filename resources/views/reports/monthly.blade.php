@@ -44,7 +44,10 @@
                                         ng-model="cboFaction"
                                         class="form-control select2"
                                         style="width: 100%; font-size: 12px;"
-                                        ng-change="onSelectedFaction(cboFaction)"
+                                        ng-change="
+                                            onSelectedFaction(cboFaction);
+                                            getMonthly();
+                                        "
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
                                         <option
@@ -67,7 +70,10 @@
                                         ng-model="cboDepart"
                                         class="form-control select2"
                                         style="width: 100%; font-size: 12px;"
-                                        ng-change="getMonthly(); onSelectedDepart(cboDepart);"
+                                        ng-change="
+                                            onSelectedDepart(cboDepart);
+                                            getMonthly();
+                                        "
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
                                         <option
@@ -206,13 +212,13 @@
                             <div class="col-md-4">
                                 <ul class="pagination pagination-sm no-margin pull-right">
                                     <li ng-if="pager.current_page !== 1">
-                                        <a ng-click="getDataWithURL(pager.path+ '?page=1')" aria-label="Previous">
+                                        <a ng-click="getMonthlyWithURL(pager.path+ '?page=1')" aria-label="Previous">
                                             <span aria-hidden="true">First</span>
                                         </a>
                                     </li>
                                 
                                     <li ng-class="{'disabled': (pager.current_page==1)}">
-                                        <a ng-click="getDataWithURL(pager.prev_page_url)" aria-label="Prev">
+                                        <a ng-click="getMonthlyWithURL(pager.prev_page_url)" aria-label="Prev">
                                             <span aria-hidden="true">Prev</span>
                                         </a>
                                     </li>
@@ -224,13 +230,13 @@
                                     </li> -->
                                 
                                     <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
-                                        <a ng-click="getDataWithURL(pager.next_page_url)" aria-label="Next">
+                                        <a ng-click="getMonthlyWithURL(pager.next_page_url)" aria-label="Next">
                                             <span aria-hidden="true">Next</span>
                                         </a>
                                     </li>
         
                                     <li ng-if="pager.current_page !== pager.last_page">
-                                        <a ng-click="getDataWithURL(pager.path+ '?page=' +pager.last_page)" aria-label="Previous">
+                                        <a ng-click="getMonthlyWithURL(pager.path+ '?page=' +pager.last_page)" aria-label="Previous">
                                             <span aria-hidden="true">Last</span>
                                         </a>
                                     </li>

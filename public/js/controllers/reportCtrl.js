@@ -98,6 +98,7 @@ app.controller(
         };
 
         $scope.getMonthly = function () {
+            let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
             let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
             let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
             let month       = $('#dtpMonth').val() === ''
@@ -107,7 +108,7 @@ app.controller(
             console.log($('#dtpMonth').val());
             console.log(month);
 
-            $http.get(`${CONFIG.baseUrl}/reports/monthly-data?depart=${depart}&division=${division}&month=${month}`)
+            $http.get(`${CONFIG.baseUrl}/reports/monthly-data?faction=${faction}&depart=${depart}&division=${division}&month=${month}`)
             .then(function (res) {
                 const { leaves, histories, persons } = res.data;
                 const { data, ...pager } = persons;
@@ -136,7 +137,7 @@ app.controller(
                     );
                     return {
                         ...person,
-                        leave: leave,
+                        leave,
                     };
                 });
 
@@ -203,13 +204,46 @@ app.controller(
 
             let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
             let division = !$scope.cboDivision ? '' : $scope.cboDivision;
-            let year = $scope.dtpYear === ''
-                        ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
-                            ? moment().year() + 544
-                            : moment().year() + 543 
-                        : $scope.dtpYear;
+            let month       = $('#dtpMonth').val() === ''
+                                ? StringFormatService.shortMonthToDbMonth(moment().format('YYYY-MM'))
+                                : StringFormatService.shortMonthToDbMonth($('#dtpMonth').val());
 
             $http.get(`${URL}&depart=${depart}&division=${division}&year=${year}`)
+            .then(function (res) {
+                    console.log(res);
+                    const { data, ...pager } = res.data.persons;
+                    $scope.data = data;
+                    $scope.pager = pager;
+
+                    $scope.data = data.map((person) => {
+                        const leave = res.data.leaves.find((leave) =>
+                            person.person_id === leave.leave_person
+                        );
+                        return {
+                            ...person,
+                            leave: leave,
+                        };
+                    });
+
+                    $scope.loading = false;
+            }, function (err) {
+                    console.log(err);
+                    $scope.loading = false;
+            });
+        };
+
+        $scope.getMonthlyWithURL = function (URL) {
+            $scope.data = [];
+            $scope.pager = [];
+            $scope.loading = true;
+
+            let depart      = $scope.cboDepart === '' ? '' : $scope.cboDepart;
+            let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
+            let month       = $('#dtpMonth').val() === ''
+                                ? StringFormatService.shortMonthToDbMonth(moment().format('YYYY-MM'))
+                                : StringFormatService.shortMonthToDbMonth($('#dtpMonth').val());
+
+            $http.get(`${URL}&faction=${faction}&depart=${depart}&division=${division}&month=${month}`)
             .then(function (res) {
                     console.log(res);
                     const { data, ...pager } = res.data.persons;
