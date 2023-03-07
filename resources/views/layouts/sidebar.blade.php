@@ -194,12 +194,12 @@
 								</li>
 								<li ng-class="{ 'active': submenu == 'monthly' }">
 									<a href="{{ url('reports/monthly') }}">
-										<i class="fa fa-circle-o"></i> สรุปผู้ลาประจำเดือน
+										<i class="fa fa-circle-o"></i> สรุปการลาประจำเดือน
 									</a>
 								</li>
 								<li ng-class="{ 'active': submenu == 'summary' }">
 									<a href="{{ url('reports/summary') }}">
-										<i class="fa fa-circle-o"></i> สรุปการลา
+										<i class="fa fa-circle-o"></i> สรุปการลาประจำปี
 									</a>
 								</li>
 								<li ng-class="{ 'active': submenu == 'remain' }">

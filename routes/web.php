@@ -91,7 +91,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('cancellations/print/{id}', 'CancellationController@printCancelForm');
 
     /** บริหารบุคลากร */
-    Route::get('managements/leaves', 'ManagementController@getLeaves');
+    Route::get('managements/leaves', 'ManagementController@leaves');
     Route::get('managements/vacations', 'ManagementController@getVacations');
 
     /** รายงาน */

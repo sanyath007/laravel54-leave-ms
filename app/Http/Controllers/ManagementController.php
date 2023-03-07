@@ -18,10 +18,12 @@ use App\Models\Ordinate;
 use App\Models\Oversea;
 use App\Models\Country;
 use App\Models\Person;
+use App\Models\Faction;
 use App\Models\Depart;
+use App\Models\Division;
 use PDF;
 
-class LeaveController extends Controller
+class ManagementController extends Controller
 {
     protected $periods = [
         '1'  => 'เต็มวัน',
@@ -125,18 +127,36 @@ class LeaveController extends Controller
         return $existed > 0;
     }
 
-    public function index()
+    public function leaves()
     {
-        return view('leaves.list', [
+        return view('managements.list', [
             "leave_types"   => LeaveType::all(),
+            "factions"      => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
+            "departs"       => Depart::orderBy('depart_name', 'ASC')->get(),
+            "divisions"     => Division::all()
         ]);
     }
 
-    public function search(Request $req, $year, $type, $status, $menu)
+    public function getLeaves(Request $req)
     {
         $matched = [];
         $arrStatus = [];
         $pattern = '/^\<|\>|\&|\-/i';
+
+        /** Get params from query string */
+        $user       = $req->get('user');
+        $faction    = $user == '1300200009261' ? $req->get('faction') : '';
+        $depart     = $user == '1300200009261' ? $req->get('depart') : '';
+        $division   = $user == '1300200009261' ? $req->get('division') : '';
+        $year       = $req->get('year');
+        $type       = $req->get('type');
+        $status     = $req->get('status');
+        $menu       = $req->get('menu');
+        // $name       = $req->get('name');
+
+        list($sdate, $edate) = array_key_exists('date', $req->all())
+                                ? explode('-', $req->get('date'))
+                                : explode('-', '-');
 
         $conditions = [];
         if($status != '-') {
@@ -151,43 +171,36 @@ class LeaveController extends Controller
             }
         }
 
-        /** Get params from query string */
-        $qsFaction  = Auth::user()->person_id == '1300200009261' ? '' : $req->get('faction');
-        $qsDepart   = Auth::user()->person_id == '1300200009261' ? '' : $req->get('depart');
-        $qsDivision = Auth::user()->person_id == '1300200009261' ? '' : $req->get('division');
-        $qsName     = $req->get('name');
-        $qsMonth    = $req->get('month');
-
         /** Generate list of person of depart from query params */
         $personList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
                         ->where('person_state', '1')
-                        ->when(!empty($qsFaction), function($q) use ($qsFaction) {
-                            $q->where('level.faction_id', $qsFaction);
+                        ->when(!empty($faction), function($q) use ($faction) {
+                            $q->where('level.faction_id', $faction);
                         })
-                        ->when(!empty($qsDepart), function($q) use ($qsDepart) {
-                            $q->where('level.depart_id', $qsDepart);
+                        ->when(!empty($depart), function($q) use ($depart) {
+                            $q->where('level.depart_id', $depart);
                         })
-                        ->when(!empty($qsDivision), function($q) use ($qsDivision) {
-                            $wardLists = explode(",", $qsDivision);
+                        ->when(!empty($division), function($q) use ($division) {
+                            $wardLists = explode(",", $division);
 
                             $q->whereIn('level.ward_id', $wardLists);
                         })
-                        ->when(!empty($qsName), function($q) use ($qsName) {
-                            $q->where('person_firstname', 'like', $qsName.'%');
-                        })
+                        // ->when(!empty($name), function($q) use ($name) {
+                        //     $q->where('person_firstname', 'like', $name.'%');
+                        // })
                         ->pluck('personal.person_id');
 
         $leaves = Leave::with('person','person.prefix','person.position','person.academic')
                     ->with('person.memberOf','person.memberOf.depart','person.memberOf.division')
                     ->with('type','cancellation')
-                    ->when($year != '0', function($q) use ($year) {
+                    ->when(!empty($year), function($q) use ($year) {
                         $q->where('year', $year);
                     })
-                    ->when($type != '0', function($q) use ($type) {
+                    ->when(!empty($type), function($q) use ($type) {
                         $q->where('leave_type', $type);
                     })
-                    ->when($menu == '0', function($q) use ($type) {
-                        $q->where('leave_person', \Auth::user()->person_id);
+                    ->when($menu == '0', function($q) use ($user) {
+                        $q->where('leave_person', $user);
                     })
                     ->when(count($conditions) > 0, function($q) use ($conditions) {
                         $q->where($conditions);
@@ -198,20 +211,19 @@ class LeaveController extends Controller
                     ->when(count($matched) > 0 && $matched[0] == '-', function($q) use ($arrStatus) {
                         $q->whereBetween('status', $arrStatus);
                     })
-                    ->when(!empty($qsMonth), function($q) use ($qsMonth) {
-                        $sdate = $qsMonth. '-01';
-                        $edate = date('Y-m-t', strtotime($sdate));
-
-                        $q->where(function($sq) use ($sdate, $edate) {
-                            $sq->whereBetween('leave_date', [$sdate, $edate]);
-                        });
+                    ->when(array_key_exists('date', $req->all()) && $req->get('date') != '-', function($q) use ($sdate, $edate) {
+                        if ($sdate != '' && $edate != '') {
+                            $q->whereBetween('start_date', [convThDateToDbDate($sdate), convThDateToDbDate($edate)]);
+                        } else if ($edate == '') {
+                            $q->where('end_date', convThDateToDbDate($sdate));
+                        }
                     })
                     ->where(function($sq) use ($personList) {
                         $sq->whereIn('leave_person', $personList);
                     })
                     ->orderBy('leave_date', 'desc')
                     ->orderBy('start_date', 'desc')
-                    ->paginate(10);
+                    ->paginate(20);
 
         return [
             'leaves' => $leaves,
@@ -299,10 +311,11 @@ class LeaveController extends Controller
         $leave->year            = calcBudgetYear($req['start_date']);
 
         /** 
-         * If user duty is 1 (หน.กลุ่มภารกิจ), status must be setted to 2
-         * with insert commented_ and received_ column with bypass data
-         * or If user duty is 2 (หน.กลุ่มงาน), status must be setted to 1 
+         * TODO: 
+         * If user duty is 2 (หน.กลุ่มงาน), status must be setted to 1 
          * with insert commented_ column with bypass data
+         * or if user duty is 1 (หน.กลุ่มภารกิจ), status must be setted to 2
+         * with insert commented_ and received_ column with bypass data
          * else, status must be setted to 0
          */
         if (Auth::user()->memberOf->duty_id == 1) {
@@ -311,12 +324,12 @@ class LeaveController extends Controller
             $leave->commented_by    = Auth::user()->person_id;
             $leave->received_date   = date('Y-m-d');
             $leave->received_by     = Auth::user()->person_id;
-            $leave->status          = '3';
+            $leave->status          = '2';
         } else if (Auth::user()->memberOf->duty_id == 2) {
             $leave->commented_text  = 'หัวหน้ากลุ่มงาน';
             $leave->commented_date  = date('Y-m-d');
             $leave->commented_by    = Auth::user()->person_id;
-            $leave->status          = '2';
+            $leave->status          = '1';
         } else {
             $leave->status          = '0';
         }

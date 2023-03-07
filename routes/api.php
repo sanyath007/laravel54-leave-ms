@@ -27,4 +27,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::put('persons/{id}/status', 'PersonController@status');
     Route::put('persons/{id}/rename', 'PersonController@rename');
     Route::get('persons/{id}/movings', 'PersonController@getMoving');
+
+    /** บริหารบุคลากร */
+    Route::get('managements/leaves', 'ManagementController@getLeaves');
 });

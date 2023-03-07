@@ -89,6 +89,7 @@
 	<script type="text/javascript" src="{{ asset('/js/controllers/cancelCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/personCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/controllers/reportCtrl.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/js/controllers/manageCtrl.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/services/report.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/services/stringFormat.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/js/services/pagination.js') }}"></script>
