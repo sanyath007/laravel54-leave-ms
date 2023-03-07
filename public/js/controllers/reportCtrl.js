@@ -17,9 +17,10 @@ app.controller(
                             ? (moment().year() + 544).toString()
                             : (moment().year() + 543).toString();
         $scope.dtpDate = StringFormatService.convFromDbDate(moment().format('YYYY-MM-DD'));
+        $scope.dtpMonth = StringFormatService.dbDateToLongThMonth(moment().format('YYYY-MM-DD'));
         $scope.budgetYearRange = [2560,2561,2562,2563,2564,2565,2566,2567];
 
-        let dtpOptions = {
+        let dtpDateOptions = {
             autoclose: true,
             language: 'th',
             format: 'dd/mm/yyyy',
@@ -27,14 +28,32 @@ app.controller(
             todayBtn: true,
             todayHighlight: true
         };
-    
+
+        let dtpMonthOptions = {
+            autoclose: true,
+			format: 'mm/yyyy',
+			viewMode: "months", 
+			minViewMode: "months",
+			language: 'th',
+			thaiyear: true,
+            orientation: 'bottom'
+        };
+
         $('#dtpDate')
-            .datepicker(dtpOptions)
+            .datepicker(dtpDateOptions)
             .datepicker('update', new Date())
             .on('changeDate', function(event) {
                 $('#dtpDate').datepicker('update', moment(event.date).toDate());
 
                 $scope.getDaily();
+            });
+
+        $('#dtpMonth')
+            .datepicker(dtpMonthOptions)
+            .datepicker('update', new Date())
+            .on('changeDate', function(event) {
+                $('#dtpMonth').datepicker('update', moment(event.date).toDate());
+                $scope.dtpMonth = StringFormatService.dbDateToShortThMonth(moment(event.date).format('YYYY-MM-DD'));
             });
 
         $scope.initForm = function (initValues) {
@@ -70,6 +89,56 @@ app.controller(
 
                 $scope.data = data;
                 $scope.pager = pager;
+
+                $scope.loading = false;
+            }, function (err) {
+                console.log(err);
+                $scope.loading = false;
+            });
+        };
+
+        $scope.getMonthly = function () {
+            let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+            let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
+            let month       = $('#dtpMonth').val() === ''
+                                ? StringFormatService.shortMonthToDbMonth(moment().format('YYYY-MM'))
+                                : StringFormatService.shortMonthToDbMonth($('#dtpMonth').val());
+            console.log($scope.dtpMonth);
+            console.log($('#dtpMonth').val());
+            console.log(month);
+
+            $http.get(`${CONFIG.baseUrl}/reports/monthly-data?depart=${depart}&division=${division}&month=${month}`)
+            .then(function (res) {
+                const { leaves, histories, persons } = res.data;
+                const { data, ...pager } = persons;
+
+                $scope.data = data;
+                $scope.pager = pager;
+
+                /** Set each history's days instead of leave_days value */
+                leaves.map(leave => {
+                    const leaveHistory = histories.find(history => history.person_id === leave.leave_person);
+
+                    leave['ill_days'] = leaveHistory ? leaveHistory['ill_days'] : '';
+                    leave['per_days'] = leaveHistory ? leaveHistory['per_days'] : '';
+                    leave['vac_days'] = leaveHistory ? leaveHistory['vac_days'] : '';
+                    leave['lab_days'] = leaveHistory ? leaveHistory['lab_days'] : '';
+                    leave['hel_days'] = leaveHistory ? leaveHistory['hel_days'] : '';
+                    leave['ord_days'] = leaveHistory ? leaveHistory['ord_days'] : '';
+
+                    return leave;
+                });
+
+                /** Append leave data to each person */
+                $scope.data = data.map(person => {
+                    const leave = leaves.find((leave) =>
+                        person.person_id === leave.leave_person
+                    );
+                    return {
+                        ...person,
+                        leave: leave,
+                    };
+                });
 
                 $scope.loading = false;
             }, function (err) {

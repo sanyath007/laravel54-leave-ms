@@ -75,6 +75,84 @@ class ReportController extends Controller
         ];
     }
 
+    public function monthly()
+    {
+        $depart = '';
+        if (Auth::user()->memberOf->duty_id == 2) {
+            $depart = Auth::user()->memberOf->depart_id;
+        }
+
+        return view('reports.monthly', [
+            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
+            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
+            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
+                                $q->where('depart_id', $depart);
+                            })->get()
+        ]);
+    }
+
+    public function getMonthlyData(Request $req)
+    {
+        /** Get params from query string */
+        $year       = $req->input('year');
+        $month      = $req->get('month');
+        $faction    = Auth::user()->person_id != '1300200009261'
+                        ? Auth::user()->memberOf->faction_id
+                        : $req->get('faction');
+        $depart     = Auth::user()->memberOf->duty_id == '1300200009261'
+                        ? Auth::user()->memberOf->depart_id
+                        : $req->get('depart');
+        $division   = $req->get('division');
+
+        $leaves = \DB::table('leaves')
+                    ->select(
+                        'leave_person',
+                        \DB::raw("count(case when (leave_type='1') then id end) as ill_times"),
+                        \DB::raw("sum(case when (leave_type='1') then leave_days end) as ill_days"),
+                        \DB::raw("count(case when (leave_type='2') then id end) as per_times"),
+                        \DB::raw("sum(case when (leave_type='2') then leave_days end) as per_days"),
+                        \DB::raw("count(case when (leave_type='3') then id end) as vac_times"),
+                        \DB::raw("sum(case when (leave_type='3') then leave_days end) as vac_days"),
+                        \DB::raw("count(case when (leave_type='4') then id end) as lab_times"),
+                        \DB::raw("sum(case when (leave_type='4') then leave_days end) as lab_days"),
+                        \DB::raw("count(case when (leave_type='5') then id end) as hel_times"),
+                        \DB::raw("sum(case when (leave_type='5') then leave_days end) as hel_days"),
+                        \DB::raw("count(case when (leave_type='6') then id end) as ord_times"),
+                        \DB::raw("sum(case when (leave_type='6') then leave_days end) as ord_days")
+                    )
+                    ->whereIn('status', [3,5,8,9])
+                    ->when(!empty($month), function($q) use ($month) {
+                        $sdate = $month. '-01';
+                        $edate = date('Y-m-t', strtotime($sdate));
+
+                        $q->where(function($sq) use ($sdate, $edate) {
+                            $sq->whereBetween('start_date', [$sdate, $edate]);
+                            $sq->orWhere(function($query) use ($sdate, $edate) {
+                                $query->whereBetween('end_date', [$sdate, $edate]);
+                            });
+                        });
+
+                    })
+                    ->groupBy('leave_person')->get();
+
+        return [
+            'leaves'    => $leaves,
+            'persons'   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
+                            // ->where('level.faction_id', $faction)
+                            ->where('person_state', '1')
+                            ->when(!empty($depart), function($q) use ($depart) {
+                                $q->where('level.depart_id', $depart);
+                            })
+                            ->when(!empty($division), function($q) use ($division) {
+                                $q->where('level.ward_id', $division);
+                            })
+                            ->with('prefix','position','academic')
+                            ->with('memberOf', 'memberOf.depart')
+                            ->paginate(20),
+            'histories' => History::where('year', $year)->get()
+        ];
+    }
+
     public function summary()
     {
         $depart = '';
