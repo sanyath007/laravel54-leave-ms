@@ -259,6 +259,71 @@ class ManagementController extends Controller
         ]);
     }
 
+    public function vacations()
+    {
+        $depart = '';
+        if (Auth::user()->memberOf->duty_id == 2) {
+            $depart = Auth::user()->memberOf->depart_id;
+        }
+
+        return view('managements.vacations', [
+            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
+            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
+            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
+                                $q->where('depart_id', $depart);
+                            })->get()
+        ]);
+    }
+
+    public function getVacations(Request $req)
+    {
+        $user       = $req->get('user');
+        $faction    = $user == '1300200009261' ? $req->get('faction') : '';
+        $depart     = $user == '1300200009261' ? $req->get('depart') : '';
+        $division   = $user == '1300200009261' ? $req->get('division') : '';
+        $year       = $req->get('year');
+
+        $leaves = \DB::table('leaves')
+                    ->select(
+                        'leave_person',
+                        \DB::raw("count(case when (leave_type='1') then id end) as ill_times"),
+                        \DB::raw("sum(case when (leave_type='1') then leave_days end) as ill_days"),
+                        \DB::raw("count(case when (leave_type='2') then id end) as per_times"),
+                        \DB::raw("sum(case when (leave_type='2') then leave_days end) as per_days"),
+                        \DB::raw("count(case when (leave_type='3') then id end) as vac_times"),
+                        \DB::raw("sum(case when (leave_type='3') then leave_days end) as vac_days"),
+                        \DB::raw("count(case when (leave_type='4') then id end) as lab_times"),
+                        \DB::raw("sum(case when (leave_type='4') then leave_days end) as lab_days"),
+                        \DB::raw("count(case when (leave_type='5') then id end) as hel_times"),
+                        \DB::raw("sum(case when (leave_type='5') then leave_days end) as hel_days"),
+                        \DB::raw("count(case when (leave_type='6') then id end) as ord_times"),
+                        \DB::raw("sum(case when (leave_type='6') then leave_days end) as ord_days")
+                    )
+                    ->whereIn('status', [3,5,8,9])
+                    ->where('year', $year)
+                    ->groupBy('leave_person')->get();
+
+        return [
+            "leaves"    => $leaves,
+            "persons"   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
+                            ->where('person_state', '1')
+                            ->when(!empty($faction), function($q) use ($faction) {
+                                $q->where('level.faction_id', $faction);
+                            })
+                            ->when(!empty($depart), function($q) use ($depart) {
+                                $q->where('level.depart_id', $depart);
+                            })
+                            ->when(!empty($division), function($q) use ($division) {
+                                $q->where('level.ward_id', $division);
+                            })
+                            ->with('prefix','position','academic')
+                            ->with('memberOf', 'memberOf.depart')
+                            ->paginate(20),
+            "histories" => History::where('year', $year)->get(),
+            "vacations" => Vacation::where('year', $year)->get()
+        ];
+    }
+
     public function add()
     {
         return view('leaves.add', [

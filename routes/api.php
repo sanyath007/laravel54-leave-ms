@@ -30,4 +30,5 @@ Route::group(['middleware' => 'api'], function () {
 
     /** บริหารบุคลากร */
     Route::get('managements/leaves', 'ManagementController@getLeaves');
+    Route::get('managements/vacations', 'ManagementController@getVacations');
 });

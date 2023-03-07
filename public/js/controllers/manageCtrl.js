@@ -526,6 +526,89 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
         });
     };
 
+    $scope.getVacations = function () {
+        let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
+        let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+        let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
+        let year        = $scope.cboYear === ''
+                            ? $scope.cboYear = parseInt(moment().format('MM')) > 9
+                                ? moment().year() + 544
+                                : moment().year() + 543 
+                            : $scope.cboYear;
+        let user        = $('#user').val();
+
+        $http.get(`${CONFIG.apiUrl}/managements/vacations?year=${year}&faction=${faction}&depart=${depart}&division=${division}&user=${user}`)
+        .then(function (res) {
+            $scope.setVacations(res)
+
+            $scope.loading = false;
+        }, function (err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
+
+    $scope.getVacationsWithURL = function(e, url, cb) {
+        /** Check whether parent of clicked a tag is .disabled just do nothing */
+        if ($(e.currentTarget).parent().is('li.disabled')) return;
+
+        $scope.loading = true;
+
+        let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
+        let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+        let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
+        let year        = $scope.cboYear === ''
+                            ? $scope.cboYear = parseInt(moment().format('MM')) > 9
+                                ? moment().year() + 544
+                                : moment().year() + 543 
+                            : $scope.cboYear;
+        let user        = $('#user').val();
+
+        $http.get(`${url}&year=${year}&faction=${faction}&depart=${depart}&division=${division}&user=${user}`)
+        .then(function(res) {
+            cb(res);
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
+
+    $scope.setVacations = function(res) {
+        const { leaves, persons, histories, vacations } = res.data;
+        const { data, ...pager } = persons;
+
+        $scope.data = data;
+        $scope.pager = pager;
+
+        /** Set each history's days instead of leave_days value */
+        leaves.map(leave => {
+            const leaveHistory = histories.find(history => history.person_id === leave.leave_person);
+
+            leave['ill_days'] = leaveHistory ? leaveHistory['ill_days'] : 0;
+            leave['per_days'] = leaveHistory ? leaveHistory['per_days'] : 0;
+            leave['vac_days'] = leaveHistory ? leaveHistory['vac_days'] : 0;
+            leave['lab_days'] = leaveHistory ? leaveHistory['lab_days'] : 0;
+            leave['hel_days'] = leaveHistory ? leaveHistory['hel_days'] : 0;
+            leave['ord_days'] = leaveHistory ? leaveHistory['ord_days'] : 0;
+
+            return leave;
+        });
+
+        /** Append leave data to each person */
+        $scope.data = data.map(person => {
+            const leave_stats = leaves.find((leave) => person.person_id === leave.leave_person);
+            const vacation = vacations.find((vacation) => person.person_id === vacation.person_id);
+
+            return {
+                ...person,
+                leave_stats,
+                vacation,
+            };
+        });
+    };
+
     $scope.getById = function(id, cb) {
         $http.get(`${CONFIG.baseUrl}/leaves/get-ajax-byid/${id}`)
         .then(function(res) {

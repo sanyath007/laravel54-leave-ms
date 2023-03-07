@@ -313,7 +313,7 @@
                                                 </button>
                                             </form>
                                         </div>
-                                    </td>             
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

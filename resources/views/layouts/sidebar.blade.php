@@ -164,7 +164,7 @@
 										<i class="fa fa-circle-o"></i> ตรวจสอบวันลา
 									</a>
 									<a href="{{ url('managements/vacations') }}">
-										<i class="fa fa-circle-o"></i> สรุปวันสะสม
+										<i class="fa fa-circle-o"></i> สรุปวันลาสะสม
 									</a>
 								</li>
 							</ul>

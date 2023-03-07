@@ -92,7 +92,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     /** บริหารบุคลากร */
     Route::get('managements/leaves', 'ManagementController@leaves');
-    Route::get('managements/vacations', 'ManagementController@getVacations');
+    Route::get('managements/vacations', 'ManagementController@vacations');
 
     /** รายงาน */
     Route::get('reports/daily', 'ReportController@daily');
