@@ -185,32 +185,21 @@
                                     <td style="text-align: center;">@{{ 120 - person.leave_stats.ord_days }}</td>
                                     <td style="text-align: center;">
                                         <div style="display: flex; justify-content: center; gap: 2px;">
-                                            <a  href="{{ url('/leaves/detail') }}/@{{ leave.id }}"
+                                            <a  href="#"
                                                 class="btn btn-primary btn-xs" 
-                                                title="รายละเอียด">
-                                                <i class="fa fa-search"></i>
+                                                title="บันทึกวันลาพักผ่อนสะสม"
+                                                ng-click="showVacationForm($event, person)"
+                                            >
+                                                <i class="fa fa-calendar-check-o"></i>
                                             </a>
-                                            <a  ng-click="edit(leave.id)"
-                                                ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
+                                            <a  href="#"
                                                 class="btn btn-warning btn-xs"
-                                                title="แก้ไขรายการ">
+                                                title="แก้ไขสรุปวันลาสะสม"
+                                                ng-show="{{ Auth::user()->person_id }} == '1300200009261' || {{ Auth::user()->memberOf->depart_id }} == 40"
+                                                ng-click="showVacationForm($event, person)"
+                                            >
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form
-                                                id="frmDelete"
-                                                method="POST"
-                                                action="{{ url('/leaves/delete') }}"
-                                                ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
-                                            >
-                                                {{ csrf_field() }}
-                                                <button
-                                                    type="submit"
-                                                    ng-click="delete($event, leave.id)"
-                                                    class="btn btn-danger btn-xs"
-                                                >
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </form>
                                         </div>
                                     </td>
                                 </tr>
@@ -267,6 +256,8 @@
 
             </div><!-- /.col -->
         </div><!-- /.row -->
+
+        @include('managements._vacation-form')
 
     </section>
 

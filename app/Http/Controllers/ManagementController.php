@@ -324,204 +324,66 @@ class ManagementController extends Controller
         ];
     }
 
-    public function add()
+    public function storeVacation(Request $req)
     {
-        return view('leaves.add', [
-            "leave_types"   => LeaveType::all(),
-            "positions"     => Position::all(),
-            "departs"       => Depart::where('faction_id', '5')->get(),
-            "periods"       => $this->periods,
-        ]);
-    }
+        try {
+            $vacation = new Vacation();
+            $vacation->year         = $req['year'];
+            $vacation->person_id    = $req['person_id'];
+            $vacation->old_days     = $req['old_days'];
+            $vacation->new_days     = $req['new_days'];
+            $vacation->all_days     = $req['all_days'];
+            $vacation->created_user = $req['user'];
+            $vacation->updated_user = $req['user'];
 
-    public function store(Request $req)
-    {
-        $leave = new Leave();
-        $leave->leave_date      = convThDateToDbDate($req['leave_date']);
-        $leave->leave_place     = $req['leave_place'];
-        $leave->leave_topic     = $req['leave_topic'];
-        $leave->leave_to        = $req['leave_to'];
-        $leave->leave_person    = $req['leave_person'];
-        $leave->leave_type      = $req['leave_type'];
-
-        /** leave_type detail
-         *  1 = ลาป่วย
-         *  2 = ลากิจ
-         *  3 = ลาพักผ่อน
-         *  4 = ลาคลอด
-         *  5 = ลาเพื่อดูแลบุตรและภรรยาหลังคลอด
-         *  6 = ลาอุปสมบท/ไปประกอบพิธีฮัจย์
-         */
-        if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
-            $req['leave_type'] == '3' || $req['leave_type'] == '4') {
-            $leave->leave_contact   = $req['leave_contact'];
-            $leave->leave_delegate  = $req['leave_delegate'];
-        }
-
-        if ($req['leave_type'] == '5') {
-            $leave->leave_contact   = $req['leave_contact'];
-        }
-
-        if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
-            $req['leave_type'] == '4' || $req['leave_type'] == '7') {
-            $leave->leave_reason    = $req['leave_reason'];
-        }
-
-        $leave->start_date      = convThDateToDbDate($req['start_date']);
-        $leave->start_period    = '1';
-        $leave->end_date        = convThDateToDbDate($req['end_date']);
-        $leave->end_period      = $req['end_period'];
-        $leave->leave_days      = $req['leave_days'];
-        $leave->working_days    = $req['working_days'];
-        $leave->year            = calcBudgetYear($req['start_date']);
-
-        /** 
-         * TODO: 
-         * If user duty is 2 (หน.กลุ่มงาน), status must be setted to 1 
-         * with insert commented_ column with bypass data
-         * or if user duty is 1 (หน.กลุ่มภารกิจ), status must be setted to 2
-         * with insert commented_ and received_ column with bypass data
-         * else, status must be setted to 0
-         */
-        if (Auth::user()->memberOf->duty_id == 1) {
-            $leave->commented_text  = 'หัวหน้ากลุ่มภารกิจ';
-            $leave->commented_date  = date('Y-m-d');
-            $leave->commented_by    = Auth::user()->person_id;
-            $leave->received_date   = date('Y-m-d');
-            $leave->received_by     = Auth::user()->person_id;
-            $leave->status          = '2';
-        } else if (Auth::user()->memberOf->duty_id == 2) {
-            $leave->commented_text  = 'หัวหน้ากลุ่มงาน';
-            $leave->commented_date  = date('Y-m-d');
-            $leave->commented_by    = Auth::user()->person_id;
-            $leave->status          = '1';
-        } else {
-            $leave->status          = '0';
-        }
-
-        /** Upload attach file */
-        $attachment = uploadFile($req->file('attachment'), 'uploads/');
-        if (!empty($attachment)) {
-            $leave->attachment = $attachment;
-        }
-
-        if($leave->save()) {
-            /** Insert detail data of some leave type */
-            if ($req['leave_type'] == '5') {
-                $hw = new HelpedWife();
-                $hw->leave_id           = $leave->id;
-                $hw->wife_name          = $req['wife_name'];
-                $hw->deliver_date       = convThDateToDbDate($req['deliver_date']);
-                $hw->wife_is_officer    = $req['wife_is_officer'] == true ? 1 : 0;
-                $hw->wife_id            = $req['wife_id'];
-                $hw->save();
+            if($vacation->save()) {
+                return [
+                    'status'    => 1,
+                    'message'   => 'Insertion successfully!!',
+                    'vacation'  => $vacation,
+                ];
+            } else {
+                return [
+                    'status'    => 0,
+                    'message'   => 'Something went wrong!!'
+                ];
             }
-
-            if ($req['leave_type'] == '6') {
-                $ord = new Ordinate();
-                $ord->leave_id              = $leave->id;
-                $ord->have_ordain           = $req['have_ordain'];
-                $ord->ordain_date           = convThDateToDbDate($req['ordain_date']);
-                $ord->ordain_temple         = $req['ordain_temple'];
-                $ord->ordain_location       = $req['ordain_location'];
-                $ord->hibernate_temple      = $req['hibernate_temple'];
-                $ord->hibernate_location    = $req['hibernate_location'];
-                $ord->save();
-            }
-
-            if ($req['leave_type'] == '7') {
-                $over = new Oversea();
-                $over->leave_id     = $leave->id;
-                $over->country_id   = $req['country'];
-                $over->save();
-            }
-
-            return redirect('/leaves/list');
+        } catch (\Exception $ex) {
+            return [
+                'status'    => 0,
+                'message'   => $ex->getMessage()
+            ];
         }
     }
 
-    public function edit($id)
+    public function updateVacation(Request $req, $id)
     {
-        return view('leaves.edit', [
-            "leave"         => Leave::find($id),
-            "leave_types"   => LeaveType::all(),
-            "positions"     => Position::all(),
-            "departs"       => Depart::where('faction_id', '5')->get(),
-            "periods"       => $this->periods,
-        ]);
-    }
+        try {
+            $vacation = Vacation::find($id);
+            // $vacation->year         = $req['year'];
+            // $vacation->person_id    = $req['person_id'];
+            $vacation->old_days     = $req['old_days'];
+            $vacation->new_days     = $req['new_days'];
+            $vacation->all_days     = $req['all_days'];
+            $vacation->updated_user = $req['user'];
 
-    public function update(Request $req)
-    {
-        $leave = Leave::find($req['leave_id']);
-        $leave->leave_date      = convThDateToDbDate($req['leave_date']);
-        $leave->leave_place     = $req['leave_place'];
-        $leave->leave_topic     = $req['leave_topic'];
-        $leave->leave_to        = $req['leave_to'];
-        $leave->leave_person    = $req['leave_person'];
-        $leave->leave_type      = $req['leave_type'];
-
-        if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
-            $req['leave_type'] == '3' || $req['leave_type'] == '4') {
-            $leave->leave_contact   = $req['leave_contact'];
-            $leave->leave_delegate  = $req['leave_delegate'];
-        }
-
-        if ($req['leave_type'] == '5') {
-            $leave->leave_contact   = $req['leave_contact'];
-        }
-
-        if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
-            $req['leave_type'] == '4' || $req['leave_type'] == '7') {
-            $leave->leave_reason    = $req['leave_reason'];
-        }
-
-        $leave->start_date      = convThDateToDbDate($req['start_date']);
-        $leave->start_period    = '1';
-        $leave->end_date        = convThDateToDbDate($req['end_date']);
-        $leave->end_period      = $req['end_period'];
-        $leave->leave_days      = $req['leave_days'];
-        $leave->working_days    = $req['working_days'];
-        $leave->year            = calcBudgetYear($req['start_date']);
-
-        /** Upload image */
-        $attachment = uploadFile($req->file('attachment'), 'uploads/');
-        if (!empty($attachment)) {
-            $leave->attachment = $attachment;
-        }
-
-        if($leave->save()) {
-            /** Update detail data of some leave type */
-            if ($req['leave_type'] == '5') {
-                $hw = HelpedWife::find($req['hw_id']);
-                $hw->wife_name          = $req['wife_name'];
-                $hw->deliver_date       = convThDateToDbDate($req['deliver_date']);
-                $hw->wife_is_officer    = $req['wife_is_officer'] == true ? 1 : 0;
-                $hw->wife_id            = $req['wife_id'];
-                $hw->save();
+            if($vacation->save()) {
+                return [
+                    'status'    => 1,
+                    'message'   => 'Updating successfully!!',
+                    'vacation'  => $vacation,
+                ];
+            } else {
+                return [
+                    'status'    => 0,
+                    'message'   => 'Something went wrong!!'
+                ];
             }
-
-            if ($req['leave_type'] == '6') {
-                $ord = Ordinate::find($req['ord_id']);
-                $ord->have_ordain           = $req['have_ordain'];
-                $ord->ordain_date           = convThDateToDbDate($req['ordain_date']);
-                $ord->ordain_temple         = $req['ordain_temple'];
-                $ord->ordain_location       = $req['ordain_location'];
-                $ord->hibernate_temple      = $req['hibernate_temple'];
-                $ord->hibernate_location    = $req['hibernate_location'];
-                $ord->save();
-            }
-
-            return redirect('/leaves/list');
-        }
-    }
-
-    public function delete(Request $req, $id)
-    {
-        $leave = Leave::find($id);
-
-        if($leave->delete()) {
-            return redirect('/leaves/list')->with('status', 'ลบใบลา ID: ' .$id. ' เรียบร้อยแล้ว !!');
+        } catch (\Exception $ex) {
+            return [
+                'status'    => 0,
+                'message'   => $ex->getMessage()
+            ];
         }
     }
 

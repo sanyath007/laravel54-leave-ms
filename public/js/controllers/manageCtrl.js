@@ -609,6 +609,73 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
         });
     };
 
+    $scope.vacation = {
+        year: '',
+        person: null,
+        person_id: '',
+        old_days: '',
+        new_days: '',
+        all_days: '',
+    };
+    $scope.showVacationForm = function(e, person) {
+        e.preventDefault();
+
+        if (person.vacation) {
+            $scope.vacation = person.vacation;
+        } else {
+            $scope.vacation.year = $scope.cboYear;
+            $scope.vacation.person_id = person.person_id;
+        }
+
+        $scope.vacation.person = person;
+
+        $('#vacation-form').modal('show');
+    };
+
+    $scope.calculateVacation = function(oldDays, newDays) {
+        console.log(oldDays, newDays);
+        let allDays = parseFloat(newDays) + parseFloat(oldDays);
+        console.log(allDays);
+
+        $scope.vacation.all_days = allDays;
+    };
+
+    $scope.onSubmitVacation = function(e, form) {
+        e.preventDefault();
+
+        console.log(form);
+        if (form.$invalid) {
+            toaster.pop('error', "ผลการตรวจสอบ", "กรุณากรอกข้อมูลให้ครบ !!!");
+            return;
+        }
+
+        $scope.vacation.user = $('#user').val();
+
+        if (!$scope.vacation.id) {
+            storeVacation($scope.vacation);
+        } else {
+            updateVacation($scope.vacation.id, $scope.vacation);
+        }
+    };
+
+    const storeVacation = function(data) {
+        $http.post(`${CONFIG.apiUrl}/managements/vacations`, data)
+        .then((res) => {
+            console.log(res);
+        }, (err) => {
+            console.log(err);
+        })
+    };
+
+    const updateVacation = function(id, data) {
+        $http.put(`${CONFIG.apiUrl}/managements/vacations/${id}`, data)
+        .then((res) => {
+            console.log(res);
+        }, (err) => {
+            console.log(err);
+        })
+    };
+
     $scope.getById = function(id, cb) {
         $http.get(`${CONFIG.baseUrl}/leaves/get-ajax-byid/${id}`)
         .then(function(res) {
