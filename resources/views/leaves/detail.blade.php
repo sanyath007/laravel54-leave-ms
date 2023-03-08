@@ -31,13 +31,12 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <!-- TODO: to use css class instead of inline code -->
-                                <div style="border: 1px dotted grey; display: flex; justify-content: center; min-height: 240px; padding: 5px;">
-                                <?php $userAvatarUrl = (Auth::user()->person_photo != '') ? "http://192.168.20.4:3839/ps/PhotoPersonal/" .Auth::user()->person_photo : asset('img/user2-160x160.jpg'); ?>
-                                    <img
-                                        src="{{ $userAvatarUrl }}"
-                                        alt="user_image"
-                                        style="width: 98%;"
-                                    />
+                                <div style="border: 1px solid grey; display: flex; justify-content: center; min-height: 240px; padding: 5px;">
+                                    <?php $userAvatarUrl = ($leave->person->person_photo != '')
+                                                            ? "http://192.168.20.4:3839/ps/PhotoPersonal/" .$leave->person->person_photo
+                                                            : asset('img/user2-160x160.jpg');
+                                    ?>
+                                    <img src="{{ $userAvatarUrl }}" alt="user_image" style="width: 100%;" />
                                 </div>
                                 <div style="text-align: center; margin-top: 10px;">
                                     <a  ng-click="showApprovalDetail({{ $leave->id }})"
@@ -86,15 +85,11 @@
                                             tabindex="2"
                                             ng-change="onSelectedType()">
                                         <option value="">-- เลือกเรื่อง --</option>
-
                                         @foreach($leave_types as $type)
-
                                             <option value="{{ $type->id }}">
                                                 ขอ{{ $type->name }}
                                             </option>
-
                                         @endforeach
-
                                     </select>
                                 </div>
 
@@ -113,7 +108,7 @@
                                     <input  type="text"
                                             id="leave_person_name"
                                             name="leave_person_name"
-                                            value="{{ Auth::user()->person_firstname }} {{ Auth::user()->person_lastname }}"
+                                            value="@{{ leave.person.prefix.prefix_name+leave.person.person_firstname }} @{{ leave.person.person_lastname }}"
                                             class="form-control"
                                             readonly="readonly"
                                             tabindex="6">
@@ -123,19 +118,12 @@
                                             value="{{ Auth::user()->person_id }}">
                                 </div>
 
-                                <?php $user_position = ''; ?>
-                                @foreach ($positions as $position)
-                                    @if ($position->position_id == Auth::user()->position_id)
-                                        <?php $user_position = $position->position_name; ?>
-                                    @endif
-                                @endforeach
-
                                 <div class="form-group col-md-6">
                                     <label>ตำแหน่ง :</label>
                                     <input  type="text"
                                             id="leave_person_position"
                                             name="leave_person_position"
-                                            value="{{ $user_position }}"
+                                            value="@{{ leave.person.position.position_name }}@{{ leave.person.academic ? leave.person.academic.ac_name : '' }}"
                                             class="form-control"
                                             readonly="readonly" />
                                 </div>

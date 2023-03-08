@@ -499,6 +499,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $scope.leave.attachment         = data.leave.attachment;
         $scope.leave.status             = data.leave.status;
         $scope.leave.cancellation       = data.leave.cancellation;
+        $scope.leave.person             = data.leave.person;
 
         if (data.leave.leave_type == '5') {
             $scope.leave.helped_wife        = data.leave.helped_wife;

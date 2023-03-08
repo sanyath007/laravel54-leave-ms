@@ -229,8 +229,8 @@ class LeaveController extends Controller
     {
         return [
             'leave' => Leave::where('id', $id)
-                        ->with('delegate')
-                        ->with('delegate.prefix','delegate.position','delegate.academic')
+                        ->with('person','person.prefix','person.position','person.academic')
+                        ->with('delegate','delegate.prefix','delegate.position','delegate.academic')
                         ->with('helpedWife','ordinate')
                         ->with('cancellation')
                         ->first(),

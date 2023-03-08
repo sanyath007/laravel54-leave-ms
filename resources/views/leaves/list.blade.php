@@ -142,7 +142,7 @@
                                             หัวหน้าลงความเห็นแล้ว
                                         </span>
                                         <span class="label label-info" ng-show="leave.status == 2">
-                                            รับเอกสารแล้ว
+                                            หัวหน้าลงความเห็นแล้ว
                                         </span>
                                         <span class="label label-success" ng-show="leave.status == 3">
                                             ผ่านการอนุมัติ
