@@ -107,20 +107,10 @@
                                         </span>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label>คำค้นหา</label>
-                                    <input
-                                        type="text"
-                                        id="searchKey"
-                                        name="searchKey"
-                                        ng-model="searchKeyword"
-                                        ng-keyup="getData($event)"
-                                        class="form-control">
-                                </div> -->
-
                             </div><!-- /.row -->
+
                             <div class="row">
-                                <div class="col-md-4" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
+                                <div class="col-md-5" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
                                     <div class="form-group">
                                         <label>กลุ่มภารกิจ</label>
                                         <select
@@ -143,7 +133,6 @@
                                         </select>
                                     </div><!-- /.form group -->
                                 </div><!-- /.col -->
-
                                 <div class="col-md-4" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
                                     <div class="form-group">
                                         <label>กลุ่มงาน</label>
@@ -168,8 +157,7 @@
                                         </select>
                                     </div><!-- /.form group -->
                                 </div><!-- /.col -->
-
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>งาน</label>
                                         <select
@@ -189,6 +177,44 @@
                                             </option>
                                         </select>
                                     </div><!-- /.form group -->
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>สถานะ</label>
+                                        <select
+                                            id="cboLeaveStatus"
+                                            name="cboLeaveStatus"
+                                            ng-model="cboLeaveStatus"
+                                            class="form-control select2"
+                                            style="width: 100%; font-size: 12px;"
+                                            ng-change="getLeaves()"
+                                        >
+                                            <option value="" selected="selected">-- กรุณาเลือก --</option>
+                                            <option value="0">อยู่ระหว่างดำเนินการ</option>
+                                            <option value="1">หัวหน้าลงความเห็นแล้ว</option>
+                                            <option value="2">รับเอกสารแล้ว</option>
+                                            <option value="3">ผ่านการอนุมัติ</option>
+                                            <option value="4">ไม่ผ่านการอนุมัติ</option>
+                                            <option value="7">หัวหน้าไม่อนุญาต</option>
+                                            <option value="5">อยู่ระหว่างการยกเลิก</option>
+                                        </select>
+                                    </div><!-- /.form group -->
+                                </div><!-- /.col -->
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>ชื่อบุคลากร</label>
+                                        <input
+                                            type="text"
+                                            id="keyword"
+                                            name="keyword"
+                                            ng-model="keyword"
+                                            ng-keyup="getLeaves()"
+                                            class="form-control"
+                                        />
+                                    </div>
                                 </div><!-- /.col -->
                             </div><!-- /.row -->
                         </div><!-- /.box-body -->
@@ -217,7 +243,7 @@
                                     <th style="width: 5%; text-align: center;">ปีงบ</th>
                                     <th style="width: 8%; text-align: center;">วันที่ลงทะเบียน</th>
                                     <th style="text-align: left;">ชื่อ-สกุลผู้ลา</th>
-                                    <th style="width: 15%;">ตำแหน่ง</th>
+                                    <th style="width: 20%;">ตำแหน่ง</th>
                                     <th style="width: 8%; text-align: center;">ประเภทการลา</th>
                                     <th style="width: 10%; text-align: center;">วันที่ลา</th>
                                     <th style="width: 4%; text-align: center;">จน.วัน</th>
@@ -291,7 +317,7 @@
                                                 title="รายละเอียด">
                                                 <i class="fa fa-search"></i>
                                             </a>
-                                            <a  ng-click="edit(leave.id)"
+                                            <!-- <a  ng-click="edit(leave.id)"
                                                 ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
                                                 class="btn btn-warning btn-xs"
                                                 title="แก้ไขรายการ">
@@ -311,7 +337,7 @@
                                                 >
                                                     <i class="fa fa-trash"></i>
                                                 </button>
-                                            </form>
+                                            </form> -->
                                         </div>
                                     </td>
                                 </tr>

@@ -152,7 +152,7 @@ class ManagementController extends Controller
         $type       = $req->get('type');
         $status     = $req->get('status');
         $menu       = $req->get('menu');
-        // $name       = $req->get('name');
+        $name       = $req->get('name');
 
         list($sdate, $edate) = array_key_exists('date', $req->all())
                                 ? explode('-', $req->get('date'))
@@ -185,9 +185,9 @@ class ManagementController extends Controller
 
                             $q->whereIn('level.ward_id', $wardLists);
                         })
-                        // ->when(!empty($name), function($q) use ($name) {
-                        //     $q->where('person_firstname', 'like', $name.'%');
-                        // })
+                        ->when(!empty($name), function($q) use ($name) {
+                            $q->where('person_firstname', 'like', $name.'%');
+                        })
                         ->pluck('personal.person_id');
 
         $leaves = Leave::with('person','person.prefix','person.position','person.academic')
