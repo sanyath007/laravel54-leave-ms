@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Faction;
 use App\Models\Depart;
 use App\Models\Division;
+use App\Models\Person;
 use App\Models\Leave;
 use App\Models\History;
-use App\Models\Person;
+use App\Models\Vacation;
 
 class ReportController extends Controller
 {
@@ -176,6 +177,9 @@ class ReportController extends Controller
 
     public function getSummaryData(Request $req)
     {
+        $faction    = Auth::user()->person_id != '1300200009261'
+                        ? Auth::user()->memberOf->faction_id
+                        : $req->get('faction');
         $depart     = '';
         $year       = $req->input('year');
         $division   = $req->input('division');
@@ -209,10 +213,9 @@ class ReportController extends Controller
         return [
             'leaves'    => $leaves,
             'persons'   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
-                            ->where('level.faction_id', '5')
                             ->where('person_state', '1')
-                            ->when(empty($depart), function($q) {
-                                $q->where('level.depart_id', '65');
+                            ->when(!empty($faction), function($q) use ($faction) {
+                                $q->where('level.faction_id', $faction);
                             })
                             ->when(!empty($depart), function($q) use ($depart) {
                                 $q->where('level.depart_id', $depart);
@@ -223,7 +226,8 @@ class ReportController extends Controller
                             ->with('prefix','position','academic')
                             ->with('memberOf', 'memberOf.depart')
                             ->paginate(20),
-            'histories' => History::where('year', $year)->get()
+            'histories' => History::where('year', $year)->get(),
+            "vacations" => Vacation::where('year', $year)->get()
         ];
     }
 

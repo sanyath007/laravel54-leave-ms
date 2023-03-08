@@ -44,7 +44,10 @@
                                         ng-model="cboFaction"
                                         class="form-control select2"
                                         style="width: 100%; font-size: 12px;"
-                                        ng-change="onSelectedFaction(cboFaction)"
+                                        ng-change="
+                                            onSelectedFaction(cboFaction);
+                                            getSummary();
+                                        "
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
                                         <option
@@ -67,7 +70,10 @@
                                         ng-model="cboDepart"
                                         class="form-control select2"
                                         style="width: 100%; font-size: 12px;"
-                                        ng-change="getSummary(); onSelectedDepart(cboDepart);"
+                                        ng-change="
+                                            onSelectedDepart(cboDepart);
+                                            getSummary();
+                                        "
                                     >
                                         <option value="" selected="selected">-- กรุณาเลือก --</option>
                                         <option

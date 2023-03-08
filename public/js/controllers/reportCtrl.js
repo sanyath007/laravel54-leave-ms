@@ -214,17 +214,18 @@ app.controller(
         };
 
         $scope.getSummary = function () {
-            let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
-            let division = !$scope.cboDivision ? '' : $scope.cboDivision;
-            let year = $scope.dtpYear === ''
-                        ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
-                            ? moment().year() + 544
-                            : moment().year() + 543 
+            let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
+            let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+            let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
+            let year        = $scope.dtpYear === ''
+                                ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
+                                    ? moment().year() + 544
+                                    : moment().year() + 543 
                         : $scope.dtpYear;
 
-            $http.get(`${CONFIG.baseUrl}/reports/summary-data?depart=${depart}&division=${division}&year=${year}`)
+            $http.get(`${CONFIG.baseUrl}/reports/summary-data?faction=${faction}&depart=${depart}&division=${division}&year=${year}`)
             .then(function (res) {
-                const { leaves, histories, persons } = res.data;
+                const { leaves, histories, vacations, persons } = res.data;
                 const { data, ...pager } = persons;
 
                 $scope.data = data;
@@ -246,12 +247,13 @@ app.controller(
 
                 /** Append leave data to each person */
                 $scope.data = data.map(person => {
-                    const leave = leaves.find((leave) =>
-                        person.person_id === leave.leave_person
-                    );
+                    const leave = leaves.find((leave) => person.person_id === leave.leave_person);
+                    const vacation = vacations.find((vacation) => person.person_id === vacation.person_id);
+
                     return {
                         ...person,
-                        leave: leave,
+                        leave,
+                        vacation,
                     };
                 });
 
