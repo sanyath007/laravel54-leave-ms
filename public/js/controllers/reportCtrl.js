@@ -76,25 +76,66 @@ app.controller(
         };
 
         $scope.getDaily = function () {
-            let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
-            let division = !$scope.cboDivision ? '' : $scope.cboDivision;
-            let date = $scope.dtpDate === ''
-                        ? moment().format('YYYY-MM-DD')
-                        : StringFormatService.convToDbDate($scope.dtpDate);
+            $scope.data = [];
+            $scope.pager = null;
+            $scope.loading = true;
 
-            $http.get(`${CONFIG.baseUrl}/reports/daily-data?depart=${depart}&division=${division}&date=${date}`)
+            let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
+            let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+            let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
+            let date        = $scope.dtpDate === ''
+                                ? moment().format('YYYY-MM-DD')
+                                : StringFormatService.convToDbDate($scope.dtpDate);
+            let year        = $scope.dtpYear === ''
+                                ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
+                                    ? moment().year() + 544
+                                    : moment().year() + 543 
+                                : $scope.dtpYear;
+
+            $http.get(`${CONFIG.baseUrl}/reports/daily-data?year=${year}&faction=${faction}&depart=${depart}&division=${division}&date=${date}`)
             .then(function (res) {
-                console.log(res);
-                const { data, ...pager } = res.data.leaves;
-
-                $scope.data = data;
-                $scope.pager = pager;
+                $scope.setDaily(res);
 
                 $scope.loading = false;
             }, function (err) {
                 console.log(err);
                 $scope.loading = false;
             });
+        };
+
+        $scope.getDailyWithUrl = function (url) {
+            $scope.data = [];
+            $scope.pager = null;
+            $scope.loading = true;
+
+            let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
+            let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+            let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
+            let date        = $scope.dtpDate === ''
+                                ? moment().format('YYYY-MM-DD')
+                                : StringFormatService.convToDbDate($scope.dtpDate);
+            let year        = $scope.dtpYear === ''
+                                ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
+                                    ? moment().year() + 544
+                                    : moment().year() + 543 
+                                : $scope.dtpYear;
+
+            $http.get(`${url}&year=${year}&faction=${faction}&depart=${depart}&division=${division}&date=${date}`)
+            .then(function (res) {
+                    $scope.setDaily(res);
+
+                    $scope.loading = false;
+            }, function (err) {
+                    console.log(err);
+                    $scope.loading = false;
+            });
+        };
+
+        $scope.setDaily = function (res) {
+            const { data, ...pager } = res.data.leaves;
+
+            $scope.data = data;
+            $scope.pager = pager;
         };
 
         $scope.getMonthly = function () {

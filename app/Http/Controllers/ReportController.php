@@ -62,13 +62,16 @@ class ReportController extends Controller
         $leaves = Leave::with('person', 'person.prefix', 'person.position', 'person.academic')
                     ->with('person.memberOf', 'person.memberOf.depart', 'person.memberOf.division')
                     ->with('cancellation', 'type')
+                    ->whereIn('status', [2,3,5,8,9])
                     ->whereIn('leave_person', $personList)
                     ->when(!empty($date), function($q) use ($date) {
-                        $q->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+                        $q->where(function($sq) use ($date) {
+                            $sq->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+                        });
                     })
                     ->orderBy('leave_date', 'desc')
                     ->orderBy('start_date', 'desc')
-                    ->paginate(10);
+                    ->paginate(20);
 
         return [
             'leaves' => $leaves,
