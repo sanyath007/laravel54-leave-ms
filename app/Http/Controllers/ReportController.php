@@ -138,7 +138,6 @@ class ReportController extends Controller
         return [
             'leaves'    => $leaves,
             'persons'   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
-                            // ->where('level.faction_id', $faction)
                             ->where('person_state', '1')
                             ->when(!empty($faction), function($q) use ($faction) {
                                 $q->where('level.faction_id', $faction);
