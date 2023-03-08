@@ -65,10 +65,10 @@ class DashboardController extends Controller
     {
         $sql = "SELECT l.leave_type, lt.name, COUNT(l.id) AS num
                 FROM leaves l LEFT JOIN leave_types lt ON (l.leave_type=lt.id)
-                WHERE (year='" .$year. "') 
+                WHERE (year=?) 
                 GROUP BY l.leave_type, lt.name ";
 
-        $stats = \DB::select($sql);
+        $stats = \DB::select($sql, [$year]);
 
         return [
             'stats' => $stats

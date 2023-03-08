@@ -105,7 +105,9 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) 
     $scope.getStatYear = function () {
         $scope.loading = true;
 
-        let year = '2565';
+        let year = parseInt(moment().format('MM')) > 9
+                        ? (moment().year() + 544).toString()
+                        : (moment().year() + 543).toString();
 
         $http.get(`${CONFIG.baseUrl}/dashboard/stat/${year}`)
         .then(function(res) {
@@ -117,6 +119,10 @@ app.controller('homeCtrl', function(CONFIG, $scope, $http, StringFormatService) 
 
             $scope.loading = false;
         });
+    };
+
+    $scope.getStatByType = function(id) {
+        return $scope.statCards.find(stat => stat.leave_type == id);
     };
 
     // TODO: Duplicated method

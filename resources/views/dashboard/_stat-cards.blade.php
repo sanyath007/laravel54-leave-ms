@@ -3,7 +3,7 @@
         <div class="small-box bg-aqua">
             <div class="inner">
                 <h3>
-                    @{{ statCards[0].num }}
+                    @{{ getStatByType(1).num | currency:'':0 }}
                     <span style="font-size: 14px;">ครั้ง</span>
                 </h3>
                 <p><h4>ลาป่วยทั้งหมด</h4></p>
@@ -18,7 +18,7 @@
         <div class="small-box bg-green">
             <div class="inner">
                 <h3>
-                    @{{ statCards[1].num }}
+                    @{{ getStatByType(2).num | currency:'':0 }}
                     <span style="font-size: 14px;">ครั้ง</span>
                     <!-- <sup style="font-size: 20px">%</sup> -->
                 </h3>
@@ -34,7 +34,7 @@
         <div class="small-box bg-yellow">
             <div class="inner">
                 <h3>
-                    @{{ statCards[2].num }}
+                    @{{ getStatByType(3).num | currency:'':0 }}
                     <span style="font-size: 14px;">ครั้ง</span>
                 </h3>
                 <p><h4>ลาพักผ่อนทั้งหมด</h4></p>
@@ -49,7 +49,7 @@
         <div class="small-box bg-red">
             <div class="inner">
                 <h3>
-                    @{{ '0' }}
+                    @{{ getStatByType(4).num | currency:'':0 }}
                     <span style="font-size: 14px;">ครั้ง</span>
                 </h3>
                 <p><h4>ลาคลอดทั้งหมด</h4></p>
