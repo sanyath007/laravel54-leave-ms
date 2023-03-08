@@ -98,6 +98,10 @@ app.controller(
         };
 
         $scope.getMonthly = function () {
+            $scope.data = [];
+            $scope.pager = null;
+            $scope.loading = true;
+
             let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
             let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
             let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
@@ -121,12 +125,13 @@ app.controller(
             });
         };
 
-        $scope.getMonthlyWithURL = function (url) {
+        $scope.getMonthlyWithUrl = function (url) {
             $scope.data = [];
-            $scope.pager = [];
+            $scope.pager = null;
             $scope.loading = true;
 
-            let depart      = $scope.cboDepart === '' ? '' : $scope.cboDepart;
+            let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
+            let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
             let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
             let month       = $('#dtpMonth').val() === ''
                                 ? StringFormatService.shortMonthToDbMonth(moment().format('YYYY-MM'))
