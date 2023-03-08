@@ -283,9 +283,25 @@ class ManagementController extends Controller
         $division   = $user == '1300200009261' ? $req->get('division') : '';
         $year       = $req->get('year');
 
+        $persons    = Person::join('level', 'personal.person_id', '=', 'level.person_id')
+                        ->where('person_state', '1')
+                        ->when(!empty($faction), function($q) use ($faction) {
+                            $q->where('level.faction_id', $faction);
+                        })
+                        ->when(!empty($depart), function($q) use ($depart) {
+                            $q->where('level.depart_id', $depart);
+                        })
+                        ->when(!empty($division), function($q) use ($division) {
+                            $q->where('level.ward_id', $division);
+                        })
+                        ->with('prefix','position','academic')
+                        ->with('memberOf', 'memberOf.depart');
+
+        $personsList = $persons->pluck('personal.person_id');
+
         $leaves = \DB::table('leaves')
                     ->select(
-                        'leave_person',
+                        \DB::raw("leave_person as person_id"),
                         \DB::raw("count(case when (leave_type='1') then id end) as ill_times"),
                         \DB::raw("sum(case when (leave_type='1') then leave_days end) as ill_days"),
                         \DB::raw("count(case when (leave_type='2') then id end) as per_times"),
@@ -301,24 +317,12 @@ class ManagementController extends Controller
                     )
                     ->whereIn('status', [3,5,8,9])
                     ->where('year', $year)
+                    ->whereIn('leave_person', $personsList)
                     ->groupBy('leave_person')->get();
 
         return [
             "leaves"    => $leaves,
-            "persons"   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
-                            ->where('person_state', '1')
-                            ->when(!empty($faction), function($q) use ($faction) {
-                                $q->where('level.faction_id', $faction);
-                            })
-                            ->when(!empty($depart), function($q) use ($depart) {
-                                $q->where('level.depart_id', $depart);
-                            })
-                            ->when(!empty($division), function($q) use ($division) {
-                                $q->where('level.ward_id', $division);
-                            })
-                            ->with('prefix','position','academic')
-                            ->with('memberOf', 'memberOf.depart')
-                            ->paginate(20),
+            "persons"   => $persons->paginate(20),
             "histories" => History::where('year', $year)->get(),
             "vacations" => Vacation::where('year', $year)->get()
         ];
@@ -372,6 +376,75 @@ class ManagementController extends Controller
                     'status'    => 1,
                     'message'   => 'Updating successfully!!',
                     'vacation'  => $vacation,
+                ];
+            } else {
+                return [
+                    'status'    => 0,
+                    'message'   => 'Something went wrong!!'
+                ];
+            }
+        } catch (\Exception $ex) {
+            return [
+                'status'    => 0,
+                'message'   => $ex->getMessage()
+            ];
+        }
+    }
+
+    public function storeHistory(Request $req)
+    {
+        try {
+            $history = new History();
+            $history->year         = $req['year'];
+            $history->person_id    = $req['person_id'];
+            $history->ill_days     = $req['ill_days'];
+            $history->per_days     = $req['per_days'];
+            $history->lab_days     = $req['lab_days'];
+            $history->vac_days     = $req['vac_days'];
+            $history->hel_days     = $req['hel_days'];
+            $history->ord_days     = $req['ord_days'];
+            $history->created_user = $req['user'];
+            $history->updated_user = $req['user'];
+
+            if($history->save()) {
+                return [
+                    'status'    => 1,
+                    'message'   => 'Insertion successfully!!',
+                    'history'  => $history,
+                ];
+            } else {
+                return [
+                    'status'    => 0,
+                    'message'   => 'Something went wrong!!'
+                ];
+            }
+        } catch (\Exception $ex) {
+            return [
+                'status'    => 0,
+                'message'   => $ex->getMessage()
+            ];
+        }
+    }
+
+    public function updateHistory(Request $req, $id)
+    {
+        try {
+            $history = History::find($id);
+            // $history->year         = $req['year'];
+            // $history->person_id    = $req['person_id'];
+            $history->ill_days     = $req['ill_days'];
+            $history->per_days     = $req['per_days'];
+            $history->lab_days     = $req['lab_days'];
+            $history->vac_days     = $req['vac_days'];
+            $history->hel_days     = $req['hel_days'];
+            $history->ord_days     = $req['ord_days'];
+            $history->updated_user = $req['user'];
+
+            if($history->save()) {
+                return [
+                    'status'    => 1,
+                    'message'   => 'Updating successfully!!',
+                    'history'  => $history,
                 ];
             } else {
                 return [

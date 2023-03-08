@@ -584,21 +584,23 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
 
         /** Set each history's days instead of leave_days value */
         leaves.map(leave => {
-            const leaveHistory = histories.find(history => history.person_id === leave.leave_person);
+            const leaveHistory = histories.find(history => history.person_id === leave.person_id);
 
-            leave['ill_days'] = leaveHistory ? leaveHistory['ill_days'] : 0;
-            leave['per_days'] = leaveHistory ? leaveHistory['per_days'] : 0;
-            leave['vac_days'] = leaveHistory ? leaveHistory['vac_days'] : 0;
-            leave['lab_days'] = leaveHistory ? leaveHistory['lab_days'] : 0;
-            leave['hel_days'] = leaveHistory ? leaveHistory['hel_days'] : 0;
-            leave['ord_days'] = leaveHistory ? leaveHistory['ord_days'] : 0;
+            leave['id']         = leaveHistory ? leaveHistory['id'] : '';
+            leave['year']       = leaveHistory ? leaveHistory['year'] : '';
+            leave['ill_days']   = leaveHistory ? leaveHistory['ill_days'] : 0;
+            leave['per_days']   = leaveHistory ? leaveHistory['per_days'] : 0;
+            leave['vac_days']   = leaveHistory ? leaveHistory['vac_days'] : 0;
+            leave['lab_days']   = leaveHistory ? leaveHistory['lab_days'] : 0;
+            leave['hel_days']   = leaveHistory ? leaveHistory['hel_days'] : 0;
+            leave['ord_days']   = leaveHistory ? leaveHistory['ord_days'] : 0;
 
             return leave;
         });
 
         /** Append leave data to each person */
         $scope.data = data.map(person => {
-            const leave_stats = leaves.find((leave) => person.person_id === leave.leave_person);
+            const leave_stats = leaves.find((leave) => person.person_id === leave.person_id);
             const vacation = vacations.find((vacation) => person.person_id === vacation.person_id);
 
             return {
@@ -643,7 +645,6 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     $scope.onSubmitVacation = function(e, form) {
         e.preventDefault();
 
-        console.log(form);
         if (form.$invalid) {
             toaster.pop('error', "ผลการตรวจสอบ", "กรุณากรอกข้อมูลให้ครบ !!!");
             return;
@@ -669,6 +670,68 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
 
     const updateVacation = function(id, data) {
         $http.put(`${CONFIG.apiUrl}/managements/vacations/${id}`, data)
+        .then((res) => {
+            console.log(res);
+        }, (err) => {
+            console.log(err);
+        })
+    };
+
+    $scope.history = {
+        year: '',
+        person: null,
+        person_id: '',
+        ill_days: 0,
+        per_days: 0,
+        lab_days: 0,
+        vac_days: 0,
+        hel_days: 0,
+        ord_days: 0,
+    };
+    $scope.showHistoryForm = function(e, person) {
+        e.preventDefault();
+
+        if (person.leave_stats) {
+            $scope.history = person.leave_stats;
+        } else {
+            $scope.history.year = $scope.cboYear;
+            $scope.history.person_id = person.person_id;
+        }
+
+        $scope.history.person = person;
+
+        $('#history-form').modal('show');
+    };
+
+    $scope.onSubmitHistory = function(e, form) {
+        e.preventDefault();
+
+        if (form.$invalid) {
+            toaster.pop('error', "ผลการตรวจสอบ", "กรุณากรอกข้อมูลให้ครบ !!!");
+            return;
+        }
+
+        $scope.history.user = $('#user').val();
+        console.log($scope.history);
+
+        if (!$scope.history.id) {
+            storeHistory($scope.history);
+        } else {
+            updateHistory($scope.history.id, $scope.history);
+        }
+    };
+
+    const storeHistory = function(data) {
+        $http.post(`${CONFIG.apiUrl}/managements/histories`, data)
+        .then((res) => {
+            console.log(res);
+        }, (err) => {
+            console.log(err);
+        })
+    };
+
+    const updateHistory = function(id, data) {
+        $http.put(`${CONFIG.apiUrl}/managements/histories/${id}`, data)
         .then((res) => {
             console.log(res);
         }, (err) => {

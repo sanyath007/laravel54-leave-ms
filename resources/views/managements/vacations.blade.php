@@ -196,7 +196,7 @@
                                                 class="btn btn-warning btn-xs"
                                                 title="แก้ไขสรุปวันลาสะสม"
                                                 ng-show="{{ Auth::user()->person_id }} == '1300200009261' || {{ Auth::user()->memberOf->depart_id }} == 40"
-                                                ng-click="showVacationForm($event, person)"
+                                                ng-click="showHistoryForm($event, person)"
                                             >
                                                 <i class="fa fa-edit"></i>
                                             </a>
@@ -258,6 +258,7 @@
         </div><!-- /.row -->
 
         @include('managements._vacation-form')
+        @include('managements._history-form')
 
     </section>
 

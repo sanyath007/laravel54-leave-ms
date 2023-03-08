@@ -33,4 +33,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('managements/vacations', 'ManagementController@getVacations');
     Route::post('managements/vacations', 'ManagementController@storeVacation');
     Route::put('managements/vacations/{id}', 'ManagementController@updateVacation');
+    Route::post('managements/histories', 'ManagementController@storeHistory');
+    Route::put('managements/histories/{id}', 'ManagementController@updateHistory');
 });
