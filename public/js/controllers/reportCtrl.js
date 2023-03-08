@@ -221,41 +221,11 @@ app.controller(
                                 ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
                                     ? moment().year() + 544
                                     : moment().year() + 543 
-                        : $scope.dtpYear;
+                                : $scope.dtpYear;
 
             $http.get(`${CONFIG.baseUrl}/reports/summary-data?faction=${faction}&depart=${depart}&division=${division}&year=${year}`)
             .then(function (res) {
-                const { leaves, histories, vacations, persons } = res.data;
-                const { data, ...pager } = persons;
-
-                $scope.data = data;
-                $scope.pager = pager;
-
-                /** Set each history's days instead of leave_days value */
-                leaves.map(leave => {
-                    const leaveHistory = histories.find(history => history.person_id === leave.leave_person);
-
-                    leave['ill_days'] = leaveHistory['ill_days'];
-                    leave['per_days'] = leaveHistory['per_days'];
-                    leave['vac_days'] = leaveHistory['vac_days'];
-                    leave['lab_days'] = leaveHistory['lab_days'];
-                    leave['hel_days'] = leaveHistory['hel_days'];
-                    leave['ord_days'] = leaveHistory['ord_days'];
-
-                    return leave;
-                });
-
-                /** Append leave data to each person */
-                $scope.data = data.map(person => {
-                    const leave = leaves.find((leave) => person.person_id === leave.leave_person);
-                    const vacation = vacations.find((vacation) => person.person_id === vacation.person_id);
-
-                    return {
-                        ...person,
-                        leave,
-                        vacation,
-                    };
-                });
+                $scope.setSummary(res);
 
                 $scope.loading = false;
             }, function (err) {
@@ -264,39 +234,63 @@ app.controller(
             });
         };
 
-        $scope.getDataWithURL = function (URL) {
-            $scope.data = [];
-            $scope.pager = [];
+        $scope.getSummaryWithUrl = function (url) {
             $scope.loading = true;
+            $scope.data = [];
+            $scope.pager = null;
 
-            let depart = $scope.cboDepart === '' ? '' : $scope.cboDepart;
-            let division = !$scope.cboDivision ? '' : $scope.cboDivision;
-            let month       = $('#dtpMonth').val() === ''
-                                ? StringFormatService.shortMonthToDbMonth(moment().format('YYYY-MM'))
-                                : StringFormatService.shortMonthToDbMonth($('#dtpMonth').val());
+            let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
+            let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+            let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
+            let year        = $scope.dtpYear === ''
+                                ? $scope.dtpYear = parseInt(moment().format('MM')) > 9
+                                    ? moment().year() + 544
+                                    : moment().year() + 543 
+                                : $scope.dtpYear;
 
-            $http.get(`${URL}&depart=${depart}&division=${division}&year=${year}`)
+            $http.get(`${url}&faction=${faction}&depart=${depart}&division=${division}&year=${year}`)
             .then(function (res) {
-                    console.log(res);
-                    const { data, ...pager } = res.data.persons;
-                    $scope.data = data;
-                    $scope.pager = pager;
+                $scope.setSummary(res);
 
-                    $scope.data = data.map((person) => {
-                        const leave = res.data.leaves.find((leave) =>
-                            person.person_id === leave.leave_person
-                        );
-                        return {
-                            ...person,
-                            leave: leave,
-                        };
-                    });
-
-                    $scope.loading = false;
+                $scope.loading = false;
             }, function (err) {
-                    console.log(err);
-                    $scope.loading = false;
+                console.log(err);
+                $scope.loading = false;
             });
         };
+
+        $scope.setSummary = function(res) {
+            const { leaves, histories, vacations, persons } = res.data;
+            const { data, ...pager } = persons;
+
+            $scope.data = data;
+            $scope.pager = pager;
+
+            /** Set each history's days instead of leave_days value */
+            leaves.map(leave => {
+                const leaveHistory = histories.find(history => history.person_id === leave.leave_person);
+
+                leave['ill_days'] = leaveHistory['ill_days'];
+                leave['per_days'] = leaveHistory['per_days'];
+                leave['vac_days'] = leaveHistory['vac_days'];
+                leave['lab_days'] = leaveHistory['lab_days'];
+                leave['hel_days'] = leaveHistory['hel_days'];
+                leave['ord_days'] = leaveHistory['ord_days'];
+
+                return leave;
+            });
+
+            /** Append leave data to each person */
+            $scope.data = data.map(person => {
+                const leave = leaves.find((leave) => person.person_id === leave.leave_person);
+                const vacation = vacations.find((vacation) => person.person_id === vacation.person_id);
+
+                return {
+                    ...person,
+                    leave,
+                    vacation,
+                };
+            });
+        }
     }
 );
