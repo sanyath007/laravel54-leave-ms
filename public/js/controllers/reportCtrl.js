@@ -218,6 +218,7 @@ app.controller(
         };
 
         $scope.getSummary = function () {
+            let user        = $('#user').val();
             let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
             let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
             let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
@@ -227,7 +228,7 @@ app.controller(
                                     : moment().year() + 543 
                                 : $scope.dtpYear;
 
-            $http.get(`${CONFIG.baseUrl}/reports/summary-data?faction=${faction}&depart=${depart}&division=${division}&year=${year}`)
+            $http.get(`${CONFIG.baseUrl}/reports/summary-data?year=${year}&faction=${faction}&depart=${depart}&division=${division}&user=${user}`)
             .then(function (res) {
                 $scope.setSummary(res);
 
@@ -243,6 +244,7 @@ app.controller(
             $scope.data = [];
             $scope.pager = null;
 
+            let user        = $('#user').val();
             let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
             let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
             let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
@@ -252,7 +254,7 @@ app.controller(
                                     : moment().year() + 543 
                                 : $scope.dtpYear;
 
-            $http.get(`${url}&faction=${faction}&depart=${depart}&division=${division}&year=${year}`)
+            $http.get(`${url}&year=${year}&faction=${faction}&depart=${depart}&division=${division}&user=${user}`)
             .then(function (res) {
                 $scope.setSummary(res);
 

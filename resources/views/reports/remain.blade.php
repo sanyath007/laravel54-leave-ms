@@ -31,6 +31,10 @@
                     </div>
 
                     <form id="frmSearch" name="frmSearch" role="form">
+                        <input type="hidden" name="user" id="user" value="{{ Auth::user()->person_id }}" />
+                        <input type="hidden" name="depart_id" id="depart_id" value="{{ Auth::user()->memberOf->depart_id }}" />
+                        <input type="hidden" name="faction_id" id="faction_id" value="{{ Auth::user()->memberOf->faction_id }}" />
+
                         <div class="box-body">
                             <div class="col-md-6" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
                                 <div class="form-group">

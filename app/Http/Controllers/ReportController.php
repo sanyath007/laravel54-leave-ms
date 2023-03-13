@@ -184,10 +184,13 @@ class ReportController extends Controller
 
     public function getSummaryData(Request $req)
     {
-        $faction    = Auth::user()->person_id != '1300200009261'
-                        ? Auth::user()->memberOf->faction_id
+        $user       = Person::with('memberOf')->where('person_id', $req->get('user'))->first();
+        $faction    = $user->memberOf->duty_id == 2
+                        ? $user->memberOf->faction_id
                         : $req->get('faction');
-        $depart     = '';
+        $depart     = $user->memberOf->duty_id == 2
+                        ? $user->memberOf->depart_id
+                        : $req->get('depart');
         $year       = $req->input('year');
         $division   = $req->input('division');
 
@@ -232,7 +235,8 @@ class ReportController extends Controller
                             })
                             ->with('prefix','position','academic')
                             ->with('memberOf', 'memberOf.depart')
-                            ->paginate(20),
+                            ->orderBy('person_singin')
+                            ->paginate(300),
             'histories' => History::where('year', $year)->get(),
             "vacations" => Vacation::where('year', $year)->get()
         ];
