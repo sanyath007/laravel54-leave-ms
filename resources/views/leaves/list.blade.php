@@ -104,15 +104,14 @@
                             <thead>
                                 <tr>
                                     <th style="width: 3%; text-align: center;">#</th>
-                                    <th style="width: 8%; text-align: center;">ปีงบประมาณ</th>
+                                    <th style="width: 5%; text-align: center;">ปีงบ</th>
                                     <th style="width: 8%; text-align: center;">วันที่ลงทะเบียน</th>
                                     <th>ประเภทการลา</th>
-                                    <!-- <th style="text-align: left;">ชื่อครุภัณฑ์</th> -->
-                                    <th style="width: 20%; text-align: center;">วันที่ลา</th>
-                                    <th style="width: 5%; text-align: center;">วัน</th>
+                                    <th style="width: 18%; text-align: center;">วันที่ลา</th>
+                                    <th style="width: 4%; text-align: center;">วัน</th>
                                     <th style="width: 15%; text-align: center;">สถานะ</th>
                                     <th style="width: 5%; text-align: center;">ไฟล์แนบ</th>
-                                    <th style="width: 10%; text-align: center;">Actions</th>
+                                    <th style="width: 8%; text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>

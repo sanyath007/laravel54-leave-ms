@@ -513,7 +513,7 @@
                                             <button
                                                 type="button"
                                                 class="btn btn-primary"
-                                                ng-click="onShowDelegatorLists($event, '{{ Auth::user()->memberOf->depart_id }}')"
+                                                ng-click="onShowDelegatorsList($event, '{{ Auth::user()->memberOf->depart_id }}')"
                                             >
                                                 ...
                                             </button>

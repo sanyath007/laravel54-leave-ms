@@ -38,6 +38,11 @@
 
                     <form id="frmSearch" name="frmSearch" role="form">
                         <input type="hidden" name="user" id="user" value="{{ Auth::user()->person_id }}" />
+                        <input
+                            type="hidden"
+                            id="depart_id"
+                            value="{{ Auth::user()->person_id == '3309900180137' ? Auth::user()->memberOf->depart_id : '' }}"
+                        />
 
                         <div class="box-body" style="padding-bottom: 0;">
                             <div class="row">

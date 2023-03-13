@@ -118,14 +118,14 @@
                                         <input  type="text"
                                                 id="leave_person_name"
                                                 name="leave_person_name"
-                                                value="{{ Auth::user()->prefix->prefix_name.Auth::user()->person_firstname.' '.Auth::user()->person_lastname }}"
+                                                value="@{{ leave.person.prefix.prefix_name+leave.person.person_firstname+' '+leave.person.person_lastname }}"
                                                 class="form-control"
                                                 readonly="readonly"
                                                 tabindex="6">
                                         <input type="hidden"
                                                 id="leave_person"
                                                 name="leave_person"
-                                                value="{{ Auth::user()->person_id }}">
+                                                ng-model="leave.leave_person">
                                         <span class="input-group-btn">
                                             <button
                                                 type="button"
@@ -142,7 +142,7 @@
                                     <input  type="text"
                                             id="leave_person_position"
                                             name="leave_person_position"
-                                            value="{{ Auth::user()->position->position_name }}{{ Auth::user()->academic ? Auth::user()->academic->ac_name : '' }}"
+                                            value="@{{ leave.person.position.position_name }}@{{ leave.person.academic ? leave.person.academic.ac_name : '' }}"
                                             class="form-control"
                                             readonly="readonly" />
                                 </div>
@@ -515,7 +515,13 @@
                                                 class="form-control"
                                                 readonly="readonly" />
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary" ng-click="onShowDelegatorLists($event)">...</button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                                ng-click="onShowDelegatorsList($event, '{{ Auth::user()->memberOf->depart_id }}')"
+                                            >
+                                                ...
+                                            </button>
                                         </span>
                                     </div>
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_delegate')">กรุณาเลือกผู้รับมอบหมายแทน</span>
