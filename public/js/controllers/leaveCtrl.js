@@ -40,6 +40,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         leave_topic: '',
         leave_to: 'ผู้อำนวยการโรงพยาบาลเทพรัตน์นครราชสีมา',
         leave_person: '',
+        depart_id: '',
         leave_type: '',
         leave_reason: '',
         leave_contact: '',
@@ -151,6 +152,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
             leave_topic: '',
             leave_to: 'ผู้อำนวยการโรงพยาบาลเทพรัตน์นครราชสีมา',
             leave_person: '',
+            depart_id: '',
             leave_type: '',
             leave_reason: '',
             leave_contact: '',
@@ -522,10 +524,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
 
     $scope.setEditControls = function(data) {
         $scope.leave.leave_id           = data.leave.id;
+        $scope.leave.leave_person       = data.leave.leave_person;
+        $scope.leave.depart_id          = data.leave.depart_id;
         $scope.leave.leave_no           = data.leave.leave_no;
         $scope.leave.leave_topic        = data.leave.leave_topic;
         $scope.leave.leave_to           = data.leave.leave_to;
-        $scope.leave.leave_person       = data.leave.leave_person;
         $scope.leave.leave_reason       = data.leave.leave_reason;
         $scope.leave.leave_contact      = data.leave.leave_contact;
         $scope.leave.leave_delegate     = data.leave.leave_delegate;

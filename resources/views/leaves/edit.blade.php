@@ -28,6 +28,7 @@
 
                     <form id="frmEditLeave" name="frmEditLeave" method="post" action="{{ url('/leaves/update') }}" role="form" enctype="multipart/form-data">
                         <input type="hidden" id="user" name="user" value="{{ Auth::user()->person_id }}">
+                        <input type="hidden" id="depart_id" name="depart_id" value="{{ Auth::user()->memberOf->depart_id }}">
                         <input type="hidden" id="leave_id" name="leave_id" value="{{ $leave->id }}" ng-model="leave.leave_id">
                         <input type="hidden" id="leave_topic" name="leave_topic" value="{{ $leave->leave_topic }}" ng-model="leave.leave_topic">
                         <input type="hidden" id="leave_delegate" name="leave_delegate" value="{{ $leave->leave_delegate }}" ng-model="leave.leave_delegate" />

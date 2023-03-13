@@ -28,6 +28,7 @@
 
                     <form id="frmNewLeave" name="frmNewLeave" method="post" action="{{ url('/leaves/store') }}" role="form" enctype="multipart/form-data">
                         <input type="hidden" id="user" name="user" value="{{ Auth::user()->person_id }}">
+                        <input type="hidden" id="depart_id" name="depart_id" value="{{ Auth::user()->memberOf->depart_id }}">
                         <input type="hidden" id="leave_topic" name="leave_topic" ng-model="leave.leave_topic">
                         {{ csrf_field() }}
 
