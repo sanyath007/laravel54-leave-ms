@@ -38,11 +38,8 @@
 
                     <form id="frmSearch" name="frmSearch" role="form">
                         <input type="hidden" name="user" id="user" value="{{ Auth::user()->person_id }}" />
-                        <input
-                            type="hidden"
-                            id="depart_id"
-                            value="{{ Auth::user()->person_id == '3309900180137' ? Auth::user()->memberOf->depart_id : '' }}"
-                        />
+                        <input type="hidden" name="faction_id" id="faction_id" value="{{ Auth::user()->memberOf->faction_id }}" />
+                        <input type="hidden" name="depart_id" id="depart_id" value="{{ Auth::user()->memberOf->depart_id }}" />
 
                         <div class="box-body" style="padding-bottom: 0;">
                             <div class="row">
@@ -114,8 +111,8 @@
                                 </div>
                             </div><!-- /.row -->
 
-                            <div class="row">
-                                <div class="col-md-5" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
+                            <div class="row" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label>กลุ่มภารกิจ</label>
                                         <select
@@ -138,7 +135,7 @@
                                         </select>
                                     </div><!-- /.form group -->
                                 </div><!-- /.col -->
-                                <div class="col-md-4" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>กลุ่มงาน</label>
                                         <select
@@ -322,13 +319,13 @@
                                                 title="รายละเอียด">
                                                 <i class="fa fa-search"></i>
                                             </a>
-                                            <!-- <a  ng-click="edit(leave.id)"
+                                            <a  ng-click="edit(leave.id)"
                                                 ng-show="leave.status == 0 || (leave.status == 1 && {{ Auth::user()->memberOf->duty_id }} == 2)"
                                                 class="btn btn-warning btn-xs"
                                                 title="แก้ไขรายการ">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form
+                                            <!-- <form
                                                 id="frmDelete"
                                                 method="POST"
                                                 action="{{ url('/leaves/delete') }}"
@@ -359,19 +356,19 @@
                             <div class="col-md-4">
                                 <ul class="pagination pagination-sm no-margin pull-right" ng-show="pager.last_page > 1">
                                     <li ng-if="pager.current_page !== 1">
-                                        <a href="#" ng-click="getLeavesWithURL($event, pager.path+ '?page=1', setLeaves)" aria-label="Previous">
+                                        <a href="#" ng-click="getLeavesWithUrl($event, pager.path+ '?page=1', setLeaves)" aria-label="Previous">
                                             <span aria-hidden="true">First</span>
                                         </a>
                                     </li>
                                 
                                     <li ng-class="{'disabled': (pager.current_page==1)}">
-                                        <a href="#" ng-click="getLeavesWithURL($event, pager.prev_page_url, setLeaves)" aria-label="Prev">
+                                        <a href="#" ng-click="getLeavesWithUrl($event, pager.prev_page_url, setLeaves)" aria-label="Prev">
                                             <span aria-hidden="true">Prev</span>
                                         </a>
                                     </li>
 
                                     <!-- <li ng-repeat="i in debtPages" ng-class="{'active': pager.current_page==i}">
-                                        <a href="#" ng-click="getLeavesWithURL(pager.path + '?page=' +i)">
+                                        <a href="#" ng-click="getLeavesWithUrl(pager.path + '?page=' +i)">
                                             @{{ i }}
                                         </a>
                                     </li> -->
@@ -383,13 +380,13 @@
                                     </li> -->
 
                                     <li ng-class="{'disabled': (pager.current_page==pager.last_page)}">
-                                        <a href="#" ng-click="getLeavesWithURL($event, pager.next_page_url, setLeaves)" aria-label="Next">
+                                        <a href="#" ng-click="getLeavesWithUrl($event, pager.next_page_url, setLeaves)" aria-label="Next">
                                             <span aria-hidden="true">Next</span>
                                         </a>
                                     </li>
 
                                     <li ng-if="pager.current_page !== pager.last_page">
-                                        <a href="#" ng-click="getLeavesWithURL($event, pager.path+ '?page=' +pager.last_page, setLeaves)" aria-label="Previous">
+                                        <a href="#" ng-click="getLeavesWithUrl($event, pager.path+ '?page=' +pager.last_page, setLeaves)" aria-label="Previous">
                                             <span aria-hidden="true">Last</span>
                                         </a>
                                     </li>

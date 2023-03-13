@@ -145,9 +145,9 @@ class ManagementController extends Controller
 
         /** Get params from query string */
         $user       = $req->get('user');
-        $faction    = $user == '1300200009261' ? $req->get('faction') : '';
-        $depart     = $user == '1300200009261' ? $req->get('depart') : '';
-        $division   = $user == '1300200009261' ? $req->get('division') : '';
+        $faction    = $req->get('faction');
+        $depart     = $req->get('depart');
+        $division   = $req->get('division');
         $year       = $req->get('year');
         $type       = $req->get('type');
         $status     = $req->get('status');

@@ -470,19 +470,20 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
         $scope.loading = true;
         $scope.leaves = [];
 
+        let user        = $('#user').val();
         let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
-        let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+        let depart      = user == '3309900180137'
+                            ? ($('#depart_id').val() == '' ? '' : $('#depart_id').val()) 
+                            : (!$scope.cboDepart ? '' : $scope.cboDepart);
         let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
         let year        = $scope.cboYear === '' ? 0 : $scope.cboYear;
         let type        = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
         let status      = $scope.cboLeaveStatus === '' ? '-' : $scope.cboLeaveStatus;
         let name        = $scope.keyword === '' ? '' : $scope.keyword;
-        let user        = $('#user').val();
-        let query       = $scope.cboQuery === '' ? '' : `?${$scope.cboQuery}`;
         let sdate       = $scope.dtpSdate === '' ? '' : $scope.dtpSdate;
         let edate       = $scope.dtpEdate === '' ? '' : $scope.dtpEdate;
 
-        $http.get(`${CONFIG.apiUrl}/managements/leaves?year=${year}&type=${type}&faction=${faction}&depart=${depart}&division=${division}&status=${status}&name=${name}&user=${user}&date=${sdate}-${edate}${query}`)
+        $http.get(`${CONFIG.apiUrl}/managements/leaves?year=${year}&type=${type}&faction=${faction}&depart=${depart}&division=${division}&status=${status}&name=${name}&user=${user}&date=${sdate}-${edate}`)
         .then(function(res) {
             $scope.setLeaves(res);
 
@@ -499,25 +500,26 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
         $scope.pager = pager;
     };
 
-    $scope.getLeavesWithURL = function(e, url, cb) {
+    $scope.getLeavesWithUrl = function(e, url, cb) {
         /** Check whether parent of clicked a tag is .disabled just do nothing */
         if ($(e.currentTarget).parent().is('li.disabled')) return;
 
         $scope.loading = true;
 
+        let user        = $('#user').val();
         let faction     = !$scope.cboFaction ? '' : $scope.cboFaction;
-        let depart      = !$scope.cboDepart ? '' : $scope.cboDepart;
+        let depart      = user == '3309900180137'
+                            ? ($('#depart_id').val() == '' ? '' : $('#depart_id').val()) 
+                            : (!$scope.cboDepart ? '' : $scope.cboDepart);
         let division    = !$scope.cboDivision ? '' : $scope.cboDivision;
         let year        = $scope.cboYear === '' ? 0 : $scope.cboYear;
         let type        = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
         let status      = $scope.cboLeaveStatus === '' ? '-' : $scope.cboLeaveStatus;
         let name        = $scope.keyword === '' ? '' : $scope.keyword;
-        let user        = $('#user').val();
-        let query       = $scope.cboQuery === '' ? '' : `?${$scope.cboQuery}`;
         let sdate       = $scope.dtpSdate === '' ? '' : $scope.dtpSdate;
         let edate       = $scope.dtpEdate === '' ? '' : $scope.dtpEdate;
 
-        $http.get(`${url}&year=${year}&type=${type}&faction=${faction}&depart=${depart}&division=${division}&status=${status}&name=${name}&user=${user}&date=${sdate}-${edate}${query}`)
+        $http.get(`${url}&year=${year}&type=${type}&faction=${faction}&depart=${depart}&division=${division}&status=${status}&name=${name}&user=${user}&date=${sdate}-${edate}`)
         .then(function(res) {
             cb(res);
 

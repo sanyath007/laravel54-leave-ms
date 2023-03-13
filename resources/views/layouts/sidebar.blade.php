@@ -148,6 +148,7 @@
 					<!-- // Authorize เฉพาะกลุ่มงาน HR -->
 					@if (
 						Auth::user()->person_id == '1300200009261' ||
+						Auth::user()->person_id == '3309900180137' ||
 						Auth::user()->memberOf->depart_id == 40
 					)
 						<li class="treeview" ng-class="{ 'menu-open active': menu == 'managements' }">
@@ -163,9 +164,11 @@
 									<a href="{{ url('managements/leaves') }}">
 										<i class="fa fa-circle-o"></i> ตรวจสอบวันลา
 									</a>
-									<a href="{{ url('managements/vacations') }}">
-										<i class="fa fa-circle-o"></i> สรุปวันลาสะสม
-									</a>
+									@if (Auth::user()->person_id != '3309900180137')
+										<a href="{{ url('managements/vacations') }}">
+											<i class="fa fa-circle-o"></i> สรุปวันลาสะสม
+										</a>
+									@endif
 								</li>
 							</ul>
 						</li>

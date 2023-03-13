@@ -262,11 +262,12 @@ class LeaveController extends Controller
     public function store(Request $req)
     {
         $leave = new Leave();
+        $leave->leave_person    = $req['leave_person'];
+        $leave->depart_id       = $req['depart_id'];
         $leave->leave_date      = convThDateToDbDate($req['leave_date']);
         $leave->leave_place     = $req['leave_place'];
         $leave->leave_topic     = $req['leave_topic'];
         $leave->leave_to        = $req['leave_to'];
-        $leave->leave_person    = $req['leave_person'];
         $leave->leave_type      = $req['leave_type'];
 
         /** leave_type detail
@@ -307,14 +308,14 @@ class LeaveController extends Controller
          * with insert commented_ column with bypass data
          * else, status must be setted to 0
          */
-        if (Auth::user()->memberOf->duty_id == 1) {
+        if (Auth::user()->person_id == $req['leave_person'] && Auth::user()->memberOf->duty_id == 1) {
             $leave->commented_text  = 'หัวหน้ากลุ่มภารกิจ';
             $leave->commented_date  = date('Y-m-d');
             $leave->commented_by    = Auth::user()->person_id;
             $leave->received_date   = date('Y-m-d');
             $leave->received_by     = Auth::user()->person_id;
             $leave->status          = '3';
-        } else if (Auth::user()->memberOf->duty_id == 2) {
+        } else if (Auth::user()->person_id == $req['leave_person'] && Auth::user()->memberOf->duty_id == 2) {
             $leave->commented_text  = 'หัวหน้ากลุ่มงาน';
             $leave->commented_date  = date('Y-m-d');
             $leave->commented_by    = Auth::user()->person_id;
@@ -378,11 +379,12 @@ class LeaveController extends Controller
     public function update(Request $req)
     {
         $leave = Leave::find($req['leave_id']);
+        $leave->leave_person    = $req['leave_person'];
+        $leave->depart_id       = $req['depart_id'];
         $leave->leave_date      = convThDateToDbDate($req['leave_date']);
         $leave->leave_place     = $req['leave_place'];
         $leave->leave_topic     = $req['leave_topic'];
         $leave->leave_to        = $req['leave_to'];
-        $leave->leave_person    = $req['leave_person'];
         $leave->leave_type      = $req['leave_type'];
 
         if ($req['leave_type'] == '1' || $req['leave_type'] == '2' || 
