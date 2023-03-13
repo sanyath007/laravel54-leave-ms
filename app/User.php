@@ -37,17 +37,22 @@ class User extends Authenticatable
 
     public function ward()
     {
-        return $this->belongsTo('App\Models\Ward', 'office_id', 'ward_id');
+        return $this->belongsTo(Models\Ward::class, 'office_id', 'ward_id');
+    }
+
+    public function prefix()
+    {
+        return $this->belongsTo(Models\Prefix::class, 'person_prefix', 'prefix_id');
     }
 
     public function position()
     {
-        return $this->belongsTo('App\Models\Position', 'position_id', 'position_id');
+        return $this->belongsTo(Models\Position::class, 'position_id', 'position_id');
     }
 
     public function academic()
     {
-        return $this->belongsTo('App\Models\Academic', 'ac_id', 'ac_id');
+        return $this->belongsTo(Models\Academic::class, 'ac_id', 'ac_id');
     }
 
     public function memberOf()

@@ -24,8 +24,13 @@
                                         <option value="{{ $depart->depart_id }}">{{ $depart->depart_name }}</option>
                                     @endforeach
                                 </select>
-        
-                                <input type="text" ng-model="searchKey" class="form-control" ng-keyup="onFilterPerson()">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="ค้นด้วยชื่อ"
+                                    ng-model="searchKey"
+                                    ng-keyup="onFilterPerson()"
+                                />
                             </div>
                         </div><!-- /.box-body -->
                     </div>
@@ -56,7 +61,7 @@
                                     @{{ person.member_of.depart.depart_name }}
                                 </td>
                                 <td style="text-align: center;">
-                                    <a href="#" class="btn btn-primary" ng-click="onSelectedPerson($event, person, personListsCallback)">
+                                    <a href="#" class="btn btn-primary" ng-click="onSelectedPerson($event, person, null, personListsCallback)">
                                         เลือก
                                     </a>
                                 </td>
@@ -113,7 +118,7 @@
                             </ul>
                         </div>
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-danger" ng-click="onSelectedPerson($event, null, personListsCallback)">
+                            <button type="button" class="btn btn-danger" ng-click="onSelectedPerson($event, null, {{ Auth::user() }}, personListsCallback)">
                                 ปิด
                             </button>
                         </div>

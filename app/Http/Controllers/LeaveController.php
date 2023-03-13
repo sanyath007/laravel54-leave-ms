@@ -249,10 +249,12 @@ class LeaveController extends Controller
 
     public function add()
     {
+        $departs = Depart::where('faction_id', Auth::user()->memberOf->faction_id)->get();
+
         return view('leaves.add', [
             "leave_types"   => LeaveType::all(),
             "positions"     => Position::all(),
-            "departs"       => Depart::where('faction_id', '5')->get(),
+            "departs"       => $departs,
             "periods"       => $this->periods,
         ]);
     }

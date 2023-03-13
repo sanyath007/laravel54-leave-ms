@@ -1,4 +1,4 @@
-app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringFormatService, PaginateService) {
+app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringFormatService) {
 /** ################################################################################## */
     $scope.loading = false;
     $scope.cboYear = parseInt(moment().format('MM')) > 9
@@ -93,7 +93,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
     });
 
     $('#deliver_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        $scope.leave.deliver_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
+        $scope.leave.deliver_date = StringFormatService.convFromDbDate(moment(event.date).format('YYYY-MM-DD'));
     });
 
     $('#ordain_date').datepicker(dtpOptions).on('changeDate', function(event) {
@@ -102,9 +102,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
 
         //     $('#ordain_date').datepicker('update', moment().toDate());
 
-        //     $scope.leave.ordain_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
+        //     $scope.leave.ordain_date = StringFormatService.convFromDbDate(moment().format('YYYY-MM-DD'));
         // } else {
-            $scope.leave.ordain_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
+            $scope.leave.ordain_date = StringFormatService.convFromDbDate(moment(event.date).format('YYYY-MM-DD'));
         // }
     });
 
@@ -116,9 +116,9 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
 
         //     $('#start_date').datepicker('update', moment().toDate());
 
-        //     $scope.leave.start_date = convertDbDateToThDate(moment().format('YYYY-MM-DD'));
+        //     $scope.leave.start_date = StringFormatService.convFromDbDate(moment().format('YYYY-MM-DD'));
         // } else {
-            $scope.leave.start_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
+            $scope.leave.start_date = StringFormatService.convFromDbDate(moment(event.date).format('YYYY-MM-DD'));
         // }
         
         /** Clear value of .select2 */
@@ -127,7 +127,7 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
 
     $scope.speriodSelected = '';
     $('#end_date').datepicker(dtpOptions).on('changeDate', function(event) {
-        const startDate = convertThDateToDbDate($('#start_date').val());
+        const startDate = StringFormatService.convToDbDate($('#start_date').val());
 
         // TODO: should check existance leave at selected data
         if (!moment(event.date).isSameOrAfter(moment(startDate))) {
@@ -135,28 +135,14 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
 
             $('#end_date').datepicker('update', moment(startDate).toDate());
             
-            $scope.leave.end_date = convertDbDateToThDate(moment(startDate).format('YYYY-MM-DD'));
+            $scope.leave.end_date = StringFormatService.convFromDbDate(moment(startDate).format('YYYY-MM-DD'));
         } else {
-            $scope.leave.end_date = convertDbDateToThDate(moment(event.date).format('YYYY-MM-DD'));
+            $scope.leave.end_date = StringFormatService.convFromDbDate(moment(event.date).format('YYYY-MM-DD'));
         }
 
         /** Clear value of .select2 */
         $('#end_period').val(null).trigger('change');
     });
-
-    // TODO: Should move to rootScope
-    const convertThDateToDbDate = function (dateStr) {
-        const [day, month, year] = dateStr.split('/');
-
-        return `${parseInt(year, 10) - 543}-${month}-${day}`;
-    };
-
-    // TODO: Should move to rootScope
-    const convertDbDateToThDate = function (dateStr) {
-        let [ year, month, day ] = dateStr.split('-');
-
-        return `${day}/${month}/${parseInt(year)+543}`;
-    };
 
     $scope.clearLeaveObj = function() {
         $scope.leave = {
@@ -274,11 +260,25 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $('#leave_topic').val($('#leave_type').children("option:selected").text().trim());
     };
 
+    /*
+    |-----------------------------------------------------------------------------
+    | Methods สำหรับการเลือกผู้ปฏิบัติงานแทน
+    |-----------------------------------------------------------------------------
+    */
     $scope.personListsCallback = '';
+    $scope.onShowLeavePersonsList = function(e, depart) {
+        e.preventDefault();
+
+        $scope.personListsCallback = 'onSelectedLeavePerson';
+        $scope.getPersons(depart, '0', 'togglePersonsList');
+
+        $scope.cboDepart = depart !== '' ? depart : '0';
+    };
+
     $scope.onWifeIsOfficer = function(value) {
         if (value) {
             $scope.personListsCallback = 'onSelectedWifeInPersons';
-            $scope.getPersons('0', '0', 'togglePersonLists');
+            $scope.getPersons('0', '0', 'togglePersonsList');
         } else {
             $('#wife_name').val('');
             $('#wife_id').val('');
@@ -288,25 +288,13 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         }
     };
 
-    $scope.onShowDelegatorLists = function(e) {
+    $scope.onShowDelegatorsList = function(e, depart) {
         e.preventDefault();
 
         $scope.personListsCallback = 'onSelectedDelegator';
-        $scope.getPersons('0', '0', 'togglePersonLists');
-    };
+        $scope.getPersons(depart, '0', 'togglePersonsList');
 
-    $scope.togglePersonLists = function(isOpen=true) {
-        if (isOpen) {
-            $('#person-list').modal('show');
-        } else {
-            $('#person-list').modal('hide');
-        }
-    };
-
-    $scope.onSelectedPerson = function(e, person, cbName) {
-        const cb = $scope[cbName];
-
-        if (cb) cb(person);
+        $scope.cboDepart = depart !== '' ? depart : '0';
     };
 
     $scope.getPersons = function(depart, searchKey, cbName) {
@@ -355,6 +343,58 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $scope.pager    = pager;
     };
 
+    $scope.togglePersonsList = function(isOpen=true) {
+        if (isOpen) {
+            $('#person-list').modal('show');
+        } else {
+            $('#person-list').modal('hide');
+        }
+    };
+
+    $scope.onSelectedPerson = function(e, person, defaultPerson=null, cbName) {
+        const cb = $scope[cbName];
+
+        if (cb) cb(person, defaultPerson);
+    };
+
+    $scope.onSelectedLeavePerson = function(person, defaultPerson) {
+        if (person) {
+            const academic = person.academic !== null ? person.academic.ac_name : '';
+
+            $scope.leave.leave_person = person.person_id;
+
+            $('#leave_person').val(person.person_id);
+            $('#leave_person_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname)
+            $('#leave_person_position').val(person.position.position_name + academic)
+        } else {
+            const academic = defaultPerson.academic !== null ? defaultPerson.academic.ac_name : '';
+
+            $scope.leave.leave_person = defaultPerson.person_id;
+
+            $('#leave_person').val(defaultPerson.person_id);
+            $('#leave_person_name').val(defaultPerson.prefix.prefix_name + defaultPerson.person_firstname + ' ' + defaultPerson.person_lastname)
+            $('#leave_person_position').val(defaultPerson.position.position_name + academic)
+        }
+
+        $scope.personListsCallback = '';
+        $('#person-list').modal('hide');
+    };
+
+    $scope.onSelectedWifeInPerson = function(person) {
+        if (person) {
+            $scope.leave.wife_id = person.person_id;
+            $scope.leave.wife_name = person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname;
+
+            $('#wife_id').val(person.person_id);
+            $('#wife_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname)
+        } else {
+            $scope.leave.wife_is_officer = false;
+        }
+
+        $scope.personListsCallback = '';
+        $('#person-list').modal('hide');
+    };
+
     $scope.onSelectedDelegator = function(person) {
         if (person) {
             $scope.leave.leave_delegate = person.person_id;
@@ -373,21 +413,6 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $('#person-list').modal('hide');
     };
 
-    $scope.onSelectedWifeInPersons = function(person) {
-        if (person) {
-            $scope.leave.wife_id = person.person_id;
-            $scope.leave.wife_name = person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname;
-
-            $('#wife_id').val(person.person_id);
-            $('#wife_name').val(person.prefix.prefix_name + person.person_firstname + ' ' + person.person_lastname)
-        } else {
-            $scope.leave.wife_is_officer = false;
-        }
-
-        $scope.personListsCallback = '';
-        $('#person-list').modal('hide');
-    };
-
     $scope.cboDepart = '';
     $scope.searchKey = '';
     $scope.onFilterPerson = function() {
@@ -397,6 +422,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         $scope.getPersons(depart, searchKey, null);
     };
 
+    /*
+    |-----------------------------------------------------------------------------
+    | ดึงข้อมูลการยกเลิกการลา
+    |-----------------------------------------------------------------------------
+    */
     const getCancellation = function(isApproval=false) {
         $scope.cancellations = [];
         $scope.cancelPager = [];
@@ -429,6 +459,11 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         });
     }
 
+    /*
+    |-----------------------------------------------------------------------------
+    | CRUD operations of การลา
+    |-----------------------------------------------------------------------------
+    */
     // TODO: Duplicated method
     $scope.getAll = function(event) {
         $scope.leaves = [];
