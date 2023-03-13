@@ -33,11 +33,12 @@ class ReportController extends Controller
     public function getDailyData(Request $req)
     {
         /** Get params from query string */
-        $faction    = Auth::user()->memberOf->duty_id == 2
-                        ? Auth::user()->memberOf->faction_id
+        $user       = Person::with('memberOf')->where('person_id', $req->get('user'))->first();
+        $faction    = $user->memberOf->duty_id == 2
+                        ? $user->memberOf->faction_id
                         : $req->get('faction');
-        $depart     = Auth::user()->memberOf->duty_id == 2
-                        ? Auth::user()->memberOf->depart_id
+        $depart     = $user->memberOf->duty_id == 2
+                        ? $user->memberOf->depart_id
                         : $req->get('depart');
         $division   = $req->get('division');
         $date       = $req->get('date');
@@ -45,8 +46,10 @@ class ReportController extends Controller
 
         /** Generate list of person of depart from query params */
         $personList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
-                        ->where('level.faction_id', '5')
                         // ->where('person_state', '1')
+                        ->when(!empty($faction), function($q) use ($faction) {
+                            $q->where('level.faction_id', $faction);
+                        })
                         ->when(!empty($depart), function($q) use ($depart) {
                             $q->where('level.depart_id', $depart);
                         })
@@ -64,7 +67,9 @@ class ReportController extends Controller
                     ->with('person.memberOf', 'person.memberOf.depart', 'person.memberOf.division')
                     ->with('cancellation', 'type')
                     ->whereIn('status', [2,3,5,8,9])
-                    ->whereIn('leave_person', $personList)
+                    ->when(count($personList) > 0, function($q) use ($personList) {
+                        $q->whereIn('leave_person', $personList);
+                    })
                     ->when(!empty($date), function($q) use ($date) {
                         $q->where(function($sq) use ($date) {
                             $sq->where('start_date', '<=', $date)->where('end_date', '>=', $date);
@@ -72,7 +77,7 @@ class ReportController extends Controller
                     })
                     ->orderBy('leave_date', 'desc')
                     ->orderBy('start_date', 'desc')
-                    ->paginate(20);
+                    ->paginate(300);
 
         return [
             'leaves' => $leaves,
@@ -98,15 +103,16 @@ class ReportController extends Controller
     public function getMonthlyData(Request $req)
     {
         /** Get params from query string */
-        $year       = $req->input('year');
-        $month      = $req->get('month');
-        $faction    = Auth::user()->person_id != '1300200009261'
-                        ? Auth::user()->memberOf->faction_id
+        $user       = Person::with('memberOf')->where('person_id', $req->get('user'))->first();
+        $faction    = $user->memberOf->duty_id == 2
+                        ? $user->memberOf->faction_id
                         : $req->get('faction');
-        $depart     = Auth::user()->memberOf->duty_id == '1300200009261'
-                        ? Auth::user()->memberOf->depart_id
+        $depart     = $user->memberOf->duty_id == 2
+                        ? $user->memberOf->depart_id
                         : $req->get('depart');
         $division   = $req->get('division');
+        $year       = $req->input('year');
+        $month      = $req->get('month');
 
         $leaves = \DB::table('leaves')
                     ->select(
@@ -154,7 +160,8 @@ class ReportController extends Controller
                             })
                             ->with('prefix','position','academic')
                             ->with('memberOf', 'memberOf.depart')
-                            ->paginate(20),
+                            ->orderBy('person_singin')
+                            ->paginate(300),
             'histories' => History::where('year', $year)->get()
         ];
     }
