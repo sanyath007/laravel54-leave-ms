@@ -145,7 +145,6 @@
                                 <tr>
                                     <th style="width: 3%; text-align: center;">ลำดับ</th>
                                     <th style="text-align: center;">ชื่อ-สกุล</th>
-                                    <!-- <th style="width: 15%; text-align: center;">จ.18</th> -->
                                     <th style="width: 7%; text-align: center;">ว/ด/ป เกิด</th>
                                     <th style="width: 6%; text-align: center;">อายุ</th>
                                     <th style="width: 20%; text-align: center;">กลุ่มงาน</th>
@@ -156,7 +155,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="(index, row) in persons">	
+                                <tr ng-repeat="(index, row) in persons" ng-show="persons.length > 0">	
                                     <td style="text-align: center;">@{{ pager.from + index }}</td>
                                     <td>
                                         @{{ row.prefix.prefix_name+row.person_firstname+ ' ' +row.person_lastname }}
@@ -239,9 +238,13 @@
                                         </a>
                                     </td>
                                 </tr>
+                                <tr ng-show="persons.length == 0">
+                                    <td colspan="9" style="color: red; text-align: center;">
+                                        -- ไม่พบข้อมูล --
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-
                     </div><!-- /.card-body -->
                     <div class="box-footer clearfix">
                         <div class="row">
@@ -279,6 +282,13 @@
                             </div>
                         </div>
                     </div><!-- /.box-footer -->
+
+                    <!-- Loading (remove the following to stop the loading)-->
+                    <div ng-show="loading" class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                    <!-- end loading -->
+
                 </div><!-- /.box -->
 
             </section>
