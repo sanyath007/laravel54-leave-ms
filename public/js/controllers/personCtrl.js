@@ -379,7 +379,6 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
 
     $scope.leave = (e) => {
         if(e) e.preventDefault();
-        console.log($scope.leaving);
 
         $http.put(`${CONFIG.apiUrl}/persons/${$scope.leaving.person_id}/leave`, $scope.leaving)
         .then(res => {
