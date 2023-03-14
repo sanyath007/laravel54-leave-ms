@@ -432,127 +432,127 @@
                         <div class="tab-pane" id="activity">
                             <!-- Post -->
                             <div class="post">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="{{ asset('/img/user3-128x128.jpg') }}" alt="user image">
-                                <span class="username">
-                                    <a href="#">Jonathan Burke Jr.</a>
-                                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                                </span>
-                                <span class="description">Shared publicly - 7:30 PM today</span>
-                            </div>
-                            <!-- /.user-block -->
-                            <p>
-                                Lorem ipsum represents a long-held tradition for designers,
-                                typographers and the like. Some people hate it and argue for
-                                its demise, but others ignore the hate as they create awesome
-                                tools to help create filler text for everyone from bacon lovers
-                                to Charlie Sheen fans.
-                            </p>
-                            <ul class="list-inline">
-                                <li>
-                                    <a href="#" class="link-black text-sm">
-                                        <i class="fa fa-share margin-r-5"></i> Share
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="link-black text-sm">
-                                        <i class="fa fa-thumbs-o-up margin-r-5"></i> Like
-                                    </a>
-                                </li>
-                                <li class="pull-right">
-                                    <a href="#" class="link-black text-sm">
-                                        <i class="fa fa-comments-o margin-r-5"></i> Comments
-                                        (5)
-                                    </a>
-                                </li>
-                            </ul>
+                                <div class="user-block">
+                                    <img class="img-circle img-bordered-sm" src="{{ asset('/img/user3-128x128.jpg') }}" alt="user image">
+                                    <span class="username">
+                                        <a href="#">Jonathan Burke Jr.</a>
+                                        <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                                    </span>
+                                    <span class="description">Shared publicly - 7:30 PM today</span>
+                                </div>
+                                <!-- /.user-block -->
+                                <p>
+                                    Lorem ipsum represents a long-held tradition for designers,
+                                    typographers and the like. Some people hate it and argue for
+                                    its demise, but others ignore the hate as they create awesome
+                                    tools to help create filler text for everyone from bacon lovers
+                                    to Charlie Sheen fans.
+                                </p>
+                                <ul class="list-inline">
+                                    <li>
+                                        <a href="#" class="link-black text-sm">
+                                            <i class="fa fa-share margin-r-5"></i> Share
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="link-black text-sm">
+                                            <i class="fa fa-thumbs-o-up margin-r-5"></i> Like
+                                        </a>
+                                    </li>
+                                    <li class="pull-right">
+                                        <a href="#" class="link-black text-sm">
+                                            <i class="fa fa-comments-o margin-r-5"></i> Comments
+                                            (5)
+                                        </a>
+                                    </li>
+                                </ul>
 
-                            <input class="form-control input-sm" type="text" placeholder="Type a comment">
+                                <input class="form-control input-sm" type="text" placeholder="Type a comment">
                             </div>
                             <!-- /.post -->
 
                             <!-- Post -->
                             <div class="post clearfix">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="{{ asset('/img/user3-128x128.jpg') }}" alt="User Image">
+                                <div class="user-block">
+                                    <!-- <img class="img-circle img-bordered-sm" src="{{ asset('/img/user3-128x128.jpg') }}" alt="User Image">
                                     <span class="username">
                                         <a href="#">Sarah Ross</a>
                                         <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
                                     </span>
-                                <span class="description">Sent you a message - 3 days ago</span>
-                            </div><!-- /.user-block -->
-                            <p>
-                                Lorem ipsum represents a long-held tradition for designers,
-                                typographers and the like. Some people hate it and argue for
-                                its demise, but others ignore the hate as they create awesome
-                                tools to help create filler text for everyone from bacon lovers
-                                to Charlie Sheen fans.
-                            </p>
+                                    <span class="description">Sent you a message - 3 days ago</span> -->
+                                </div><!-- /.user-block -->
+                                <p>
+                                    Lorem ipsum represents a long-held tradition for designers,
+                                    typographers and the like. Some people hate it and argue for
+                                    its demise, but others ignore the hate as they create awesome
+                                    tools to help create filler text for everyone from bacon lovers
+                                    to Charlie Sheen fans.
+                                </p>
 
-                            <form class="form-horizontal">
-                                <div class="form-group margin-bottom-none">
-                                    <div class="col-sm-9">
-                                        <input class="form-control input-sm" placeholder="Response">
+                                <form class="form-horizontal">
+                                    <div class="form-group margin-bottom-none">
+                                        <div class="col-sm-9">
+                                            <input class="form-control input-sm" placeholder="Response">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button type="submit" class="btn btn-danger pull-right btn-block btn-sm">Send</button>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-danger pull-right btn-block btn-sm">Send</button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
                             </div>
                             <!-- /.post -->
 
                             <!-- Post -->
                             <div class="post">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="{{ asset('/img/user3-128x128.jpg') }}" alt="User Image">
-                                <span class="username">
-                                    <a href="#">Adam Jones</a>
-                                    <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                                </span>
-                                <span class="description">Posted 5 photos - 5 days ago</span>
-                            </div><!-- /.user-block -->
-                            <div class="row margin-bottom">
-                                <div class="col-sm-6">
-                                    <img class="img-responsive" src="{{ asset('/img/photo1.png') }}" alt="Photo">
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <img class="img-responsive" src="{{ asset('/img/photo2.png') }}" alt="Photo">
-                                            <br>
-                                            <img class="img-responsive" src="{{ asset('/img/photo3.jpg') }}" alt="Photo">
-                                        </div><!-- /.col -->
-                                        <div class="col-sm-6">
-                                            <img class="img-responsive" src="{{ asset('/img/photo4.jpg') }}" alt="Photo">
-                                            <br>
-                                            <img class="img-responsive" src="{{ asset('/img/photo1.png') }}" alt="Photo">
-                                        </div><!-- /.col -->
-                                    </div><!-- /.row -->
-                                </div><!-- /.col -->
-                            </div><!-- /.row -->
+                                <div class="user-block">
+                                    <!-- <img class="img-circle img-bordered-sm" src="{{ asset('/img/user3-128x128.jpg') }}" alt="User Image">
+                                    <span class="username">
+                                        <a href="#">Adam Jones</a>
+                                        <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                                    </span>
+                                    <span class="description">Posted 5 photos - 5 days ago</span> -->
+                                </div><!-- /.user-block -->
+                                <div class="row margin-bottom">
+                                    <div class="col-sm-6">
+                                        <img class="img-responsive" src="{{ asset('/img/photo1.png') }}" alt="Photo">
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <!-- <img class="img-responsive" src="{{ asset('/img/photo2.png') }}" alt="Photo">
+                                                <br>
+                                                <img class="img-responsive" src="{{ asset('/img/photo3.jpg') }}" alt="Photo"> -->
+                                            </div><!-- /.col -->
+                                            <div class="col-sm-6">
+                                                <!-- <img class="img-responsive" src="{{ asset('/img/photo4.jpg') }}" alt="Photo">
+                                                <br>
+                                                <img class="img-responsive" src="{{ asset('/img/photo1.png') }}" alt="Photo"> -->
+                                            </div><!-- /.col -->
+                                        </div><!-- /.row -->
+                                    </div><!-- /.col -->
+                                </div><!-- /.row -->
 
-                            <ul class="list-inline">
-                                <li>
-                                    <a href="#" class="link-black text-sm">
-                                        <i class="fa fa-share margin-r-5"></i> Share
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="link-black text-sm">
-                                        <i class="fa fa-thumbs-o-up margin-r-5"></i> Like
-                                    </a>
-                                </li>
-                                <li class="pull-right">
-                                    <a href="#" class="link-black text-sm">
-                                        <i class="fa fa-comments-o margin-r-5"></i> Comments
-                                        (5)
-                                    </a>
-                                </li>
-                            </ul>
+                                <ul class="list-inline">
+                                    <li>
+                                        <a href="#" class="link-black text-sm">
+                                            <i class="fa fa-share margin-r-5"></i> Share
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="link-black text-sm">
+                                            <i class="fa fa-thumbs-o-up margin-r-5"></i> Like
+                                        </a>
+                                    </li>
+                                    <li class="pull-right">
+                                        <a href="#" class="link-black text-sm">
+                                            <i class="fa fa-comments-o margin-r-5"></i> Comments
+                                            (5)
+                                        </a>
+                                    </li>
+                                </ul>
 
-                            <input class="form-control input-sm" type="text" placeholder="Type a comment">
+                                <input class="form-control input-sm" type="text" placeholder="Type a comment">
                             </div><!-- /.post -->
                         </div><!-- /.tab-pane -->
 
@@ -637,10 +637,10 @@
                                         <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
 
                                         <div class="timeline-body">
+                                            <!-- <img src="http://placehold.it/150x100" alt="..." class="margin">
                                             <img src="http://placehold.it/150x100" alt="..." class="margin">
                                             <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                            <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                            <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                            <img src="http://placehold.it/150x100" alt="..." class="margin"> -->
                                         </div>
                                     </div>
                                 </li><!-- END timeline item -->

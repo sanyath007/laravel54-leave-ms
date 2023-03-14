@@ -230,6 +230,33 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
         }
     };
 
+    $scope.getById = function(id) {
+        $scope.loading = true;
+
+        $http.get(`${CONFIG.apiUrl}/persons/${id}`)
+        .then(res => {
+            $scope.positions = res.data.positions;
+
+            $scope.person = res.data.person;
+            $scope.person.fullname = res.data.person.prefix.prefix_name+res.data.person.person_firstname+ ' ' +res.data.person.person_lastname;
+            $scope.person.typeposition_id = res.data.person.typeposition_id.toString();
+            $scope.person.position_id = res.data.person.position_id.toString();
+            $scope.person.ac_id = res.data.person.ac_id.toString();
+            $scope.person.typeac_id = res.data.person.typeac_id.toString();
+
+            $('#person_singin')
+                .datepicker(dtpDateOptions)
+                .datepicker('update', moment(res.data.person.person_singin).toDate())
+
+            $scope.loading = false;
+        }, err => {
+            console.log(err);
+            $scope.loading = false;
+
+            toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลเได้ !!!");
+        });
+    };
+
     $scope.calcAge = function(birthdate, type) {
         return moment().diff(moment(birthdate), type);
     };
@@ -266,12 +293,8 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
         if(e) e.preventDefault();
         $scope.loading = true;
 
-        console.log($scope.moving);
-
         $http.put(`${CONFIG.apiUrl}/persons/${$scope.moving.person_id}/move`, $scope.moving)
         .then(res => {
-            console.log(res);
-
             /** Clear values */
             $scope.moving = {
                 person_id: '',
@@ -294,6 +317,8 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
 
             if (res.data.status == 1) {
                 toaster.pop('success', "ผลการทำงาน", "บันทึกข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/persons/detail/${res.data.person.person_id}`;
             } else {
                 toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลเได้ !!!");
             }
@@ -314,12 +339,8 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
     $scope.transfer = (e) => {
         if(e) e.preventDefault();
 
-        console.log($scope.transferring);
-
         $http.put(`${CONFIG.apiUrl}/persons/${$scope.transferring.person_id}/transfer`, $scope.transferring)
         .then(res => {
-            console.log(res);
-
             /** Clear values */
             $scope.transferring = {
                 person_id: '',
@@ -337,6 +358,8 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
 
             if (res.data.status == 1) {
                 toaster.pop('success', "ผลการทำงาน", "บันทึกข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/persons/detail/${res.data.person.person_id}`;
             } else {
                 toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลเได้ !!!");
             }
@@ -377,6 +400,8 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
 
             if (res.data.status == 1) {
                 toaster.pop('success', "ผลการทำงาน", "บันทึกข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/persons/detail/${res.data.person.person_id}`;
             } else {
                 toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลเได้ !!!");
             }
@@ -389,7 +414,6 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
     $scope.status = (e, id, status) => {
         if(e) e.preventDefault();
         $scope.loading = true;
-        console.log(id);
 
         $http.put(`${CONFIG.apiUrl}/persons/${id}/status`, { status })
         .then(res => {
@@ -397,36 +421,11 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
 
             if (res.data.status == 1) {
                 toaster.pop('success', "ผลการทำงาน", "บันทึกข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/persons/detail/${res.data.person.person_id}`;
             } else {
                 toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลเได้ !!!");
             }
-        }, err => {
-            console.log(err);
-            $scope.loading = false;
-
-            toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลเได้ !!!");
-        });
-    };
-
-    $scope.getById = function(id) {
-        $scope.loading = true;
-
-        $http.get(`${CONFIG.apiUrl}/persons/${id}`)
-        .then(res => {
-            $scope.positions = res.data.positions;
-
-            $scope.person = res.data.person;
-            $scope.person.fullname = res.data.person.prefix.prefix_name+res.data.person.person_firstname+ ' ' +res.data.person.person_lastname;
-            $scope.person.typeposition_id = res.data.person.typeposition_id.toString();
-            $scope.person.position_id = res.data.person.position_id.toString();
-            $scope.person.ac_id = res.data.person.ac_id.toString();
-            $scope.person.typeac_id = res.data.person.typeac_id.toString();
-
-            $('#person_singin')
-                .datepicker(dtpDateOptions)
-                .datepicker('update', moment(res.data.person.person_singin).toDate())
-
-            $scope.loading = false;
         }, err => {
             console.log(err);
             $scope.loading = false;
@@ -473,6 +472,8 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
 
             if (res.data.status == 1) {
                 toaster.pop('success', "ผลการทำงาน", "บันทึกข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/persons/detail/${res.data.person.person_id}`;
             } else {
                 toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลเได้ !!!");
             }
