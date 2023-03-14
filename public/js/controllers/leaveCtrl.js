@@ -87,10 +87,13 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
     };
 
     $('#leave_date').datepicker(dtpOptions).datepicker('update', new Date()).on('show', function (e) {
-        $('.day').click(function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-        });
+        /** ถ้าผู้ใช้งานเป็น admin หรือพี่เจง (เภสัช) ให้สามารถเปลี่ยนวันที่ได้ */
+        if (!['3309900180137','1300200009261'].includes($('#user').val())) {
+            $('.day').click(function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        }
     });
 
     $('#deliver_date').datepicker(dtpOptions).on('changeDate', function(event) {
