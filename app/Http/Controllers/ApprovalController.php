@@ -99,7 +99,16 @@ class ApprovalController extends Controller
         $leave->commented_text  = $req['comment'];
         $leave->commented_date  = date('Y-m-d');
         $leave->commented_by    = Auth::user()->person_id;
-        $leave->status          = $req['approved'];
+
+        /** ถ้าผู้ใช้งานเป็นพี่เจง (เภสัช) ให้ระบุสถานะเป็น 3=ผ่านการอนุมัติ */
+        $leave->status          = Auth::user()->person_id == '3309900180137' ? '3' : $req['approved'];
+
+        /** ถ้าผู้ใช้งานเป็นพี่เจง (เภสัช) ให้เซตข้อมูลการอนุมัติเลย */
+        if (Auth::user()->person_id == '3309900180137') {
+            $leave->approved_text   = $req['comment'];
+            $leave->approved_date   = date('Y-m-d');
+            $leave->approved_by     = Auth::user()->person_id;
+        }
 
         if ($leave->save()) {
             return redirect('/approvals/comment');
