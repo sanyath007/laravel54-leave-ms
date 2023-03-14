@@ -242,11 +242,16 @@
                             </div>
                         </div>
                     </div><!-- /.box-footer -->
-                </div><!-- /.box -->
 
+                    <!-- Loading (remove the following to stop the loading)-->
+                    <div ng-show="loading" class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                    <!-- end loading -->
+
+                </div><!-- /.box -->
             </div><!-- /.col -->
         </div><!-- /.row -->
-
     </section>
 
     <script>
