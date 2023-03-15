@@ -160,8 +160,8 @@
                                     <th style="width: 20%; text-align: center;">ตำแหน่ง</th>
                                     <th style="width: 8%; text-align: center;">ลาป่วย</th>
                                     <th style="width: 8%; text-align: center;">ลากิจ</th>
-                                    <th style="width: 8%; text-align: center;">ลาคลอด</th>
                                     <th style="width: 8%; text-align: center;">ลาพักผ่อน</th>
+                                    <th style="width: 8%; text-align: center;">ลาคลอด</th>
                                     <th style="width: 10%; text-align: center;">ลาเพื่อดูแลบุตร<br>และภริยาที่คลอดบุตร</th>
                                     <th style="width: 8%; text-align: center;">ลาอุปสมบท/<br>ประกอบพิธีฮัจย์</th>
                                     <th style="width: 8%; text-align: center;">Actions</th>
@@ -178,9 +178,9 @@
                                     </td>
                                     <td style="text-align: center;">@{{ 60 - person.leave_stats.ill_days }}</td>
                                     <td style="text-align: center;">@{{ 45 - person.leave_stats.per_days }}</td>
-                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : 90 - person.leave_stats.lab_days }}</td>
                                     <!-- TODO: vacation remaining days should be retrieved from vacations table -->
                                     <td style="text-align: center;">@{{ !person.vacation ? 10 : person.vacation.all_days - person.leave_stats.vac_days }}</td>
+                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : 90 - person.leave_stats.lab_days }}</td>
                                     <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : 15 - person.leave_stats.lab_days }}</td>
                                     <td style="text-align: center;">@{{ 120 - person.leave_stats.ord_days }}</td>
                                     <td style="text-align: center;">

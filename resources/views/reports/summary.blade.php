@@ -159,8 +159,8 @@
                                     <th style="width: 20%; text-align: center;" rowspan="2">ตำแหน่ง</th>
                                     <th style="text-align: center;" colspan="2">ลาป่วย</th>
                                     <th style="text-align: center;" colspan="2">ลากิจ</th>
-                                    <th style="text-align: center;" colspan="2">ลาคลอด</th>
                                     <th style="text-align: center;" colspan="2">ลาพักผ่อน</th>
+                                    <th style="text-align: center;" colspan="2">ลาคลอด</th>
                                     <th style="text-align: center;" colspan="2">
                                         ลาเพื่อดูแลบุตร<br>และภริยาที่คลอดบุตร
                                     </th>
@@ -196,10 +196,10 @@
                                     <td style="text-align: center;">@{{ person.leave.ill_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.per_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.per_days }}</td>
-                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : person.leave.lab_times }}</td>
-                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : person.leave.lab_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.vac_times }}</td>
                                     <td style="text-align: center;">@{{ person.leave.vac_days }}</td>
+                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : person.leave.lab_times }}</td>
+                                    <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : person.leave.lab_days }}</td>
                                     <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : person.leave.hel_times }}</td>
                                     <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : person.leave.hel_days }}</td>
                                     <td style="text-align: center;">@{{ person.leave.ord_times }}</td>
