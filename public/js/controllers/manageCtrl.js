@@ -716,7 +716,6 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
         }
 
         $scope.history.user = $('#user').val();
-        console.log($scope.history);
 
         if (!$scope.history.id) {
             storeHistory($scope.history);
@@ -726,11 +725,24 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     };
 
     const storeHistory = function(data) {
-        $http.post(`${CONFIG.apiUrl}/managements/histories`, data)
-        .then((res) => {
-            console.log(res);
-        }, (err) => {
+        const { person, ...history } = data;
+
+        $http.post(`${CONFIG.apiUrl}/managements/histories`, history)
+        .then(function(res) {
+            $scope.loading = false;
+
+            if (res.data.status == 1) {
+                toaster.pop('success', "ผลการทำงาน", "บันทึกข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/managements/vacations`;
+            } else {
+                toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลได้ !!!");
+            }
+        }, function(err) {
+            $scope.loading = false;
+
             console.log(err);
+            toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลได้ !!!");
         })
     };
 

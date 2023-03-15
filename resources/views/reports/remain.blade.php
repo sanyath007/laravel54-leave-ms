@@ -177,7 +177,7 @@
                                     <td style="text-align: center;">@{{ 45 - person.leave.per_days }}</td>
                                     <td style="text-align: center;">@{{ person.person_sex == '1' ? '-' : 90 - person.leave.lab_days }}</td>
                                     <!-- TODO: vacation remaining days should be retrieved from vacations table -->
-                                    <td style="text-align: center;">@{{ !person.vacation ? 10 : person.vacation.all_days - person.leave.vac_days }}</td>
+                                    <td style="text-align: center;">@{{ (!person.vacation ? 10 : person.vacation.all_days) - person.leave.vac_days }}</td>
                                     <td style="text-align: center;">@{{ person.person_sex == '2' ? '-' : 15 - person.leave.lab_days }}</td>
                                     <td style="text-align: center;">@{{ 120 - person.leave.ord_days }}</td>
                                 </tr>

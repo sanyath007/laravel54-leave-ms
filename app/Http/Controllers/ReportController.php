@@ -200,6 +200,23 @@ class ReportController extends Controller
             $depart = Auth::user()->memberOf->depart_id;
         }
 
+        $persons = Person::join('level', 'personal.person_id', '=', 'level.person_id')
+                        ->with('prefix','position','academic')
+                        ->with('memberOf', 'memberOf.depart')
+                        ->where('person_state', '1')
+                        ->when(!empty($faction), function($q) use ($faction) {
+                            $q->where('level.faction_id', $faction);
+                        })
+                        ->when(!empty($depart), function($q) use ($depart) {
+                            $q->where('level.depart_id', $depart);
+                        })
+                        ->when(!empty($division), function($q) use ($division) {
+                            $q->where('level.ward_id', $division);
+                        })
+                        ->orderBy('person_singin');
+
+        $personsList = $persons->pluck('personal.person_id');
+
         $leaves = \DB::table('leaves')
                     ->select(
                         'leave_person',
@@ -218,26 +235,13 @@ class ReportController extends Controller
                     )
                     ->whereIn('status', [3,5,8,9])
                     ->where('year', $year)
+                    ->whereIn('leave_person', $personsList)
                     ->groupBy('leave_person')->get();
 
         return [
             'leaves'    => $leaves,
-            'persons'   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
-                            ->where('person_state', '1')
-                            ->when(!empty($faction), function($q) use ($faction) {
-                                $q->where('level.faction_id', $faction);
-                            })
-                            ->when(!empty($depart), function($q) use ($depart) {
-                                $q->where('level.depart_id', $depart);
-                            })
-                            ->when(!empty($division), function($q) use ($division) {
-                                $q->where('level.ward_id', $division);
-                            })
-                            ->with('prefix','position','academic')
-                            ->with('memberOf', 'memberOf.depart')
-                            ->orderBy('person_singin')
-                            ->paginate(300),
-            'histories' => History::where('year', $year)->get(),
+            'persons'   => $persons->paginate(300),
+            'histories' => History::where('year', $year)->whereIn('person_id', $personsList)->get(),
             "vacations" => Vacation::where('year', $year)->get()
         ];
     }

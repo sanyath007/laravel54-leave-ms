@@ -132,6 +132,7 @@
 								@if (
 									Auth::user()->person_id == '1300200009261' ||
 									Auth::user()->person_id == '1309900322504' ||
+									Auth::user()->person_id == '3309900180137' ||
 									Auth::user()->memberOf->duty_id == 1
 								)
 									<li ng-class="{ 'active': submenu == 'approve' }">
@@ -214,7 +215,10 @@
 						</li>
 					@endif
 
-					@if (Auth::user()->person_id == '1300200009261')
+					@if (
+						Auth::user()->person_id == '1300200009261' ||
+						Auth::user()->memberOf->depart_id == 40
+					)
 						<li class="treeview" ng-class="{ 'menu-open active': menu == 'persons' }">
 							<a href="#">
 								<i class="fa fa-gear"></i> <span>ข้อมูลระบบ</span>
@@ -228,11 +232,15 @@
 										<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มภารกิจ
 									</a>
 								</li> -->
-								<li ng-class="{ 'active': submenu == 'departs' }">
-									<a href="{{ url('/persons/departs') }}">
-										<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มงาน
-									</a>
-								</li>
+								@if (
+									Auth::user()->person_id == '1300200009261'
+								)
+									<li ng-class="{ 'active': submenu == 'departs' }">
+										<a href="{{ url('/persons/departs') }}">
+											<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มงาน
+										</a>
+									</li>
+								@endif
 								<li ng-class="{ 'active': submenu == 'list' }">
 									<a href="{{ url('/persons/list') }}">
 										<i class="fa fa-circle-o"></i> บุคลากร
