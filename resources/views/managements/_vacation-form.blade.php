@@ -21,7 +21,7 @@
                             class="col-md-12 form-group"
                             ng-class="{'has-error has-feedback': frmVacation.$submitted && frmVacation.old_days.$invalid}"
                         >
-                            <label for="">จำนวนวันลาสะสม</label>
+                            <label for="">จำนวนวันลาคงเหลือ</label>
                             <input
                                 type="text"
                                 id="old_days"
@@ -33,17 +33,17 @@
                                 required
                             />
                             <span class="help-block" ng-show="frmVacation.$submitted && frmVacation.old_days.$error.required">
-                                กรุณาระบุจำนวนวันลาสะสม
+                                กรุณาระบุจำนวนวันลาคงเหลือ
                             </span>
                             <span class="help-block" ng-show="frmVacation.$submitted && frmVacation.old_days.$error.pattern">
-                                กรุณาระบุจำนวนวันลาสะสมเป็นตัวเลข
+                                กรุณาระบุจำนวนวันลาคงเหลือเป็นตัวเลข
                             </span>
                         </div>
                         <div
                             class="col-md-12 form-group"
                             ng-class="{'has-error has-feedback': frmVacation.$submitted && frmVacation.new_days.$invalid}"
                         >
-                            <label for="">จำนวนวันลาคงเหลือ</label>
+                            <label for="">จำนวนวันลาประจำปี</label>
                             <input
                                 type="text"
                                 id="new_days"
@@ -55,10 +55,10 @@
                                 required
                             />
                             <span class="help-block" ng-show="frmVacation.$submitted && frmVacation.new_days.$error.required">
-                                กรุณาระบุจำนวนวันลาคงเหลือ
+                                กรุณาระบุจำนวนวันลาประจำปี
                             </span>
                             <span class="help-block" ng-show="frmVacation.$submitted && frmVacation.new_days.$error.pattern">
-                                กรุณาระบุจำนวนวันลาคงเหลือเป็นตัวเลข
+                                กรุณาระบุจำนวนวันลาประจำปีเป็นตัวเลข
                             </span>
                         </div>
                         <div

@@ -620,7 +620,7 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
         person: null,
         person_id: '',
         old_days: '',
-        new_days: '',
+        new_days: '10',
         all_days: '',
     };
     $scope.showVacationForm = function(e, person) {
@@ -639,9 +639,7 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     };
 
     $scope.calculateVacation = function(oldDays, newDays) {
-        console.log(oldDays, newDays);
         let allDays = parseFloat(newDays) + parseFloat(oldDays);
-        console.log(allDays);
 
         $scope.vacation.all_days = allDays;
     };
@@ -664,20 +662,48 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     };
 
     const storeVacation = function(data) {
+        $scope.loading = true;
+
         $http.post(`${CONFIG.apiUrl}/managements/vacations`, data)
-        .then((res) => {
-            console.log(res);
-        }, (err) => {
+        .then(function(res) {
+            $scope.loading = false;
+
+            if (res.data.status == 1) {
+                toaster.pop('success', "ผลการทำงาน", "บันทึกข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/managements/vacations`;
+            } else {
+                toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลได้ !!!");
+            }
+        }, function(err) {
+            $scope.loading = false;
+
             console.log(err);
+            toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถบันทึกข้อมูลได้ !!!");
         })
     };
 
     const updateVacation = function(id, data) {
-        $http.put(`${CONFIG.apiUrl}/managements/vacations/${id}`, data)
-        .then((res) => {
-            console.log(res);
-        }, (err) => {
+        $scope.loading = true;
+
+        const { person, ...vacation } = data;
+
+        $http.put(`${CONFIG.apiUrl}/managements/vacations/${id}`, vacation)
+        .then(function(res) {
+            $scope.loading = false;
+
+            if (res.data.status == 1) {
+                toaster.pop('success', "ผลการทำงาน", "แก้ไขข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/managements/vacations`;
+            } else {
+                toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถแก้ไขข้อมูลได้ !!!");
+            }
+        }, function(err) {
+            $scope.loading = false;
+
             console.log(err);
+            toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถแก้ไขข้อมูลได้ !!!");
         })
     };
 
@@ -725,6 +751,8 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     };
 
     const storeHistory = function(data) {
+        $scope.loading = true;
+
         const { person, ...history } = data;
 
         $http.post(`${CONFIG.apiUrl}/managements/histories`, history)
@@ -747,11 +775,24 @@ app.controller('manageCtrl', function(CONFIG, $scope, $http, toaster, StringForm
     };
 
     const updateHistory = function(id, data) {
+        $scope.loading = true;
+
         $http.put(`${CONFIG.apiUrl}/managements/histories/${id}`, data)
-        .then((res) => {
-            console.log(res);
-        }, (err) => {
+        .then(function(res) {
+            $scope.loading = false;
+
+            if (res.data.status == 1) {
+                toaster.pop('success', "ผลการทำงาน", "แก้ไขข้อมูลเรียบร้อย !!!");
+
+                window.location.href = `${CONFIG.baseUrl}/managements/vacations`;
+            } else {
+                toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถแก้ไขข้อมูลได้ !!!");
+            }
+        }, function(err) {
+            $scope.loading = false;
+
             console.log(err);
+            toaster.pop('error', "ผลการตรวจสอบ", "ไม่สามารถแก้ไขข้อมูลได้ !!!");
         })
     };
 
