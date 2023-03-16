@@ -87,15 +87,11 @@
                                             tabindex="2"
                                             ng-change="onSelectedType()">
                                         <option value="">-- เลือกเรื่อง --</option>
-
                                         @foreach($leave_types as $type)
-
                                             <option value="{{ $type->id }}">
                                                 ขอ{{ $type->name }}
                                             </option>
-
                                         @endforeach
-
                                     </select>
                                     <span class="help-block" ng-show="checkValidate(leave, 'leave_type')">กรุณาเลือกเรื่อง</span>
                                 </div>
@@ -126,7 +122,8 @@
                                         <input type="hidden"
                                                 id="leave_person"
                                                 name="leave_person"
-                                                ng-model="leave.leave_person">
+                                                ng-model="leave.leave_person"
+                                                value="@{{ leave.leave_person }}">
                                         <span class="input-group-btn">
                                             <button
                                                 type="button"
