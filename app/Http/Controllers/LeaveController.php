@@ -160,7 +160,7 @@ class LeaveController extends Controller
 
         /** Generate list of person of depart from query params */
         $personsList = Person::leftJoin('level', 'level.person_id', '=', 'personal.person_id')
-                        ->where('person_state', '1')
+                        ->whereIn('person_state', [1,2,4,5])
                         ->when(!empty($faction), function($q) use ($faction) {
                             $q->where('level.faction_id', $faction);
                         })

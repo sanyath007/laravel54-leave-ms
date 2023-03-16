@@ -148,7 +148,7 @@ class ReportController extends Controller
         return [
             'leaves'    => $leaves,
             'persons'   => Person::join('level', 'personal.person_id', '=', 'level.person_id')
-                            ->where('person_state', '1')
+                            ->whereIn('person_state', [1,2,4,5])
                             ->when(!empty($faction), function($q) use ($faction) {
                                 $q->where('level.faction_id', $faction);
                             })
@@ -203,7 +203,7 @@ class ReportController extends Controller
         $persons = Person::join('level', 'personal.person_id', '=', 'level.person_id')
                         ->with('prefix','position','academic')
                         ->with('memberOf', 'memberOf.depart')
-                        ->where('person_state', '1')
+                        ->whereIn('person_state', [1,2,4,5])
                         ->when(!empty($faction), function($q) use ($faction) {
                             $q->where('level.faction_id', $faction);
                         })
