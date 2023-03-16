@@ -276,12 +276,14 @@ app.controller(
             leaves.map(leave => {
                 const leaveHistory = histories.find(history => history.person_id === leave.leave_person);
 
-                leave['ill_days'] = leaveHistory ? leaveHistory['ill_days'] : 0;
-                leave['per_days'] = leaveHistory ? leaveHistory['per_days'] : 0;
-                leave['vac_days'] = leaveHistory ? leaveHistory['vac_days'] : 0;
-                leave['lab_days'] = leaveHistory ? leaveHistory['lab_days'] : 0;
-                leave['hel_days'] = leaveHistory ? leaveHistory['hel_days'] : 0;
-                leave['ord_days'] = leaveHistory ? leaveHistory['ord_days'] : 0;
+                if (leaveHistory) {
+                    leave['ill_days'] = leaveHistory['ill_days'];
+                    leave['per_days'] = leaveHistory['per_days'];
+                    leave['vac_days'] = leaveHistory['vac_days'];
+                    leave['lab_days'] = leaveHistory['lab_days'];
+                    leave['hel_days'] = leaveHistory['hel_days'];
+                    leave['ord_days'] = leaveHistory['ord_days'];
+                }
 
                 return leave;
             });

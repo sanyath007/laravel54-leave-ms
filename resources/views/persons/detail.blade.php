@@ -32,13 +32,15 @@
                 <?php $userPosition = $personInfo->academic ? $personInfo->position->position_name.$personInfo->academic->ac_name : $personInfo->position->position_name ?>
                 <div class="box">
                     <div class="box-body box-profile">
-                        <?php $userAvatarUrl = ($personInfo->person_photo != '') ? "http://192.168.20.4:3839/ps/PhotoPersonal/" .$personInfo->person_photo : asset('img/user2-160x160.jpg'); ?>
+                        <?php
+                            $userAvatarUrl = ($personInfo->person_photo != '')
+                                                ? "http://192.168.20.4:3839/ps/PhotoPersonal/" .$personInfo->person_photo
+                                                : asset('img/user2-160x160.jpg');
+                        ?>
                         <img class="profile-user-img img-responsive img-circle" src="{{ $userAvatarUrl }}" alt="User profile picture">
-
                         <h3 class="profile-username text-center">
                             {{ $personInfo->person_firstname. ' ' .$personInfo->person_lastname }}
                         </h3>
-
                         <p class="text-muted text-center">
                             {{ $userPosition }}
                         </p>
