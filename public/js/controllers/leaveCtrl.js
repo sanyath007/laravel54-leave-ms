@@ -179,14 +179,35 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         };
     };
 
-    // Duplicated methods in cancelCtrl
-    const getHolidays = async function () {
-        const res = await $http.get(`${CONFIG.baseUrl}/holidays?year=${$scope.cboYear}`);
+    /** คำนวณจำนวนวันลาทั้งหมด (รวมวันหยุด) */
+    $scope.calculateLeaveDays = async function(sDateStr, eDateStr, endPeriod) {
+        let sdate = StringFormatService.convToDbDate($(`#${sDateStr}`).val());
+        let edate = StringFormatService.convToDbDate($(`#${eDateStr}`).val());
+        let days = moment(edate).diff(moment(sdate), 'days');
+        let working_days = 0;
 
-        return res.data;
+        if (parseInt(endPeriod) !== 1) {
+            days += 0.5;
+        } else {
+            days += 1;
+        }
+
+        $scope.leave.leave_days = days;
+        $('#leave_days').val(days);
+
+        if (['4','5','6'].includes($scope.leave.leave_type) || ($('#faction_id').val() == '5' && $('#duty_id').val() == '5')) {
+            $scope.leave.working_days = days;
+            $('#working_days').val(days);
+        } else {
+            /** ตรวจสอบวันทำการ (ไม่รวมวันหยุด) */
+            working_days = await calculateWorkingDays(sdate, edate, parseInt(endPeriod));
+
+            $scope.leave.working_days = working_days;
+            $('#working_days').val(working_days);
+        }
     };
 
-    // Duplicated methods in cancelCtrl
+    /** คำนวณจำนวนวันลาทั้งหมด (ไม่รวมวันหยุด) */
     $scope.holidays = null;
     const calculateWorkingDays = async function(sdate, edate, endPeriod) {
         let working_days = 0;
@@ -221,26 +242,10 @@ app.controller('leaveCtrl', function(CONFIG, $scope, $http, toaster, StringForma
         return working_days;
     };
 
-    // Duplicated methods in cancelCtrl
-    $scope.calculateLeaveDays = async function(sDateStr, eDateStr, endPeriod) {
-        let sdate = StringFormatService.convToDbDate($(`#${sDateStr}`).val());
-        let edate = StringFormatService.convToDbDate($(`#${eDateStr}`).val());
-        let days = moment(edate).diff(moment(sdate), 'days');
-        let working_days = 0;
+    const getHolidays = async function () {
+        const res = await $http.get(`${CONFIG.baseUrl}/holidays?year=${$scope.cboYear}`);
 
-        if (parseInt(endPeriod) !== 1) {
-            days += 0.5;
-        } else {
-            days += 1;
-        }
-
-        $scope.leave.leave_days = days;
-        $('#leave_days').val(days);
-
-        /** ตรวจสอบวันทำการ */
-        working_days = await calculateWorkingDays(sdate, edate, parseInt(endPeriod));
-        $scope.leave.working_days = working_days;
-        $('#working_days').val(working_days);
+        return res.data;
     };
 
     $scope.same_ordain_temple = false;
