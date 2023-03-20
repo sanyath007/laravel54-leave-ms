@@ -8,13 +8,17 @@ use Illuminate\Support\Facades\Input;
 use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\History;
+use App\Models\Depart;
 
 class ApprovalController extends Controller
 {
     public function getApprove()
     {
+        $faction = Auth::user()->memberOf->faction_id;
+
         return view('approvals.approve-list', [
-            "leave_types" => LeaveType::all(),
+            "leave_types"   => LeaveType::all(),
+            "departs"       => Depart::where('faction_id', $faction)->get()
         ]);
     }
 

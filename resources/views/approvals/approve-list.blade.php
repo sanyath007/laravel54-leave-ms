@@ -63,7 +63,25 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label>กลุ่มงาน</label>
+                                    <select
+                                        id="cboDepart"
+                                        name="cboDepart"
+                                        ng-model="cboDepart"
+                                        class="form-control select2"
+                                        style="width: 100%; font-size: 12px;"
+                                        ng-change="getAll();"
+                                    >
+                                        <option value="">-- กรุณาเลือก --</option>
+                                        @foreach($departs as $depart)
+                                            <option value="{{ $depart->depart_id }}">
+                                                {{ $depart->depart_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
                                     <label>ชื่อ-สกุล</label>
                                     <input
                                         id="searchKeyword"
