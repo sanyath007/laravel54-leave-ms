@@ -152,13 +152,13 @@ class LeaveController extends Controller
         }
 
         /** Get params from query string */
-        $faction  = Auth::user()->person_id == '1300200009261' ? '' : Auth::user()->memberOf->faction_id;
+        $faction  = Auth::user()->person_id == '1300200009261' ? $req->get('faction') : Auth::user()->memberOf->faction_id;
         $depart   = Auth::user()->person_id == '1300200009261'
-                        ? ''
-                        : (Auth::user()->memberOf->duty_id == 1 ? '' : Auth::user()->memberOf->depart_id);
+                        ? $req->get('depart')
+                        : (Auth::user()->memberOf->duty_id == 1 ? $req->get('depart') : Auth::user()->memberOf->depart_id);
         $division = Auth::user()->person_id == '1300200009261'
-                        ? ''
-                        : (Auth::user()->memberOf->duty_id == 2 ? '' : Auth::user()->memberOf->ward_id);
+                        ? $req->get('division')
+                        : (Auth::user()->memberOf->duty_id == 2 ? $req->get('division') : Auth::user()->memberOf->ward_id);
         $name     = $req->get('name');
         $month    = $req->get('month');
 

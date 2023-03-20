@@ -5,8 +5,10 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
     $scope.leaves = [];
     $scope.pager = null;
     $scope.cancellations = [];
-    $scope.cancelPager = [];
+    $scope.cancelPager = null;
+
     $scope.cboLeaveType = "";
+    $scope.cboDepart = "";
     $scope.cboLeaveStatus = "";
     $scope.cboMenu = "";
     $scope.searchKeyword = "";
@@ -47,9 +49,10 @@ app.controller('approvalCtrl', function($scope, $http, toaster, CONFIG, ModalSer
 
         let year    = $scope.cboYear === '' ? 0 : $scope.cboYear;
         let type    = $scope.cboLeaveType === '' ? 0 : $scope.cboLeaveType;
+        let depart  = $scope.cboDepart === '' ? '' : $scope.cboDepart;
         let status  = $scope.cboLeaveStatus === '' ? '-' : $scope.cboLeaveStatus;
         let menu    = $scope.cboMenu === '' ? 0 : $scope.cboMenu;
-        let query   = $scope.cboQuery === '' ? '' : `?${$scope.cboQuery}`;
+        let query   = $scope.cboQuery === '' ? `?depart=${depart}` : `?${$scope.cboQuery}&depart=${depart}`;
 
         $http.get(`${CONFIG.baseUrl}/leaves/search/${year}/${type}/${status}/${menu}${query}`)
         .then(function(res) {
