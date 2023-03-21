@@ -129,7 +129,7 @@ class ManagementController extends Controller
 
     public function leaves()
     {
-        return view('managements.list', [
+        return view('managements.leaves', [
             "leave_types"   => LeaveType::all(),
             "factions"      => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
             "departs"       => Depart::orderBy('depart_name', 'ASC')->get(),
@@ -144,9 +144,13 @@ class ManagementController extends Controller
         $pattern = '/^\<|\>|\&|\-/i';
 
         /** Get params from query string */
-        $user       = $req->get('user');
-        $faction    = $req->get('faction');
-        $depart     = $req->get('depart');
+        $user       = Person::with('memberOf')->where('person_id', $req->get('user'))->first();
+        $faction    = $user->memberOf->person_id == '1300200009261' || $user->memberOf->depart_id == '40'
+                        ? $req->get('faction')
+                        : $user->memberOf->faction_id;
+        $depart     = $user->memberOf->duty_id == 2
+                        ? $user->memberOf->depart_id
+                        : $req->get('depart');
         $division   = $req->get('division');
         $year       = $req->get('year');
         $type       = $req->get('type');
@@ -200,7 +204,7 @@ class ManagementController extends Controller
                         $q->where('leave_type', $type);
                     })
                     ->when($menu == '0', function($q) use ($user) {
-                        $q->where('leave_person', $user);
+                        $q->where('leave_person', $user->memberOf->person_id);
                     })
                     ->when(count($conditions) > 0, function($q) use ($conditions) {
                         $q->where($conditions);

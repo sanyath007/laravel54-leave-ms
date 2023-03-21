@@ -206,8 +206,8 @@ class ReportController extends Controller
         $depart     = $user->memberOf->duty_id == 2
                         ? $user->memberOf->depart_id
                         : $req->get('depart');
-        $year       = $req->input('year');
         $division   = $req->input('division');
+        $year       = $req->input('year');
 
         if (Auth::user()->memberOf->duty_id == 1 || Auth::user()->person_id == '1300200009261') {
             $depart = $req->input('depart');
