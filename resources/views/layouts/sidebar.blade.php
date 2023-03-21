@@ -227,25 +227,26 @@
 								</span>
 							</a>
 							<ul class="treeview-menu">
-								<!-- <li ng-class="{ 'active': submenu == 'factions' }">
-									<a href="{{ url('/persons/factions') }}">
-										<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มภารกิจ
+								<li ng-class="{ 'active': submenu == 'list' }">
+									<a href="{{ url('/persons/list') }}">
+										<i class="fa fa-circle-o"></i> บุคลากร
 									</a>
-								</li> -->
+								</li>
 								@if (
-									Auth::user()->person_id == '1300200009261'
+									Auth::user()->person_id == '1300200009261' ||
+									Auth::user()->memberOf->depart_id == 40
 								)
 									<li ng-class="{ 'active': submenu == 'departs' }">
 										<a href="{{ url('/persons/departs') }}">
 											<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มงาน
 										</a>
 									</li>
+									<li ng-class="{ 'active': submenu == 'factions' }">
+										<a href="{{ url('/persons/factions') }}">
+											<i class="fa fa-circle-o"></i> หัวหน้ากลุ่มภารกิจ
+										</a>
+									</li>
 								@endif
-								<li ng-class="{ 'active': submenu == 'list' }">
-									<a href="{{ url('/persons/list') }}">
-										<i class="fa fa-circle-o"></i> บุคลากร
-									</a>
-								</li>
 							</ul>
 						</li>
 					@endif

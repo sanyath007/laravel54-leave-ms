@@ -55,7 +55,7 @@ class Person extends Model
 
     public function memberOf()
     {
-        return $this->belongsTo(MemberOf::class, 'person_id', 'person_id');
+        return $this->hasMany(MemberOf::class, 'person_id', 'person_id');
     }
 
     public function leaves()

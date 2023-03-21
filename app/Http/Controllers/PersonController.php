@@ -109,7 +109,7 @@ class PersonController extends Controller
     public function departs()
     {
         return view('persons.departs-list', [
-            'factions'       => Faction::all(),
+            'factions' => Faction::where('is_actived', 1)->get(),
         ]);
     }
 
@@ -118,10 +118,9 @@ class PersonController extends Controller
         $faction = $req->input('faction');
         $searchKey = $req->input('searchKey');
 
-        $persons = Person::whereNotIn('person_state', [6,7,8,9,99])
-                    ->join('level', 'personal.person_id', '=', 'level.person_id')
-                    ->where('level.faction_id', '5')
-                    ->whereIn('level.duty_id', [1,2])
+        $persons = Person::join('level', 'personal.person_id', '=', 'level.person_id')
+                    ->whereNotIn('person_state', [6,7,8,9,99])
+                    ->whereIn('level.duty_id', [2])
                     ->when(!empty($faction), function($q) use ($faction) {
                         $q->where('level.faction_id', $faction);
                     })
@@ -137,7 +136,40 @@ class PersonController extends Controller
                         }
                     })
                     ->with('prefix','typeposition','position','academic','office')
-                    ->with('memberOf','memberOf.depart','memberOf.division')
+                    ->with('memberOf','memberOf.depart')
+                    ->paginate(100);
+
+        return [
+            'persons' => $persons
+        ];
+    }
+
+    public function factions()
+    {
+        return view('persons.factions-list');
+    }
+
+    public function getHeadOfFactions(Request $req)
+    {
+        $faction = $req->input('faction');
+        $searchKey = $req->input('searchKey');
+
+        $persons = Person::join('level', 'personal.person_id', '=', 'level.person_id')
+                    ->whereNotIn('person_state', [6,7,8,9,99])
+                    ->whereIn('level.duty_id', [1])
+                    ->when(!empty($searchKey), function($q) use ($searchKey) {
+                        $name = explode(' ', $searchKey);
+
+                        if (!empty($name[0])) {
+                            $q->where('person_firstname', 'like', '%' .$name[0]. '%');
+                        }
+
+                        if (count($name) > 1 && !empty($name[1])) {
+                            $q->where('person_lastname', 'like', '%' .$name[1]. '%');
+                        }
+                    })
+                    ->with('prefix','typeposition','position','academic','office')
+                    ->with('memberOf','memberOf.faction')
                     ->paginate(100);
 
         return [

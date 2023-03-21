@@ -155,9 +155,8 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
 
         let faction = $scope.cboFaction === '' ? 0 : $scope.cboFaction;
         let searchKey = $scope.keyword === '' ? 0 : $scope.keyword;
-        let queryStr = $scope.queryStr === '' ? '' : $scope.queryStr;
 
-        $http.get(`${CONFIG.baseUrl}/persons/departs/head?faction=${faction}&searchKey=${searchKey}${queryStr}`)
+        $http.get(`${CONFIG.baseUrl}/persons/departs/head?faction=${faction}&searchKey=${searchKey}`)
         .then(function(res) {
             const { data, ...pager } = res.data.persons;
 
@@ -169,7 +168,33 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
             console.log(err);
             $scope.loading = false;
         });
-    }
+    };
+
+    $scope.getHeadOfFactions = function() {
+        $scope.loading = true;
+
+        $scope.persons = [];
+        $scope.pager = null;
+
+        let searchKey = $scope.keyword === '' ? 0 : $scope.keyword;
+
+        $http.get(`${CONFIG.baseUrl}/persons/factions/head?searchKey=${searchKey}`)
+        .then(function(res) {
+            const { data, ...pager } = res.data.persons;
+
+            $scope.persons = data;
+            $scope.pager = pager;
+
+            $scope.loading = false;
+        }, function(err) {
+            console.log(err);
+            $scope.loading = false;
+        });
+    };
+
+    $scope.getDepartmentByDuty = function(departments, duty) {
+        return departments.find(dep => dep.duty_id == duty);
+    };
 
     $scope.edit = function(typeId) {
         console.log(typeId);

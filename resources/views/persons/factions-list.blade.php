@@ -5,18 +5,18 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            หัวหน้ากลุ่มงาน
+            หัวหน้ากลุ่มภารกิจ
             <!-- <small>preview of simple tables</small> -->
         </h1>
 
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">หัวหน้ากลุ่มงาน</li>
+            <li class="breadcrumb-item active">หัวหน้ากลุ่มภารกิจ</li>
         </ol>
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-controller="personCtrl" ng-init="getHeadOfDeparts();">
+    <section class="content" ng-controller="personCtrl" ng-init="getHeadOfFactions();">
         <!-- Main row -->
         <div class="row">
             <section class="col-lg-12 connectedSortable">
@@ -27,24 +27,6 @@
                     </div>
                     <form method="POST">
                         <div class="box-body">
-                            <div class="col-md-6 form-group">
-                                <label>กลุ่มภารกิจ :</label>
-                                <select
-                                    class="form-control"
-                                    id="cboFaction"
-                                    name="cboFaction"								
-                                    ng-model="cboFaction"								
-                                    ng-change="getHeadOfDeparts();"
-                                >
-                                    <option value="">-- เลือกกลุ่มภารกิจ --</option>
-                                    @foreach($factions as $faction)
-                                        <option value="{{ $faction->faction_id }}"
-                                        >
-                                            {{ $faction->faction_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="col-md-6 form-group">
                                 <label>ชื่อ-สกุล :</label>
                                 <input
@@ -62,7 +44,7 @@
 
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">หัวหน้ากลุ่มงาน</h3>
+                        <h3 class="box-title">หัวหน้ากลุ่มภารกิจ</h3>
                     </div><!-- /.box-header -->
 
                     <div class="box-body">
@@ -95,7 +77,7 @@
                             <tbody>
                             <tr ng-repeat="(index, row) in persons">	
                                     <td style="text-align: center;">@{{ pager.from + index }}</td>
-                                    <td>@{{ getDepartmentByDuty(row.member_of, '2').depart.depart_name }}</td>
+                                    <td>@{{ getDepartmentByDuty(row.member_of, '1').faction.faction_name }}</td>
                                     <td>@{{ row.prefix.prefix_name+row.person_firstname+ ' ' +row.person_lastname }}</td>
                                     <!-- <td style="text-align: center;">@{{ row.hosppay18.name }}</td> -->
                                     <td style="text-align: center;">@{{ row.person_birth | thdate }}</td>

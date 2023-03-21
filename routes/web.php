@@ -39,6 +39,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('persons/search', 'PersonController@search');
     Route::get('persons/departs', 'PersonController@departs');
     Route::get('persons/departs/head', 'PersonController@getHeadOfDeparts');
+    Route::get('persons/factions', 'PersonController@factions');
+    Route::get('persons/factions/head', 'PersonController@getHeadOfFactions');
     Route::get('persons/detail/{id}', 'PersonController@detail');
     Route::get('persons/edit/{id}', 'PersonController@edit');
     Route::post('persons/update/{id}', 'PersonController@update');
