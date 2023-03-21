@@ -16,17 +16,22 @@ class ReportController extends Controller
 {
     public function daily()
     {
-        $depart = '';
-        if (Auth::user()->memberOf->duty_id == 2) {
-            $depart = Auth::user()->memberOf->depart_id;
-        }
+        $factions = Auth::user()->memberOf->person_id == '1300200009261' || Auth::user()->memberOf->depart_id == '40'
+                        ? Faction::where('is_actived', 1)->get()
+                        : Faction::where('is_actived', 1)
+                            ->where('faction_id', Auth::user()->memberOf->faction_id)
+                            ->get();
+        $departs = Auth::user()->memberOf->person_id == '1300200009261' || Auth::user()->memberOf->depart_id == '40'
+                        ? Depart::where('is_actived', 1)->orderBy('depart_name', 'ASC')->get()
+                        : Depart::where('is_actived', 1)
+                            ->where('faction_id', Auth::user()->memberOf->faction_id)
+                            ->orderBy('depart_name', 'ASC')
+                            ->get();
 
         return view('reports.daily', [
-            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
-            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
-            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
-                                $q->where('depart_id', $depart);
-                            })->get()
+            "factions"  => $factions,
+            "departs"   => $departs,
+            "divisions" => Division::where('is_actived', 1)->get()
         ]);
     }
 
@@ -34,9 +39,9 @@ class ReportController extends Controller
     {
         /** Get params from query string */
         $user       = Person::with('memberOf')->where('person_id', $req->get('user'))->first();
-        $faction    = $user->memberOf->duty_id == 2
-                        ? $user->memberOf->faction_id
-                        : $req->get('faction');
+        $faction    = $user->memberOf->person_id == '1300200009261' || $user->memberOf->depart_id == '40'
+                        ? $req->get('faction')
+                        : $user->memberOf->faction_id;
         $depart     = $user->memberOf->duty_id == 2
                         ? $user->memberOf->depart_id
                         : $req->get('depart');
@@ -86,17 +91,22 @@ class ReportController extends Controller
 
     public function monthly()
     {
-        $depart = '';
-        if (Auth::user()->memberOf->duty_id == 2) {
-            $depart = Auth::user()->memberOf->depart_id;
-        }
+        $factions = Auth::user()->memberOf->person_id == '1300200009261' || Auth::user()->memberOf->depart_id == '40'
+                        ? Faction::where('is_actived', 1)->get()
+                        : Faction::where('is_actived', 1)
+                            ->where('faction_id', Auth::user()->memberOf->faction_id)
+                            ->get();
+        $departs = Auth::user()->memberOf->person_id == '1300200009261' || Auth::user()->memberOf->depart_id == '40'
+                        ? Depart::where('is_actived', 1)->orderBy('depart_name', 'ASC')->get()
+                        : Depart::where('is_actived', 1)
+                            ->where('faction_id', Auth::user()->memberOf->faction_id)
+                            ->orderBy('depart_name', 'ASC')
+                            ->get();
 
         return view('reports.monthly', [
-            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
-            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
-            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
-                                $q->where('depart_id', $depart);
-                            })->get()
+            "factions"  => $factions,
+            "departs"   => $departs,
+            "divisions" => Division::where('is_actived', 1)->get()
         ]);
     }
 
@@ -104,9 +114,9 @@ class ReportController extends Controller
     {
         /** Get params from query string */
         $user       = Person::with('memberOf')->where('person_id', $req->get('user'))->first();
-        $faction    = $user->memberOf->duty_id == 2
-                        ? $user->memberOf->faction_id
-                        : $req->get('faction');
+        $faction    = $user->memberOf->person_id == '1300200009261' || $user->memberOf->depart_id == '40'
+                        ? $req->get('faction')
+                        : $user->memberOf->faction_id;
         $depart     = $user->memberOf->duty_id == 2
                         ? $user->memberOf->depart_id
                         : $req->get('depart');
@@ -168,26 +178,31 @@ class ReportController extends Controller
 
     public function summary()
     {
-        $depart = '';
-        if (Auth::user()->memberOf->duty_id == 2) {
-            $depart = Auth::user()->memberOf->depart_id;
-        }
+        $factions = Auth::user()->memberOf->person_id == '1300200009261' || Auth::user()->memberOf->depart_id == '40'
+                        ? Faction::where('is_actived', 1)->get()
+                        : Faction::where('is_actived', 1)
+                            ->where('faction_id', Auth::user()->memberOf->faction_id)
+                            ->get();
+        $departs = Auth::user()->memberOf->person_id == '1300200009261' || Auth::user()->memberOf->depart_id == '40'
+                        ? Depart::where('is_actived', 1)->orderBy('depart_name', 'ASC')->get()
+                        : Depart::where('is_actived', 1)
+                            ->where('faction_id', Auth::user()->memberOf->faction_id)
+                            ->orderBy('depart_name', 'ASC')
+                            ->get();
 
         return view('reports.summary', [
-            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
-            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
-            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
-                                $q->where('depart_id', $depart);
-                            })->get()
+            "factions"  => $factions,
+            "departs"   => $departs,
+            "divisions" => Division::where('is_actived', 1)->get()
         ]);
     }
 
     public function getSummaryData(Request $req)
     {
         $user       = Person::with('memberOf')->where('person_id', $req->get('user'))->first();
-        $faction    = $user->memberOf->duty_id == 2
-                        ? $user->memberOf->faction_id
-                        : $req->get('faction');
+        $faction    = $user->memberOf->person_id == '1300200009261' || $user->memberOf->depart_id == '40'
+                        ? $req->get('faction')
+                        : $user->memberOf->faction_id;
         $depart     = $user->memberOf->duty_id == 2
                         ? $user->memberOf->depart_id
                         : $req->get('depart');
@@ -248,17 +263,22 @@ class ReportController extends Controller
 
     public function remain()
     {
-        $depart = '';
-        if (Auth::user()->memberOf->duty_id == 2) {
-            $depart = Auth::user()->memberOf->depart_id;
-        }
+        $factions = Auth::user()->memberOf->person_id == '1300200009261' || Auth::user()->memberOf->depart_id == '40'
+                        ? Faction::where('is_actived', 1)->get()
+                        : Faction::where('is_actived', 1)
+                            ->where('faction_id', Auth::user()->memberOf->faction_id)
+                            ->get();
+        $departs = Auth::user()->memberOf->person_id == '1300200009261' || Auth::user()->memberOf->depart_id == '40'
+                        ? Depart::where('is_actived', 1)->orderBy('depart_name', 'ASC')->get()
+                        : Depart::where('is_actived', 1)
+                            ->where('faction_id', Auth::user()->memberOf->faction_id)
+                            ->orderBy('depart_name', 'ASC')
+                            ->get();
 
         return view('reports.remain', [
-            "factions"  => Faction::whereNotIn('faction_id', [4, 6, 12])->get(),
-            "departs"   => Depart::orderBy('depart_name', 'ASC')->get(),
-            "divisions" => Division::when(!empty($depart), function($q) use ($depart) {
-                                $q->where('depart_id', $depart);
-                            })->get()
+            "factions"  => $factions,
+            "departs"   => $departs,
+            "divisions" => Division::where('is_actived', 1)->get()
         ]);
     }
 }

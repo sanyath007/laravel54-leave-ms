@@ -21,7 +21,11 @@
         ng-controller="reportCtrl"
         ng-init="
             getMonthly();
-            initForm({ factions: {{ $factions }}, departs: {{ $departs }}, divisions: {{ $divisions }} });
+            initForm({
+                factions: {{ $factions }},
+                departs: {{ $departs }},
+                divisions: {{ $divisions }}
+            });
         "
     >
 
@@ -39,94 +43,109 @@
                         <input type="hidden" name="faction_id" id="faction_id" value="{{ Auth::user()->memberOf->faction_id }}" />
 
                         <div class="box-body">
-                            <div class="col-md-6" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
-                                <div class="form-group">
-                                    <label>กลุ่มภารกิจ</label>
-                                    <select
-                                        id="faction"
-                                        name="faction"
-                                        ng-model="cboFaction"
-                                        class="form-control select2"
-                                        style="width: 100%; font-size: 12px;"
-                                        ng-change="
-                                            onSelectedFaction(cboFaction);
-                                            getMonthly();
-                                        "
-                                    >
-                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        <option
-                                            ng-repeat="faction in initFormValues.factions"
-                                            value="@{{ faction.faction_id }}"
+                            <div class="row">
+                                <div
+                                    class="col-md-6"
+                                    ng-show="
+                                        {{ Auth::user()->memberOf->depart_id }} == 40 ||
+                                        {{ Auth::user()->person_id }} == '1300200009261'
+                                    "
+                                >
+                                    <div class="form-group">
+                                        <label>กลุ่มภารกิจ</label>
+                                        <select
+                                            id="faction"
+                                            name="faction"
+                                            ng-model="cboFaction"
+                                            class="form-control select2"
+                                            style="width: 100%; font-size: 12px;"
+                                            ng-change="
+                                                onSelectedFaction(cboFaction);
+                                                getMonthly();
+                                            "
                                         >
-                                            @{{ faction.faction_name }}
-                                        </option>
-                                        
-                                    </select>
-                                </div><!-- /.form group -->
-                            </div><!-- /.col -->
-
-                            <div class="col-md-6" ng-show="{{ Auth::user()->memberOf->duty_id }} == 1 || {{ Auth::user()->person_id }} == '1300200009261'">
-                                <div class="form-group">
-                                    <label>กลุ่มงาน</label>
-                                    <select
-                                        id="depart"
-                                        name="depart"
-                                        ng-model="cboDepart"
-                                        class="form-control select2"
-                                        style="width: 100%; font-size: 12px;"
-                                        ng-change="
-                                            onSelectedDepart(cboDepart);
-                                            getMonthly();
-                                        "
-                                    >
-                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        <option
-                                            ng-repeat="depart in filteredDeparts"
-                                            value="@{{ depart.depart_id }}"
+                                            <option value="" selected="selected">-- กรุณาเลือก --</option>
+                                            <option
+                                                ng-repeat="faction in initFormValues.factions"
+                                                value="@{{ faction.faction_id }}"
+                                            >
+                                                @{{ faction.faction_name }}
+                                            </option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-md-6"
+                                    ng-show="
+                                        {{ Auth::user()->memberOf->depart_id }} == 40 ||
+                                        {{ Auth::user()->memberOf->duty_id }} == 1 ||
+                                        {{ Auth::user()->person_id }} == '1300200009261'
+                                    "
+                                >
+                                    <div class="form-group">
+                                        <label>กลุ่มงาน</label>
+                                        <select
+                                            id="depart"
+                                            name="depart"
+                                            ng-model="cboDepart"
+                                            class="form-control select2"
+                                            style="width: 100%; font-size: 12px;"
+                                            ng-change="
+                                                onSelectedDepart(cboDepart);
+                                                getMonthly();
+                                            "
                                         >
-                                            @{{ depart.depart_name }}
-                                        </option>
-                                    </select>
-                                </div><!-- /.form group -->
-                            </div><!-- /.col -->
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>งาน</label>
-                                    <select
-                                        id="division"
-                                        name="division"
-                                        ng-model="cboDivision"
-                                        class="form-control select2"
-                                        style="width: 100%; font-size: 12px;"
+                                            <option value="" selected="selected">-- กรุณาเลือก --</option>
+                                            <option
+                                                ng-repeat="depart in filteredDeparts"
+                                                value="@{{ depart.depart_id }}"
+                                            >
+                                                @{{ depart.depart_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>งาน</label>
+                                        <select
+                                            id="division"
+                                            name="division"
+                                            ng-model="cboDivision"
+                                            class="form-control select2"
+                                            style="width: 100%; font-size: 12px;"
+                                            ng-change="getMonthly()"
+                                        >
+                                            <option value="" selected="selected">-- กรุณาเลือก --</option>
+                                            <option
+                                                ng-repeat="division in filteredDivisions"
+                                                value="@{{ division.ward_id }}"
+                                            >
+                                                @{{ division.ward_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>ประจำเดือน</label>
+                                    <input
+                                        type="text"
+                                        id="dtpMonth"
+                                        name="dtpMonth"
+                                        ng-model="dtpMonth"
+                                        class="form-control"
                                         ng-change="getMonthly()"
-                                    >
-                                        <option value="" selected="selected">-- กรุณาเลือก --</option>
-                                        <option
-                                            ng-repeat="division in filteredDivisions"
-                                            value="@{{ division.ward_id }}"
-                                        >
-                                            @{{ division.ward_name }}
-                                        </option>
-                                    </select>
-                                </div><!-- /.form group -->
-                            </div><!-- /.col -->
-
-                            <!-- // TODO: should use datepicker instead -->
-                            <div class="form-group col-md-6">
-                                <label>ประจำเดือน</label>
-                                <input
-                                    type="text"
-                                    id="dtpMonth"
-                                    name="dtpMonth"
-                                    ng-model="dtpMonth"
-                                    class="form-control"
-                                    ng-change="getMonthly()"
-                                />
-                            </div><!-- /.form group -->
-
-                            <div class="col-md-12">                            
-                                <div class="form-group">
+                                    />
+                                </div>
+                                <div
+                                    class="form-group"
+                                    ng-class="
+                                        {{ Auth::user()->memberOf->depart_id }} == 40 ||
+                                        {{ Auth::user()->memberOf->duty_id }} == 2 ||
+                                        {{ Auth::user()->person_id }} == '1300200009261' ? 'col-md-12' : 'col-md-6'
+                                    "
+                                >
                                     <label>ค้นหาชื่อบุคลากร</label>
                                     <input
                                         type="text"
@@ -134,10 +153,10 @@
                                         name="searchKeyword"
                                         ng-model="searchKeyword"
                                         ng-keyup="getMonthly()"
-                                        class="form-control">
-                                </div><!-- /.form group -->
-                            </div>
-
+                                        class="form-control"
+                                    >
+                                </div>
+                            </div><!-- /.row -->
                         </div><!-- /.box-body -->
                     </form>
                 </div><!-- /.box -->
