@@ -281,7 +281,7 @@
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button type="button" class="btn btn-warning" ng-click="update($event, '')">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        แก้ไข
+                                        บันทึกการแก้ไข
                                     </button>
                                 </div>
                             </div>
