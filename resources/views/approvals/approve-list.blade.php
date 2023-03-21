@@ -73,7 +73,7 @@
                                         style="width: 100%; font-size: 12px;"
                                         ng-change="getAll();"
                                     >
-                                        <option value="">-- กรุณาเลือก --</option>
+                                        <option value="">-- ทั้งหมด --</option>
                                         @foreach($departs as $depart)
                                             <option value="{{ $depart->depart_id }}">
                                                 {{ $depart->depart_name }}

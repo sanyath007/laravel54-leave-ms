@@ -14,11 +14,15 @@ class ApprovalController extends Controller
 {
     public function getApprove()
     {
-        $faction = Auth::user()->memberOf->faction_id;
+        $faction = Auth::user()->person_id == '1300200009261'
+                        ? ''
+                        : Auth::user()->memberOf->faction_id;
 
         return view('approvals.approve-list', [
             "leave_types"   => LeaveType::all(),
-            "departs"       => Depart::where('faction_id', $faction)->get()
+            "departs"       => Depart::when(!empty($faction), function($q) use ($faction) {
+                                    $q->where('faction_id', $faction);
+                                })->get()
         ]);
     }
 
