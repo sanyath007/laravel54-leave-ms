@@ -52,7 +52,7 @@
                                     id="keyword"
                                     name="keyword"								
                                     ng-model="keyword"								
-                                    ng-change="onKeywordChange($event)"
+                                    ng-change="getHeadOfDeparts();"
                                     placeholder="ค้นหาชื่อหรือนามสกุล"
                                 />
                             </div>
@@ -80,14 +80,14 @@
                                 <tr>
                                     <th style="width: 3%; text-align: center;">ลำดับ</th>
                                     <th>กลุ่มงาน</th>
-                                    <th style="width: 20%;">ชื่อ-สกุล</th>
+                                    <th style="width: 25%;">ชื่อ-สกุล</th>
                                     <!-- <th style="width: 15%; text-align: center;">จ.18</th> -->
                                     <th style="width: 7%; text-align: center;">ว/ด/ป เกิด</th>
                                     <th style="width: 5%; text-align: center;">อายุ</th>
                                     <th style="width: 7%; text-align: center;">ว/ด/ป บรรจุ</th>
                                     <!-- <th style="width: 5%; text-align: center;">อายุงาน</th> -->
                                     <!-- <th style="width: 8%; text-align: center;">ประเภทตำแหน่ง</th> -->
-                                    <th style="width: 15%; text-align: center;">ตำแหน่ง</th>
+                                    <th style="width: 20%; text-align: center;">ตำแหน่ง</th>
                                     <!-- <th style="width: 8%; text-align: center;">สถานะ</th> -->
                                     <th style="width: 8%; text-align: center;">Actions</th>
                                 </tr>
@@ -95,7 +95,7 @@
                             <tbody>
                             <tr ng-repeat="(index, row) in persons">	
                                     <td style="text-align: center;">@{{ pager.from + index }}</td>
-                                    <td>@{{ getDepartmentByDuty(row.member_of, '2').depart.depart_name }}</td>
+                                    <td>@{{ getDepartmentByDuty(row.duty_of, '2').depart.depart_name }}</td>
                                     <td>@{{ row.prefix.prefix_name+row.person_firstname+ ' ' +row.person_lastname }}</td>
                                     <!-- <td style="text-align: center;">@{{ row.hosppay18.name }}</td> -->
                                     <td style="text-align: center;">@{{ row.person_birth | thdate }}</td>

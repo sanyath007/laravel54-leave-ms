@@ -147,7 +147,7 @@
                                     <th style="text-align: center;">ชื่อ-สกุล</th>
                                     <th style="width: 7%; text-align: center;">ว/ด/ป เกิด</th>
                                     <th style="width: 6%; text-align: center;">อายุ</th>
-                                    <th style="width: 20%; text-align: center;">กลุ่มงาน</th>
+                                    <th style="width: 25%; text-align: center;">กลุ่มงาน</th>
                                     <th style="width: 7%; text-align: center;">ว/ด/ป บรรจุ</th>
                                     <th style="width: 15%; text-align: center;">ตำแหน่ง</th>
                                     <th style="width: 8%; text-align: center;">สถานะ</th>
@@ -157,9 +157,7 @@
                             <tbody>
                                 <tr ng-repeat="(index, row) in persons" ng-show="persons.length > 0">	
                                     <td style="text-align: center;">@{{ pager.from + index }}</td>
-                                    <td>
-                                        @{{ row.prefix.prefix_name+row.person_firstname+ ' ' +row.person_lastname }}
-                                    </td>
+                                    <td>@{{ row.prefix.prefix_name+row.person_firstname+ ' ' +row.person_lastname }}</td>
                                     <!-- <td style="text-align: center;">@{{ row.hosppay18.name }}</td> -->
                                     <td style="text-align: center;">
                                         @{{ row.person_birth | thdate }}
@@ -167,36 +165,39 @@
                                     <td style="text-align: center;">
                                         @{{ calcAge(row.person_birth, 'years')+ 'ปี' }}
                                     </td>
+                                    <!-- =========================== กรณีดำรงตำแหน่งเดียว =========================== -->
                                     <td style="text-align: center;" ng-show="row.duty_of.length == 1">
                                         <span ng-show="row.member_of.duty_id == 1">
-                                            หัวหน้ากลุ่มภารกิจ
+                                            หัวหน้า@{{ row.member_of.faction.faction_name }}
                                         </span>
                                         <span ng-show="row.member_of.duty_id != 1">
                                             <span ng-show="row.member_of.duty_id == 2">หัวหน้า</span>@{{ row.member_of.depart.depart_name }}<br />
-                                            <span ng-show="row.member_of.duty_id != 1 && row.member_of.duty_id != 2 && row.member_of.ward_id != 0">
+                                            <span ng-show="row.member_of.duty_id == 5 && row.member_of.division">
                                                 (@{{ row.member_of.division.ward_name }})
                                             </span>
                                         </span>
                                     </td>
+                                    <!-- =========================== กรณีดำรงตำแหน่งเดียว =========================== -->
+
+                                    <!-- =========================== กรณีดำรงหลายตำแหน่ง =========================== -->
                                     <td style="text-align: center;" ng-show="row.duty_of.length > 1">
                                         <span ng-repeat="duty in row.duty_of">
                                             <span ng-show="duty.duty_id == 1">
-                                                หัวหน้ากลุ่มภารกิจ และ
+                                                หัวหน้า@{{ getDepartmentByDuty(row.duty_of, '1').faction.faction_name }} และ
                                             </span>
                                             <span ng-show="duty.duty_id != 1">
                                                 <span ng-show="duty.duty_id == 2">หัวหน้า</span>@{{ duty.depart.depart_name }}<br />
-                                                <span ng-show="duty.duty_id != 1 && duty.duty_id != 2 && duty.ward_id != 0">
+                                                <span ng-show="duty.duty_id == 5 && duty.division">
                                                     (@{{ duty.division.ward_name }})
                                                 </span>
                                             </span>
                                         </span>
                                     </td>
+                                    <!-- =========================== กรณีดำรงหลายตำแหน่ง =========================== -->
                                     <td style="text-align: center;">
                                         @{{ row.person_singin | thdate }}
                                     </td>
-                                    <td>
-                                        @{{ row.position.position_name }}@{{ row.academic.ac_name }}
-                                    </td>
+                                    <td>@{{ row.position.position_name }}@{{ row.academic.ac_name }}</td>
                                     <td style="text-align: center;">
                                         <span class="label label-success" ng-show="(row.person_state == 1)">
                                             ปฏิบัติราชการ
@@ -249,7 +250,7 @@
                     <div class="box-footer clearfix">
                         <div class="row">
                             <div class="col-md-3 float-left" ng-show="persons.length > 0">
-                                <a href="#" class="btn btn-success">Excel</a>
+                                หน้า @{{ pager.current_page }} / หน้า @{{ pager.last_page }}
                             </div>
                             
                             <div class="col-md-6" ng-show="persons.length > 0" style="text-align: center; padding-top: 5px;">

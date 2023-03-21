@@ -68,8 +68,8 @@ class PersonController extends Controller
                         $q->where('personal.person_state', $status);
                     })
                     ->with('prefix','typeposition','position','academic','office')
-                    ->with('memberOf','memberOf.depart','memberOf.division')
-                    ->with('dutyOf','dutyOf.depart','dutyOf.division')
+                    ->with('memberOf','memberOf.faction','memberOf.depart','memberOf.division')
+                    ->with('dutyOf','dutyOf.faction','dutyOf.depart','dutyOf.division')
                     ->orderBy('level.duty_id')
                     ->orderBy('personal.typeposition_id')
                     ->orderBy('personal.position_id')
@@ -136,7 +136,7 @@ class PersonController extends Controller
                         }
                     })
                     ->with('prefix','typeposition','position','academic','office')
-                    ->with('memberOf','memberOf.depart')
+                    ->with('dutyOf','dutyOf.depart')
                     ->paginate(100);
 
         return [
@@ -169,7 +169,7 @@ class PersonController extends Controller
                         }
                     })
                     ->with('prefix','typeposition','position','academic','office')
-                    ->with('memberOf','memberOf.faction')
+                    ->with('dutyOf','dutyOf.faction')
                     ->paginate(100);
 
         return [

@@ -143,7 +143,12 @@ app.controller('personCtrl', function($scope, $http, toaster, CONFIG, ModalServi
     $scope.setPersons = function(res) {
         const { data, ...pager } = res.data.persons;
 
-        $scope.persons = data;
+        $scope.persons = data.map(person => {
+            person.duty_of = person.duty_of.sort((a, b) => a.duty_id - b.duty_id);
+
+            return person;
+        });
+
         $scope.pager = pager;
     };
 

@@ -55,12 +55,7 @@ class Person extends Model
 
     public function memberOf()
     {
-        return $this->hasMany(MemberOf::class, 'person_id', 'person_id');
-    }
-
-    public function leaves()
-    {
-        return $this->hasMany(Leave::class, 'leave_person', 'person_id');
+        return $this->belongsTo(MemberOf::class, 'person_id', 'person_id');
     }
 
     public function dutyOf()
@@ -71,5 +66,10 @@ class Person extends Model
     public function educations()
     {
         return $this->hasMany(Education::class, 'person_id', 'person_id');
+    }
+
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class, 'leave_person', 'person_id');
     }
 }
